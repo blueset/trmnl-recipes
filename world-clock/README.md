@@ -1,0 +1,20 @@
+# World clock
+
+A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](https://www.worldtimebuddy.com/) and _Windows 11 World Clock_.
+
+[Install](https://usetrmnl.com/recipes/153664)
+
+## Screenshots
+
+| Full | Horizontal |
+| :---: | :---: |
+| ![Screenshot](./images/f.png) | ![Screenshot](./images/h.png) |
+| Vertical | Quad |
+| ![Screenshot](./images/v.png) | ![Screenshot](./images/q.png) |
+
+## Parameters
+
+- Time format: 12-hour or 24-hour
+- Home Time Zone
+- Home name, default to “Home”
+- Additional time zones (up to six), and names

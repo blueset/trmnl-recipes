@@ -1,0 +1,131 @@
+---
+strategy: static
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: ''
+polling_headers: ''
+polling_body: ''
+id: 153664
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: A digital world clock shows up to 7 time zones. Inspired by <a href="https://www.worldtimebuddy.com/">World Time Buddy</a> and <i>Windows 11 World Clock</i>.
+  github_url: https://github.com/blueset/trmnlp-recipies
+- keyname: hour_cycle
+  field_type: select
+  options:
+  - 12-hour: h12
+  - 24-hour: h23
+  default: h23
+  name: Time format
+  description: Select a time format
+- keyname: home_time_zone
+  field_type: time_zone
+  name: Home Time Zone
+  description: Where are you located?
+  default: America/Los_Angeles
+- keyname: home_name
+  field_type: string
+  name: Home name
+  description: Name of your home
+  placeholder: Home
+  default: Home
+- keyname: time_zone_1
+  field_type: time_zone
+  default: Etc/UTC
+  name: Time Zone 1
+  description: Time zone to display
+  optional: true
+  conditional_validation:
+  - when: ""
+    hidden: [name_1]
+- keyname: name_1
+  field_type: string
+  name: Time Zone 1 Name
+  description: Name of this time zone, e.g. Work
+  placeholder: Work
+  default: UTC
+  optional: true
+- keyname: time_zone_2
+  field_type: time_zone
+  default: Asia/Tokyo
+  name: Time Zone 2
+  description: Time zone to display
+  optional: true
+  conditional_validation:
+  - when: ""
+    hidden: [name_2]
+- keyname: name_2
+  field_type: string
+  name: Time Zone 2 Name
+  description: Name of this time zone, e.g. Work
+  default: Japan
+  placeholder: Work
+  optional: true
+- keyname: time_zone_3
+  field_type: time_zone
+  default: Europe/London
+  name: Time Zone 3
+  description: Time zone to display
+  optional: true
+  conditional_validation:
+  - when: ""
+    hidden: [name_3]
+- keyname: name_3
+  field_type: string
+  name: Time Zone 3 Name
+  description: Name of this time zone, e.g. Work
+  placeholder: Work
+  default: UK
+  optional: true
+- keyname: time_zone_4
+  field_type: time_zone
+  default: Australia/Melbourne
+  name: Time Zone 4
+  description: Time zone to display
+  optional: true
+  conditional_validation:
+  - when: ""
+    hidden: [name_4]
+- keyname: name_4
+  field_type: string
+  name: Time Zone 4 Name
+  description: Name of this time zone, e.g. Work
+  placeholder: Work
+  default: Melbourne
+  optional: true
+- keyname: time_zone_5
+  field_type: time_zone
+  default: ''
+  name: Time Zone 5
+  description: Time zone to display
+  optional: true
+  conditional_validation:
+  - when: ""
+    hidden: [name_5]
+- keyname: name_5
+  field_type: string
+  name: Time Zone 5 Name
+  description: Name of this time zone, e.g. Work
+  placeholder: Work
+  optional: true
+- keyname: time_zone_6
+  field_type: time_zone
+  default: ''
+  name: Time Zone 6
+  description: Time zone to display
+  optional: true
+  conditional_validation:
+  - when: ""
+    hidden: [name_6]
+- keyname: name_6
+  field_type: string
+  name: Time Zone 6 Name
+  description: Name of this time zone, e.g. Work
+  placeholder: Work
+  optional: true
+name: World clock
+refresh_interval: 60

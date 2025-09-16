@@ -1,0 +1,19 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: "{\r\n  \"title\": \"Temporal.ZonedDateTime.prototype.hour\",\r\n  \"link\": \"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/ZonedDateTime/hour\",\r\n  \"description\": \"The hour accessor property of Temporal.ZonedDateTime instances returns a integer from 0 to 23 representing the hour component of this time.\",\r\n  \"updated\": \"2025-07-10T09:07:55.000Z\",\r\n  \"github_file\": \"https://github.com/mdn/content/blob/main/files/en-us/web/javascript/reference/global_objects/temporal/zoneddatetime/hour/index.md\",\r\n  \"baseline\": {\r\n    \"baseline\": false,\r\n    \"support\": {\r\n      \"firefox\": \"139\",\r\n      \"firefox_android\": \"139\"\r\n    },\r\n    \"feature\": {\r\n      \"status\": {\r\n        \"baseline\": false,\r\n        \"support\": {\r\n          \"firefox\": \"139\",\r\n          \"firefox_android\": \"139\"\r\n        }\r\n      },\r\n      \"description_html\": \"The \\u003Ccode\\u003ETemporal\\u003C/code\\u003E API allows you to work with dates, times, time zones, and durations. It is more powerful than the \\u003Ccode\\u003EDate\\u003C/code\\u003E API.\",\r\n      \"name\": \"Temporal\"\r\n    }\r\n  },\r\n  \"parents\": [\r\n    {\r\n      \"uri\": \"/en-US/docs/Web\",\r\n      \"title\": \"Web\"\r\n    },\r\n    {\r\n      \"uri\": \"/en-US/docs/Web/JavaScript\",\r\n      \"title\": \"JavaScript\"\r\n    },\r\n    {\r\n      \"uri\": \"/en-US/docs/Web/JavaScript/Reference\",\r\n      \"title\": \"Reference\"\r\n    },\r\n    {\r\n      \"uri\": \"/en-US/docs/Web/JavaScript/Reference/Global_Objects\",\r\n      \"title\": \"Standard built-in objects\"\r\n    },\r\n    {\r\n      \"uri\": \"/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal\",\r\n      \"title\": \"Temporal\"\r\n    },\r\n    {\r\n      \"uri\": \"/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/ZonedDateTime\",\r\n      \"title\": \"Temporal.ZonedDateTime\"\r\n    },\r\n    {\r\n      \"uri\": \"/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal/ZonedDateTime/hour\",\r\n      \"title\": \"hour\"\r\n    }\r\n  ]\r\n}"
+polling_verb: get
+polling_url: https://trmnl.1a23.workers.dev/mdn
+polling_headers: ''
+polling_body: ''
+id: 153731
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: A random MDN Web article on each refresh.
+  github_url: https://github.com/blueset/trmnlp-recipies
+  learn_more_url: https://developer.mozilla.org/
+name: Random MDN Article
+refresh_interval: 60

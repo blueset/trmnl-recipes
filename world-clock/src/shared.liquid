@@ -1,0 +1,489 @@
+<!-- World Time Clock (HTML + CSS + JS + Liquid). -->
+<!-- Styles -->
+<style>
+  .wtc {
+    --wtc-border: 1px;
+    --wtc-radius: 5px;
+    --wtc-accent: #000;            /* current hour cell */
+    --wtc-ink: #111;
+    --wtc-cell-width: 30px;      /* default cell width, overridden by JS */
+    display: grid;
+    align-content: center;
+    grid-template-columns: 17px max-content 1fr var(--wtc-cell-width) 1fr;
+    color: var(--wtc-ink);
+    gap: 0px 0;
+    align-content: safe center;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  /* Row wrapper (subgrid columns/rows as specified). Provide graceful fallback for browsers lacking subgrid. */
+  .wtc__row {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    grid-template-rows: max-content auto;
+    align-items: center;
+    height: 55px;
+    gap: 2px var(--wtc-gap);
+  }
+
+  .meta {
+    grid-column: 1;
+    grid-row: 2;
+    height: 100%;
+  }
+  /* Left label stack (column 1, row 2) */
+  .wtc__labelcol {
+    grid-row: 2;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 8ch;
+  }
+
+  /* Time rail columns (2,3,4) mirror the parent subgrid rows */
+  .wtc__rail {
+    display: grid;
+    grid-template-rows: subgrid;
+    text-align: center;
+  }
+  .wtc__rail--before { justify-content: end; }
+  .wtc__rail--now { }
+  .wtc__rail--after { justify-content: start; }
+
+  .wtc__rail--before { grid-row: 1 / span 2; grid-column: 3; }
+  .wtc__rail--now    { grid-row: 1 / span 2; grid-column: 4; }
+  .wtc__rail--after  { grid-row: 1 / span 2; grid-column: 5; }
+
+  /* A single time cell */
+  .wtc__cell {
+    display: grid;
+    grid-row: 1 / span 2;
+    grid-template-rows: subgrid;
+    align-items: stretch;
+    justify-items: stretch;
+    width: var(--wtc-cell-width);
+    > .label {
+      justify-content: center;
+    }
+  }
+
+  .wtc__cell-block {
+    border: 0 solid #000;
+    border-block: var(--wtc-border) solid #000;
+    inline-size: var(--wtc-width);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    place-items: center;
+    color: var(--wtc-ink);
+    .label {
+      justify-content: center;
+    }
+  }
+  .wtc__cell--now .wtc__cell-block {
+    background: var(--wtc-accent);
+    color: #fff;
+    .label {
+      color: #fff;
+    }
+  }
+
+  /* Midnight styling (hour == 0) */
+  .wtc__cell--h0 {
+    margin-inline-start: 1px;
+    width: calc(var(--wtc-cell-width) - 1px);
+  }
+  .wtc__cell--h0 .wtc__cell-block {
+    border-inline-start: var(--wtc-border) solid #000;
+    border-start-start-radius: var(--wtc-radius);
+    border-end-start-radius: var(--wtc-radius);
+  }
+
+  /* 23→next-day edge */
+  .wtc__cell--h23 {
+    margin-inline-end: 1px;
+    width: calc(var(--wtc-cell-width) - 1px);
+  }
+  .wtc__cell--h23 .wtc__cell-block {
+    border-inline-end: var(--wtc-border) solid #000;
+    border-start-end-radius: var(--wtc-radius);
+    border-end-end-radius: var(--wtc-radius);
+  }
+
+  .wtc__daystack {
+    display: flex;
+    flex-direction: column;
+  }
+  .wtc__hourline {
+    display: flex;
+    align-items: baseline;
+  }
+  .wtc__periodline, .label.label--small {
+    line-height: 10px;
+    height: 10px;
+  }
+  .wtc__hourline, .wtc__daystack {
+    .label:not(.label--small) {
+      translate: 0 3px;
+    }
+  }
+
+  .wtc__hourline .label.label--small {
+    translate: 0 3px;
+  }
+
+  .wtc__weekday { min-height: 1em; } /* reserve line for weekday */
+  .wtc__namewrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .wtc__homeicon {
+    inline-size: 20px;
+    block-size: 20px;
+    flex: none;
+    color: currentColor;
+  }
+  .item[data-overflow-label] {
+    grid-column: 1 / -1;
+    margin-block-start: 5px;
+  }
+</style>
+
+<!-- Liquid templates for a single row -->
+{% template wtc_row %}
+  {% if tz and tz != "" %}
+  <div class="wtc__row item" data-tz="{{ tz | escape }}" data-id="{{ id | escape }}">
+    <div class="meta">
+      {% if ishome %}
+        <!-- Home icon SVG -->
+        <svg class="index image-stroke" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="currentColor" d="M5.37 1.222a1 1 0 0 1 1.26 0l3.814 3.09A1.5 1.5 0 0 1 11 5.476V10a1 1 0 0 1-1 1H8.5a1 1 0 0 1-1-1V7.5A.5.5 0 0 0 7 7H5a.5.5 0 0 0-.5.5V10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5.477a1.5 1.5 0 0 1 .556-1.166z"/></svg>
+      {% else %}
+      <span class="index">{{ index }}</span>
+      {% endif %}
+    </div>
+    <div class="wtc__labelcol">
+      <div class="label">
+        <span class="wtc__namewrap">
+          {% if name and name != "" %}
+            {{ name }}
+          {% elsif ishome %}
+            Home
+          {% else %}
+            {{ tz }}
+          {% endif %}
+        </span>
+      </div>
+      {% if ishome or (name and name != "") %}
+        <div class="label label--small">{{ tz }}</div>
+      {% endif %}
+    </div>
+    <div class="wtc__rail wtc__rail--before"></div>
+    <div class="wtc__rail wtc__rail--now"></div>
+    <div class="wtc__rail wtc__rail--after"></div>
+  </div>
+  {% endif %}
+{% endtemplate %}
+
+<!-- World Time Clock markup -->
+<div class="layout">
+<div class="wtc" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle | default: 'h23' | escape }}" data-locale="{{ trmnl.user.locale | escape }}" data-overflow="true">
+  {% render 'wtc_row',
+      id: 'home',
+      tz: trmnl.plugin_settings.custom_fields_values.home_time_zone,
+      name: trmnl.plugin_settings.custom_fields_values.home_name,
+      index: 0,
+      ishome: true %}
+
+  {% render 'wtc_row',
+      id: 'time_zone_1',
+      tz: trmnl.plugin_settings.custom_fields_values.time_zone_1,
+      name: trmnl.plugin_settings.custom_fields_values.name_1,
+      index: 1,
+      ishome: false %}
+  {% render 'wtc_row',
+      id: 'time_zone_2',
+      tz: trmnl.plugin_settings.custom_fields_values.time_zone_2,
+      name: trmnl.plugin_settings.custom_fields_values.name_2,
+      index: 2,
+      ishome: false %}
+  {% render 'wtc_row',
+      id: 'time_zone_3',
+      tz: trmnl.plugin_settings.custom_fields_values.time_zone_3,
+      name: trmnl.plugin_settings.custom_fields_values.name_3,
+      index: 3,
+      ishome: false %}
+  {% render 'wtc_row',
+      id: 'time_zone_4',
+      tz: trmnl.plugin_settings.custom_fields_values.time_zone_4,
+      name: trmnl.plugin_settings.custom_fields_values.name_4,
+      index: 4,
+      ishome: false %}
+  {% render 'wtc_row',
+      id: 'time_zone_5',
+      tz: trmnl.plugin_settings.custom_fields_values.time_zone_5,
+      name: trmnl.plugin_settings.custom_fields_values.name_5,
+      index: 5,
+      ishome: false %}
+  {% render 'wtc_row',
+      id: 'time_zone_6',
+      tz: trmnl.plugin_settings.custom_fields_values.time_zone_6,
+      name: trmnl.plugin_settings.custom_fields_values.name_6,
+      index: 6,
+      ishome: false %}
+</div>
+</div>
+
+<div class="title_bar">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="image-stroke" viewBox="0 0 2048 2048"><path fill="currentColor" d="M896 768H512V256h128v384h256zm1152 640q0 87-22 168t-64 152t-100 130t-128 101t-152 66t-168 23q-134 0-251-49t-205-136t-139-204t-51-251q0-132 50-248t138-204t203-137t249-51q132 0 248 50t204 138t137 203t51 249m-640 512q21 0 37-15t29-40t21-53t15-58t9-53t5-37h-230q1 13 5 37t10 52t15 58t21 54t27 39t36 16m125-384q3-64 3-128q0-63-3-128h-250q-3 65-3 128q0 64 3 128zm-637-128q0 32 4 64t12 64h243q-6-128 0-256H912q-8 32-12 64t-4 64m512-512q-19 0-34 15t-27 40t-21 54t-15 58t-11 53t-5 36h225q-1-11-5-34t-11-52t-16-59t-21-54t-27-41t-32-16m253 384q3 64 3 128t-2 128h242q8-32 12-64t4-64t-4-64t-12-64zm190-128q-43-75-108-131t-145-89q20 53 32 108t20 112zm-637-218q-78 32-142 88t-107 130h200q7-56 18-110t31-108m-249 730q42 73 105 129t142 88q-20-52-30-107t-17-110zm643 215q77-32 139-87t104-128h-198q-5 55-15 109t-30 106M640 0q88 0 170 23t153 64t129 100t100 130t65 153t23 170h-128q0-106-40-199t-110-162t-163-110t-199-41t-199 40t-162 110t-110 163t-41 199t40 199t110 162t163 110t199 41v128q-88 0-170-23t-153-64t-129-100T88 963T23 810T0 640q0-132 50-248t138-204T391 51T640 0"/></svg>
+  <span class="title">World clock</span>
+  <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
+</div>
+
+<!-- Temporal polyfill -->
+<script src="https://cdn.jsdelivr.net/npm/temporal-polyfill@0.3.0/global.min.js"></script>
+
+<script>
+/*
+  World Time Clock script.
+  Notes:
+  – Localized output respects Liquid-injected locale and hourCycle.
+  – view.home.now is “00 minutes of current hour” in home tz; others are conversions.
+*/
+
+(function () {
+  const root = document.currentScript.parentElement.querySelector('.wtc');
+  document.fonts.ready.then(() => {
+    if (!root) return;
+  
+    // Inputs from Liquid
+    const hourCycle = (root.getAttribute('data-hour-cycle') || 'h23').toLowerCase(); // "h12" | "h23"
+    const userLocale = root.getAttribute('data-locale') || 'en-US';
+  
+    // Row discovery
+    const rows = Array.from(root.querySelectorAll('[data-tz]'));
+    /** @typedef {"home"|"time_zone_1"|"time_zone_2"|"time_zone_3"|"time_zone_4"|"time_zone_5"|"time_zone_6"} Key */
+  
+    // Build view scaffold
+    /** @type {{[key: string]: { before: any[], now: any, after: any[], tz: string, el: HTMLElement, isHome: boolean }}} */
+    const view = {};
+  
+    // Helper: get ZonedDateTime at current hour with minute 0 in given tz
+    function currentHourStartInTZ(tz) {
+      const z = Temporal.Now.zonedDateTimeISO(tz);
+      return z.with({ minute: 0, second: 0, millisecond: 0, microsecond: 0, nanosecond: 0 });
+    }
+  
+    // Extract home row and compute home.now
+    const homeRow = rows.find(r => r.getAttribute('data-id') === 'home');
+    if (!homeRow) return;
+    const homeTZ = homeRow.getAttribute('data-tz');
+  
+    // Compute the canonical “now”: minute 00 of the current hour in home tz
+    const homeNow = currentHourStartInTZ(homeTZ);
+  
+    // Formatter helpers
+    const hasDayPeriod = hourCycle === 'h12';
+    /** Build a Cell from a ZonedDateTime */
+    function buildCell(zdt) {
+      const optsHour = { timeZone: zdt.timeZoneId, hour: 'numeric', hourCycle };
+      const optsMinute = { timeZone: zdt.timeZoneId, minute: 'numeric' };
+      const optsWeekday = { timeZone: zdt.timeZoneId, weekday: 'short' };
+      const optsDay = { timeZone: zdt.timeZoneId, day: 'numeric' };
+      const optsMonth = { timeZone: zdt.timeZoneId, month: 'short' };
+  
+      const fHour = new Intl.DateTimeFormat(userLocale, optsHour);
+      const fMinute = new Intl.DateTimeFormat(userLocale, optsMinute);
+      const fWeekday = new Intl.DateTimeFormat(userLocale, optsWeekday);
+      const fDay = new Intl.DateTimeFormat(userLocale, optsDay);
+      const fMonth = new Intl.DateTimeFormat(userLocale, optsMonth);
+  
+      // Use formatToParts for hour + dayPeriod
+      let hourStr = '';
+      let periodStr = undefined;
+      fHour.formatToParts(zdt.toInstant().epochMilliseconds).forEach(p => {
+        if (p.type === 'hour') hourStr = p.value;
+        if (p.type === 'dayPeriod') periodStr = p.value; // short
+      });
+  
+      // Minute as string
+      const minuteStr = fMinute.formatToParts(zdt.toInstant().epochMilliseconds).find(p => p.type === 'minute')?.value || undefined;
+  
+      // Weekday/day/month
+      const weekday = fWeekday.format(zdt.toInstant().epochMilliseconds);
+      const day = fDay.format(zdt.toInstant().epochMilliseconds);
+      const month = fMonth.format(zdt.toInstant().epochMilliseconds);
+  
+      /** @type {{hour:string, minute?:string, dayPeriod?:string, weekday?:string, day?:string, month?:string, time: Temporal.ZonedDateTime}} */
+      return {
+        hour: hourStr,
+        minute: minuteStr,
+        dayPeriod: hasDayPeriod ? periodStr : undefined,
+        weekday,
+        day,
+        month,
+        time: zdt
+      };
+    }
+  
+    // Populate view entries (now)
+    rows.forEach(row => {
+      const key = row.getAttribute('data-id');
+      const tz = row.getAttribute('data-tz');
+      const isHome = key === 'home';
+      if (!tz) return;
+      const zNow = isHome ? homeNow : homeNow.withTimeZone(tz);
+      view[key] = { before: [], now: buildCell(zNow), after: [], tz, el: row, isHome };
+    });
+  
+    // Decide cell width per spec
+    const cellWidthNormal = 30, cellWidthWide = 35;
+    const anyMinuteNonZero = Object.values(view).some(v => v && v.now && v.now.minute !== '0');
+    const cellWidth = (hourCycle === 'h12' && anyMinuteNonZero) ? cellWidthWide : cellWidthNormal;
+    // Apply cell width as inline style to override CSS default
+    root.style.setProperty('--wtc-cell-width', cellWidth + 'px');
+  
+    // For each row, compute before/after cell counts based on available width
+    function computeRailCells(railEl) {
+      const w = railEl.clientWidth || 0;
+      console.log("computeRailCells", railEl, railEl.clientWidth, cellWidth, w / cellWidth);
+      console.log("root width", root, root.clientWidth)
+      return Math.floor(w / cellWidth);
+    }
+  
+    // Fill before/after arrays
+    function fillAround(nowZDT, count, dir /* -1 for before, +1 for after */) {
+      /** @type {ReturnType<typeof buildCell>[]} */
+      const arr = [];
+      for (let i = 1; i <= count; i++) {
+        const z = nowZDT.add({ hours: dir * i });
+        arr.push(buildCell(z));
+      }
+      return dir < 0 ? arr.reverse() : arr;
+    }
+  
+    // Post-processing rules on a virtual list: [...before, now, ...after]
+    function postProcess(cells) {
+      for (let i = 0; i < cells.length; i++) {
+        const c = cells[i];
+  
+        // If minute == "0" → undefined
+        if (c.minute === '0') c.minute = undefined;
+  
+        // If index > 0 and weekday same as previous → weekday undefined
+        if (i > 0 && c.time.hour > 0) {
+          c.weekday = undefined;
+        }
+  
+        // If hour != 0 → day & month undefined
+        if (c.time.hour !== 0) {
+          c.day = undefined;
+          c.month = undefined;
+        }
+      }
+      return cells;
+    }
+  
+    // DOM builders
+    function el(tag, className, text) {
+      const e = document.createElement(tag);
+      if (className) e.className = className;
+      if (text != null) e.textContent = text;
+      return e;
+    }
+  
+    function renderCell(cell, isNow) {
+      const wrap = el('div', 'wtc__cell' + (isNow ? ' wtc__cell--now' : '') +
+                              (cell.time.hour === 0 ? ' wtc__cell--h0 ' : '') +
+                              (cell.time.hour === 23 ? ' wtc__cell--h23' : ''));
+      // Weekday line
+      const wk = el('div', 'label label--small wtc__weekday', cell.weekday ?? '');
+      wrap.appendChild(wk);
+  
+      // Block
+      const block = el('div', 'wtc__cell-block' + (!isNow && cell.time.hour === 0 ? ' text-stroke bg--gray-65' : ''));
+  
+      if (cell.day) {
+        // Day stack: month (small) + day (large)
+        const dayStack = el('div', 'wtc__daystack');
+        dayStack.appendChild(el('div', 'label label--small', cell.month ?? ''));
+        dayStack.appendChild(el('div', 'label', cell.day));
+        block.appendChild(dayStack);
+      } else {
+        // Hour line
+        const hourLine = el('div', 'wtc__hourline');
+        hourLine.appendChild(el('span', 'label', cell.hour));
+        if (hasDayPeriod && cell.minute) {
+          hourLine.appendChild(el('span', 'label label--small', cell.minute));
+        }
+        block.appendChild(hourLine);
+  
+        // Period / minute line
+        const periodLine = el('div', 'wtc__periodline');
+        const small = el('span', 'label label--small');
+        if (hasDayPeriod) {
+          small.textContent = cell.dayPeriod ?? '';
+        } else {
+          small.textContent = cell.minute ?? '';
+        }
+        if (small.textContent) {
+          periodLine.appendChild(small);
+          block.appendChild(periodLine);
+        }
+      }
+  
+      wrap.appendChild(block);
+      return wrap;
+    }
+  
+    // Render per row
+    Object.entries(view).forEach(([key, row]) => {
+      if (!row || !row.el) return;
+      const beforeEl = row.el.querySelector('.wtc__rail--before');
+      const nowEl = row.el.querySelector('.wtc__rail--now');
+      const afterEl = row.el.querySelector('.wtc__rail--after');
+  
+      const beforeCount = computeRailCells(beforeEl);
+      const afterCount = computeRailCells(afterEl);
+  
+      row.before = fillAround(row.now.time, beforeCount, -1);
+      row.after  = fillAround(row.now.time,  afterCount, +1);
+  
+      // Virtual sequence for post-processing
+      const seq = [...row.before, row.now, ...row.after];
+      postProcess(seq);
+  
+      // Re-split into before/now/after after post-processing
+      const processedBefore = seq.slice(0, beforeCount);
+      const processedNow = seq[beforeCount];
+      const processedAfter = seq.slice(beforeCount + 1);
+  
+      // Clear rails
+      beforeEl.textContent = '';
+      nowEl.textContent = '';
+      afterEl.textContent = '';
+  
+      // Insert
+      processedBefore.forEach(c => beforeEl.appendChild(renderCell(c, false)));
+      nowEl.appendChild(renderCell(processedNow, true));
+      processedAfter.forEach(c => afterEl.appendChild(renderCell(c, false)));
+
+      if (!row.isHome) {
+        const diff = view.home.now.time.toPlainDateTime().since(row.now.time.toPlainDateTime());
+        const hours = diff.hours + (diff.days * 24);
+        const diffText = diff.sign === 0 ? '=' : 
+          (diff.sign > 0 ? '+' : '-') +
+          (Math.abs(hours).toString()) + 
+          (diff.minutes ? ':' + (Math.abs(diff.minutes).toString().padStart(2, '0')) : '');
+        row.el.querySelector('.meta .index').textContent = diffText;
+        if (diffText.length > 1) {
+          row.el.querySelector('.meta .index').style.writingMode = 'vertical-rl';
+        }
+      }
+    });
+  });
+})();
+</script>

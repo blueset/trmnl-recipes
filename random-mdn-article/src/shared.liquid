@@ -1,0 +1,66 @@
+<style>
+  .chip {
+    border-radius: 9999px;
+    border: 1px solid black;
+    height: 35px;
+    padding: 5px;
+  }
+  .pair {
+    display: inline-flex;
+    height: 24px;
+    .image-stroke {
+      z-index: 1;
+    }
+    > div:last-child {
+      margin-inline-start: -6px;
+    }
+    &.no path {
+      opacity: 0.5;
+    }
+  }
+  del {
+    text-decoration-color: #777;
+  }
+</style>
+
+{% template yes %}
+<div class="bg--black" style="width: 24px; height: 24px; mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAsklEQVRIS8WVUQ7AIAhD5/0PvYUPEkRKwc3MX6GvKOK4Dq9xWP+qAm5ghOazACTseVAHbXjh7bgo0YqzCrUSmJMBquIeMuV5EXXSFYeQtwBvaDFoAV336NwnnV1A1ggtQFQV67ItgFyiVMvEJa4FsAn29WZd1gZ4CGthCFjKcwNHElvieq5Wp9uqfuil7yB98oV/IzT3y7CLOufTcR3dCTuh9oeDLq/8k2kgazvmnO4fBzwb8i4ZBqzDDAAAAABJRU5ErkJggg==')"></div>
+{% endtemplate %}
+{% template no %}
+<div class="bg--gray-30" style="width: 24px; height: 24px; mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAp0lEQVRIS8WVSw7AIAhE9f6HbmMTEkUGBhLSLhXm8bVzNH+zWX+wgAcEEvpHBkhY86AOutDCZTvLcRePMpRMoI8HYMU15PDTIhJJVhxCGACCWufX2Q6IhFaUYu/16dBhAEs4swclgAWJRve7ZzNoB7SWyGpoqcl7GZjSpccUATIvursH7soTFHOPfnnsKiMpCV4BR49a2w9HlzyzB4dvlAHRW9+kHfACRUkwGTGLTLkAAAAASUVORK5CYII=')"></div>
+{% endtemplate %}
+{% template chips %}
+<div class="chip flex flex--row gap--xsmall">
+  <div class="pair">
+    <div class="image-stroke"><div class="{% if baseline.support.chrome and baseline.support.chrome_android %}bg--black{% else %}bg--gray-30{% endif %}" style="width: 24px; height: 24px; mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAuElEQVRIS81WQQ6AIAyD/z9ao8mSOdt1ICR6Mg7arWPF3jY/fTN+qxIcJBG5Xy1gwJGP4rBAFVgSIYJZcCN7YI4QKDlhmyoSTQHDclwKJpMHj9KVYmiRfbsA/TuSIIvfsYzAAFXTGQklYMRs6P9J4KvYIlE8ZcqLUPzVgwt06ihm++IQ0UwSW0/3rLCKrGp4H6imqgMgzQ71witUsgjlRdkUo8EavnBiT6P5ITMcsutl/wKfvL6SxQlr7isZvAX3twAAAABJRU5ErkJggg==')"></div></div>
+    {% if baseline.support.chrome and baseline.support.chrome_android %}{% render 'yes' %}{% else %}{% render 'no' %}{% endif %}
+  </div>
+  <div class="pair">
+    <div class="image-stroke"><div class="{% if baseline.support.edge %}bg--black{% else %}bg--gray-30{% endif %}" style="width: 24px; height: 24px; mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAtElEQVRIS7WVWw6AMAgE7f0PralJDVJgtk3qL7DDS9quw187rH+pgDtJBOPJIRP2vFQnM6jCCIoAu+ID9tOsALvwEtCzp7n0TKnKT6MSi0SsfwVBAInLVah9Vv3sVr0xPlDJ3Ipgm6inwx4NXxr0CsBXjNkrAbYCxX9qO83AA6K5lQd5BxCehIxC6xdVQE+IfItsO2hjpv2nMocgbdnWufY/kgJZfnCqPtt24eVFB5oo2Y8DHvToJhlAd1MHAAAAAElFTkSuQmCC')"></div></div>
+    {% if baseline.support.edge %}{% render 'yes' %}{% else %}{% render 'no' %}{% endif %}
+  </div>
+</div>
+<div class="chip flex flex--row gap--xsmall">
+  <div class="pair">
+    <div class="image-stroke"><div class="{% if baseline.support.firefox and baseline.support.firefox_android %}bg--black{% else %}bg--gray-30{% endif %}" style="width: 24px; height: 24px; mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAqElEQVRIS9WU2w7AIAhD5/9/9BYeWPBSWqMuma9Aj9ZquQ6vclj/UgE32AidZw1IuOVBHVQwYas5IOuLsK5vNBh3zU7o4nBmF8BAw9O2gNZzr7tlLHQdRAHMWJYClMQod1JB4sAvAJ2du0+wDLAUZfewBYAgw4izmLLco/qr+zkgPvnl3atezoIqV9RvWIVI33UUU153Gl3lb8nuhc7TBtUbmtdVITT/AHlgIhmFINYSAAAAAElFTkSuQmCC')"></div></div>
+    {% if baseline.support.firefox and baseline.support.firefox_android %}{% render 'yes' %}{% else %}{% render 'no' %}{% endif %}
+  </div>
+</div>
+<div class="chip flex flex--row gap--xsmall">
+  <div class="pair">
+    <div class="image-stroke"><div class="{% if baseline.support.safari and baseline.support.safari_ios %}bg--black{% else %}bg--gray-30{% endif %}" style="width: 24px; height: 24px; mask-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAq0lEQVRIS7WV2w6AIAxD4f8/WqMRAmOXFpxvJtDTpWOrJfmryfoFBVyfkXZe/ps+I0ATigo1dTwAKj7CF72/AQ9s0tQAO87NKiSAFZehN1DXPQGMd6UxFYC6R0295zwXWmui4l2bviCoVtV0Bmy30RkwlU6dhGSwIw5ngBhwmyFyZz0kePix4UXCqbNIHZzWNEVftTuql3KU+lHQ1sIZeWkrEwnVPRPt5GPADaM5IBnA2W5SAAAAAElFTkSuQmCC')"></div></div>
+    {% if baseline.support.safari and baseline.support.safari_ios %}{% render 'yes' %}{% else %}{% render 'no' %}{% endif %}
+  </div>
+</div>
+{% endtemplate %}
+{% liquid
+  assign link_size = link | size
+  assign thresholds = "[17,32,53,78,106,134,154,192,230,271,321,367,425,458,520,586,644,718,792,858,929,1003,1091,1171,1273,1367,1465,1528,1628,1732,1840,1952,2068,2188,2303,2431,2563,2699,2809]" | parse_json
+  assign module = 0
+  for t in thresholds
+    if link_size <= t
+      assign module = forloop.index0 | times: 4 | plus: 21
+      break
+    endif
+  endfor
+%}

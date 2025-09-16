@@ -1,0 +1,209 @@
+{% if error %}
+<div class="layout">
+  <div class="column flex--center-x text--center">
+    <span class="title">Error</span>
+    <p class="title title--small">{{ error }}</p>
+  </div>
+</div>
+<script>
+  window.TRMNL_SKIP_SCREEN_GENERATION = true;
+</script>
+{% else %}
+<style>
+  /* Ari-W9500 Regular */
+  @font-face {
+    font-family: 'Ari-W9500';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Bold */
+  @font-face {
+    font-family: 'Ari-W9500';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-bold.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Condensed */
+  @font-face {
+    font-family: 'Ari-W9500 Condensed';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Condensed Bold */
+  @font-face {
+    font-family: 'Ari-W9500 Condensed';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed-bold.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed-bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Condensed Display */
+  @font-face {
+    font-family: 'Ari-W9500 Condensed Display';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed-display.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed-display.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Display */
+  @font-face {
+    font-family: 'Ari-W9500 Display';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-display.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-display.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Pixelbasel';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/Pixelbasel.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/Pixelbasel.ttf') format('truetype');
+    font-display: swap;
+  }
+
+  /* MotaPixel Regular */
+  @font-face {
+    font-family: 'MotaPixel';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Regular.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* MotaPixel Bold */
+  @font-face {
+    font-family: 'MotaPixel';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Bold.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* MotaPixel Light */
+  @font-face {
+    font-family: 'MotaPixel';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Light.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  .character {
+    position: relative;
+    svg {
+      width: 100%;
+      overflow: visible;
+    }
+    span {
+      position: absolute !important;
+      left: 0;
+      bottom: 0;
+      transform: translateY(100%);
+    }
+  }
+  .label--small, .description {
+    font-family: 'Ari-W9500 Condensed', sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+  }
+  .description {
+    height: 100%;
+  }
+  .description p.item {
+    margin-block-end: 5px;
+    line-height: 12px;
+    display: block;
+    &:before {
+      content: "→ ";
+    }
+  }
+  .description.narrow, .narrow {
+    font-family: 'Ari-W9500 Condensed', sans-serif;
+  }
+  .character svg {
+    aspect-ratio: 1 / 1;
+  }
+  .description {
+    u, strong {
+      font-weight: bold;
+      text-decoration: none;
+    }
+    em {
+      text-decoration: underline;
+      font-style: normal;
+    }
+  }
+  .characters:has(.character:nth-child(2)) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 10px;
+  }
+  .layout {
+    display: grid !important;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 100%;
+    gap: 40px 20px !important;
+    align-content: center;
+    align-items: center;
+  }
+  .details {
+    max-height: 100%;
+  }
+  .clamp--4, .clamp--3 {
+    word-break: auto-phrase !important; 
+  }
+  .title_bar .title {
+    width: 0;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .title_bar .instance {
+    flex-grow: 0;
+  }
+</style>
+
+<div class="layout">
+      
+  <div class="characters">
+    <div class="character">
+      {{ svgs[0].svg }}
+      <span class="label label--small">{{ svgs[0].font }}{% assign svgsSize = svgs | size %}{% if svgsSize > 1 %} (+{{ svgs | size | minus: 1 }}){% endif %}</span>
+    </div>
+  </div>
+
+  <div class="details">
+    <div class="description narrow" data-overflow="true">
+      {% for description in descriptions %}
+      {% if description.title == "Wikipedia (en)" %}{% continue %}{% endif %}
+        {{ description.html | replace: "<p>", '<p class="item">'}}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://www.svgrepo.com/show/349543/unicode.svg">
+  <span class="title">{{ meta.na }}</span>
+  <span class="instance">{{ codepoint }}</span>
+</div>
+{% endif %}

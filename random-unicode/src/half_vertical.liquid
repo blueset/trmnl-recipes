@@ -1,0 +1,270 @@
+{% if error %}
+<div class="layout">
+  <div class="column flex--center-x text--center">
+    <span class="title">Error</span>
+    <p class="title title--small">{{ error }}</p>
+  </div>
+</div>
+<script>
+  window.TRMNL_SKIP_SCREEN_GENERATION = true;
+</script>
+{% else %}
+<style>
+  /* Ari-W9500 Regular */
+  @font-face {
+    font-family: 'Ari-W9500';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Bold */
+  @font-face {
+    font-family: 'Ari-W9500';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-bold.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Condensed */
+  @font-face {
+    font-family: 'Ari-W9500 Condensed';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Condensed Bold */
+  @font-face {
+    font-family: 'Ari-W9500 Condensed';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed-bold.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed-bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Condensed Display */
+  @font-face {
+    font-family: 'Ari-W9500 Condensed Display';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed-display.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-condensed-display.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* Ari-W9500 Display */
+  @font-face {
+    font-family: 'Ari-W9500 Display';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-display.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/ari-w9500-display.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Pixelbasel';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/Pixelbasel.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/Pixelbasel.ttf') format('truetype');
+    font-display: swap;
+  }
+
+  /* MotaPixel Regular */
+  @font-face {
+    font-family: 'MotaPixel';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Regular.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* MotaPixel Bold */
+  @font-face {
+    font-family: 'MotaPixel';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Bold.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  /* MotaPixel Light */
+  @font-face {
+    font-family: 'MotaPixel';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Light.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/MotaPixel-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  
+  .character {
+    position: relative;
+    svg {
+      width: 100%;
+      overflow: visible;
+    }
+    span {
+      position: absolute !important;
+      left: 0;
+      bottom: 0;
+      transform: translateY(100%);
+    }
+  }
+  .descriptions {
+    grid-column: 1 / -1;
+    display: grid;
+    overflow: hidden;
+    align-self: start;
+    grid-template-columns: auto minmax(200px, 1fr);
+    gap: 0px 10px;
+    align-items: start;
+    max-height: 100%;
+    .item {
+      display: contents;
+    }
+    .label {
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+  }
+  .label--small, .description {
+    font-family: 'Ari-W9500 Condensed', sans-serif;
+    font-size: 11px;
+    line-height: 14px;
+  }
+  .description.narrow, .narrow {
+    font-family: 'Ari-W9500 Condensed', sans-serif;
+  }
+  .character svg {
+    aspect-ratio: 1 / 1;
+  }
+  .description.large {
+    font-family: 'MotaPixel', sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    p {
+      line-height: 20px;
+    }
+    u, strong {
+      font-weight: bold;
+      text-decoration: none;
+    }
+    em {
+      text-decoration: underline;
+      font-style: normal;
+    }
+  }
+  .characters {
+    grid-column: 2 / span 1;
+  }
+  .characters:has(.character:nth-child(2)) {
+    display: grid;
+    gap: 20px 10px;
+  }
+  .characters:has(.character:nth-child(2):last-child) {
+    grid-template-columns: 1fr 1fr;
+  }
+  .characters:has(.character:nth-child(3):last-child) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .characters:has(.character:nth-child(4):last-child) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .properties {
+    gap: 5px;
+    grid-column: span 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    .property-group-key {
+      font-family: "Ari-W9500", sans-serif;
+      font-weight: bold;
+      font-size: 11px;
+      line-height: 14px;
+    }
+    .property {
+      font-family: "Ari-W9500", sans-serif;
+      font-size: 11px;
+      line-height: 14px;
+      border-radius: 5px;
+      border: 1px solid #444;
+      display: inline-flex;
+      .property-key {
+        padding: 2px 4px;
+      }
+      .property-value {
+        background-color: #444;
+        color: white;
+        padding: 2px 4px;
+        border-radius: 0 3px 3px 0;
+      }
+    }
+  }
+  .layout {
+    display: grid !important;
+    grid-template-columns: 3fr 4fr 3fr;
+    grid-template-rows: auto 1fr;
+    gap: 20px 20px !important;
+    align-content: center;
+    align-items: center;
+  }
+  .layout:has(.characters .character:nth-child(3):last-child) {
+    grid-template-columns: 2fr 6fr 2fr;
+  }
+  .layout:has(.characters .character:nth-child(4):last-child) {
+    grid-template-columns: 1fr 8fr 1fr;
+  }
+  .clamp--4, .clamp--3 {
+    word-break: auto-phrase !important; 
+  }
+  .title_bar .title {
+    width: 0;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .title_bar .instance {
+    flex-grow: 0;
+  }
+</style>
+
+<div class="layout">
+      
+  <div class="characters">
+    {% for svg in svgs %}
+      <div class="character">
+        {{ svg.svg }}
+        <span class="label label--small">{{ svg.font }}</span>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="descriptions" data-overflow="true">
+    {% for description in descriptions %}
+    {% if description.title == "Wikipedia (en)" %}{% continue %}{% endif %}
+    <div class="item">
+      <span class="text--gray-40 label label--small narrow">{{ description.title }}</span>
+      <div class="description {% if description.title == "Codepoint" or description.title == "Character" %} large{% endif %}">
+        {{ description.html }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://www.svgrepo.com/show/349543/unicode.svg">
+  <span class="title">{{ meta.na }}</span>
+  <span class="instance">{{ codepoint }}</span>
+</div>
+{% endif %}

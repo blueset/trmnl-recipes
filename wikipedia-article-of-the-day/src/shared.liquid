@@ -1,0 +1,121 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
+<style>
+  @import url("https://fontsapi.zeoseven.com/359/main/result.css");
+  @import url("https://fontsapi.zeoseven.com/536/main/result.css");
+  @font-face {
+    font-family: 'UnifontExMono';
+    src: url('https://stgiga.github.io/UnifontEX/UnifontExMono.eot'); /* IE9 Compat Modes */
+    src: url('https://stgiga.github.io/UnifontEX/UnifontExMono.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+         url('https://stgiga.github.io/UnifontEX/UnifontExMono.woff') format('woff'), /* Pretty Modern Browsers */
+         url('https://stgiga.github.io/UnifontEX/UnifontExMono.ttf')  format('truetype'), /* Safari, Android, iOS */
+         url('https://stgiga.github.io/UnifontEX/UnifontExMono.woff2') format('woff2'), /* Super Modern Browsers */
+         url('https://stgiga.github.io/UnifontEX/UnifontExMono.svg#UnifontExMono') format('svg'); /* Legacy iOS */
+  }
+  @font-face{
+    font-family: "Hibiya24";
+    src: url("https://togaras1.net/assets/font/KH-Dot-Hibiya-24.woff") format("woff");
+  }
+  @font-face {
+      font-family: 'Unifont';
+      src: url('https://konard.github.io/twittermatrix/unifont.woff') format('woff'), url('https://konard.github.io/twittermatrix/unifont.ttf') format('truetype');
+  }
+  @font-face {
+      font-family: fusion-pixel-12px-proportional-zh_hans;
+      src: url("https://fusion-pixel-font.takwolf.com/fusion-pixel-12px-proportional-zh_hans.otf.woff2");
+  }
+  @font-face {
+      font-family: 'C16XCN';
+      font-weight: bold;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnb.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnb.ttf') format('truetype');
+  }
+  @font-face {
+      font-family: 'C16XCN';
+      font-weight: normal;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnr.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnr.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'C24XCN';
+    font-weight: bold;
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/c24xcn.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/c24xcn.ttf') format('truetype');
+  }
+  @font-face {
+      font-family: 'JF-Dot-Shinonome16';
+      font-weight: bold;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16B.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16B.ttf') format('truetype');
+  }
+  @font-face {
+      font-family: 'JF-Dot-Shinonome16';
+      font-weight: normal;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16.ttf') format('truetype');
+  }
+  .trmnl .richtext .content p, .content p {
+    line-height: 20px;
+    word-break: normal;
+  }
+
+  .trmnl .richtext .content:lang(ja), .content:lang(ja),
+  .trmnl .title_bar .title:lang(ja), .title_bar .title:lang(ja){
+    font-family: "JF-Dot-Shinonome16", "DotGothic16", sans-serif;
+    padding-top: 0;
+    font-size: 16px;
+  }
+  .trmnl .richtext .content:lang(zh), .content:lang(zh),
+  .trmnl .title_bar .title:lang(zh), .title_bar .title:lang(zh){
+    font-family: "寒蝉点阵体 16px", "C16XCN", "Unifont", sans-serif;
+    padding-top: 0;
+    font-size: 16px;
+  }
+  .trmnl .label.label--small:lang(ja), .label.label--small:lang(ja) {
+    font-family: "UnifontExMono", sans-serif;
+  }
+  .trmnl .label.label--small:lang(zh), .label.label--small:lang(zh) {
+    /* font-family: "fusion-pixel-12px-proportional-zh_hans", sans-serif;
+    font-size: 12px; */
+    font-family: "寒蝉点阵体 16px", "C16XCN", "Unifont", sans-serif;
+  }
+  .trmnl .title:lang(ja), .title:lang(ja) {
+    font-family: "Hibiya24", sans-serif;
+    font-size: 24px;
+  }
+  .trmnl .title:lang(zh), .title:lang(zh) {
+    font-family: "C24XCN", "Hibiya24", "NanoDyongChyangSong TCN 24", "Unifont", sans-serif;
+    font-size: 24px;
+  }
+  .title_bar .title {
+    width: 0;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .title_bar .instance {
+    flex-grow: 0;
+  }
+</style>
+
+<div class="layout" lang="{{ trmnl.plugin_settings.custom_fields_values.language }}">
+  <div class="columns">
+    <div class="column">
+      <div class="richtext richtext--center gap--medium">
+        <span class="title text--center" dir="auto">{{ title }}</span>
+        {% if description %}<span class="label label--small text--center" dir="auto">{{ description }}</span>{% endif %}
+        <div class="content" data-content-limiter="true" dir="auto">
+          {{ extract_html }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar" lang="{{ trmnl.plugin_settings.custom_fields_values.language }}">
+  <img class="image image-stroke" src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia%27s_W.svg">
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">{{ timestamp | date: trmnl.plugin_settings.custom_fields_values.date_format }}</span>
+</div>

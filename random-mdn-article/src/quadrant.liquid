@@ -1,0 +1,34 @@
+<div class="layout">
+  <div class="columns">
+    <div class="column">
+      <div class="richtext richtext--left gap--xsmall" data-overflow="true">
+        <span class="content item">{{ title | escape }}</span>
+        <div class="content content--small item">
+          <p>{{ description | escape }}</p>
+        </div>
+        {% if baseline and baseline != "" %}
+        <div class="divider item"></div>
+        <div class="content flex content--small flex--row flex--wrap flex--left gap--xsmall baseline item">
+          {% case baseline.baseline %}
+            {% when "high" %}Baseline Widely available
+            {% when "low" %}Baseline {{ baseline.baseline_low_date | date: "%Y" }} <span class="label label--inverted label--small">NEWLY AVAILABLE</span>
+            {% when false %}Limited availability
+          {% endcase %}
+        </div>
+        <div class="flex flex--row flex--wrap flex--left gap--xsmall item">
+          {% if baseline.support.chrome and baseline.support.chrome_android %}<span class="label label--small label--outline">Chrome</span>{% else %}<del class="label label--small label--gray">Chrome</del>{% endif %}
+          {% if baseline.support.edge %}<span class="label label--small label--outline">Edge</span>{% else %}<del class="label label--small label--gray">Edge</del>{% endif %}
+          {% if baseline.support.firefox and baseline.support.firefox_android %}<span class="label label--small label--outline">Firefox</span>{% else %}<del class="label label--small label--gray">Firefox</del>{% endif %}
+          {% if baseline.support.safari and baseline.support.safari_ios %}<span class="label label--small label--outline">Safari</span>{% else %}<del class="label label--small label--gray">Safari</del>{% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <svg xmlns="http://www.w3.org/2000/svg" class="image-stroke" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m21.538 1.1l-6.745 21.8h-2.77L18.77 1.1ZM24 1.1v21.8h-2.462V1.1Zm-12 0v21.8H9.538V1.1Zm-2.462 0L2.77 22.9H0L6.746 1.1Z"/></svg>
+  <span class="title">mdn_</span>
+  <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
+</div>

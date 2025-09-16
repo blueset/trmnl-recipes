@@ -1,0 +1,19 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://trmnl.1a23.workers.dev/codepoints
+polling_headers: ''
+polling_body: ''
+id: 151050
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: A random Unicode codepoint on each refresh. Data powered by <a href="https://codepoints.net/">codepoints.net</a>.
+  github_url: https://github.com/blueset/trmnlp-recipies
+  learn_more_url: https://codepoints.net/
+name: Random Unicode
+refresh_interval: 15

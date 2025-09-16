@@ -1,0 +1,41 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://blueset.github.io/wikipedia-featured/{{ language }}.json
+polling_headers: ''
+polling_body: ''
+id: 148054
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: Multilingual Wikipedia Article of the Day plugin
+  github_url: https://github.com/blueset/trmnl-recipies
+- keyname: language
+  field_type: select
+  name: Language
+  description: Wikipedia language to use
+  default: en
+  options:
+  - বাংলা (Bengali): bn
+  - Deutsch (German): de
+  - Ελληνικά (Greek): el
+  - English (English): en
+  - עברית (Hebrew): he
+  - Magyar (Hungarian): hu
+  - 日本語 (Japanese): ja
+  - سنڌي، سندھی ، सिन्ध (Sindhi): sd
+  - Svenska (Swedish): sv
+  - اردو (Urdu): ur
+  - Tiếng Việt (Vietnamese): vi
+  - 中文 (Chinese): zh
+- keyname: date_format
+  field_type: string
+  name: Date format
+  description: Format the date, see <a href="https://strftime.net/">strftime</a> for syntax.
+  default: "%Y-%m-%d"
+name: Wikipedia Article of the Day
+refresh_interval: 240
