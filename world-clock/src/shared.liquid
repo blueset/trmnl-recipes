@@ -259,7 +259,7 @@
     if (!root) return;
   
     // Inputs from Liquid
-    const hourCycle = (root.getAttribute('data-hour-cycle') || 'h23').toLowerCase(); // "h12" | "h23"
+    const hourCycle = (root.getAttribute('data-hour-cycle') || 'h23').toLowerCase();
     const userLocale = root.getAttribute('data-locale') || 'en-US';
   
     // Row discovery
@@ -285,7 +285,7 @@
     const homeNow = currentHourStartInTZ(homeTZ);
   
     // Formatter helpers
-    const hasDayPeriod = hourCycle === 'h12';
+    const hasDayPeriod = hourCycle === 'h12' || hourCycle === 'h11';
     /** Build a Cell from a ZonedDateTime */
     function buildCell(zdt) {
       const optsHour = { timeZone: zdt.timeZoneId, hour: 'numeric', hourCycle };

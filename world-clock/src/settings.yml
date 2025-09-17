@@ -17,8 +17,10 @@ custom_fields:
 - keyname: hour_cycle
   field_type: select
   options:
-  - 12-hour: h12
-  - 24-hour: h23
+  - 12-hour (midnight starting at 12:00 AM): h12
+  - 24-hour (midnight starting at 0:00): h23
+  - 12-hour (midnight starting at 0:00 AM): h11
+  - 24-hour (midnight starting at 24:00): h24
   default: h23
   name: Time format
   description: Select a time format
