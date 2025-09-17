@@ -12,9 +12,13 @@ A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](h
 | Vertical | Quad |
 | ![Screenshot](./images/v.png) | ![Screenshot](./images/q.png) |
 
-| 12-hour | 24-hour |
-| :---: | :---: |
-| ![Screenshot](./images/h12-f.png) | ![Screenshot](./images/h23-f.png) |
+|  24-hour | 
+| :---: |
+| ![Screenshot](./images/h23-f.png) |
+| 12-hour (12:00 AM) |
+| ![Screenshot](./images/h12-f.png) |
+| 12-hour (0:00 AM) |
+| ![Screenshot](./images/h11-f.png) |
 
 ## Parameters
 
