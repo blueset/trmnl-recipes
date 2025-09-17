@@ -26,7 +26,8 @@ custom_fields:
   field_type: time_zone
   name: Home Time Zone
   description: Where are you located?
-  default: America/Los_Angeles
+  optional: true
+  default: ''
 - keyname: home_name
   field_type: string
   name: Home name
@@ -40,8 +41,9 @@ custom_fields:
   description: Time zone to display
   optional: true
   conditional_validation:
-  - when: ""
-    hidden: [name_1]
+  - when: ''
+    hidden:
+    - name_1
 - keyname: name_1
   field_type: string
   name: Time Zone 1 Name
@@ -56,8 +58,9 @@ custom_fields:
   description: Time zone to display
   optional: true
   conditional_validation:
-  - when: ""
-    hidden: [name_2]
+  - when: ''
+    hidden:
+    - name_2
 - keyname: name_2
   field_type: string
   name: Time Zone 2 Name
@@ -72,24 +75,26 @@ custom_fields:
   description: Time zone to display
   optional: true
   conditional_validation:
-  - when: ""
-    hidden: [name_3]
+  - when: ''
+    hidden:
+    - name_3
 - keyname: name_3
   field_type: string
   name: Time Zone 3 Name
   description: Name of this time zone, e.g. Work
   placeholder: Work
-  default: UK
+  default: Silicon Valley
   optional: true
 - keyname: time_zone_4
   field_type: time_zone
-  default: Australia/Melbourne
+  default: America/Los_Angeles
   name: Time Zone 4
   description: Time zone to display
   optional: true
   conditional_validation:
-  - when: ""
-    hidden: [name_4]
+  - when: ''
+    hidden:
+    - name_4
 - keyname: name_4
   field_type: string
   name: Time Zone 4 Name
@@ -104,8 +109,9 @@ custom_fields:
   description: Time zone to display
   optional: true
   conditional_validation:
-  - when: ""
-    hidden: [name_5]
+  - when: ''
+    hidden:
+    - name_5
 - keyname: name_5
   field_type: string
   name: Time Zone 5 Name
@@ -119,8 +125,9 @@ custom_fields:
   description: Time zone to display
   optional: true
   conditional_validation:
-  - when: ""
-    hidden: [name_6]
+  - when: ''
+    hidden:
+    - name_6
 - keyname: name_6
   field_type: string
   name: Time Zone 6 Name

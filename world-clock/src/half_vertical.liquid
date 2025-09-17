@@ -1,0 +1,10 @@
+<!-- layout is shared across all views -->
+<script>
+  (() => {
+    const root = document.currentScript.parentElement;
+    [...root.querySelectorAll(".wtc__labelcol")].forEach((v) => {
+      v.querySelector(".label.label--small")?.remove();
+      v.querySelector(".label")?.classList.add("label--small");
+    });
+  })()
+</script>

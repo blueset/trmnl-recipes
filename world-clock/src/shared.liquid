@@ -8,7 +8,6 @@
     --wtc-ink: #111;
     --wtc-cell-width: 30px;      /* default cell width, overridden by JS */
     display: grid;
-    align-content: center;
     grid-template-columns: 17px max-content 1fr var(--wtc-cell-width) 1fr;
     color: var(--wtc-ink);
     gap: 0px 0;
@@ -40,7 +39,6 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    min-width: 8ch;
   }
 
   /* Time rail columns (2,3,4) mirror the parent subgrid rows */
@@ -191,9 +189,10 @@
 <!-- World Time Clock markup -->
 <div class="layout">
 <div class="wtc" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle | default: 'h23' | escape }}" data-locale="{{ trmnl.user.locale | escape }}" data-overflow="true">
+  {% assign home_time_zone = trmnl.plugin_settings.custom_fields_values.home_time_zone | default: trmnl.user.time_zone_iana %}
   {% render 'wtc_row',
       id: 'home',
-      tz: trmnl.plugin_settings.custom_fields_values.home_time_zone,
+      tz: home_time_zone,
       name: trmnl.plugin_settings.custom_fields_values.home_name,
       index: 0,
       ishome: true %}
@@ -349,8 +348,6 @@
     // For each row, compute before/after cell counts based on available width
     function computeRailCells(railEl) {
       const w = railEl.clientWidth || 0;
-      console.log("computeRailCells", railEl, railEl.clientWidth, cellWidth, w / cellWidth);
-      console.log("root width", root, root.clientWidth)
       return Math.floor(w / cellWidth);
     }
   
