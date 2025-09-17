@@ -20,9 +20,8 @@ A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](h
 
 - Time format:
   - 12-hour (midnight starting at 12:00 AM)
-  - 24-hour (midnight starting at 0:00)
   - 12-hour (midnight starting at 0:00 AM)
-  - 24-hour (midnight starting at 24:00)
+  - 24-hour
 - Home Time Zone (default to user time zone)
 - Home name, default to “Home”
 - Additional time zones (up to six), and names
