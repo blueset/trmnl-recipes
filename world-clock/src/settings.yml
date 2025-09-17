@@ -45,6 +45,7 @@ custom_fields:
   - when: ''
     hidden:
     - name_1
+    - time_zone_2
 - keyname: name_1
   field_type: string
   name: Time Zone 1 Name
@@ -62,6 +63,7 @@ custom_fields:
   - when: ''
     hidden:
     - name_2
+    - time_zone_3
 - keyname: name_2
   field_type: string
   name: Time Zone 2 Name
@@ -79,6 +81,7 @@ custom_fields:
   - when: ''
     hidden:
     - name_3
+    - time_zone_4
 - keyname: name_3
   field_type: string
   name: Time Zone 3 Name
@@ -96,6 +99,7 @@ custom_fields:
   - when: ''
     hidden:
     - name_4
+    - time_zone_5
 - keyname: name_4
   field_type: string
   name: Time Zone 4 Name
@@ -113,6 +117,7 @@ custom_fields:
   - when: ''
     hidden:
     - name_5
+    - time_zone_6
 - keyname: name_5
   field_type: string
   name: Time Zone 5 Name
