@@ -1,0 +1,99 @@
+<div class="gap--space-between layout layout--col">
+  <div class="gap--[9px] grid grid--cols-2" data-adjust-grid-gaps="false">
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value" data-value-fit="true">{{ action_date | date: "%Y-%m-%d" }}</span>
+        <span class="label">Action date</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value" data-value-fit="true">{{ filing_date | date: "%Y-%m-%d" }}</span>
+        <span class="label">Filing date</span>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="grid grid--cols-2">
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--xsmall value--tnums">{% if action_date_delta >= 0 %}+{% endif %}{{ action_date_delta }}d</span>
+        <span class="label">From {{ action_date_prev | date: "%Y-%m-%d" }}</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--xsmall value--tnums">{% if filing_date_delta >= 0 %}+{% endif %}{{ filing_date_delta }}d</span>
+        <span class="label">From {{ filing_date_prev | date: "%Y-%m-%d" }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="grid grid grid--cols-2">
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--xxsmall value--tnums" data-value-type="date">
+          <div class="bg--gray-5 mb--2 w--12 h--1.5"></div>
+          <span class="filing-date-left"></span> left
+        </span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value value--xxsmall value--tnums" data-value-type="date">
+          <div class="bg--black mb--2 w--12 h--1.5" style="border-radius: 20px;"></div>
+          <span class="action-date-left"></span> left
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">{{ trmnl.plugin_settings.instance_name }} of {{ data.current_month | date: "%Y-%m" }}</span>
+  <span class="instance">{{ region | upcase }} {{ category }}</span>
+</div>
+
+
+  <script type="text/javascript">
+    var actionDates = {{ data[history_key][category][action_date_key] | json }};
+    var filingDates = {{ data[history_key][category][filing_date_key] | json }};
+    var lookBackMonths = {{ look_back_months }};
+    var currentMonth = {{ data.current_month | json }};
+    var targetDate = {{ target_date | json }};
+    var targetDateValue = (new Date(`${targetDate}T00:00:00`)).valueOf();
+
+    function formatTimeDelta(fromDate, toDate) {
+      if (!fromDate || !toDate) return '';
+      var from = new Date(fromDate + 'T00:00:00');
+      var to = new Date(toDate + 'T00:00:00');
+      var diff = to - from;
+      if (isNaN(diff)) return '?';
+      var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      var years = Math.floor(days / 365);
+      var months = Math.floor((days % 365) / 30);
+      var remDays = days - years * 365 - months * 30;
+      if (years > 0) {
+        var str = `${years}y${months ? ' ' + months + 'm' : ''}`;
+        return str;
+      } else if (months > 0) {
+        var str = `${months}m${remDays ? ' ' + remDays + 'd' : ''}`;
+        return str;
+      } else {
+        return `${days}d`;
+      }
+    }
+
+    var root = document.currentScript.closest('.view');
+    var actionDateLeft = root.querySelector('.action-date-left');
+    var filingDateLeft = root.querySelector('.filing-date-left');
+    actionDateLeft.textContent = formatTimeDelta(actionDates[actionDates.length - 1], targetDate);
+    filingDateLeft.textContent = formatTimeDelta(filingDates[filingDates.length - 1], targetDate);
+</script>

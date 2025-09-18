@@ -1,0 +1,62 @@
+{% assign lines = text | newline_to_br | split: "<br />" %}
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<style>
+  @import url("https://fontsapi.zeoseven.com/69/main/result.css");
+
+  @font-face {
+      font-family: 'JF-Dot-Shinonome16';
+      font-weight: bold;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16B.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16B.ttf') format('truetype');
+  }
+  @font-face {
+      font-family: 'C16XCN';
+      font-weight: bold;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnb.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnb.ttf') format('truetype');
+  }
+
+  .value.text-stroke p:not(:first-child) {
+    margin-top: 0.25em;
+  }
+</style>
+
+<div class="layout" lang="{{ language }}">
+  <div class="text--gray-75" style="position: absolute; top: 0; right: 0; font-weight: 600; font-size: 6em; line-height: 1; font-family: 'InterVariable', Inter, sans-serif; font-feature-settings: 'cv01' 1, 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv09' 1; z-index: -1;">#{{ entryId }}</div>
+  <img class="image image--dither" src="https://quickchart.io/qr?text=https%3A%2F%2Flyricova.1a23.studio%2Fentries%2F{{ entryId }}&size=232&margin=0" style="position: absolute; bottom: 48px; right: 0; width: 58px; height: 58px;">
+  <div class="columns">
+    <div class="column">
+      <div class="flex flex--left richtext">
+        <span class="text-stroke value" data-value-fit="true" data-value-fit-max-height="340" style="font-feature-settings: 'ss03' 1, 'palt' 1; font-family: InterVariable, Inter Variable, Inter, Noto Sans CJK, sans-serif; text-wrap: balance; word-break: auto-phrase;">
+          <p style="line-height: 1.2;">
+            {% for line in lines %}
+              {{ line }}
+              {% unless forloop.last %}
+              {% assign line_size = line | strip_newlines | strip | size %}
+              {% if line_size > 0 %}<br>
+              {% else %}</p><p>
+              {% endif %}{% endunless %}
+            {% endfor %}
+          </p>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="title_bar" lang="{{ language }}">
+  <div class="flex--bottom flex flex--row title" style="font-family: NicoClean, JF-Dot-Shinonome16, C16XCN, sans-serif;">
+    {{ entry.title }} {% if isMain %}★{% endif %}{% if isOriginal %}☆{% endif %}
+    {% for tag in entry.tags %}
+      <span class="label--outline label label--small" style="text-transform: uppercase;">{{ tag.name }}</span>
+    {% endfor %}
+  </div>
+  <span class="instance" style="font-family: NicoClean, JF-Dot-Shinonome16, C16XCN, sans-serif;">
+    {% assign producersSize = entry.producersName | strip_newlines | strip | size %}
+    {% assign vocalistsSize = entry.vocalistsName | strip_newlines | strip | size %}
+    {% if producersSize > 0 and vocalistsSize > 0 %}
+      {{ entry.producersName }} feat. {{ entry.vocalistsName }}
+    {% else %}
+      {{ entry.producersName }}{{ entry.vocalistsName }}
+    {% endif %}
+  </span>
+</div>

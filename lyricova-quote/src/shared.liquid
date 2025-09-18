@@ -1,0 +1,22 @@
+{% assign lines = text | newline_to_br | split: "<br />" %}
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<style>
+  @import url("https://fontsapi.zeoseven.com/69/main/result.css");
+
+  @font-face {
+      font-family: 'JF-Dot-Shinonome16';
+      font-weight: bold;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16B.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16B.ttf') format('truetype');
+  }
+  @font-face {
+      font-family: 'C16XCN';
+      font-weight: bold;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnb.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnb.ttf') format('truetype');
+  }
+
+  .value.text-stroke p:not(:first-child) {
+    margin-top: 0.25em;
+  }
+</style>

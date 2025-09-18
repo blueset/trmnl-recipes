@@ -1,0 +1,12 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://blueset.github.io/wikipedia-featured/visa_bulletin.json
+polling_headers: ''
+polling_body: ''
+id: 155086
+name: Visa Bulletin
+refresh_interval: 1440

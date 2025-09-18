@@ -33,3 +33,18 @@ A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](h
 [Learn More](./world-clock/README.md), [Install](https://usetrmnl.com/recipes/153664)
 
 ![Screenshot](./world-clock/images/f.png)
+
+
+## Lyricova Quote (Not published yet)
+
+Show a random quote from [Lyricova](https://lyricova.1a23.studio/) on each refresh.
+
+[Learn More](./lyricova-quote/README.md).
+
+![Screenshot](./lyricova-quote/images/f.png)
+
+## Visa Bulletin (Not published yet)
+
+Show the latest Visa Bulletin information, and trends for filing date and action date.
+
+[Learn More](./visa-bulletin/README.md).

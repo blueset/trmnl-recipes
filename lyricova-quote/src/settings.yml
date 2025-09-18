@@ -1,0 +1,12 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://lyricova.1a23.studio/api/verse
+polling_headers: ''
+polling_body: ''
+id: 150439
+name: Lyricova Quote
+refresh_interval: 120

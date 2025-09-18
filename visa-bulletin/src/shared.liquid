@@ -1,0 +1,30 @@
+{% liquid 
+# Config
+assign category = "EB-3"
+assign region = "cn"
+assign look_back_months = 24
+assign target_date = "2024-02-05"
+
+assign item = data.items | find_by: "category", category
+
+assign action_date_key = region | append: "_action_date"
+assign action_date = item[action_date_key]
+assign action_date_delta_key = region | append: "_action_date_delta"
+assign action_date_delta = item[action_date_delta_key]
+assign action_date_prev_key = region | append: "_action_date_prev"
+assign action_date_prev = item[action_date_prev_key]
+
+assign filing_date_key = region | append: "_filing_date"
+assign filing_date = item[filing_date_key]
+assign filing_date_delta_key = region | append: "_filing_date_delta"
+assign filing_date_delta = item[filing_date_delta_key]
+assign filing_date_prev_key = region | append: "_filing_date_prev"
+assign filing_date_prev = item[filing_date_prev_key]
+
+assign history_key = region | append: "_history"
+%}
+<style>
+.trmnl .value {
+white-space: nowrap;
+}
+</style>
