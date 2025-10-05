@@ -13,7 +13,7 @@ custom_fields:
   name: About This Plugin
   field_type: author_bio
   description: Multilingual Wikipedia Article of the Day plugin
-  github_url: https://github.com/blueset/trmnl-recipies
+  github_url: https://github.com/blueset/trmnl-recipes
 - keyname: language
   field_type: select
   name: Language
