@@ -2,7 +2,7 @@
 
 ## trmnlp-serve.yml
 
-This workflow automates the process of running `trmnlp serve` on all TRMNL plugins in the repository.
+This workflow automates the process of running `trmnlp pull` on all TRMNL plugins in the repository.
 
 ### Triggers
 
@@ -17,7 +17,7 @@ This workflow automates the process of running `trmnlp serve` on all TRMNL plugi
 
 1. **Setup Docker**: Installs Docker Buildx for running containers
 2. **Branch Management**:
-   - Checks if a branch named `trmnlp-serve-updates` exists
+   - Checks if a branch named `trmnlp-pull-updates` exists
    - If it exists, checks it out
    - If not, creates a new branch with that name
 3. **Process Plugins**:
@@ -27,7 +27,7 @@ This workflow automates the process of running `trmnlp serve` on all TRMNL plugi
      docker run --rm \
        --volume "$(pwd):/plugin" \
        --env TRMNL_API_KEY="${TRMNL_API_KEY}" \
-       trmnl/trmnlp serve -f
+       trmnl/trmnlp pull -f
      ```
 4. **Commit Changes**:
    - Checks if any files were modified
