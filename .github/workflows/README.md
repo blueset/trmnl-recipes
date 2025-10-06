@@ -18,8 +18,11 @@ This workflow automates the process of running `trmnlp pull` on all TRMNL plugin
 1. **Setup Docker**: Installs Docker Buildx for running containers
 2. **Branch Management**:
    - Checks if a branch named `trmnlp-pull-updates` exists
-   - If it exists, checks it out
-   - If not, creates a new branch with that name
+   - If it exists:
+     - Checks if there's an active (open) PR associated with the branch
+     - If no active PR exists: deletes the branch (both local and remote) and recreates it from the current branch
+     - If an active PR exists: checks out the existing branch
+   - If the branch doesn't exist, creates a new branch with that name
 3. **Process Plugins**:
    - Finds all directories containing `.trmnlp.yml` files
    - For each directory, runs:
@@ -40,5 +43,6 @@ This workflow automates the process of running `trmnlp pull` on all TRMNL plugin
 ### Notes
 
 - The workflow will only create a PR once. Subsequent runs will push to the existing branch without creating new PRs.
+- If a branch exists but the associated PR has been closed or merged, the workflow will delete and recreate the branch from scratch to ensure a clean state.
 - The PR will be created against the `master` branch.
 - All commits are made by `github-actions[bot]`.
