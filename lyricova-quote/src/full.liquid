@@ -23,7 +23,8 @@
 
 <div class="layout" lang="{{ language }}">
   <div class="text--gray-75" style="position: absolute; top: 0; right: 0; font-weight: 600; font-size: 6em; line-height: 1; font-family: 'InterVariable', Inter, sans-serif; font-feature-settings: 'cv01' 1, 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv09' 1; z-index: -1;">#{{ entryId }}</div>
-  <img class="image image--dither" src="https://quickchart.io/qr?text=https%3A%2F%2Flyricova.1a23.studio%2Fentries%2F{{ entryId }}&size=232&margin=0" style="position: absolute; bottom: 48px; right: 0; width: 58px; height: 58px;">
+  <!-- <img class="image image--dither" src="https://quickchart.io/qr?text=https%3A%2F%2Flyricova.1a23.studio%2Fentries%2F{{ entryId }}&size=232&margin=0" style="position: absolute; bottom: 48px; right: 0; width: 58px; height: 58px;"> -->
+  <div data-qr style="position: absolute; bottom: 48px; right: 0;" data-scale="2">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
   <div class="columns">
     <div class="column">
       <div class="flex flex--left richtext">
@@ -60,3 +61,5 @@
     {% endif %}
   </span>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
+<script src="https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@536f8a59298f826810a87f2d73347edeb961ef4f/QR.js" defer></script>

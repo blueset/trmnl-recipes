@@ -13,7 +13,7 @@ custom_fields:
   name: About This Plugin
   field_type: author_bio
   description: A random Unicode codepoint on each refresh. Data powered by <a href="https://codepoints.net/">codepoints.net</a>.
-  github_url: https://github.com/blueset/trmnl-recipes
+  github_url: https://github.com/blueset/trmnlp-recipes
   learn_more_url: https://codepoints.net/
 name: Random Unicode
 refresh_interval: 15

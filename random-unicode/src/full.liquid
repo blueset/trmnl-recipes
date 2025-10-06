@@ -1,8 +1,8 @@
-{% if error %}
+{% if error or codepoint == nil %}
 <div class="layout">
   <div class="column flex--center-x text--center">
-    <span class="title">Error</span>
-    <p class="title title--small">{{ error }}</p>
+    <span class="title">Random Unicode: Error</span>
+    <p class="title title--small">{{ error | default: "Unknown error occurred." }}</p>
   </div>
 </div>
 <script>
@@ -10,6 +10,9 @@
 </script>
 {% else %}
 <style>
+  /* Nunito */
+  @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,75..125,200..1000;1,6..12,75..125,200..1000&display=swap');
+
   /* Ari-W9500 Regular */
   @font-face {
     font-family: 'Ari-W9500';
@@ -134,18 +137,24 @@
     font-family: 'Ari-W9500', sans-serif;
     font-size: 11px;
     line-height: 14px;
+
+    .screen--4bit & {
+      font-family: 'Nunito Sans', sans-serif;
+      line-height: 1.5;
+    }
   }
   .description.narrow, .narrow {
     font-family: 'Ari-W9500 Condensed', sans-serif;
+    
+    .screen--4bit & {
+      font-family: 'Nunito Sans', sans-serif;
+      font-stretch: 75%;
+    }
   }
   .character svg {
     aspect-ratio: 1 / 1;
   }
   .description.large {
-    /* font-family: 'Pixelbasel', sans-serif;
-    font-size: 16px;
-    line-height: 20px; */
-    
     font-family: 'MotaPixel', sans-serif;
     font-size: 20px;
     font-weight: 300;
@@ -153,15 +162,19 @@
       line-height: 20px;
     }
     u, strong {
-      /* font-weight: normal;
-      letter-spacing: 1px;
-      text-shadow: 1px 0px 0px black; */
       font-weight: bold;
       text-decoration: none;
     }
     em {
       text-decoration: underline;
       font-style: normal;
+    }
+    
+    .screen--4bit & {
+      font-family: 'Nunito Sans', sans-serif;
+      p {
+        line-height: 1.1;
+      }
     }
   }
   .characters:has(.character:nth-child(2)) {
@@ -181,6 +194,10 @@
       font-weight: bold;
       font-size: 11px;
       line-height: 14px;
+      
+      .screen--4bit & {
+        font-family: 'Nunito Sans', sans-serif;
+      }
     }
     .property {
       font-family: "Ari-W9500", sans-serif;
@@ -189,6 +206,11 @@
       border-radius: 5px;
       border: 1px solid #444;
       display: inline-flex;
+      
+      .screen--4bit & {
+        font-family: 'Nunito Sans', sans-serif;
+      }
+      
       .property-key {
         padding: 2px 4px;
       }
@@ -225,18 +247,20 @@
     {% for svg in svgs %}
       <div class="character">
         {{ svg.svg }}
-        <span class="label label--small">{{ svg.font }}</span>
+        <span class="label label--small text-stroke">{{ svg.font }}</span>
       </div>
     {% endfor %}
   </div>
 
-  <div class="details">
-    <div class="descriptions">
-      {% for description in descriptions %}
-        <span class="text--gray-40 label label--small narrow">{{ description.title }}</span>
-        <div class="description {% if description.title == "Codepoint" or description.title == "Character" %} large{% endif %}{% if description.title == "Wikipedia (en)" %} narrow{% endif %}"{% if description.title == "Wikipedia (en)" %} data-clamp="6"{% endif %}>{{ description.html }}</div>
-      {% endfor %}
-    </div>
+  <div class="descriptions">
+    {% for description in descriptions %}
+      <span class="text--gray-40 label label--small narrow">{{ description.title }}</span>
+      <div class="description large"
+        {% if description.title == "Codepoint" or description.title == "Character" %} data-min-size="large"
+        {% elsif description.title != "Wikipedia (en)" %} data-min-size="small"{% endif %}>
+        {{ description.html }}
+      </div>
+    {% endfor %}
   </div>
   <div class="properties">
     {% if meta.AHex == 1 %}<div class="property"><span class="property-key">ASCII hex</span></div>{% endif %}
@@ -266,17 +290,17 @@
     {% if meta.VS == 1 %}<div class="property"><span class="property-key">Variation selector</span></div>{% endif %}
     {% if meta.WSpace == 1 %}<div class="property"><span class="property-key">White space</span></div>{% endif %}
 
-    {% if meta.GCB != "XX" %}<div class="property"><span class="property-key">Grapheme cluster break</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.GCB_NAME }}</span></div>{% endif %}
-    {% if meta.WB != "XX" and meta.WB != "LE" %}<div class="property"><span class="property-key">Word break</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.WB_NAME }}</span></div>{% endif %}
-    {% if meta.SB != "XX" and meta.SB != "LE" %}<div class="property"><span class="property-key">Sentence break</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.SB_NAME }}</span></div>{% endif %}
-    {% if meta.bc != "L" %}<div class="property"><span class="property-key">Bidi class</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.bc_NAME }}</span></div>{% endif %}
-    {% if meta.bpt != "n" %}<div class="property"><span class="property-key">Bidi paired bracket</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.bpt_NAME }}</span></div>{% endif %}
-    {% if meta.cp != meta.dm %}<div class="property"><span class="property-key">Decomp.</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">U+{{ meta.dm_HEX | join: ", " }} {{ meta.dt_NAME }}</span></div>{% endif %}
-    {% if meta.ea != "N" %}<div class="property"><span class="property-key">E. Asian Wid.</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.ea_NAME }}</span></div>{% endif %}
-    {% if meta.hst != "NA" %}<div class="property"><span class="property-key">Hangul Syllable</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.hst_NAME }}</span></div>{% endif %}
-    {% if meta.jt != "U" %}<div class="property"><span class="property-key">Joining</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.jt_NAME }}</span></div>{% endif %}
-    {% if meta.nt != "None" %}<div class="property"><span class="property-key">Numeric</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.nt_NAME }}</span></div>{% endif %}
-    {% if meta.ccc != 0 %}<div class="property"><span class="property-key">Canonical combining</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.ccc_NAME }}</span></div>{% endif %}
+    {% if meta.GCB != "XX" %}<div class="property"><span class="property-key">Grapheme cluster break</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.GCB_NAME }}</span></div>{% endif %}
+    {% if meta.WB != "XX" and meta.WB != "LE" %}<div class="property"><span class="property-key">Word break</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.WB_NAME }}</span></div>{% endif %}
+    {% if meta.SB != "XX" and meta.SB != "LE" %}<div class="property"><span class="property-key">Sentence break</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.SB_NAME }}</span></div>{% endif %}
+    {% if meta.bc != "L" %}<div class="property"><span class="property-key">Bidi class</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.bc_NAME }}</span></div>{% endif %}
+    {% if meta.bpt != "n" %}<div class="property"><span class="property-key">Bidi paired bracket</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.bpt_NAME }}</span></div>{% endif %}
+    {% if meta.cp != meta.dm %}<div class="property"><span class="property-key">Decomp.</span><span class="property-value bg--gray-30 1bit:bg--black">U+{{ meta.dm_HEX | join: ", " }} {{ meta.dt_NAME }}</span></div>{% endif %}
+    {% if meta.ea != "N" %}<div class="property"><span class="property-key">E. Asian Wid.</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.ea_NAME }}</span></div>{% endif %}
+    {% if meta.hst != "NA" %}<div class="property"><span class="property-key">Hangul Syllable</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.hst_NAME }}</span></div>{% endif %}
+    {% if meta.jt != "U" %}<div class="property"><span class="property-key">Joining</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.jt_NAME }}</span></div>{% endif %}
+    {% if meta.nt != "None" %}<div class="property"><span class="property-key">Numeric</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.nt_NAME }}</span></div>{% endif %}
+    {% if meta.ccc != 0 %}<div class="property"><span class="property-key">Canonical combining</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.ccc_NAME }}</span></div>{% endif %}
 
     {%  if 
       meta.Dash == 1 or
@@ -330,19 +354,17 @@
       meta.cp != meta.tc or
       meta.cp != meta.NFKC_CF
     %}<span class="property-group-key">Casing</span>{% endif %}
-    {% if meta.cp != meta.lc %}<div class="property"><span class="property-key">Lowercase</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">U+{{ meta.lc_HEX }}</span></div>{% endif %}
-    {% if meta.cp != meta.uc %}<div class="property"><span class="property-key">Uppercase</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">U+{{ meta.uc_HEX }}</span></div>{% endif %}
-    {% if meta.cp != meta.tc %}<div class="property"><span class="property-key">Titlecase</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">U+{{ meta.tc_HEX }}</span></div>{% endif %}
-    {% if meta.cp != meta.NFKC_CF %}<div class="property"><span class="property-key">NFKC Casefold</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">U+{{ meta.NFKC_CF_HEX | join: ", " }}</span></div>{% endif %}
+    {% if meta.cp != meta.lc %}<div class="property"><span class="property-key">Lowercase</span><span class="property-value bg--gray-30 1bit:bg--black">U+{{ meta.lc_HEX }}</span></div>{% endif %}
+    {% if meta.cp != meta.uc %}<div class="property"><span class="property-key">Uppercase</span><span class="property-value bg--gray-30 1bit:bg--black">U+{{ meta.uc_HEX }}</span></div>{% endif %}
+    {% if meta.cp != meta.tc %}<div class="property"><span class="property-key">Titlecase</span><span class="property-value bg--gray-30 1bit:bg--black">U+{{ meta.tc_HEX }}</span></div>{% endif %}
+    {% if meta.cp != meta.NFKC_CF %}<div class="property"><span class="property-key">NFKC Casefold</span><span class="property-value bg--gray-30 1bit:bg--black">U+{{ meta.NFKC_CF_HEX | join: ", " }}</span></div>{% endif %}
 
     {% if 
-      (meta.unikemet.kEH_Desc and meta.unikemet.kEH_Desc != "") or
       (meta.unikemet.kEH_Func and meta.unikemet.kEH_Func != "")
     %}<span class="property-group-key">UniKemet</span>{% endif %}
-    {% if (meta.unikemet.kEH_Func and meta.unikemet.kEH_Func != "") %}<div class="property"><span class="property-key">Function</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.unikemet.kEH_Func }}</span></div>{% endif %}
-    {% if (meta.unikemet.kEH_Desc and meta.unikemet.kEH_Desc != "") %}<div class="property"><span class="property-key">Description</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.unikemet.kEH_Desc }}</span></div>{% endif %}
+    {% if (meta.unikemet.kEH_Func and meta.unikemet.kEH_Func != "") %}<div class="property"><span class="property-key">Function</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.unikemet.kEH_Func }}</span></div>{% endif %}
 
-    {% if meta.JSN != "" %}<div class="property"><span class="property-key">Jamo short name</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.JSN }}</span></div>{% endif %}
+    {% if meta.JSN != "" %}<div class="property"><span class="property-key">Jamo short name</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.JSN }}</span></div>{% endif %}
 
     {% if 
       (meta.kMandarin and meta.kMandarin != "") or
@@ -381,32 +403,32 @@
       meta.IDST == 1 or
       meta.Radical == 1
     %}<span class="property-group-key">UniHan</span>{% endif %}
-    {% if (meta.kMandarin and meta.kMandarin != "") %}<div class="property"><span class="property-key">Mandarin</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kMandarin }}</span></div>{% endif %}
-    {% if (meta.kCantonese and meta.kCantonese != "") %}<div class="property"><span class="property-key">Cantonese</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kCantonese }}</span></div>{% endif %}
-    {% if (meta.kCangjie and meta.kCangjie != "") %}<div class="property"><span class="property-key">Cangjie</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kCangjie }}</span></div>{% endif %}
-    {% if (meta.kFourCornerCode and meta.kFourCornerCode != "") %}<div class="property"><span class="property-key">Four-corner</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kFourCornerCode }}</span></div>{% endif %}
-    {% if (meta.kFanqie and meta.kFanqie != "") %}<div class="property"><span class="property-key">Fanqie</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kFanqie }}</span></div>{% endif %}
-    {% if (meta.kHangul and meta.kHangul != "") or (meta.kKorean and meta.kKorean != "") %}<div class="property"><span class="property-key">Korean</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kKorean }} {{ meta.kHangul }}</span></div>{% endif %}
-    {% if (meta.kJapanese and meta.kJapanese != "") or (meta.kJapaneseOn and meta.kJapaneseOn != "") or (meta.kJapaneseKun and meta.kJapaneseKun != "") %}<div class="property"><span class="property-key">Japanese</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kJapanese }} {{ meta.kJapaneseOn }} {{ meta.kJapaneseKun }}</span></div>{% endif %}
-    {% if (meta.kVietnamese and meta.kVietnamese != "") %}<div class="property"><span class="property-key">Vietnamese</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kVietnamese }}</span></div>{% endif %}
-    {% if (meta.kAccountingNumeric and meta.kAccountingNumeric != "")  or (meta.kOtherNumeric and meta.kOtherNumeric != "") or (meta.kPrimaryNumeric and meta.kPrimaryNumeric != "") %}<div class="property"><span class="property-key">Numeric</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kAccountingNumeric }} {{ meta.kOtherNumeric }} {{ meta.kPrimaryNumeric }}</span></div>{% endif %}
-    {% if (meta.kIRG_GSource and meta.kIRG_GSource != "") %}<div class="property"><span class="property-key">G source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_GSource }}</span></div>{% endif %}
-    {% if (meta.kIRG_HSource and meta.kIRG_HSource != "") %}<div class="property"><span class="property-key">H source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_HSource }}</span></div>{% endif %}
-    {% if (meta.kIRG_JSource and meta.kIRG_JSource != "") %}<div class="property"><span class="property-key">J source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_JSource }}</span></div>{% endif %}
-    {% if (meta.kIRG_KPSource and meta.kIRG_KPSource != "") %}<div class="property"><span class="property-key">KP source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_KPSource }}</span></div>{% endif %}
-    {% if (meta.kIRG_KSource and meta.kIRG_KSource != "") %}<div class="property"><span class="property-key">K source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_KSource }}</span></div>{% endif %}
-    {% if (meta.kIRG_MSource and meta.kIRG_MSource != "") %}<div class="property"><span class="property-key">M source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_MSource }}</span></div>{% endif %}
-    {% if (meta.kIRG_SSource and meta.kIRG_SSource != "") %}<div class="property"><span class="property-key">S source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_SSource }}</span></div>{% endif %}
-    {% if (meta.kIRG_TSource and meta.kIRG_TSource != "") %}<div class="property"><span class="property-key">T source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_TSource }}</span></div>{% endif %}
-    {% if (meta.kIRG_UKSource and meta.kIRG_UKSource != "") %}<div class="property"><span class="property-key">UK source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_UKSource }}</span></div>{% endif %}
-    {% if (meta.kIRG_USource and meta.kIRG_USource != "") %}<div class="property"><span class="property-key">U source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_USource }}</span></div>{% endif %}
-    {% if (meta.kIRG_VSource and meta.kIRG_VSource != "") %}<div class="property"><span class="property-key">V source</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kIRG_VSource }}</span></div>{% endif %}
-    {% if meta.kSimplifiedVariant and meta.kSimplifiedVariant != "" %}<div class="property"><span class="property-key">Simplified</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kSimplifiedVariant }}</span></div>{% endif %}
-    {% if meta.kTraditionalVariant and meta.kTraditionalVariant != "" %}<div class="property"><span class="property-key">Traditional</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kTraditionalVariant }}</span></div>{% endif %}
-    {% if meta.kSemanticVariant and meta.kSemanticVariant != "" %}<div class="property"><span class="property-key">Semantic</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kSemanticVariant }}</span></div>{% endif %}
-    {% if meta.kSpecializedSemanticVariant and meta.kSpecializedSemanticVariant != "" %}<div class="property"><span class="property-key">Specialized semantic</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kSpecializedSemanticVariant }}</span></div>{% endif %}
-    {% if meta.kRSUnicode and meta.kRSUnicode != "" %}<div class="property"><span class="property-key">Radical-Strokes</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">[{{ meta.kRSUnicode | replace: ".", "] + " }}</span></div>{% endif %}
-    {% if meta.kTotalStrokes and meta.kTotalStrokes != "" %}<div class="property"><span class="property-key">Strokes</span><span class="property-value 2bit:bg--gray-30 1bit:bg--black">{{ meta.kTotalStrokes }}</span></div>{% endif %}
+    {% if (meta.kMandarin and meta.kMandarin != "") %}<div class="property"><span class="property-key">Mandarin</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kMandarin }}</span></div>{% endif %}
+    {% if (meta.kCantonese and meta.kCantonese != "") %}<div class="property"><span class="property-key">Cantonese</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kCantonese }}</span></div>{% endif %}
+    {% if (meta.kCangjie and meta.kCangjie != "") %}<div class="property"><span class="property-key">Cangjie</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kCangjie }}</span></div>{% endif %}
+    {% if (meta.kFourCornerCode and meta.kFourCornerCode != "") %}<div class="property"><span class="property-key">Four-corner</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kFourCornerCode }}</span></div>{% endif %}
+    {% if (meta.kFanqie and meta.kFanqie != "") %}<div class="property"><span class="property-key">Fanqie</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kFanqie }}</span></div>{% endif %}
+    {% if (meta.kHangul and meta.kHangul != "") or (meta.kKorean and meta.kKorean != "") %}<div class="property"><span class="property-key">Korean</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kKorean }} {{ meta.kHangul }}</span></div>{% endif %}
+    {% if (meta.kJapanese and meta.kJapanese != "") or (meta.kJapaneseOn and meta.kJapaneseOn != "") or (meta.kJapaneseKun and meta.kJapaneseKun != "") %}<div class="property"><span class="property-key">Japanese</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kJapanese }} {{ meta.kJapaneseOn }} {{ meta.kJapaneseKun }}</span></div>{% endif %}
+    {% if (meta.kVietnamese and meta.kVietnamese != "") %}<div class="property"><span class="property-key">Vietnamese</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kVietnamese }}</span></div>{% endif %}
+    {% if (meta.kAccountingNumeric and meta.kAccountingNumeric != "")  or (meta.kOtherNumeric and meta.kOtherNumeric != "") or (meta.kPrimaryNumeric and meta.kPrimaryNumeric != "") %}<div class="property"><span class="property-key">Numeric</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kAccountingNumeric }} {{ meta.kOtherNumeric }} {{ meta.kPrimaryNumeric }}</span></div>{% endif %}
+    {% if (meta.kIRG_GSource and meta.kIRG_GSource != "") %}<div class="property"><span class="property-key">G source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_GSource }}</span></div>{% endif %}
+    {% if (meta.kIRG_HSource and meta.kIRG_HSource != "") %}<div class="property"><span class="property-key">H source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_HSource }}</span></div>{% endif %}
+    {% if (meta.kIRG_JSource and meta.kIRG_JSource != "") %}<div class="property"><span class="property-key">J source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_JSource }}</span></div>{% endif %}
+    {% if (meta.kIRG_KPSource and meta.kIRG_KPSource != "") %}<div class="property"><span class="property-key">KP source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_KPSource }}</span></div>{% endif %}
+    {% if (meta.kIRG_KSource and meta.kIRG_KSource != "") %}<div class="property"><span class="property-key">K source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_KSource }}</span></div>{% endif %}
+    {% if (meta.kIRG_MSource and meta.kIRG_MSource != "") %}<div class="property"><span class="property-key">M source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_MSource }}</span></div>{% endif %}
+    {% if (meta.kIRG_SSource and meta.kIRG_SSource != "") %}<div class="property"><span class="property-key">S source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_SSource }}</span></div>{% endif %}
+    {% if (meta.kIRG_TSource and meta.kIRG_TSource != "") %}<div class="property"><span class="property-key">T source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_TSource }}</span></div>{% endif %}
+    {% if (meta.kIRG_UKSource and meta.kIRG_UKSource != "") %}<div class="property"><span class="property-key">UK source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_UKSource }}</span></div>{% endif %}
+    {% if (meta.kIRG_USource and meta.kIRG_USource != "") %}<div class="property"><span class="property-key">U source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_USource }}</span></div>{% endif %}
+    {% if (meta.kIRG_VSource and meta.kIRG_VSource != "") %}<div class="property"><span class="property-key">V source</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kIRG_VSource }}</span></div>{% endif %}
+    {% if meta.kSimplifiedVariant and meta.kSimplifiedVariant != "" %}<div class="property"><span class="property-key">Simplified</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kSimplifiedVariant }}</span></div>{% endif %}
+    {% if meta.kTraditionalVariant and meta.kTraditionalVariant != "" %}<div class="property"><span class="property-key">Traditional</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kTraditionalVariant }}</span></div>{% endif %}
+    {% if meta.kSemanticVariant and meta.kSemanticVariant != "" %}<div class="property"><span class="property-key">Semantic</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kSemanticVariant }}</span></div>{% endif %}
+    {% if meta.kSpecializedSemanticVariant and meta.kSpecializedSemanticVariant != "" %}<div class="property"><span class="property-key">Specialized semantic</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kSpecializedSemanticVariant }}</span></div>{% endif %}
+    {% if meta.kRSUnicode and meta.kRSUnicode != "" %}<div class="property"><span class="property-key">Radical-Strokes</span><span class="property-value bg--gray-30 1bit:bg--black">[{{ meta.kRSUnicode | replace: ".", "] + " }}</span></div>{% endif %}
+    {% if meta.kTotalStrokes and meta.kTotalStrokes != "" %}<div class="property"><span class="property-key">Strokes</span><span class="property-value bg--gray-30 1bit:bg--black">{{ meta.kTotalStrokes }}</span></div>{% endif %}
     {% if meta.Ideo == 1 %}<div class="property"><span class="property-key">Ideograph</span></div>{% endif %}
     {% if meta.UIdeo == 1 %}<div class="property"><span class="property-key">Unified ideograph</span></div>{% endif %}
     {% if meta.IDSU == 1 %}<div class="property"><span class="property-key">IDS unary op</span></div>{% endif %}
@@ -421,4 +443,205 @@
   <span class="title">{{ meta.na }}</span>
   <span class="instance">{{ codepoint }}</span>
 </div>
+
+<style>
+.layout {
+    grid-template-rows: minmax(0, auto) auto;
+}
+
+.descriptions {
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.details {
+    max-height: 100%;
+}
+
+.description.narrow {
+    overflow: hidden;
+}
+</style>
+<script>
+
+  
+  (() => {
+        const root = document.currentScript.closest(".view");
+
+        const logContainer = document.createElement('div');
+        logContainer.style.position = 'fixed';
+        logContainer.style.top = '10px';
+        logContainer.style.left = '10px';
+        logContainer.style.width = 'calc(100% - 20px)';
+        logContainer.style.whiteSpace = 'pre-wrap';
+        logContainer.style.wordBreak = 'break-word';
+        logContainer.classList.add('label');
+        logContainer.classList.add('label--small');
+        logContainer.classList.add('text-stroke');
+        
+        // root.appendChild(logContainer);
+
+        function log(...args) {
+          if (logContainer) {
+            logContainer.textContent += "> " + args.map(arg => {
+              if (typeof arg === 'string') return arg;
+              if (arg instanceof HTMLElement) {
+                let desc = arg.className ? `.${arg.className.replace(/\s+/g, '.')}` : '';
+                if (arg.id) desc += `#${arg.id}`;
+                if (arg.dataset && Object.keys(arg.dataset).length) {
+                  desc += `[${Object.entries(arg.dataset).map(([k, v]) => `${k}=${v}`).join(',')}]`;
+                }
+                let innerText = arg.textContent.trim().slice(0, 30).replace(/[\r\n]/g, ' ');
+                if (innerText) {
+                  innerText += ` "${innerText}${arg.textContent.trim().length > 30 ? '...' : ''}"`;
+                }
+                return `<${arg.tagName.toLowerCase()}${desc ? ' ' + desc : ''}>${innerText}`;
+              }
+              if (arg instanceof Text) {
+                return `#text "${arg.textContent.trim().slice(0, 30)}${arg.textContent.trim().length > 30 ? '...' : ''}"`;
+              }
+              if (arg === null) return 'null';
+              if (arg === undefined) return 'undefined';
+              if (typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'bigint' || typeof arg === 'symbol') {
+                return String(arg);
+              }
+              try {
+                if (JSON.stringify(arg) !== "{}") {
+                  return JSON.stringify(arg);
+                }
+              } catch {
+                return `${arg}`;
+              }
+              return `${arg}`;
+            }).join(' ') + '\n';
+          }
+          console.log(...args);
+        }
+        
+        const lastFactors = {
+          width: 0,
+          heights: [],
+        };
+
+        const resizeObserver = new ResizeObserver((entries) => {
+          const currentWidth = Math.floor(root.querySelector('.descriptions').getBoundingClientRect().width);
+          const currentHeights = [...root.querySelectorAll('.descriptions .description')].map(e => Math.floor(e.getBoundingClientRect().height));
+          const needReset = currentWidth !== lastFactors.width || currentHeights.length !== lastFactors.heights.length || currentHeights.some((h, i) => h !== lastFactors.heights[i]);
+          if (needReset) {
+            lastFactors.width = currentWidth;
+            lastFactors.heights = currentHeights;
+          }
+          log('record', currentWidth, currentHeights);
+          const resetElms = entries.filter(entry => entry.target.classList.contains('view'));
+          if (needReset && !resetElms.length) {
+            resetElms.push({target:root});
+          }
+          resetElms.forEach(entry => {
+            log('reset', entry.target);
+            entry.target.querySelectorAll('.descriptions .description').forEach((description) => {
+              description.classList.remove('narrow');
+              description.classList.add('large');
+              description.style.removeProperty('display');
+              description.style.removeProperty('webkitLineClamp');
+            });
+          });
+          
+          entries.filter(entry => entry.target.classList.contains('descriptions')).forEach(entry => {
+            const descriptions = entry.target;
+            const layout = descriptions.closest('.layout');
+
+            if (layout) {
+              layout.style.gridTemplateRows = '1fr auto';
+              descriptions.style.height = '100%';
+            }
+
+            function isOverflow() {
+              const descriptionBottom = descriptions.getBoundingClientRect().bottom;
+              const lastChild = [...descriptions.children].reverse()[0];
+              const lastChildRect = lastChild.getBoundingClientRect();
+              log('isOverflow', 'lastChild.bottom', Math.floor(lastChildRect.bottom), '> descriptionBottom', Math.floor(descriptionBottom), '=', Math.floor(lastChildRect.bottom) > Math.floor(descriptionBottom), lastChild);
+              return Math.floor(lastChildRect.bottom) > Math.floor(descriptionBottom);
+            };
+            
+            const descriptionStack = [...descriptions.querySelectorAll('.description')].reverse();
+            if (!descriptionStack.length) {
+              if (layout) {
+                layout.style.removeProperty('grid-template-rows');
+                descriptions.style.removeProperty('height');
+              }
+              return;
+            }
+
+            if (!isOverflow()) {
+              if (layout) {
+                layout.style.removeProperty('grid-template-rows');
+                descriptions.style.removeProperty('height');
+              }
+              return;
+            }
+
+            while (isOverflow() && descriptionStack.length) {
+              const el = descriptionStack[0];
+              if (el.classList.contains("large") && el.dataset.minSize !== "large") {
+                el.classList.remove("large");
+                log('remove large', el);
+              } else if (!el.classList.contains("narrow") && el.dataset.minSize !== "small") {
+                el.classList.add("narrow");
+                log('add narrow', el);
+              } else {
+                descriptionStack.shift();
+              }
+              // log(
+              //   'record',
+              //   Math.floor(descriptions.getBoundingClientRect().width),
+              //   [...descriptions.querySelectorAll('.description')].map(e => Math.floor(e.getBoundingClientRect().height))
+              // );
+            }
+
+            const descriptionBottom = Math.floor(descriptions.getBoundingClientRect().bottom);
+            log('Final descriptionBottom', descriptionBottom);
+            [...descriptions.children].reverse().forEach((description) => {
+                const descriptionRect = description.getBoundingClientRect();
+                if (Math.floor(descriptionRect.top) >= descriptionBottom) {
+                    description.style.display = "none";
+                } else if (Math.floor(descriptionRect.top) < descriptionBottom && Math.floor(descriptionRect.bottom) > descriptionBottom) {
+                    const visibleHeight = descriptionBottom - Math.floor(descriptionRect.top);
+                    const descriptionP = description.querySelector("p");
+                    let lineHeight = parseFloat(getComputedStyle(descriptionP || description).lineHeight);
+                    if (Number.isNaN(lineHeight)) {
+                      lineHeight = parseFloat(getComputedStyle(descriptionP || description).fontSize) * 1.3; 
+                    }
+                    const lines = Math.floor(visibleHeight / lineHeight);
+                    if (lines < 1) {
+                        description.style.display = "none";
+                        log(description, 'hide');
+                    } else {
+                        description.style.webkitLineClamp = lines;
+                        log(description, 'clamp', lines, visibleHeight, lineHeight);
+                        description.style.display = "-webkit-box";
+                        description.style.webkitBoxOrient = "vertical";
+                        description.style.overflow = "hidden";
+                    }
+                }
+            });
+
+            log(
+              'record',
+              Math.floor(descriptions.getBoundingClientRect().width),
+              [...descriptions.querySelectorAll('.description')].map(e => Math.floor(e.getBoundingClientRect().height))
+            );
+            
+            if (layout) {
+              layout.style.removeProperty('grid-template-rows');
+              descriptions.style.removeProperty('height');
+            }
+          });
+        });
+
+        resizeObserver.observe(root);
+        resizeObserver.observe(root.querySelector('.descriptions'));
+        
+    })();
+</script>
 {% endif %}
+

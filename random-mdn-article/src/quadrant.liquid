@@ -2,7 +2,7 @@
   <div class="columns">
     <div class="column">
       <div class="richtext richtext--left gap--xsmall" data-overflow="true">
-        <span class="content item">{{ title | escape }}</span>
+        <span class="content item page-title">{{ title | escape }}</span>
         <div class="content content--small item">
           <p>{{ description | escape }}</p>
         </div>
@@ -14,8 +14,6 @@
             {% when "low" %}Baseline {{ baseline.baseline_low_date | date: "%Y" }} <span class="label label--inverted label--small">NEWLY AVAILABLE</span>
             {% when false %}Limited availability
           {% endcase %}
-        </div>
-        <div class="flex flex--row flex--wrap flex--left gap--xsmall item">
           {% if baseline.support.chrome and baseline.support.chrome_android %}<span class="label label--small label--outline">Chrome</span>{% else %}<del class="label label--small label--gray">Chrome</del>{% endif %}
           {% if baseline.support.edge %}<span class="label label--small label--outline">Edge</span>{% else %}<del class="label label--small label--gray">Edge</del>{% endif %}
           {% if baseline.support.firefox and baseline.support.firefox_android %}<span class="label label--small label--outline">Firefox</span>{% else %}<del class="label label--small label--gray">Firefox</del>{% endif %}
