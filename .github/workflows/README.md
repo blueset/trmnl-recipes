@@ -1,6 +1,6 @@
 # GitHub Actions Workflows
 
-## trmnlp-serve.yml
+## trmnlp-pull.yml
 
 This workflow automates the process of running `trmnlp pull` on all TRMNL plugins in the repository.
 
