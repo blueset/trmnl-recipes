@@ -6,11 +6,11 @@
           <div class="content content--small">
             {% for parent in parents %}
               {% unless forloop.last %}
-                {{ parent.title | escape }} ›
+                {{ parent.title | escape }}&nbsp;›
               {% endunless %}
             {% endfor %}
           </div>
-          <span class="title">{{ title | escape }}</span>
+          <span class="title page-title">{{ title | escape }}</span>
         </div>
         <div class="content">
           <p>{{ description | escape }}</p>
@@ -54,7 +54,9 @@
             {% render 'chips', baseline: baseline %}
           </div>
         </div>
-        {% endif %}<img class="image image--dither image-stroke" src="https://quickchart.io/qr?text={{ link | url_encode }}&size={{ module | times: 8 }}&margin=0&ecLevel=L" style="position: absolute; bottom: 40px; right: 10px; width: {{ module | times: 2 }}px; height: {{ module | times: 2 }}px;">
+        {% endif %}
+        <!-- <img class="image image--dither image-stroke" src="https://quickchart.io/qr?text={{ link | url_encode }}&size={{ module | times: 8 }}&margin=0&ecLevel=L" style="position: absolute; bottom: 40px; right: 10px; width: {{ module | times: 2 }}px; height: {{ module | times: 2 }}px;"> -->
+        <div class="image image-dither image-stroke" style="position: absolute; bottom: 40px; right: 10px;" data-qr data-scale="2">{{ link }}</div>
       </div>
     </div>
   </div>

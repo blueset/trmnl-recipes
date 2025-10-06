@@ -40,7 +40,6 @@
   }
   @font-face {
     font-family: 'C24XCN';
-    font-weight: bold;
     src: url('https://blueset.github.io/wikipedia-featured/fonts/c24xcn.woff2') format('woff2'),
          url('https://blueset.github.io/wikipedia-featured/fonts/c24xcn.ttf') format('truetype');
   }
@@ -56,6 +55,7 @@
       src: url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16.woff2') format('woff2'),
            url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16.ttf') format('truetype');
   }
+  
   .trmnl .richtext .content p, .content p {
     line-height: 20px;
     word-break: normal;
@@ -86,7 +86,7 @@
     font-size: 24px;
   }
   .trmnl .title:lang(zh), .title:lang(zh) {
-    font-family: "C24XCN", "Hibiya24", "NanoDyongChyangSong TCN 24", "Unifont", sans-serif;
+    font-family: "C24XCN", "Hibiya24", "NanoDyongChyangSong TCN 24", "Unifont", serif;
     font-size: 24px;
   }
   .title_bar .title {
@@ -98,15 +98,38 @@
   .title_bar .instance {
     flex-grow: 0;
   }
+
+  .wiki-columns {
+    height: 100%;
+    align-items: center;
+  }
+  .wiki-column {
+      justify-content: safe center;
+      overflow: hidden;
+  }
+  
+  .wiki-richtext .content {
+      overflow: hidden;
+  }
+  
+  .wiki-richtext {
+      max-height: 100%;
+      overflow: hidden;
+  }
+  .wiki-richtext .content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 </style>
 
 <div class="layout" lang="{{ trmnl.plugin_settings.custom_fields_values.language }}">
-  <div class="columns">
-    <div class="column">
-      <div class="richtext richtext--center gap--medium">
+  <div class="columns wiki-columns">
+    <div class="column wiki-column">
+      <div class="richtext richtext--center gap--medium wiki-richtext">
         <span class="title text--center" dir="auto">{{ title }}</span>
         {% if description %}<span class="label label--small text--center" dir="auto">{{ description }}</span>{% endif %}
-        <div class="content" data-content-limiter="true" dir="auto">
+        <div class="content" dir="auto">
           {{ extract_html }}
         </div>
       </div>
@@ -119,3 +142,32 @@
   <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
   <span class="instance">{{ timestamp | date: trmnl.plugin_settings.custom_fields_values.date_format }}</span>
 </div>
+
+<script>
+  (() => {
+    const root = document.currentScript.closest(".view");
+    const content = root.querySelector(".wiki-richtext .content");
+    const p = root.querySelector(".wiki-richtext .content p");
+    function measure(reset) {
+      if (reset) {
+        content?.style.removeProperty('webkitLineClamp');
+      }
+      const height = content.getBoundingClientRect().height;
+      const lineHeight = parseInt(getComputedStyle(p || content).lineHeight);
+      const lines = Math.floor(height / lineHeight);
+      console.log("clamp lines to", lines, height, lineHeight, content);
+      content.style.webkitLineClamp = lines;
+    }
+    const resizeObserver = new ResizeObserver((entries) => {
+      const reset = entries.filter(e => e.target.classList.contains('view') || e.target === root).length > 0;
+      measure(reset);
+    });
+    resizeObserver.observe(root);
+    resizeObserver.observe(p);
+    document.fonts.ready.then(() => measure(true));
+    document.fonts.addEventListener('loadingdone', () => measure(true));
+    window.addEventListener('load', () => measure(true));
+    window.addEventListener('resize', () => measure(true));
+    window.addEventListener('orientationchange', () => measure(true));
+  })();
+</script>

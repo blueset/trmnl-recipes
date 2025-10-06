@@ -12,8 +12,8 @@ custom_fields:
 - keyname: doesnt_matter
   name: About This Plugin
   field_type: author_bio
-  description: A digital world clock shows up to 7 time zones. Inspired by <a href="https://www.worldtimebuddy.com/">World Time Buddy</a> and <i>Windows 11 World Clock</i>.
-  github_url: https://github.com/blueset/trmnl-recipes
+  description: A digital world clock that shows up to 7 timezones. Inspired by <a href="https://www.worldtimebuddy.com/">World Time Buddy</a> and <i>Windows 11 World Clock</i>.
+  github_url: https://github.com/blueset/trmnlp-recipes
 - keyname: hour_cycle
   field_type: select
   options:
@@ -140,5 +140,5 @@ custom_fields:
   description: Name of this time zone, e.g. Work
   placeholder: Work
   optional: true
-name: World clock
+name: Horizontal World Clock
 refresh_interval: 60

@@ -1,8 +1,8 @@
 {% if error %}
 <div class="layout">
   <div class="column flex--center-x text--center">
-    <span class="title">Error</span>
-    <p class="title title--small">{{ error }}</p>
+    <span class="title">Random Unicode: Error</span>
+    <p class="title title--small">{{ error | default: "Unknown error occurred." }}</p>
   </div>
 </div>
 <script>
@@ -220,7 +220,7 @@
     {% for svg in svgs %}
       <div class="character">
         {{ svg.svg }}
-        <span class="label label--small">{{ svg.font }}</span>
+        <span class="label label--small text-stroke">{{ svg.font }}</span>
       </div>
     {% endfor %}
   </div>
