@@ -13,7 +13,7 @@ custom_fields:
   name: About This Plugin
   field_type: author_bio
   description: A random MDN Web article on each refresh.
-  github_url: https://github.com/blueset/trmnlp-recipes
+  github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://developer.mozilla.org/
 name: Random MDN Article
 refresh_interval: 60
