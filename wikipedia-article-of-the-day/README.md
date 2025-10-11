@@ -8,27 +8,27 @@ A TRMNL plugin that fetches and displays the Wikipedia article of the day in mul
 
 ### English
 
-| Full | Horizontal |
+| Full | Vertical |
 | :---: | :---: |
-| ![Screenshot](./images/en-f.png) | ![Screenshot](./images/en-h.png) |
-| Vertical | Quad |
-| ![Screenshot](./images/en-v.png) | ![Screenshot](./images/en-q.png) |
+| ![Screenshot](./images/en-f.png) | ![Screenshot](./images/en-v.png) |
+| Horizontal | Quad |
+| ![Screenshot](./images/en-h.png) | ![Screenshot](./images/en-q.png) |
 
 ### Chinese
 
-| Full | Horizontal |
+| Full | Vertical |
 | :---: | :---: |
-| ![Screenshot](./images/zh-f.png) | ![Screenshot](./images/zh-h.png) |
-| Vertical | Quad |
-| ![Screenshot](./images/zh-v.png) | ![Screenshot](./images/zh-q.png) |
+| ![Screenshot](./images/zh-f.png) | ![Screenshot](./images/zh-v.png) |
+| Horizontal | Quad |
+| ![Screenshot](./images/zh-h.png) | ![Screenshot](./images/zh-q.png) |
 
 ### Japanese
 
-| Full | Horizontal |
+| Full | Vertical |
 | :---: | :---: |
-| ![Screenshot](./images/ja-f.png) | ![Screenshot](./images/ja-h.png) |
-| Vertical | Quad |
-| ![Screenshot](./images/ja-v.png) | ![Screenshot](./images/ja-q.png) |
+| ![Screenshot](./images/ja-f.png) | ![Screenshot](./images/ja-v.png) |
+| Horizontal | Quad |
+| ![Screenshot](./images/ja-h.png) | ![Screenshot](./images/ja-q.png) |
 
 ## Parameters
 

@@ -6,16 +6,16 @@ A random CJKV ideograph with pronunciations, definitions, and regional glyphs on
 
 ## Screenshot
 
-| Full | Horizontal |
+| Full | Vertical |
 | :---: | :---: |
-| ![Screenshot](./images/f.png) | ![Screenshot](./images/h.png) |
-| Vertical | Quad |
-| ![Screenshot](./images/v.png) | ![Screenshot](./images/q.png) |
+| ![Screenshot](./images/f.png) | ![Screenshot](./images/v.png) |
+| Horizontal | Quad |
+| ![Screenshot](./images/h.png) | ![Screenshot](./images/q.png) |
 
 ### Shorter definition
 
-| Full | Horizontal |
+| Full | Vertical |
 | :---: | :---: |
-| ![Screenshot](./images/alt-f.png) | ![Screenshot](./images/alt-h.png) |
-| Vertical | Quad |
-| ![Screenshot](./images/alt-v.png) | ![Screenshot](./images/alt-q.png) |
+| ![Screenshot](./images/alt-f.png) | ![Screenshot](./images/alt-v.png) |
+| Horizontal | Quad |
+| ![Screenshot](./images/alt-h.png) | ![Screenshot](./images/alt-q.png) |

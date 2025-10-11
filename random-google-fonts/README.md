@@ -6,16 +6,16 @@ A random typeface from [Google Fonts](https://fonts.google.com/) on each refresh
 
 ## Screenshot
 
-| Full | Horizontal |
+| Full | Vertical |
 | :---: | :---: |
-| ![Screenshot](./images/f.png) | ![Screenshot](./images/h.png) |
-| Vertical | Quad |
-| ![Screenshot](./images/v.png) | ![Screenshot](./images/q.png) |
+| ![Screenshot](./images/f.png) | ![Screenshot](./images/v.png) |
+| Horizontal | Quad |
+| ![Screenshot](./images/h.png) | ![Screenshot](./images/q.png) |
 
 ### Multilingual support
 
-| Full | Horizontal |
+| Full | Vertical |
 | :---: | :---: |
-| ![Screenshot](./images/iansui-f.png) | ![Screenshot](./images/iansui-h.png) |
-| Vertical | Quad |
-| ![Screenshot](./images/iansui-v.png) | ![Screenshot](./images/iansui-q.png) |
+| ![Screenshot](./images/iansui-f.png) | ![Screenshot](./images/iansui-v.png) |
+| Horizontal | Quad |
+| ![Screenshot](./images/iansui-h.png) | ![Screenshot](./images/iansui-q.png) |

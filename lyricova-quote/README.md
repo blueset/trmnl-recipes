@@ -6,11 +6,11 @@ Show a random quote from [Lyricova](https://lyricova.1a23.studio/) on each refre
 
 ## Screenshot
 
-| Full | Horizontal |
+| Full | Vertical |
 | :---: | :---: |
-| ![Screenshot](./images/f-hq.png) | ![Screenshot](./images/h.png) |
-| Vertical | Quad |
-| ![Screenshot](./images/v.png) | ![Screenshot](./images/q.png) |
+| ![Screenshot](./images/f-hq.png) | ![Screenshot](./images/v.png) |
+| Horizontal | Quad |
+| ![Screenshot](./images/h.png) | ![Screenshot](./images/q.png) |
 
 ## Parameters
 

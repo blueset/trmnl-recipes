@@ -6,8 +6,8 @@ A random [MDN](https://developer.mozilla.org/) Web article on each refresh.
 
 ## Screenshots
 
-| Full | Horizontal |
+| Full | Vertical |
 | :---: | :---: |
-| ![Screenshot](./images/f.png) | ![Screenshot](./images/h.png) |
-| Vertical | Quad |
-| ![Screenshot](./images/v.png) | ![Screenshot](./images/q.png) |
+| ![Screenshot](./images/f.png) | ![Screenshot](./images/v.png) |
+| Horizontal | Quad |
+| ![Screenshot](./images/h.png) | ![Screenshot](./images/q.png) |
