@@ -120,17 +120,23 @@
     align-items: baseline;
   }
   .wtc__periodline, .label.label--small {
-    line-height: 10px;
-    height: 10px;
+    .screen--1bit &, .screen--2bit & {
+      line-height: 10px;
+      height: 10px;
+    }
   }
   .wtc__hourline, .wtc__daystack {
     .label:not(.label--small) {
-      translate: 0 3px;
+      .screen--1bit &, .screen--2bit & {
+        translate: 0 3px;
+      }
     }
   }
 
   .wtc__hourline .label.label--small {
-    translate: 0 3px;
+    .screen--1bit &, .screen--2bit & {
+      translate: 0 3px;
+    }
   }
 
   .wtc__weekday { min-height: 1em; } /* reserve line for weekday */
@@ -237,7 +243,7 @@
 </div>
 
 <div class="title_bar">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="image-stroke" viewBox="0 0 2048 2048"><path fill="currentColor" d="M896 768H512V256h128v384h256zm1152 640q0 87-22 168t-64 152t-100 130t-128 101t-152 66t-168 23q-134 0-251-49t-205-136t-139-204t-51-251q0-132 50-248t138-204t203-137t249-51q132 0 248 50t204 138t137 203t51 249m-640 512q21 0 37-15t29-40t21-53t15-58t9-53t5-37h-230q1 13 5 37t10 52t15 58t21 54t27 39t36 16m125-384q3-64 3-128q0-63-3-128h-250q-3 65-3 128q0 64 3 128zm-637-128q0 32 4 64t12 64h243q-6-128 0-256H912q-8 32-12 64t-4 64m512-512q-19 0-34 15t-27 40t-21 54t-15 58t-11 53t-5 36h225q-1-11-5-34t-11-52t-16-59t-21-54t-27-41t-32-16m253 384q3 64 3 128t-2 128h242q8-32 12-64t4-64t-4-64t-12-64zm190-128q-43-75-108-131t-145-89q20 53 32 108t20 112zm-637-218q-78 32-142 88t-107 130h200q7-56 18-110t31-108m-249 730q42 73 105 129t142 88q-20-52-30-107t-17-110zm643 215q77-32 139-87t104-128h-198q-5 55-15 109t-30 106M640 0q88 0 170 23t153 64t129 100t100 130t65 153t23 170h-128q0-106-40-199t-110-162t-163-110t-199-41t-199 40t-162 110t-110 163t-41 199t40 199t110 162t163 110t199 41v128q-88 0-170-23t-153-64t-129-100T88 963T23 810T0 640q0-132 50-248t138-204T391 51T640 0"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="image-stroke"><path fill="currentColor" d="M12.002 2c5.523 0 10.001 4.478 10.001 10.002q0 .395-.03.782a6.5 6.5 0 0 0-1.476-1.053l.004.177l-.008-.318a8.5 8.5 0 0 0-.227-1.59l-.014.001h-3.344q.048.503.073 1.02a6.4 6.4 0 0 0-1.491.296q-.023-.677-.091-1.316H8.605a19 19 0 0 0 .135 5h2.758q-.299.714-.422 1.5H9.063c.598 2.216 1.602 3.735 2.655 3.97a6.5 6.5 0 0 0 1.066 1.502q-.388.03-.782.03C6.478 22.003 2 17.525 2 12.002C2 6.478 6.478 2 12.002 2M7.51 16.502H4.787a8.53 8.53 0 0 0 4.095 3.41c-.58-.91-1.048-2.076-1.372-3.41M3.737 10l-.004.017a8.5 8.5 0 0 0-.233 1.984c0 1.056.193 2.067.545 3h3.173a20 20 0 0 1-.218-3c0-.684.032-1.354.095-2.001zm5.146-5.91l-.023.008A8.53 8.53 0 0 0 4.252 8.5H7.3c.313-1.752.86-3.278 1.583-4.41m3.119-.591l-.116.005C10.621 3.62 9.398 5.622 8.83 8.5h6.343c-.585-2.965-1.865-5-3.171-5m3.12.59l.106.175c.67 1.112 1.178 2.572 1.475 4.237h3.048a8.53 8.53 0 0 0-4.63-4.411M23 17.5a5.5 5.5 0 1 0-11 0a5.5 5.5 0 0 0 11 0M17.5 14a.5.5 0 0 1 .5.5V17h2a.5.5 0 0 1 0 1h-2.5a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5"/></svg>
   <span class="title">World clock</span>
   <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
 </div>
@@ -257,6 +263,12 @@
   const root = document.currentScript.parentElement.querySelector('.wtc');
   document.fonts.ready.then(() => {
     if (!root) return;
+
+    const icon = root.closest(".view").querySelector('.title_bar svg');
+    if (icon) {
+      const rect = icon.getBoundingClientRect();
+      icon.style.translate = `${Math.round(rect.x) - rect.x}px ${Math.round(rect.y) - rect.y}px`;
+    }
   
     // Inputs from Liquid
     const hourCycle = (root.getAttribute('data-hour-cycle') || 'h23').toLowerCase();
