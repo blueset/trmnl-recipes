@@ -1,0 +1,47 @@
+<div class="layout lyricova-layout-quad" lang="{{ language }}" style="position: relative; --title-bar-small-height: 24px;">
+  <div class="text--gray-75" style="position: absolute; top: 5px; right: 10px; font-weight: 600; font-size: 2em; line-height: 1; font-family: 'InterVariable', Inter, sans-serif; font-feature-settings: 'cv01' 1, 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv09' 1; z-index: 0;">#{{ entryId }}</div>
+  <div data-qr style="position: absolute; bottom: 5px; right: 5px;" data-scale="1">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
+  <div class="columns">
+    <div class="column">
+      <div class="flex flex--left richtext">
+        <span class="text-stroke value" data-value-fit="true" data-value-fit-max-height="170" style="font-feature-settings: 'ss03' 1, 'palt' 1; font-family: InterVariable, Inter Variable, Inter, Noto Sans CJK, sans-serif; text-wrap: balance; word-break: auto-phrase; z-index: 1">
+          <p style="line-height: 1.2;">
+            {% for line in lines %}
+              {{ line }}
+              {% unless forloop.last %}
+              {% assign line_size = line | strip_newlines | strip | size %}
+              {% if line_size > 0 %}<br>
+              {% else %}</p><p>
+              {% endif %}{% endunless %}
+            {% endfor %}
+          </p>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="title_bar lyricova-title-bar-quad" lang="{{ language }}" style=" --title-bar-small-height: 24px; padding: 0 5px;">
+  <div class="flex--bottom flex flex--row title" style="font-size: 12px;">
+    {{ entry.title }}
+  </div>
+  <span class="instance" style="font-size: 12px;">
+    {% assign producersSize = entry.producersName | strip_newlines | strip | size %}
+    {% assign vocalistsSize = entry.vocalistsName | strip_newlines | strip | size %}
+    {% if producersSize > 0 and vocalistsSize > 0 %}
+      {{ entry.producersName }} feat. {{ entry.vocalistsName }}
+    {% else %}
+      {{ entry.producersName }}{{ entry.vocalistsName }}
+    {% endif %}
+  </span>
+</div>
+
+<style>
+  .screen--1bit, .screen--2bit {
+    .lyricova-title-bar-quad {
+      .title, .instance {
+        padding: 0;
+        font-family: fusion-pixel-12px-proportional-ja, sans-serif;
+      }
+    }
+  }
+</style>

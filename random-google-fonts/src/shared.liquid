@@ -1,0 +1,104 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="{{ css }}" rel="stylesheet">
+<style>
+  .gFont {
+    font-family: "{{ metadata.name }}";
+  }
+</style>
+
+{% template sidebar %}
+      <div class="item">
+        <div class="meta"></div>
+
+        <div class="content">
+          <span class="label {{ label | default: "" }}">Classification</span>
+          <div class="flex flex--row gap--xsmall flex--wrap flex--left">
+            {% assign classifications_count = metadata.classifications | count %}{% unless classifications_count %}
+            {% for ca in metadata.category %}<span class="label label--small label--inverted">{{ ca | replace: "_", " " | capitalize }}</span>{% endfor %}
+            {% endunless %}
+            {% for cl in metadata.classifications %}<span class="label label--small label--inverted">{{ cl | replace: "_", " " | capitalize }}</span>{% endfor %}
+            {% for q in metadata.qualities %}{% unless q.type == "Quality" %}
+            <span class="label label--small label--outline">{{ q.quality }}</span>
+            {% endunless %}{% endfor %}
+            {% if metadata.primary_language != "en_Latn" %}<span class="label label--small label--outline">Lang: {{ metadata.primary_language | replace: "_", "-" }}</span>{% endif %}
+            {% for s in metadata.subsets %}
+            {% if s != "latin" and s != "latin-ext" and s != "greek-ext" and s != "cyrillic-ext" and s != "menu" %}
+            <span class="label label--outline label--small">Subset: {{ s | replace: "-", " " | capitalize }}</span>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="divider"></div> -->
+
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="label {{ label | default: "" }}">Variants</span>
+          <div class="flex flex--row gap--xsmall">
+            {% for f in metadata.fonts %}
+            {% unless f.filename contains "[" and f.filename contains "]" %}
+            <span class="label label--outline label--small">{{ f.weight }}{% if f.style == "italic" %}i{% endif %}</span>
+            {% endunless %}
+            {% endfor %}
+            {% for a in metadata.axes %}
+            <span class="label label--inverted label--small">{{ a.name }}: {{ a.min_value }}..{{ a.max_value }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- <div class="divider"></div> -->
+      
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="label {{ label | default: "" }}">Added on</span>
+          <div class="description" style="max-width: 100%; word-break: break-word;">{{ metadata.date_added }}</div>
+        </div>
+      </div>
+      
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content {{ label | default: "" }}">
+          <span class="label">Copyright</span>
+          <div class="description" style="max-width: 100%; word-break: break-word;">{{ metadata.fonts[0].copyright }}</div>
+        </div>
+      </div>
+{% endtemplate %}
+
+<script>
+  (() => {
+const root = document.currentScript.closest(".view");
+  
+document.addEventListener("DOMContentLoaded", () => {
+
+  function remeasure() {
+    const container = root.querySelector('.sample-small');
+    if (!container) return;
+    const range = new Range();
+    range.setStartBefore(container.firstChild);
+    range.setEnd(container.firstChild, 1);
+    const rect = range.getBoundingClientRect();
+    const lineHeight = rect.height;
+    const containerHeight = container.getBoundingClientRect().height;
+    const lines = Math.floor(containerHeight / lineHeight);
+    container.style.setProperty('-webkit-line-clamp', lines);
+  }
+
+  const resizeObserver = new ResizeObserver(() => {
+    remeasure();
+  });
+
+  remeasure();
+  resizeObserver.observe(root);
+  resizeObserver.observe(root.querySelector('.sample-small'));
+  document.fonts.ready.then(() => {
+    remeasure();
+  });
+    
+});
+    })();
+</script>

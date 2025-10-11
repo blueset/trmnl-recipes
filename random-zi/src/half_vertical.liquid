@@ -1,0 +1,178 @@
+<div class="layout zi-main-container zi-main-container-vertical" style="align-items: safe center;" lang="zh">
+  <div class="grid grid--cols-1 gap--xsmall" style="height: 100%; align-items: safe center; height: 100%;">
+    <div class="col--span-1 left top flex flex--row gap--space-between fz-12">
+      <div class="zitou"></div>
+      <div class="flex flex--col gap--xsmall top-right">
+        <div class="ids"></div>
+        <div class="yin-grid yin-grid-landscape"></div>
+      </div>
+    </div>
+    <div class="col--span-1 right flex flex--col gap--xsmall fz-24">
+      <div class="glyphs flex flex--row" style="display: none;"></div>
+      <div class="yi"></div>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar" lang="zh">
+  <img class="image image-stroke" src="https://ziphoenicia-1300189285.cos.ap-shanghai.myqcloud.com/home_svg/zi-tools.svg">
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">Description</span>
+</div>
+
+<style>
+  .left.top {
+    justify-content: space-around;
+  }
+  .top-right {
+    height: 96px;
+    align-self: safe center;
+    justify-content: safe center;
+  }
+</style>
+
+<script>
+
+  (() => {
+    const root = document.currentScript.closest(".view");
+    root.querySelector(".title_bar .title").innerText = `${result.codepoint} (${result.block})`;
+    root.querySelector(".title_bar .instance").innerText = `${result.properties.join(' ')}` || {{ trmnl.plugin_settings.instance_name | json }};
+
+    root.querySelector(".left .zitou").innerHTML = `${result.mainZi}`;
+    root.querySelector(".left .ids").innerHTML = `${result.ids}`;
+
+    const yinGrid = root.querySelector(".left .yin-grid");
+    for (const yinRow of result.yin) {
+      const div = document.createElement("div");
+      div.className = "yin-row";
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "yin-name";
+      nameSpan.innerText = yinRow.name;
+      div.appendChild(nameSpan);
+      const yinsSpan = document.createElement("span");
+      yinsSpan.className = "yins";
+      for (const yinData of yinRow.yins) {
+        if (!yinRow.yins.every(a => a.level === "C" && a.ji) && yinData.level === "C" && yinData.ji) continue;
+        const yinSpan = document.createElement("span");
+        yinSpan.className = "yin";
+        if (yinData.level) {
+          yinSpan.classList.add(`level-${yinData.level}`);
+          if (yinData.level === "C") {
+            yinSpan.classList.add(`2bit:text--gray-55`);
+          }
+        }
+        yinSpan.innerText = yinData.yin;
+        if (yinData.path || yinData.ji) {
+          const jiSpan = document.createElement("span");
+          jiSpan.className = "yin-ji";
+          jiSpan.innerHTML = `(${replaceFont(parseMeaning(yinData.path || yinData.ji), { size: textFontSize })})`;
+          yinSpan.appendChild(jiSpan);
+        }
+        yinsSpan.appendChild(yinSpan);
+      }
+      div.appendChild(yinsSpan);
+      yinGrid.appendChild(div);
+    }
+
+    const glyphsDiv = root.querySelector(".right .glyphs");
+    for (const glyphData of result.glyphs) {
+      const div = document.createElement("div");
+      div.className = "glyph-group";
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "-2 -20 25 25");
+      svg.style.margin = "3px 0 -8px";
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", glyphData.glyph);
+      path.setAttribute("fill", "currentColor");
+      svg.appendChild(path);
+      div.appendChild(svg);
+      const sourceSpan = document.createElement("span");
+      sourceSpan.className = "glyph-source label label--small";
+      sourceSpan.innerText = glyphData.source;
+      div.appendChild(sourceSpan);
+      glyphsDiv.appendChild(div);
+    }
+
+    const yiDiv = root.querySelector(".right .yi");
+    function renderYiNode(node, container) {
+      if (node.circular) {
+        return;
+      }
+      const div = document.createElement("div");
+      div.className = "yi-node";
+      
+      if (node.redirect?.join("")) {
+        const redirectSpan = document.createElement("span");
+        redirectSpan.className = "yi-redirect label label--inverted";
+        redirectSpan.innerHTML = node.redirect.join(" ");
+        container.appendChild(redirectSpan);
+      }
+      
+      const indexDiv = document.createElement("div");
+      indexDiv.className = "yi-index";
+      indexDiv.innerHTML = `(${node.index})`;
+      div.appendChild(indexDiv);
+
+      const meaningsDiv = document.createElement("div");
+      meaningsDiv.className = "yi-meanings";
+      const meaningDiv = document.createElement("div");
+      meaningDiv.className = "yi-meaning";
+      if (node.cnMeaning) {
+        const cnSpan = document.createElement("span");
+        cnSpan.className = "yi-cn";
+        cnSpan.innerHTML = node.cnMeaning;
+        meaningDiv.appendChild(cnSpan);
+      }
+      if (node.enMeaning) {
+        const enSpan = document.createElement("span");
+        enSpan.className = "yi-en label label--outline";
+        enSpan.innerHTML = node.enMeaning;
+        meaningDiv.appendChild(enSpan);
+      }
+      if (node.meaning13) {
+        const enSpan = document.createElement("span");
+        enSpan.className = "yi-13 label label--outline";
+        enSpan.innerHTML = node.meaning13;
+        meaningDiv.appendChild(enSpan);
+      }
+      div.appendChild(meaningDiv);
+
+      container.appendChild(div);
+      for (const child of node.children ?? []) {
+        renderYiNode(child, meaningDiv);
+      }
+    }
+    for (const yiNode of result.yi) {
+      renderYiNode(yiNode, yiDiv);
+    }
+
+
+
+const resizeObserver = new ResizeObserver(entries => {
+  for (const entry of entries) {
+    if (!entry.contentBoxSize) { 
+      console.log('no contentBoxSize', entry);
+      continue; 
+    }
+
+    const height = entry.contentBoxSize[0].blockSize;
+    const containerHeight = entry.target.closest('.zi-main-container').getBoundingClientRect().height;
+
+    if (height > containerHeight) {
+      if (entry.target.classList.contains("fz-24")) {
+        entry.target.classList.remove("fz-24");
+        entry.target.classList.add("fz-16");
+      } else if (entry.target.classList.contains("fz-16")) {
+        entry.target.classList.remove("fz-16");
+        entry.target.classList.add("fz-12");
+      }
+    }
+  }
+});
+
+resizeObserver.observe(root.querySelector(".left"));
+resizeObserver.observe(root.querySelector(".right"));
+
+  
+  })();
+</script>

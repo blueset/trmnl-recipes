@@ -1,30 +1,7 @@
-{% assign lines = text | newline_to_br | split: "<br />" %}
-<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-<style>
-  @import url("https://fontsapi.zeoseven.com/69/main/result.css");
-
-  @font-face {
-      font-family: 'JF-Dot-Shinonome16';
-      font-weight: bold;
-      src: url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16B.woff2') format('woff2'),
-           url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16B.ttf') format('truetype');
-  }
-  @font-face {
-      font-family: 'C16XCN';
-      font-weight: bold;
-      src: url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnb.woff2') format('woff2'),
-           url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnb.ttf') format('truetype');
-  }
-
-  .value.text-stroke p:not(:first-child) {
-    margin-top: 0.25em;
-  }
-</style>
-
-<div class="layout" lang="{{ language }}">
+<div class="layout" lang="{{ language }}" style="position: relative">
   <div class="text--gray-75" style="position: absolute; top: 0; right: 0; font-weight: 600; font-size: 6em; line-height: 1; font-family: 'InterVariable', Inter, sans-serif; font-feature-settings: 'cv01' 1, 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv09' 1; z-index: -1;">#{{ entryId }}</div>
   <!-- <img class="image image--dither" src="https://quickchart.io/qr?text=https%3A%2F%2Flyricova.1a23.studio%2Fentries%2F{{ entryId }}&size=232&margin=0" style="position: absolute; bottom: 48px; right: 0; width: 58px; height: 58px;"> -->
-  <div data-qr style="position: absolute; bottom: 48px; right: 0;" data-scale="2">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
+  <div data-qr style="position: absolute; bottom: 0; right: 0;" data-scale="2">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
   <div class="columns">
     <div class="column">
       <div class="flex flex--left richtext">
@@ -44,14 +21,14 @@
     </div>
   </div>
 </div>
-<div class="title_bar" lang="{{ language }}">
-  <div class="flex--bottom flex flex--row title" style="font-family: NicoClean, JF-Dot-Shinonome16, C16XCN, sans-serif;">
+<div class="lyricova-title-bar title_bar" lang="{{ language }}">
+  <div class="flex--bottom flex flex--row title">
     {{ entry.title }} {% if isMain %}★{% endif %}{% if isOriginal %}☆{% endif %}
     {% for tag in entry.tags %}
       <span class="label--outline label label--small" style="text-transform: uppercase;">{{ tag.name }}</span>
     {% endfor %}
   </div>
-  <span class="instance" style="font-family: NicoClean, JF-Dot-Shinonome16, C16XCN, sans-serif;">
+  <span class="instance">
     {% assign producersSize = entry.producersName | strip_newlines | strip | size %}
     {% assign vocalistsSize = entry.vocalistsName | strip_newlines | strip | size %}
     {% if producersSize > 0 and vocalistsSize > 0 %}
@@ -61,5 +38,3 @@
     {% endif %}
   </span>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
-<script src="https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@536f8a59298f826810a87f2d73347edeb961ef4f/QR.js" defer></script>

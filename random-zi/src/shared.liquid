@@ -1,0 +1,1136 @@
+<style>
+  @import url("https://fontsapi.zeoseven.com/285/main/result.css"); /* Noto Serif CJK */
+  @import url("https://fontsapi.zeoseven.com/69/main/result.css"); /* Noto Sans CJK */
+  @import url("https://fontsapi.zeoseven.com/150/main/result.css"); /* Plangothic */
+
+  
+  @import url("https://fontsapi.zeoseven.com/359/main/result.css");
+  @import url("https://fontsapi.zeoseven.com/536/main/result.css");
+  @font-face {
+      font-family: fusion-pixel-12px-proportional-zh_hans;
+      src: url("https://fusion-pixel-font.takwolf.com/fusion-pixel-12px-proportional-zh_hans.otf.woff2");
+  }
+  @font-face {
+      font-family: 'C16XCN';
+      font-weight: normal;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnr.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/c16xcnr.ttf') format('truetype');
+  }
+  @font-face {
+      font-family: 'Unifont';
+      src: url('https://konard.github.io/twittermatrix/unifont.woff') format('woff'), url('https://konard.github.io/twittermatrix/unifont.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'C24XCN';
+    src: url('https://blueset.github.io/wikipedia-featured/fonts/c24xcn.woff2') format('woff2'),
+         url('https://blueset.github.io/wikipedia-featured/fonts/c24xcn.ttf') format('truetype');
+  }
+  @font-face{
+    font-family: "Hibiya24";
+    src: url("https://togaras1.net/assets/font/KH-Dot-Hibiya-24.woff") format("woff");
+  }
+  .fz-12 {
+    --font-family: fusion-pixel-12px-proportional-zh_hans, "WenQuanYi Bitmap Song 12px", sans-serif;
+    --font-size: 12px;
+    --line-height: 16px;
+    .screen--4bit & {
+      --font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
+    }
+  }
+  .fz-16 {
+    --font-family: "WenQuanYi Bitmap Song 16px", "寒蝉点阵体 16px", "C16XCN", "Unifont", sans-serif;
+    --font-size: 16px;
+    --line-height: 24px;
+    .screen--4bit & {
+      --font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
+    }
+  }
+  .fz-24 {
+    --font-family: BlockKie, "Hibiya24", "C24XCN", "NanoDyongChyangSong TCN 24", "Noto Serif CJK", serif;
+    --font-size: 24px;
+    --line-height: 34px;
+    .screen--4bit & {
+      --font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
+    }
+  }
+  .left, .right {
+    justify-content: safe center;
+    overflow: hidden;
+    padding-block-end: 1px;
+    position: relative;
+  }
+  .zitou, .zitou span {
+    line-height: 1;
+    font-family: 'Noto Serif CJK', serif;
+  }
+  .title_bar .instance {
+    font-family: NicoClean, "寒蝉点阵体 16px", "C16XCN", "Unifont", sans-serif;
+    font-size: 16px;
+    .screen--4bit & {
+      font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
+    }
+  }
+  .ids, .yin-grid, .yi, .yi-redirect, .yi-en, .yi-13 {
+    font-family: var(--font-family, fusion-pixel-12px-proportional-zh_hans, "WenQuanYi Bitmap Song 12px", sans-serif);
+    font-size: var(--font-size, 12px);
+    line-height: var(--line-height, 16px);
+  }
+  .yi-redirect, .yi-en, .yi-13 {
+    display: inline;
+    &:not(:first-child) {
+      margin-inline-start: 5px;
+    }
+  }
+  .yi-en, .yi-13 {
+    margin-inline-end: 5px;
+  }
+  .yi-en, .yi-13 {
+    padding: 0 5px;
+  }
+  .yin-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 5px;
+    .yin-row {
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-column: 1 / -1;
+      .yins {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+        .yin {
+          display: inline-block;
+        }
+        .level-A {
+          letter-spacing: 1px;
+          text-shadow: 1px 0;
+          .yin-ji {
+            letter-spacing: 0;
+            text-shadow: none;
+          }
+        }
+        /* .level-B::before { content: "["; } .level-B::after { content: "]"; } */
+        .screen--1bit & {
+          .level-C::before { content: "("; } .level-C::after { content: ")"; }
+        }
+
+      }
+    }
+  }
+  
+  .yin-grid.yin-grid-landscape {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+    .yin-row {
+      display: flex;
+      gap: 5px;
+    }
+  }
+
+  .glyph-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    svg {
+      height: 50px;
+    }
+  }
+
+  .yi {
+    align-self: start;
+  }
+  .yi-node {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    .yi-index {
+      flex-shrink: 0;
+    }
+  }
+</style>
+
+<script>
+const textFontSize = "var(--font-size, 12px)";
+const mainZiFontSize = "var(--zitou-size, 96px)";
+  
+const data = {
+  _zi: {{ _zi | json }},
+  yi: {{ yi | json }},
+  font: {{ font | json }},
+}
+
+function toReading(t) {
+  return t ? t.split(":")[1] : t;
+}
+
+  async function rewriteCSS(main, callback, adjust = '125') {
+    if (!main) return;
+    let target = "main";
+    const CSS_TEXT = await fetch(main, { method: "GET", mode: "cors" }).then(i => i.text()).catch(async () => {
+        if (callback) {
+            target = "callback";
+            return await fetch(callback, { method: "GET", mode: "cors" }).then(i => i.text())
+        } else {
+            return false;
+        };
+    });
+    const CSS_RESULT = target == "main" ? main.replace(/result\.css$/, "") : callback.replace(/result\.css$/, "");
+    document.head.appendChild(
+        document.createElement("style")
+    ).textContent = CSS_TEXT?.replace(
+        /url\(['"]?.\/([^'")]+)['"]?\)/g,
+        `url("${CSS_RESULT}$1")`
+    )?.replaceAll('src:',`size-adjust:${adjust}%;src:`);
+};
+
+rewriteCSS(
+  "https://fontsapi.zeoseven.com/170/main/result.css",
+  "https://fontsapi-storage.zeoseven.com/170/main/result.css",
+  125
+);
+rewriteCSS(
+  "https://fontsapi.zeoseven.com/10/main/result.css",
+  "https://fontsapi-storage.zeoseven.com/10/main/result.css",
+  111
+);
+
+function cnMeaning(meaningStr, variantOrSimplified, group) {
+  // If a meaning string is provided, parse its first part (before ":::")
+  if (meaningStr) {
+    const firstPart = meaningStr.split(":::")[0];
+    return parseMeaning(firstPart);
+  }
+
+  // Otherwise, derive meaning from the variant/simplified token and group
+  if (variantOrSimplified) {
+    const base = variantOrSimplified.split("-")[0];
+
+    if (["G2", "G4"].includes(group)) {
+      return "「" + base + "」的類推簡化字";
+    }
+
+    if (["G0"].includes(group)) {
+      return "「" + base + "」的簡化字";
+    }
+
+    return "「" + base + "」的異體字";
+  }
+
+  return "";
+}
+
+function enMeaning(meaningStr) {
+  // Return parsed English part if ":::” separator is present
+  if (meaningStr && meaningStr.includes(":::")) {
+    const englishPart = meaningStr.split(":::")[1];
+    return parseMeaning(englishPart);
+  }
+  return "";
+}
+
+function replaceFont(text, options) {
+  // options: { size, scale, not_replace_ids, on_miss_hide, zitou }
+  var dontReplaceNonBmp = false;
+  var size = options && options.size ? options.size : 24;
+  var scale = options && options.scale ? options.scale : 1;
+  size = `calc(${size} * ${scale})`;
+
+  if (!text || !data.font) return text;
+
+  // split string into array of characters (keeps surrogate pairs)
+  var chars = Array.from(text);
+
+  // state for parsing IDS-like constructs
+  var state = {
+    inIds: false,
+    stack: [],
+    inHash: false,
+    inSquare: false,
+    startPos: null,
+  };
+
+  // ranges to replace: array of [startIndex, endIndex)
+  var ranges = [];
+
+  // First pass: find single-char matches and IDS-like ranges
+  for (let i = 0; i < chars.length; i++) {
+    var ch = chars[i];
+
+    // single-char font entry
+    if (ch in data.font) {
+      ranges.push([i, i + 1]);
+    }
+
+    // start of IDS-like sequence
+    if (!state.inIds && "⿰⿲⿱⿳⿸⿹⿺⿵⿷⿶⿴⿽⿼⿻#⿿⿾㇯".includes(ch)) {
+      state.inIds = true;
+      state.stack = [1];
+      state.startPos = i;
+    }
+
+    if (state.inIds) {
+      if (ch === "#") state.inHash = true;
+      if (ch === "[") state.inSquare = true;
+
+      var endToken = false;
+
+      if (ch === ")" && state.inHash) {
+        state.inHash = false;
+        endToken = true;
+      } else if (ch === "]" && state.inSquare) {
+        state.inSquare = false;
+      } else if ("⿰⿲⿱⿳⿸⿹⿺⿵⿷⿶⿴⿽⿼⿻⿿⿾㇯".includes(ch)) {
+        if ("⿿⿾".includes(ch)) {
+          state.stack.push(1);
+        } else if ("⿲⿳".includes(ch)) {
+          state.stack.push(3);
+        } else {
+          state.stack.push(2);
+        }
+      } else if (!state.inHash && !state.inSquare) {
+        // If not inside hash or square, and character is not an operator, treat as consuming an operand
+        endToken = true;
+      }
+
+      if (endToken) {
+        // consume one from stack; pop zeros
+        while (state.stack.length && state.stack[state.stack.length - 1] >= 1) {
+          state.stack[state.stack.length - 1] -= 1;
+          if (state.stack[state.stack.length - 1] !== 0) break;
+          state.stack = state.stack.slice(0, state.stack.length - 1);
+        }
+        if (state.stack.length === 0) {
+          ranges.push([state.startPos, i + 1]);
+          state.inIds = false;
+          state.inHash = false;
+          state.inSquare = false;
+        }
+      }
+    }
+  }
+
+  // reverse ranges so replacements from end don't affect indices
+  ranges = ranges.reverse();
+
+  // adjust effective size in some cases
+  if (!options || !options.not_replace_ids) {
+    if (
+      !(text in data.font) &&
+      text.length > 2 &&
+      ranges.length &&
+      ranges[0][1] - ranges[0][0] == chars.length
+    ) {
+      size = `calc(${size} / 2)`;
+    }
+  } else {
+    // options.not_replace_ids true -> keep size as is
+  }
+
+  // For each range, build replacement SVG/span or clear chars for hidden/missing
+  for (var ri = 0; ri < ranges.length; ri++) {
+    var range = ranges[ri];
+    var start = range[0],
+      end = range[1];
+    var segment = chars.slice(start, end).join("");
+
+    // skip if multi-component and option says not to replace IDS
+    if (
+      [...segment].length > 1 &&
+      options &&
+      options.not_replace_ids
+    ) {
+      continue;
+    }
+
+    // skip if non-BMP and cookie forbids replacing, unless first IDS char is special
+    if (
+      dontReplaceNonBmp &&
+      [...segment].length < 3 &&
+      "⿿⿾".includes([...segment][0])
+    ) {
+      // continue to processing below (original logic keeps it)
+    }
+
+    // if on_miss_hide is set and segment not in font => hide (set to empty)
+    if (
+      [...segment].length > 1 &&
+      options &&
+      options.on_miss_hide &&
+      !(segment in data.font)
+    ) {
+      chars[start] = "";
+      for (var cc = start + 1; cc < end; cc++) chars[cc] = "";
+      continue;
+    }
+
+    var svgSize = 400;
+    // if segment in font -> build svg span; else if on_miss_hide not set, leave as-is? Original cleared
+    if (segment in data.font && chars[start] !== "") {
+      // build SVG paths from font data (paths are separated by '|')
+      var paths = "";
+      var parts = data.font[segment].split("|");
+      for (var pi = 0; pi < parts.length; pi++) {
+        var pathD = parts[pi];
+        paths +=
+          '<path fill="currentColor" style="transform: scale(' +
+          svgSize / 200 +
+          "," +
+          svgSize / 200 +
+          ')" d="' +
+          pathD +
+          '"/>';
+      }
+
+      var height = `calc(1.2 * ${size})`
+      var svgStart =
+        '<span style="display:inline-block;position:relative;width:' +
+        size +
+        ";height:" +
+        (options?.zitou ? size : height) +
+        ';">' +
+        '<svg style="position:absolute;left:0;top:' + (options?.zitou ? `calc(${size} * -0.115)` : `calc(${size} * 0.115)`) + ';scale:1.1;width:' +
+        size +
+        '; height:' +
+        height +
+        ';" viewbox="0 ' +
+        -0.23 * svgSize +
+        " " +
+        svgSize +
+        " " +
+        (svgSize * 1.2) +
+        '">';
+
+      // if multi-char IDS, draw a dashed guide line
+      var guide = "";
+      // if (end - start > 1) {
+      //   guide =
+      //     '<path fill="none" stroke="rgba(0,0,0,0.5)" stroke-dasharray="30 20" stroke-width="' +
+      //     400 / size +
+      //     '" style="transform: scale(' +
+      //     size / 200 +
+      //     "," +
+      //     size / 200 +
+      //     ')" x="0" y="0" height="size" width="size" d="M 0 ' +
+      //     (options && options.zitou ? 230 : 190) +
+      //     " L 200 " +
+      //     (options && options.zitou ? 230 : 190) +
+      //     '"/>';
+      // }
+
+      var textOverlaySize = segment.length > 2 ? `calc(${size} / 3)` : size;
+      var overlay =
+        '<span style="position:absolute;color:rgba(0,0,0,0);left:0;top:0px;font-size:' +
+        textOverlaySize +
+        '" x="0" y="' +
+        size +
+        '" height="' +
+        size +
+        '" width="' +
+        size +
+        '" fill="currentColor">' +
+        segment +
+        "</span>";
+
+      chars[start] = svgStart + guide + paths + "</svg>" + overlay + "</span>";
+
+      // clear the rest of chars in the range
+      for (var i2 = start + 1; i2 < end; i2++) chars[i2] = "";
+    } else {
+      // segment not in font: clear it (matches original behavior for missing)
+      chars[start] = "";
+      for (var i3 = start + 1; i3 < end; i3++) chars[i3] = "";
+    }
+  }
+
+  return (
+    '<span style="font-size:' + size + ';">' + chars.join("") + "</span>"
+  );
+}
+
+function parseMeaning(str) {
+  if (str.match(/<svg/g)) {
+    return str;
+  }
+  if (str === "@") {
+    return "(义不详)";
+  }
+
+  return str.replace(/=..?/gi, function (match) {
+    var parts = [...match];
+    var result = "「" + parts[1] + "」";
+    if (parts.length > 2) {
+      result += parts[2];
+    }
+    return result;
+  });
+}
+
+function toIndex(t) {
+  var parts = t.split("-");
+  var e = parts[0];
+
+  if (e === "TVAR") {
+    return "異";
+  }
+  if (["G0", "G2", "G4"].includes(e)) {
+    return e;
+  }
+  if (e === "G4K") {
+    return "四庫";
+  }
+  if (e === "KC") {
+    return "韓史";
+  }
+  if (e === "SAT") {
+    return "大藏經";
+  }
+  if (e.startsWith("V")) {
+    return "喃";
+  }
+  if (e === "GZ") {
+    return "壯";
+  }
+  if (e === "BOUYEI") {
+    return "布";
+  }
+  if (e === "GHZH") {
+    return "汉字海";
+  }
+  if (e === "GZH") {
+    return "中华字海";
+  }
+  if (e === "IVD") {
+    return "IVD";
+  }
+  if (e === "UCV") {
+    return "UCV";
+  }
+  if (e === "BABELSTONE") {
+    return "Babelstone";
+  }
+  if (e === "WASEIKANJI") {
+    return "和";
+  }
+  if (e === "FANGYAN") {
+    return "方";
+  }
+  if (e === "CHEUNGBAUER") {
+    return "粵";
+  }
+  if (e === "G_2J") {
+    return "二简";
+  }
+  if (e === "G_8F") {
+    return "八辅";
+  }
+  if (e === "G_ROC1J") {
+    return "民國一簡";
+  }
+  if (e === "RKXX") {
+    return "人口信息";
+  }
+  if (e === "SWJZ") {
+    return "說文解字";
+  }
+  if (e === "UNICODEOTHER") {
+    return "兼容";
+  }
+  if (e === "ZITOOLS") {
+    return "統";
+  }
+  if (e === "GZJW") {
+    return "金";
+  }
+  if (e === "GHZR") {
+    return parseInt(parts[2], 10) + 1;
+  }
+
+  return e;
+}
+
+function render(rowId, idx, rows, visited, isRoot) {
+  if (visited.has(rowId)) {
+    return { circular: true };
+  } else {
+    visited.add(rowId);
+  }
+  const result = {};
+  const node = data.yi.nodes[rowId];
+  if (
+    (!isRoot && (idx === 0 || node[5] !== data.yi.nodes[rows[idx - 1]][5])) ||
+    (idx === 0 && toReading(node[8])) ||
+    (idx > 0 &&
+      toReading(node[8]) !== toReading(data.yi.nodes[rows[idx - 1]][8]))
+  ) {
+    const redirect = [];
+    if (!isRoot && (idx === 0 || node[5] !== data.yi.nodes[rows[idx - 1]][5])) {
+      redirect.push("→ " + replaceFont(node[5], { size: textFontSize }));
+    }
+    if (
+      idx === 0 ||
+      toReading(node[8]) !== toReading(data.yi.nodes[rows[idx - 1]][8])
+    ) {
+      redirect.push(toReading(node[8]));
+    }
+    if (redirect.length) {
+      result.redirect = redirect;
+    }
+  }
+  result.index = toIndex(node[0]);
+  result.cnMeaning = replaceFont(cnMeaning(node[7], node[11], node[1]), {
+    size: textFontSize,
+  });
+  result.enMeaning = enMeaning(node[7]);
+  if (node[13]) {
+    result.meaning13 = replaceFont("" + node[13], { size: textFontSize });
+  }
+  if (node[0].startsWith("TVAR")) {
+    result.source = "異體字字典";
+  } else if (node[0].startsWith("KC-")) {
+    result.source = "韓國歷史情報統合系統";
+  } else if (node[0].startsWith("WASEIKANJI-")) {
+    result.source = "和製漢字の辞典2014（大原望著）";
+  }
+
+  if (data.yi.row_to_ancestor_map[rowId].length) {
+    const children = data.yi.row_to_ancestor_map[rowId];
+    result.children = [];
+    for (i = 0; i < children.length; i++) {
+      result.children.push(render(children[i], i, children, visited, false));
+    }
+  }
+
+  return result;
+}
+
+function implv(yin, region) {
+  const lv = (yin && (yin.lv ?? yin["lv"])) ?? "";
+
+  switch (region) {
+    case "cn":
+      return lv === "A" ? "A" : "B";
+
+    case "hk":
+      if (lv === "A") return "A";
+      if (lv === "") return "C";
+      return "B";
+
+    case "jp":
+      return lv === "" ? "C" : lv;
+
+    case "kr":
+      return lv === "A" ? "B" : "C";
+
+    default:
+      return "B";
+  }
+}
+
+function yin(data) {
+  const result = [];
+for (const key of data?.yi?.yin?.bokgroups?.["標準音"] ?? []) {
+  const row = {
+    yins: [],
+  };
+  row.name = data.yi.yin.boks[key][0].replace("越南語", "越南");
+  
+  // Traverse current zi
+  for (const yinKey of data.yi.yin.zibokrows[data._zi][key] ?? []) {
+    const yinRow = data.yi.yin.rows[yinKey];
+    const yinData = {};
+    yinData.yin = yinRow.sylton || (yinRow.syl + (yinRow.ton ? yinRow.ton : ""));
+    if (yinRow.path) {
+      yinData.path = replaceFont(yinRow.path, { size: textFontSize });
+    }
+    yinData.level = implv(yinRow, key);
+    row.yins.push(yinData);
+  }
+
+  if (!row.yins.length) {
+    // Traverse other zi values
+    for (const otherZi in data.yi.yin.zibokrows) {
+      if (otherZi !== data._zi && data.yi.yin.zibokrows[otherZi][key]) {
+        for (const yinKey of data.yi.yin.zibokrows[otherZi][key]) {
+          const yinRow = data.yi.yin.rows[yinKey];
+          const yinData = {};
+          yinData.yin = yinRow.syl + (yinRow.ton ? yinRow.ton : "");
+          if (yinRow.path) {
+            yinData.path = replaceFont(yinRow.path, { size: textFontSize });
+          }
+          yinData.level = implv(yinRow, key);
+          yinData.ji = otherZi;
+          row.yins.push(yinData);
+        }
+      }
+    }
+  }
+  
+  result.push(row);
+}
+
+for (const key of ["gy", "jy"]) {
+  const bokRow = data?.yi?.yin?.zibokrows?.[data._zi]?.[key] ?? [];
+  if (!bokRow.length) continue;
+  const row = {
+    yins: [],
+  };
+  row.name = data.yi.yin.boks[key][0];
+  
+  // Traverse current zi
+  for (const yinKey of bokRow) {
+    const yinRow = data.yi.yin.rows[yinKey];
+    const yinData = {};
+    yinData.yin = `${yinRow.con}/${yinRow.vow}/${yinRow.ton}`;
+    row.yins.push(yinData);
+  }
+  
+  // Traverse other zi values
+  for (const otherZi in data.yi.yin.zibokrows) {
+    if (otherZi !== data._zi && data.yi.yin.zibokrows[otherZi][key]) {
+      for (const yinKey of data.yi.yin.zibokrows[otherZi][key]) {
+        const yinRow = data.yi.yin.rows[yinKey];
+        const yinData = {};
+        yinData.yin = `${yinRow.con}/${yinRow.vow}/${yinRow.ton}`;
+        yinData.ji = otherZi;
+        row.yins.push(yinData);
+      }
+    }
+  }
+  
+  result.push(row);
+}
+  if (data.yi.yin?.kunyomi.length) {
+    const row = {
+      name: "訓読",
+      yins: [],
+    };
+    for (const yinRow of data.yi.yin.kunyomi) {
+      const yinData = {};
+      yinData.yin = yinRow.word[1];
+      if (yinRow.word[0] != yinRow.word[1]) {
+        yinData.ji = yinRow.word[0];
+      }
+      if (yinRow.level) {
+        yinData.level = yinRow.level.toUpperCase();
+      }
+      row.yins.push(yinData);
+    }
+    result.push(row);
+  }
+  return result;
+}
+
+const RADICALNO2RADICALMAP = {
+  1: "一",
+  2: "丨",
+  3: "丶",
+  4: "丿",
+  5: "乙",
+  6: "亅",
+  7: "二",
+  8: "亠",
+  9: "人",
+  10: "儿",
+  11: "入",
+  12: "八",
+  13: "冂",
+  14: "冖",
+  15: "冫",
+  16: "几",
+  17: "凵",
+  18: "刀",
+  19: "力",
+  20: "勹",
+  21: "匕",
+  22: "匚",
+  23: "匸",
+  24: "十",
+  25: "卜",
+  26: "卩",
+  27: "厂",
+  28: "厶",
+  29: "又",
+  30: "口",
+  31: "囗",
+  32: "土",
+  33: "士",
+  34: "夂",
+  35: "夊",
+  36: "夕",
+  37: "大",
+  38: "女",
+  39: "子",
+  40: "宀",
+  41: "寸",
+  42: "小",
+  43: "尢",
+  44: "尸",
+  45: "屮",
+  46: "山",
+  47: "巛",
+  48: "工",
+  49: "己",
+  50: "巾",
+  51: "干",
+  52: "幺",
+  53: "广",
+  54: "廴",
+  55: "廾",
+  56: "弋",
+  57: "弓",
+  58: "彐",
+  59: "彡",
+  60: "彳",
+  61: "心",
+  62: "戈",
+  63: "户",
+  64: "手",
+  65: "支",
+  66: "攴",
+  67: "文",
+  68: "斗",
+  69: "斤",
+  70: "方",
+  71: "无",
+  72: "日",
+  73: "曰",
+  74: "月",
+  75: "木",
+  76: "欠",
+  77: "止",
+  78: "歹",
+  79: "殳",
+  80: "毋",
+  81: "比",
+  82: "毛",
+  83: "氏",
+  84: "气",
+  85: "水",
+  86: "火",
+  87: "爪",
+  88: "父",
+  89: "爻",
+  90: "爿",
+  "90'": "丬",
+  91: "片",
+  92: "牙",
+  93: "牛",
+  94: "犬",
+  95: "玄",
+  96: "玉",
+  97: "瓜",
+  98: "瓦",
+  99: "甘",
+  100: "生",
+  101: "用",
+  102: "田",
+  103: "疋",
+  104: "疒",
+  105: "癶",
+  106: "白",
+  107: "皮",
+  108: "皿",
+  109: "目",
+  110: "矛",
+  111: "矢",
+  112: "石",
+  113: "示",
+  114: "禸",
+  115: "禾",
+  116: "穴",
+  117: "立",
+  118: "竹",
+  119: "米",
+  120: "糸",
+  "120'": "纟",
+  121: "缶",
+  122: "网",
+  123: "羊",
+  124: "羽",
+  125: "老",
+  126: "而",
+  127: "耒",
+  128: "耳",
+  129: "聿",
+  130: "肉",
+  131: "臣",
+  132: "自",
+  133: "至",
+  134: "臼",
+  135: "舌",
+  136: "舛",
+  137: "舟",
+  138: "艮",
+  139: "色",
+  140: "艸",
+  141: "虍",
+  142: "虫",
+  143: "血",
+  144: "行",
+  145: "衣",
+  146: "襾",
+  147: "見",
+  "147'": "见",
+  148: "角",
+  149: "言",
+  "149'": "讠",
+  150: "谷",
+  151: "豆",
+  152: "豕",
+  153: "豸",
+  154: "貝",
+  "154'": "贝",
+  155: "赤",
+  156: "走",
+  157: "足",
+  158: "身",
+  159: "車",
+  "159'": "车",
+  160: "辛",
+  161: "辰",
+  162: "辵",
+  "162'": "辶",
+  163: "邑",
+  164: "酉",
+  165: "釆",
+  166: "里",
+  167: "金",
+  "167'": "钅",
+  168: "長",
+  "168'": "长",
+  169: "門",
+  "169'": "门",
+  170: "阜",
+  171: "隶",
+  172: "隹",
+  173: "雨",
+  174: "青",
+  175: "非",
+  176: "面",
+  177: "革",
+  178: "韋",
+  "178'": "韦",
+  179: "韭",
+  180: "音",
+  181: "頁",
+  "181'": "页",
+  182: "風",
+  "182'": "风",
+  "182''": "𲋄",
+  183: "飛",
+  "183'": "飞",
+  184: "食",
+  "184'": "饣",
+  185: "首",
+  186: "香",
+  187: "馬",
+  "187'": "马",
+  188: "骨",
+  189: "高",
+  190: "髟",
+  191: "鬥",
+  192: "鬯",
+  193: "鬲",
+  194: "鬼",
+  195: "魚",
+  "195'": "鱼",
+  196: "鳥",
+  "196'": "鸟",
+  197: "鹵",
+  "197'": "卤",
+  198: "鹿",
+  199: "麥",
+  "199'": "麦",
+  200: "麻",
+  201: "黃",
+  "201'": "黄",
+  202: "黍",
+  203: "黑",
+  204: "黹",
+  205: "黽",
+  "205'": "黾",
+  206: "鼎",
+  207: "鼓",
+  208: "鼠",
+  "208''": "鼡",
+  209: "鼻",
+  210: "齊",
+  "210'": "齐",
+  "210''": "斉",
+  211: "齒",
+  "211'": "齿",
+  "211''": "歯",
+  212: "龍",
+  "212'": "龙",
+  "212''": "竜",
+  "212'''": "𱷥",
+  213: "龜",
+  "213'": "龟",
+  "213''": "亀",
+  214: "龠",
+};
+
+const BLOCKS = [
+  ["Basic", "4E00", "9FA5"],
+  ["Basic 4.1", "9FA6", "9FBB"],
+  ["Basic 5.1", "9FBC", "9FC3"],
+  ["Basic 5.2", "9FC4", "9FCB"],
+  ["Basic 6.1", "9FCC", "9FCC"],
+  ["Basic 8.0", "9FCD", "9FD5"],
+  ["Basic 10.0", "9FD6", "9FEA"],
+  ["Basic 11.0", "9FEB", "9FEF"],
+  ["Basic 13.0", "9FF0", "9FFC"],
+  ["Basic 14.0", "9FFD", "9FFF"],
+  ["Compatibility (but CJK Unified Ideographs)", "FA0E", "FA29"],
+  ["Ext A", "3400", "4DB5"],
+  ["Ext A 13.0", "4DB6", "4DBF"],
+  ["Ext B", "20000", "2A6D6"],
+  ["Ext B 13.0", "2A6D7", "2A6DD"],
+  ["Ext B 14.0", "2A6DE", "2A6DF"],
+  ["Ext C", "2A700", "2B734"],
+  ["Ext C 14.0", "2B735", "2B738"],
+  ["Ext C 15.0", "2B739", "2B739"],
+  ["Ext C 17.0", "2B73A", "2B73F"],
+  ["Ext D", "2B740", "2B81D"],
+  ["Ext E", "2B820", "2CEA1"],
+  ["Ext E 17.0", "2CEA2", "2CEAD"],
+  ["Ext F", "2CEB0", "2EBE0"],
+  ["Ext G", "30000", "3134A"],
+  ["Ext H", "31350", "323AF"],
+  ["Ext I", "2EBF0", "2EE5D"],
+  ["Ext J", "323B0", "33479"],
+  ["Radicals Supplement", "2E80", "2EF3"],
+  ["Kangxi Radicals", "2F00", "2FD5"],
+  ["CJK Strokes", "31C0", "31CF"],
+  ["CJK Strokes 5.1", "31D0", "31E3"],
+  ["CJK Strokes 17.0", "31E4", "31E5"],
+  ["Compatibility 1.0", "F900", "FA2D"],
+  ["Compatibility Supplement", "2F800", "2FA1D"],
+  ["Compatibility 3.2", "FA30", "FA6A"],
+  ["Compatibility 4.1", "FA70", "FAD9"],
+  ["Compatibility 5.2", "FA6B", "FA6D"],
+  ["Compatibility 6.1", "FA2E", "FA2F"],
+  ["Symbols and Punctuation 1.0", "3000", "3037"],
+  ["Symbols and Punctuation 1.0", "303F", "303F"],
+  ["Symbols and Punctuation 3.0", "3038", "303A"],
+  ["Symbols and Punctuation 3.0", "303E", "303E"],
+  ["Symbols and Punctuation 3.2", "303B", "303D"],
+].map(([name, start, end]) => [name, parseInt(start, 16), parseInt(end, 16)]);
+
+function glyphs(data) {
+  const result = [];
+
+  for (const [glyphKey, sourceKey] of [
+    ["G", "kIRG_GSource"],
+    ["H", "kIRG_HSource"],
+    ["T", "kIRG_TSource"],
+    ["J", "kIRG_JSource"],
+    ["K", "kIRG_KSource"],
+    ["V", "kIRG_VSource"],
+    ["M", "kIRG_MSource"],
+    ["U", "kIRG_USource"],
+    ["S", "kIRG_SSource"],
+    ["B", "kIRG_UKSource"],
+    ["P", "kIRG_KPSource"],
+  ]) {
+    if (data?.yi?.unihan?.allver?.[glyphKey]?.length && data?.yi?.unihan?.curver?.[sourceKey]) {
+      result.push({
+        glyph: data.yi.unihan.allver[glyphKey][0][2],
+        source: data.yi.unihan.curver[sourceKey],
+      });
+    }
+  }
+
+  return result;
+}
+
+function formulate(data) {
+  const yi = [];
+
+  const sources = Object.keys(data.yi?.unihan?.allver ?? {}).filter(k => k.startsWith("kIRG_") && k.endsWith("Source")).map(k => data.yi?.unihan?.allver[k][0][2]);
+  if (sources.length && sources.every(s => s.startsWith("V") || s.startsWith("GZ"))) {
+    yi.push({
+      index: "*",
+      cnMeaning: "This character is a historical Sawndip (Zhuang character) or Chữ Nôm (Vietnamese character).",
+    });
+  }
+
+  const visited = new Set();
+  const rows = data.yi.row_node_id_list;
+  for (i = 0; i < data.yi.row_node_id_list.length; i++) {
+    yi.push(render(rows[i], i, rows, visited, true));
+  }
+
+  if (data.yi?.kv?.dict) {
+    for (const [key, value] of Object.entries(data.yi.kv.dict)) {
+      yi.push({
+        index: key,
+        cnMeaning: replaceFont(parseMeaning(value), { size: textFontSize })
+      })
+    }
+  }
+  if (data.yi?.kv?.origin?.length) {
+    for (const origin of data.yi.kv.origin) {
+      yi.push({
+        index: replaceFont(origin[0] || "Origin", { size: textFontSize }),
+        cnMeaning: (origin[1] ? `(${replaceFont(origin[1], { size: textFontSize })}) ` : "") + replaceFont(parseMeaning(origin[2]), { size: textFontSize })
+      });
+      noted = true;
+    }
+  }
+  if (data.yi?.kv?.notes?.length) {
+    let noted = false;
+    for (const note of data.yi.kv.notes) {
+      yi.push({
+        index: "註",
+        cnMeaning: note.map(line => replaceFont(parseMeaning(line), { size: textFontSize })).join("<br>")
+      });
+      noted = true;
+    }
+  }
+
+  const yinData = yin(data);
+
+  const properties = [];
+
+  if (data?.yi?.unihan?.curver?.kRSUnicode) {
+    data.yi.unihan.curver.kRSUnicode.split(" ").forEach((rs) => {
+      const parts = rs.split(".");
+      properties.push(
+        `${RADICALNO2RADICALMAP[parts[0]]}部\u00a0${parts[1]}\u00a0畫`
+      );
+    });
+  }
+  if (data?.yi?.unihan?.curver?.kTotalStrokes) {
+    properties.push(`共\u00a0${data.yi.unihan.curver.kTotalStrokes}\u00a0畫`);
+  }
+  if (
+    data?.yi?.unihan?.curver?.kIICore ||
+    data?.yi?.unihan?.curver?.kUnihanCore2020
+  ) {
+    properties.push("核心字");
+  }
+
+  const codepoint = [...data._zi].length === 1 ?
+    "U+" + data._zi.codePointAt(0).toString(16).toUpperCase().padStart(4, "0") : "U+????";
+
+  const block = [...data._zi].length === 1 ? BLOCKS.find(([, start, end]) => {
+    const cp = data._zi.codePointAt(0);
+    return cp >= start && cp <= end;
+  })?.[0] : "Not in Unicode";
+
+  const glyphData = glyphs(data);
+
+  const mainZi = replaceFont(data._zi, { size: mainZiFontSize, zitou: true });
+
+  return { mainZi, yi, yin: yinData, ids: replaceFont(data.yi.kv.ids_zi_tools || data._zi, { size: textFontSize, not_replace_ids: true }), properties, codepoint, block, glyphs: glyphData };
+}
+
+const result = formulate(data);
+
+</script>

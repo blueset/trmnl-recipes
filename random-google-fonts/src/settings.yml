@@ -1,0 +1,19 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://trmnl.1a23.workers.dev/google-fonts
+polling_headers: ''
+polling_body: ''
+id: 163790
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: A random typeface from <a href="https://fonts.google.com/">Google Fonts</a> on each refresh.
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://fonts.google.com/
+name: Random Google Fonts
+refresh_interval: 15

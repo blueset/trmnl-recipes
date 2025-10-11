@@ -35,13 +35,29 @@ A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](h
 ![Screenshot](./world-clock/images/f.png)
 
 
-## Lyricova Quote (Not published yet)
+## Lyricova Quote
 
 Show a random quote from [Lyricova](https://lyricova.1a23.studio/) on each refresh.
 
-[Learn More](./lyricova-quote/README.md).
+[Learn More](./lyricova-quote/README.md), [Install](https://usetrmnl.com/recipes/150439)
 
 ![Screenshot](./lyricova-quote/images/f.png)
+
+## Random Zi
+
+A random CJKV ideograph with pronunciations, definitions, and regional glyphs on each refresh. Data powered by [zi.tools 字統网](https://zi.tools).
+
+[Learn More](./random-zi/README.md), [Install](https://usetrmnl.com/recipes/156095)
+
+![Screenshot](./random-zi/images/f.png)
+
+## Random Google Fonts
+
+A random typeface from [Google Fonts](https://fonts.google.com/) on each refresh.
+
+[Learn More](./random-google-fonts/README.md), [Install](https://usetrmnl.com/recipes/163790)
+
+![Screenshot](./random-google-fonts/images/f.png)
 
 ## Visa Bulletin (Not published yet)
 

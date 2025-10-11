@@ -4,9 +4,53 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-polling_url: https://lyricova.1a23.studio/api/verse
+polling_url: 'https://lyricova.1a23.studio/api/verse?{% if tags and tags[0] != "" %}&tags={{ tags | join: "," }}{% endif %}{% if languages and languages[0] != "" %}&languages={{ languages | join: "," }}{% endif %}{% if type and type != "" %}&type={{ type }}{% endif %}'
 polling_headers: ''
 polling_body: ''
 id: 150439
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: A random Vocaloid lyrics quote from <a href="https://lyricova.1a23.studio/">Project Lyricova</a> on each refresh.
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://lyricova.1a23.studio/
+- keyname: type
+  field_type: select
+  name: Types of quotes
+  description: Default to all types
+  options:
+  - Any quote: ''
+  - Quote in main language: main
+  - Quote in original language: original
+  default: ''
+- keyname: languages
+  field_type: select
+  description: Default to all languages
+  options:
+  - All: ''
+  - 日本語: ja
+  - English: en
+  - 中文: zh
+  name: Languages
+  multiple: true
+  optional: true
+  default: ''
+- keyname: tags
+  field_type: select
+  description: Default to all tags
+  options:
+  - All: ''
+  - Core: core
+  - Dark: dark
+  - Light: light
+  - Soft: soft
+  - Solid: solid
+  - Sweet: sweet
+  - Vivid: vivid
+  name: Tags
+  multiple: true
+  optional: true
+  default: ''
 name: Lyricova Quote
 refresh_interval: 120
