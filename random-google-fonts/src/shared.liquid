@@ -1,13 +1,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="{{ css }}" rel="stylesheet">
+{%liquid
+  assign rand_index = "now" | date: "%N" | modulo: IDX_0.fonts.size
+  assign metadata = IDX_0.fonts[rand_index]
+  if metadata.sample_text
+    assign sample_text = metadata.sample_text[0]
+  else
+    assign sample_text = IDX_0.sample_texts[metadata.primary_language].sample_text[0]
+  endif
+%}
+<link href="https://fonts.googleapis.com/css2?family={{ metadata.name | url_encode }}&display=swap" rel="stylesheet">
 <style>
   .gFont {
     font-family: "{{ metadata.name }}";
   }
 </style>
-
 {% template sidebar %}
+{% liquid
+  assign language_parts = metadata.primary_language | split: "_"
+  assign script = language_parts[1]
+%}
       <div class="item">
         <div class="meta"></div>
 
@@ -21,7 +33,7 @@
             {% for q in metadata.qualities %}{% unless q.type == "Quality" %}
             <span class="label label--small label--outline">{{ q.quality }}</span>
             {% endunless %}{% endfor %}
-            {% if metadata.primary_language != "en_Latn" %}<span class="label label--small label--outline">Lang: {{ metadata.primary_language | replace: "_", "-" }}</span>{% endif %}
+            {% if script != "Latn" %}<span class="label label--small label--outline">Script: {{ IDX_0.scripts[script].name }}</span>{% endif %}
             {% for s in metadata.subsets %}
             {% if s != "latin" and s != "latin-ext" and s != "greek-ext" and s != "cyrillic-ext" and s != "menu" %}
             <span class="label label--outline label--small">Subset: {{ s | replace: "-", " " | capitalize }}</span>
@@ -31,26 +43,23 @@
         </div>
       </div>
 
-      <!-- <div class="divider"></div> -->
-
       <div class="item">
         <div class="meta"></div>
         <div class="content">
           <span class="label {{ label | default: "" }}">Variants</span>
-          <div class="flex flex--row gap--xsmall">
+          <div class="flex flex--row gap--xsmall flex--wrap flex--left">
             {% for f in metadata.fonts %}
             {% unless f.filename contains "[" and f.filename contains "]" %}
             <span class="label label--outline label--small">{{ f.weight }}{% if f.style == "italic" %}i{% endif %}</span>
             {% endunless %}
             {% endfor %}
             {% for a in metadata.axes %}
-            <span class="label label--inverted label--small">{{ a.name }}: {{ a.min_value }}..{{ a.max_value }}</span>
+            {% assign tag_lower = a.tag | downcase %}
+            <span class="label label--inverted label--small">{{ IDX_0.axes[tag_lower].display_name }}: {{ a.min_value }}..{{ a.max_value }}</span>
             {% endfor %}
           </div>
         </div>
       </div>
-      
-      <!-- <div class="divider"></div> -->
       
       <div class="item">
         <div class="meta"></div>
@@ -62,8 +71,8 @@
       
       <div class="item">
         <div class="meta"></div>
-        <div class="content {{ label | default: "" }}">
-          <span class="label">Copyright</span>
+        <div class="content">
+          <span class="label {{ label | default: "" }}">Copyright</span>
           <div class="description" style="max-width: 100%; word-break: break-word;">{{ metadata.fonts[0].copyright }}</div>
         </div>
       </div>
@@ -74,6 +83,44 @@
 const root = document.currentScript.closest(".view");
   
 document.addEventListener("DOMContentLoaded", () => {
+  try {
+    const overrideJson = {{ trmnl.plugin_settings.custom_fields_values.override | json }};
+    if (overrideJson) {
+      const override = JSON.parse(overrideJson);
+      const f = {{ metadata | json }};
+      
+      if (override.large) {
+        const large = root.querySelector(".sample-large");
+        override.large.forEach(([cond, text]) => {
+          if ((() => { return eval(cond); }).call({ f })) {
+            large.innerText = text;
+          }
+        });
+      }
+      
+      if (override.small) {
+        const small = root.querySelector(".sample-small");
+        override.small.forEach(([cond, text]) => {
+          if ((() => { return eval(cond); }).call({ f })) {
+            small.innerText = text;
+          }
+        });
+      }
+    }
+  } catch (error) {
+   console.error("failed to apply override", error);
+    const errorMessage = document.createElement('div');
+    errorMessage.className = 'label label--small text-stroke';
+    errorMessage.style.position = 'absolute';
+    errorMessage.style.top = '5px';
+    errorMessage.style.left = '5px';
+    errorMessage.style.width = 'calc(100% - 10px)';
+    errorMessage.style.zIndex = '1000';
+    errorMessage.style.whiteSpace = 'pre-wrap';
+    errorMessage.innerText = `Failed to apply override: ${error instanceof Error ? error.message : String(error)}\n${error instanceof Error && error.stack ? error.stack : ''}`;
+    root.style.position = 'relative';
+    root.appendChild(errorMessage);
+  }
 
   function remeasure() {
     const container = root.querySelector('.sample-small');
@@ -97,11 +144,13 @@ document.addEventListener("DOMContentLoaded", () => {
   resizeObserver.observe(root.querySelector('.sample-small'));
   document.fonts.ready.then(() => {
     remeasure();
+  });
+  setTimeout(() => {
+    remeasure();
     document.fonts.ready.then(() => {
       remeasure();
     });
-  });
-    
+  }, 2000);
 });
     })();
 </script>

@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-polling_url: https://trmnl.1a23.workers.dev/google-fonts
+polling_url: "https://blueset.github.io/google-fonts-metadata/metadata.json\r\nhttps://usetrmnl.com/custom_plugin_example_data.json"
 polling_headers: ''
 polling_body: ''
 id: 163790
@@ -15,5 +15,13 @@ custom_fields:
   description: A random typeface from <a href="https://fonts.google.com/">Google Fonts</a> on each refresh.
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://fonts.google.com/
+- keyname: override
+  field_type: code
+  rows: 8
+  name: Sample text override
+  description: Override sample text with your custom string
+  optional: true
+  placeholder: "{ \n  \"large\": [ [\"1\", \"The quick brown fox jumps over the lazy dog.\"] ],\n  \"small\": [ [\"1\", \"Few black taxis drive up major roads on quiet hazy nights.\"] ]\n}\n"
+  help_text: "<b class=\"font-mono\">large</b>: Single-line sample text, only visible in full size.<br>\n<b class=\"font-mono\">small</b>: Multi-line sample text, visible in all sizes.<br>\n<b class=\"font-normal block mt-2\">Examples:</b>\n<b class=\"font-normal block mt-2\">\n  <b>Override all fonts</b>:<br>\n  <b class=\"block border border-gray-250 p-2 dark:border-gray-700 font-mono font-normal whitespace-pre-wrap\">{ \n  \"large\": [ [\"1\", \"The quick brown fox jumps over the lazy dog.\"] ],\n  \"small\": [ [\"1\", \"Few black taxis drive up major roads on quiet hazy nights.\"] ]\n}</b>\n</b>\n<b class=\"font-normal block mt-2\">\n  <b>Override fonts for Latin script</b>:<br>\n  <b class=\"block border border-gray-250 p-2 dark:border-gray-700 font-mono font-normal whitespace-pre-wrap\">{ \n  \"large\": [ [\"f.primary_language.endsWith('Latn')\", \"The quick brown fox jumps over the lazy dog.\"] ]\n}</b>\n</b>\n<b class=\"font-normal block mt-2\">\n  <b>Override fonts for full Japanese fonts and Hiragana only fonts</b>:<br>\n  <b class=\"block border border-gray-250 p-2 dark:border-gray-700 font-mono font-normal whitespace-pre-wrap\">{ \n  \"large\": [ \n    [\"f.primary_language.endsWith('Jpan')\", \"愛のあるユニークで豊かな書体\"],\n    [\"f.primary_language.endsWith('Hira')\", \"ゆにいくでゆたかなあいのもじ\"]\n  ]\n}</b>\n</b>\n<b class=\"font-normal block mt-6\">Technical details for TypeScript savvy:</b>\n<b class=\"block border border-gray-250 p-2 dark:border-gray-700 font-mono font-normal whitespace-pre-wrap\">interface OverrideConfig {\n  [size: \"small\" | \"large\"]?: Array&lt;[\n    /**\n     * The condition to match. This is a JavaScript expression where `f` is the font metadata object.\n     * You can use any valid JavaScript expression to check properties of the font.\n     * Check the metadata properties here under `$.fonts[]`:\n     * @see <a href=\"https://blueset.github.io/google-fonts-metadata/metadata.json\" class=\"font-mono font-normal underline\">https://blueset.github.io/google-fonts-metadata/metadata.json</a>\n     */\n    condition: string, \n    /** The sample text to use when the condition matches. */\n    sampleText: string\n  ]&gt;\n}</b>"
 name: Random Google Fonts
 refresh_interval: 15

@@ -3,7 +3,9 @@
   <div class="flex flex--col flex--left flex--top" style="height: 100%">
     <div class="item" style="height: 100%">
       <div class="content" style="justify-content: center;">
-        <span class="gFont sample-small" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">{{ metadata.sample_text[0].specimen_21 }}</span>
+        <span class="gFont sample-small" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">
+          {{ sample_text.specimen_21 }}
+        </span>
       </div>
     </div>
   </div>
