@@ -4,13 +4,15 @@
     <div class="item col--span-6">
       <div class="meta"></div>
       <div class="content" style="justify-content: center;">
-        <span class="gFont sample-small" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">{{ metadata.sample_text[0].specimen_36 }}</span>
+        <span class="gFont sample-small" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">
+          {{ sample_text.specimen_36 }}
+        </span>
         <!-- <span class="label">Preview</span> -->
       </div>
     </div>
 
     <div class="col col--span-3 gap--xsmall flex flex--col flex--center-y" data-overflow="true">
-      {% render "sidebar", metadata: metadata, label: "label--small" %}
+      {% render "sidebar", metadata: metadata, label: "label--small", IDX_0: IDX_0 %}
     </div>
   </div>
 </div>

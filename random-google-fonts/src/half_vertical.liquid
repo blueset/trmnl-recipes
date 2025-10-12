@@ -1,17 +1,18 @@
 <div class="layout layout--col">
-
-  <div class="flex flex--col flex--left" style="height: 100%">
+  <div class="flex flex--col flex--left" style="height: 100%; max-width: 100%">
     <div class="item">
       <div class="meta"></div>
       <div class="content" style="justify-content: center;">
-        <span class="gFont sample-5" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">{{ metadata.sample_text[0].specimen_21 }}</span>
+        <span class="gFont sample-5" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">
+          {{ sample_text.specimen_21 }}
+        </span>
         <!-- <span class="label">Preview</span> -->
       </div>
     </div>
 
     <div style="height: 0; flex-grow: 1; overflow: hidden">
       <div class="gap--xsmall flex flex--col" data-overflow="true">
-        {% render "sidebar", metadata: metadata, label: "label--small" %}
+        {% render "sidebar", metadata: metadata, label: "label--small", IDX_0: IDX_0 %}
       </div>
     </div>
   </div>
@@ -38,6 +39,7 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 5;
     overflow: hidden;
+    max-width: 100%;
   }
 
   .classification {
