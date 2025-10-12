@@ -97,6 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
   resizeObserver.observe(root.querySelector('.sample-small'));
   document.fonts.ready.then(() => {
     remeasure();
+    document.fonts.ready.then(() => {
+      remeasure();
+    });
   });
     
 });
