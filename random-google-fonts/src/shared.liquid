@@ -1,88 +1,251 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-{%liquid
-  assign rand_index = "now" | date: "%N" | modulo: IDX_0.fonts.size
-  assign metadata = IDX_0.fonts[rand_index]
-  if metadata.sample_text
-    assign sample_text = metadata.sample_text[0]
-  else
-    assign sample_text = IDX_0.sample_texts[metadata.primary_language].sample_text[0]
-  endif
-%}
-<link href="https://fonts.googleapis.com/css2?family={{ metadata.name | url_encode }}&display=swap" rel="stylesheet">
-<style>
-  .gFont {
-    font-family: "{{ metadata.name }}";
-  }
-</style>
-{% template sidebar %}
-{% liquid
-  assign language_parts = metadata.primary_language | split: "_"
-  assign script = language_parts[1]
-%}
-      <div class="item">
-        <div class="meta"></div>
-
-        <div class="content">
-          <span class="label {{ label | default: "" }}">Classification</span>
-          <div class="flex flex--row gap--xsmall flex--wrap flex--left">
-            {% assign classifications_count = metadata.classifications | count %}{% unless classifications_count %}
-            {% for ca in metadata.category %}<span class="label label--small label--inverted">{{ ca | replace: "_", " " | capitalize }}</span>{% endfor %}
-            {% endunless %}
-            {% for cl in metadata.classifications %}<span class="label label--small label--inverted">{{ cl | replace: "_", " " | capitalize }}</span>{% endfor %}
-            {% for q in metadata.qualities %}{% unless q.type == "Quality" %}
-            <span class="label label--small label--outline">{{ q.quality }}</span>
-            {% endunless %}{% endfor %}
-            {% if script != "Latn" %}<span class="label label--small label--outline">Script: {{ IDX_0.scripts[script].name }}</span>{% endif %}
-            {% for s in metadata.subsets %}
-            {% if s != "latin" and s != "latin-ext" and s != "greek-ext" and s != "cyrillic-ext" and s != "menu" %}
-            <span class="label label--outline label--small">Subset: {{ s | replace: "-", " " | capitalize }}</span>
-            {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="label {{ label | default: "" }}">Variants</span>
-          <div class="flex flex--row gap--xsmall flex--wrap flex--left">
-            {% for f in metadata.fonts %}
-            {% unless f.filename contains "[" and f.filename contains "]" %}
-            <span class="label label--outline label--small">{{ f.weight }}{% if f.style == "italic" %}i{% endif %}</span>
-            {% endunless %}
-            {% endfor %}
-            {% for a in metadata.axes %}
-            {% assign tag_lower = a.tag | downcase %}
-            <span class="label label--inverted label--small">{{ IDX_0.axes[tag_lower].display_name }}: {{ a.min_value }}..{{ a.max_value }}</span>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-      
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="label {{ label | default: "" }}">Added on</span>
-          <div class="description" style="max-width: 100%; word-break: break-word;">{{ metadata.date_added }}</div>
-        </div>
-      </div>
-      
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="label {{ label | default: "" }}">Copyright</span>
-          <div class="description" style="max-width: 100%; word-break: break-word;">{{ metadata.fonts[0].copyright }}</div>
-        </div>
-      </div>
-{% endtemplate %}
 
 <script>
   (() => {
+
 const root = document.currentScript.closest(".view");
+const data = {{ IDX_0 | json | replace: "<", "&lt;" }};
   
+function onError(err) {
+    let errorMessage = root.querySelector('#error-message');
+    if (!errorMessage) {
+      errorMessage = document.createElement('div');
+      errorMessage.id = 'error-message';
+      errorMessage.className = 'label label--small text-stroke';
+      errorMessage.style.position = 'absolute';
+      errorMessage.style.top = '5px';
+      errorMessage.style.left = '5px';
+      errorMessage.style.width = 'calc(100% - 10px)';
+      errorMessage.style.zIndex = '1000';
+      errorMessage.style.whiteSpace = 'pre-wrap';
+      root.appendChild(errorMessage);
+    }
+    errorMessage.innerText += `\nError: ${error instanceof Error ? error.message : String(error)}\n${error instanceof Error && error.stack ? error.stack : ''}`;
+    root.style.position = 'relative';
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  let fonts = data.fonts;
+
+  try {
+    const filter = {{ trmnl.plugin_settings.custom_fields_values.filter | json }};
+    if (filter) {
+      // const filterFunction = new Function('f', `return (${filter});`);
+      fonts = fonts.filter(f => eval(`(function() { return ${filter}; }).call({ f })`));
+    }
+  } catch (error) {
+    console.error("failed to apply filter", error);
+    onError(error);
+  }
+
+  try {
+    const font = fonts[Math.floor(Math.random() * fonts.length)] || {};
+    const sampleText = 
+      font.sample_text?.[0] ||
+      data.sample_texts[font.primary_language]?.sample_text?.[0] ||
+      data.sample_texts.en_Latn.sample_text[0];
+  
+    // Load font
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font.name)}&display=swap`;
+    document.head.appendChild(link);
+  
+    const sidebar = root.querySelector('.sidebar');
+    if (sidebar) {
+      // clear sidebar content
+      sidebar.innerHTML = '';
+      const labelClass = sidebar.dataset.labelClass || '';
+  
+      const metaNode = () => {
+        const node = document.createElement('div');
+        node.className = 'meta';
+        return node;
+      };
+  
+      const toArray = v => Array.isArray(v) ? v : v ? [v] : [];
+  
+      const titleCase = str => str.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+  
+      // Classifications
+      {
+        const classificationsNode = document.createElement('div');
+        classificationsNode.className = 'classifications item';
+        classificationsNode.appendChild(metaNode());
+        const contentNode = document.createElement('div');
+        contentNode.className = `content`;
+        const labelNode = document.createElement('span');
+        labelNode.className = `label ${labelClass}`;
+        labelNode.innerText = 'Classification';
+        contentNode.appendChild(labelNode);
+        const flexNode = document.createElement('div');
+        flexNode.className = 'flex flex--row gap--xsmall flex--wrap flex--left';
+  
+        const classifications = toArray(font.classification);
+        const categories = toArray(font.category);
+  
+        (classifications.length > 0 ? classifications : categories).forEach(ca => {
+          const span = document.createElement('span');
+          span.className = 'label label--small label--inverted';
+          span.innerText = titleCase(ca);
+          flexNode.appendChild(span);
+        });
+  
+        font.qualities?.forEach(q => {
+          if (q.type !== 'Quality') {
+            const span = document.createElement('span');
+            span.className = 'label label--outline';
+            span.classList.add('label--small');
+            span.innerText = titleCase(q.quality);
+            flexNode.appendChild(span);
+          }
+        });
+  
+        let toFilter = '';
+        let scriptLabel = '';
+        if (font.has_primary_language && font.primary_language !== 'en_Latn') {
+          toFilter = data.sample_texts[font.primary_language]?.name?.toLowerCase() || '';
+          scriptLabel = `Language: ${data.sample_texts[font.primary_language]?.name || font.primary_language}`;
+        } else if (font.has_primary_script && font.primary_script !== 'Latn') {
+          toFilter = data.scripts[font.primary_script]?.name?.toLowerCase() || '';
+          scriptLabel = `Script: ${data.scripts[font.primary_script]?.name || font.primary_script}`;
+        }
+        if (scriptLabel) {
+          const span = document.createElement('span');
+          span.className = 'label label--small label--inverted';
+          span.innerText = scriptLabel;
+          flexNode.appendChild(span);
+        }
+  
+        font.subsets?.forEach(s => {
+          const sLower = s.replace(/-/g, ' ').toLowerCase();
+          if (s !== 'latin' && s !== 'latin-ext' && s !== 'greek-ext' && s !== 'cyrillic-ext' && s !== 'menu' && sLower !== toFilter) {
+            const span = document.createElement('span');
+            span.className = 'label label--outline label--small';
+            span.innerText = `Subset: ${s.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
+            flexNode.appendChild(span);
+          }
+        });
+  
+        contentNode.appendChild(flexNode);
+        classificationsNode.appendChild(contentNode);
+        sidebar.appendChild(classificationsNode);
+      }
+      
+      // Variants
+      {
+        const variantsNode = document.createElement('div');
+        variantsNode.className = 'variants item';
+        variantsNode.appendChild(metaNode());
+        const contentNode = document.createElement('div');
+        contentNode.className = `content`;
+        const labelNode = document.createElement('span');
+        labelNode.className = `label ${labelClass}`;
+        labelNode.innerText = 'Variants';
+        contentNode.appendChild(labelNode);
+        const flexNode = document.createElement('div');
+        flexNode.className = 'flex flex--row gap--xsmall flex--wrap flex--left';
+  
+        const varFilesCount = (font.fonts || []).filter(f => f.filename?.match(/\[.*\]/g)).length;
+  
+        (font.axes || []).forEach(a => {
+          const tagLower = a.tag.toLowerCase();
+          const span = document.createElement('span');
+          span.className = 'label label--inverted label--small';
+          span.innerText = `${data.axes[tagLower]?.display_name || a.tag}: ${a.min_value}..${a.max_value}`;
+          flexNode.appendChild(span);
+        });
+  
+        (font.fonts || []).forEach(f => {
+          if (f.filename?.match(/\[.*\]/g)) {
+            if (varFilesCount < 2) return;
+            const fAxes = f.filename.match(/(\[.*\])/)[1];
+            const span = document.createElement('span');
+            span.className = 'label label--outline label--small';
+            span.innerText = `${fAxes}${f.style === 'italic' ? 'i' : ''}`;
+            flexNode.appendChild(span);
+          } else {
+            const span = document.createElement('span');
+            span.className = 'label label--outline label--small';
+            span.innerText = `${f.weight || 400}${f.style === 'italic' ? 'i' : ''}`;
+            flexNode.appendChild(span);
+          }
+        });
+  
+        contentNode.appendChild(flexNode);
+        variantsNode.appendChild(contentNode);
+        sidebar.appendChild(variantsNode);
+      }
+  
+      // Added on 
+      {
+        const addedNode = document.createElement('div');
+        addedNode.className = 'added item';
+        addedNode.appendChild(metaNode());
+        const contentNode = document.createElement('div');
+        contentNode.className = `content`;
+        const labelNode = document.createElement('span');
+        labelNode.className = `label ${labelClass}`;
+        labelNode.innerText = 'Added on';
+        contentNode.appendChild(labelNode);
+        const descNode = document.createElement('div');
+        descNode.className = 'description';
+        descNode.style.maxWidth = '100%';
+        descNode.style.wordBreak = 'break-word';
+        descNode.innerText = font.date_added;
+        contentNode.appendChild(descNode);
+        addedNode.appendChild(contentNode);
+        sidebar.appendChild(addedNode);
+      }
+  
+      // Copyright
+      {
+        const copyrightNode = document.createElement('div');
+        copyrightNode.className = 'copyright item';
+        copyrightNode.appendChild(metaNode());
+        const contentNode = document.createElement('div');
+        contentNode.className = `content`;
+        const labelNode = document.createElement('span');
+        labelNode.className = `label ${labelClass}`;
+        labelNode.innerText = 'Copyright';
+        contentNode.appendChild(labelNode);
+        const descNode = document.createElement('div');
+        descNode.className = 'description';
+        descNode.style.maxWidth = '100%';
+        descNode.style.wordBreak = 'break-word';
+        descNode.innerText = font.fonts[0].copyright;
+        contentNode.appendChild(descNode);
+        copyrightNode.appendChild(contentNode);
+        sidebar.appendChild(copyrightNode);
+      }
+    }
+  
+  
+    const large = root.querySelector(".sample-large");
+    if (large) {
+      large.innerText = sampleText.styles;
+      large.lang = font.primary_language.replaceAll('_', '-') || 'en';
+      large.style.fontFamily = `'${font.name}', sans-serif`;
+    }
+    const small = root.querySelector(".sample-small,.sample-5");
+    if (small) {
+      small.innerText = (sampleText.specimen_21 || sampleText.tester).replaceAll('\n', ' ');
+      small.lang = font.primary_language.replaceAll('_', '-') || 'en';
+      small.style.fontFamily = `'${font.name}', sans-serif`;
+    }
+    const title = root.querySelector(".title_bar .title");
+    if (title) {
+      title.innerText = font.name || 'Unknown Font';
+    }
+    const designer = root.querySelector(".title_bar .instance");
+    if (designer) {
+    designer.innerText = font.designer ? `by ${font.designer}` : '';
+  }
+  } catch (error) {
+    onError(error);
+  }
+  
   try {
     const overrideJson = {{ trmnl.plugin_settings.custom_fields_values.override | json }};
     if (overrideJson) {
@@ -90,7 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const f = {{ metadata | json }};
       
       if (override.large) {
-        const large = root.querySelector(".sample-large");
         override.large.forEach(([cond, text]) => {
           if ((() => { return eval(cond); }).call({ f })) {
             large.innerText = text;
@@ -99,7 +261,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       if (override.small) {
-        const small = root.querySelector(".sample-small");
         override.small.forEach(([cond, text]) => {
           if ((() => { return eval(cond); }).call({ f })) {
             small.innerText = text;
@@ -108,23 +269,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   } catch (error) {
-   console.error("failed to apply override", error);
-    const errorMessage = document.createElement('div');
-    errorMessage.className = 'label label--small text-stroke';
-    errorMessage.style.position = 'absolute';
-    errorMessage.style.top = '5px';
-    errorMessage.style.left = '5px';
-    errorMessage.style.width = 'calc(100% - 10px)';
-    errorMessage.style.zIndex = '1000';
-    errorMessage.style.whiteSpace = 'pre-wrap';
-    errorMessage.innerText = `Failed to apply override: ${error instanceof Error ? error.message : String(error)}\n${error instanceof Error && error.stack ? error.stack : ''}`;
-    root.style.position = 'relative';
-    root.appendChild(errorMessage);
+    console.error("failed to apply override", error);
+    onError(error);
   }
 
   function remeasure() {
     const container = root.querySelector('.sample-small');
     if (!container) return;
+    container.style.setProperty('-webkit-line-clamp', 100);
     const range = new Range();
     range.setStartBefore(container.firstChild);
     range.setEnd(container.firstChild, 1);
