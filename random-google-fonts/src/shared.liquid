@@ -7,7 +7,7 @@
 const root = document.currentScript.closest(".view");
 const data = {{ IDX_0 | json | replace: "<", "&lt;" }};
   
-function onError(err) {
+function onError(error) {
     let errorMessage = root.querySelector('#error-message');
     if (!errorMessage) {
       errorMessage = document.createElement('div');
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
           flexNode.appendChild(span);
         }
   
-        font.subsets?.forEach(s => {
+        font.subsets?.forEach?.(s => {
           const sLower = s.replace(/-/g, ' ').toLowerCase();
           if (s !== 'latin' && s !== 'latin-ext' && s !== 'greek-ext' && s !== 'cyrillic-ext' && s !== 'menu' && sLower !== toFilter) {
             const span = document.createElement('span');
@@ -175,7 +175,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
         contentNode.appendChild(flexNode);
         variantsNode.appendChild(contentNode);
-        sidebar.appendChild(variantsNode);
+        if (flexNode.innerText !== "400") {
+          sidebar.appendChild(variantsNode);
+        }
       }
   
       // Added on 
