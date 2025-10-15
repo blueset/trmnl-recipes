@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-polling_url: https://trmnl.1a23.workers.dev/zi-tools
+polling_url: https://trmnl.1a23.workers.dev/zi-tools{{ qps }}
 polling_headers: ''
 polling_body: ''
 id: 156095
@@ -15,5 +15,12 @@ custom_fields:
   description: A random CJKV ideograph with pronunciations, definitions, and regional glyphs on each refresh. Data powered by <a href="https://zi.tools/">zi.tools 字統网</a>.
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://zi.tools/
+- keyname: qps
+  field_type: select
+  options:
+  - Default chance: ''
+  - Increase chance of rare ideograph in random: "?rare"
+  default: ''
+  name: Random selection mode
 name: Random Zi
 refresh_interval: 15
