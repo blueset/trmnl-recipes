@@ -1,11 +1,11 @@
-<div class="layout lyricova-layout-quad" lang="{{ language }}" style="position: relative; --title-bar-small-height: 24px;">
-  <div class="text--gray-75" style="position: absolute; top: 5px; right: 10px; font-weight: 600; font-size: 2em; line-height: 1; font-family: 'InterVariable', Inter, sans-serif; font-feature-settings: 'cv01' 1, 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv09' 1; z-index: 0;">#{{ entryId }}</div>
-  <div data-qr style="position: absolute; bottom: 5px; right: 5px;" data-scale="1">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
+<div class="relative layout lyricova-layout-quad" lang="{{ language }}">
+  <div class="text--gray-75 lyricova-id value">#{{ entryId }}</div>
+  <div data-qr data-scale="1">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
   <div class="columns">
     <div class="column">
       <div class="flex flex--left richtext">
-        <span class="text-stroke value" data-value-fit="true" data-value-fit-max-height="170" style="font-feature-settings: 'ss03' 1, 'palt' 1; font-family: InterVariable, Inter Variable, Inter, Noto Sans CJK, sans-serif; text-wrap: balance; word-break: auto-phrase; z-index: 1">
-          <p style="line-height: 1.2;">
+        <span class="text-stroke value lyricova-quote" data-value-fit="true" data-value-fit-max-height="170">
+          <p>
             {% for line in lines %}
               {{ line }}
               {% unless forloop.last %}
@@ -20,11 +20,11 @@
     </div>
   </div>
 </div>
-<div class="title_bar lyricova-title-bar-quad" lang="{{ language }}" style=" --title-bar-small-height: 24px; padding: 0 5px;">
-  <div class="flex--bottom flex flex--row title" style="font-size: 12px;">
+<div class="px--0 py--1 title_bar lyricova-title-bar-quad" lang="{{ language }}">
+  <div class="flex--bottom flex flex--row p--0 px--1 title sz-12">
     {{ entry.title }}
   </div>
-  <span class="instance" style="font-size: 12px;">
+  <span class="p--0 px--1 instance sz-12">
     {% assign producersSize = entry.producersName | strip_newlines | strip | size %}
     {% assign vocalistsSize = entry.vocalistsName | strip_newlines | strip | size %}
     {% if producersSize > 0 and vocalistsSize > 0 %}
@@ -37,11 +37,33 @@
 
 <style>
   .screen--1bit, .screen--2bit {
+    .lyricova-layout-quad {
+      --title-bar-small-height: 24px;
+    }
     .lyricova-title-bar-quad {
+      --title-bar-small-height: 24px; 
       .title, .instance {
-        padding: 0;
         font-family: fusion-pixel-12px-proportional-ja, sans-serif;
       }
     }
+  }
+
+  .sz-12 {
+    --title-bar-font-size : 12px;
+    --title-bar-small-font-size : 12px;
+  }
+  
+  .trmnl .value.lyricova-id {
+    top: 5px; 
+    right: 10px; 
+    --value-font-size : 2em; 
+    z-index: 0;
+  }
+  [data-qr] {
+    bottom: 5px; 
+    right: 5px;
+  }
+  .lyricova-quote {
+    z-index: 1;
   }
 </style>

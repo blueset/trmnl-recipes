@@ -1,11 +1,11 @@
-<div class="layout" lang="{{ language }}" style="position: relative">
-  <div class="text--gray-75" style="position: absolute; top: 5px; right: 10px; font-weight: 600; font-size: 4em; line-height: 1; font-family: 'InterVariable', Inter, sans-serif; font-feature-settings: 'cv01' 1, 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv09' 1; z-index: 0;">#{{ entryId }}</div>
-  <div data-qr style="position: absolute; bottom: 10px; right: 10px;" data-scale="2">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
+<div class="relative layout" lang="{{ language }}">
+  <div class="text--gray-75 lyricova-id value">#{{ entryId }}</div>
+  <div data-qr data-scale="2">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
   <div class="columns">
     <div class="column">
       <div class="flex flex--left richtext">
-        <span class="text-stroke value" data-value-fit="true" data-value-fit-max-height="420" style="font-feature-settings: 'ss03' 1, 'palt' 1; font-family: InterVariable, Inter Variable, Inter, Noto Sans CJK, sans-serif; text-wrap: balance; word-break: auto-phrase; z-index: 1">
-          <p style="line-height: 1.2;">
+        <span class="text-stroke value lyricova-quote" data-value-fit="true" data-value-fit-max-height="420">
+          <p>
             {% for line in lines %}
               {{ line }}
               {% unless forloop.last %}
@@ -20,11 +20,11 @@
     </div>
   </div>
 </div>
-<div class="lyricova-title-bar title_bar" lang="{{ language }}" style="flex-wrap: wrap; height: auto; gap: 5px; padding: 3px 5px 5px;">
+<div class="px--1 pt--0 pb--1 lyricova-title-bar title_bar" lang="{{ language }}">
   <div class="flex--bottom flex flex--row title">
     {{ entry.title }} {% if isMain %}★{% endif %}{% if isOriginal %}☆{% endif %}
     {% for tag in entry.tags %}
-      <span class="label--outline label label--small" style="text-transform: uppercase;">{{ tag.name }}</span>
+      <span class="label--outline uppercase label label--small">{{ tag.name }}</span>
     {% endfor %}
   </div>
   <span class="instance">
@@ -37,3 +37,24 @@
     {% endif %}
   </span>
 </div>
+
+<style>
+  .trmnl .value.lyricova-id {
+    top: 5px; 
+    right: 10px;
+    --value-font-size : 4em;
+    z-index: 0;
+  }
+  [data-qr] {
+    bottom: 10px; 
+    right: 10px;
+  }
+  .lyricova-quote {
+    z-index: 1;
+  }
+  .lyricova-title-bar {
+    flex-wrap: wrap; 
+    height: auto; 
+    gap: 5px;
+  }
+</style>

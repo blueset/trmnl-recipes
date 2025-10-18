@@ -23,7 +23,7 @@ custom_fields:
   - Any quote: ''
   - Quote in main language: main
   - Quote in original language: original
-  default: ''
+  default: original
 - keyname: languages
   field_type: select
   description: Default to all languages

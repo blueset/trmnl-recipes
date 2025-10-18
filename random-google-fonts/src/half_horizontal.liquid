@@ -3,36 +3,31 @@
   <div class="grid" style="height: 100%; grid-template-rows: 100%;">
     <div class="item col--span-6">
       <div class="meta"></div>
-      <div class="content" style="justify-content: center;">
-        <span class="gFont sample-small" dir="auto">
+      <div class="content row--center">
+        <span class="gFont sample-small value" dir="auto">
         </span>
       </div>
     </div>
 
-    <div class="col col--span-3 gap--xsmall flex flex--col flex--center-y sidebar" data-overflow="true" data-label-class="label--small">
+    <div class="flex flex--center-y flex--col gap--xsmall col col--span-3 sidebar" data-overflow="true" data-label-class="label--small">
     </div>
   </div>
 </div>
 
 <div class="title_bar">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="image image-stroke"><path fill="currentColor" d="M4 2.8A3.6 3.6 0 1 0 4 10a3.6 3.6 0 0 0 0-7.2m7.6 0v18.4h7.2a5.2 5.2 0 1 1 0-10.4a4 4 0 1 1 0-8zm7.2 0v8a4 4 0 1 0 0-8m0 8v10.4A5.2 5.2 0 0 0 24 16a5.2 5.2 0 0 0-5.2-5.2m-7.7-7.206L0 21.199h8.8l2.3-3.64Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="image image-stroke no-shrink"><path fill="currentColor" d="M4 2.8A3.6 3.6 0 1 0 4 10a3.6 3.6 0 0 0 0-7.2m7.6 0v18.4h7.2a5.2 5.2 0 1 1 0-10.4a4 4 0 1 1 0-8zm7.2 0v8a4 4 0 1 0 0-8m0 8v10.4A5.2 5.2 0 0 0 24 16a5.2 5.2 0 0 0-5.2-5.2m-7.7-7.206L0 21.199h8.8l2.3-3.64Z"/></svg>
   <span class="title"></span>
   <span class="instance"></span>
 </div>
 
 <style>
-  .sample-large {
-    font-size: 56px;
-    white-space: nowrap;
-    overflow: hidden;
-    line-height: normal;
-    height: 1lh;
-  }
   .sample-small {
-    font-size: 36px;
     width: 100%;
     line-height: normal;
-    display: -webkit-box;
+    --value-line-height: normal;
+    font-weight: 400;
+    --value-font-weight: 400;
+    display : -webkit-box; /* Not in Framework v2 */
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 5;
     overflow: hidden;

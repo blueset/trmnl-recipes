@@ -1,12 +1,12 @@
 <div class="layout zi-main-container" style="align-items: safe center;" lang="zh">
-  <div class="grid grid--cols-8 gap--xsmall" style="height: 100%; align-items: safe center; height: 100%;">
-    <div class="col--span-1 left flex flex--col gap--xsmall fz-12">
+  <div class="gap--xsmall grid grid--cols-8" style="height: 100%; align-items: safe center; height: 100%;">
+    <div class="left flex flex--col gap--xsmall col--span-1 fz-12">
       <div class="zitou"></div>
       <div class="ids"></div>
     </div>
-    <div class="col--span-7 right flex flex--col gap--xsmall fz-24">
-      <div class="yin-grid fz-12 yin-grid-landscape"></div>
-      <div class="glyphs flex flex--row" style="display: none;"></div>
+    <div class="right flex flex--col gap--xsmall col--span-7 fz-24">
+      <div class="flex layout--justify-center yin-grid yin-grid-landscape fz-12"></div>
+      <div class="hidden glyphs"></div>
       <div class="yi"></div>
     </div>
   </div>
@@ -34,13 +34,13 @@
     const yinGrid = root.querySelector(".yin-grid");
     for (const yinRow of result.yin) {
       const div = document.createElement("div");
-      div.className = "yin-row";
+      div.className = "yin-row w-auto";
       const nameSpan = document.createElement("span");
       nameSpan.className = "yin-name";
       nameSpan.innerText = yinRow.name;
       div.appendChild(nameSpan);
       const yinsSpan = document.createElement("span");
-      yinsSpan.className = "yins";
+      yinsSpan.className = "yins flex";
       for (const yinData of yinRow.yins) {
         if (!yinRow.yins.every(a => a.level === "C" && a.ji) && yinData.level === "C" && yinData.ji) continue;
         const yinSpan = document.createElement("span");
@@ -67,10 +67,10 @@
     const glyphsDiv = root.querySelector(".right .glyphs");
     for (const glyphData of result.glyphs) {
       const div = document.createElement("div");
-      div.className = "glyph-group";
+      div.className = "glyph-group flex";
       const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.setAttribute("viewBox", "-2 -20 25 25");
-      svg.style.margin = "3px 0 -8px";
+      svg.style.margin = "3px 0 -8px"; // Negative margin is not in Framework v2
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
       path.setAttribute("d", glyphData.glyph);
       path.setAttribute("fill", "currentColor");
@@ -89,11 +89,11 @@
         return;
       }
       const div = document.createElement("div");
-      div.className = "yi-node";
+      div.className = "yi-node flex";
       
       if (node.redirect?.join("")) {
         const redirectSpan = document.createElement("span");
-        redirectSpan.className = "yi-redirect label label--inverted";
+        redirectSpan.className = "yi-redirect inline label label--inverted";
         redirectSpan.innerHTML = node.redirect.join(" ");
         container.appendChild(redirectSpan);
       }
@@ -115,13 +115,13 @@
       }
       if (node.enMeaning) {
         const enSpan = document.createElement("span");
-        enSpan.className = "yi-en label label--outline";
+        enSpan.className = "yi-en py--0 px--1 mr--1 inline label label--outline";
         enSpan.innerHTML = node.enMeaning;
         meaningDiv.appendChild(enSpan);
       }
       if (node.meaning13) {
         const enSpan = document.createElement("span");
-        enSpan.className = "yi-13 label label--outline";
+        enSpan.className = "yi-13 py--0 px--1 mr--1 inline label label--outline";
         enSpan.innerHTML = node.meaning13;
         meaningDiv.appendChild(enSpan);
       }

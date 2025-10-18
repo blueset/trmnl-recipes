@@ -1,12 +1,11 @@
-<div class="layout" lang="{{ language }}" style="position: relative">
-  <div class="text--gray-75" style="position: absolute; top: 0; right: 0; font-weight: 600; font-size: 6em; line-height: 1; font-family: 'InterVariable', Inter, sans-serif; font-feature-settings: 'cv01' 1, 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv09' 1; z-index: -1;">#{{ entryId }}</div>
-  <!-- <img class="image image--dither" src="https://quickchart.io/qr?text=https%3A%2F%2Flyricova.1a23.studio%2Fentries%2F{{ entryId }}&size=232&margin=0" style="position: absolute; bottom: 48px; right: 0; width: 58px; height: 58px;"> -->
-  <div data-qr style="position: absolute; bottom: 0; right: 0;" data-scale="2">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
+<div class="relative layout" lang="{{ language }}">
+  <div class="text--gray-75 lyricova-id value">#{{ entryId }}</div>
+  <div data-qr data-scale="2">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
   <div class="columns">
     <div class="column">
       <div class="flex flex--left richtext">
-        <span class="text-stroke value" data-value-fit="true" data-value-fit-max-height="340" style="font-feature-settings: 'ss03' 1, 'palt' 1; font-family: InterVariable, Inter Variable, Inter, Noto Sans CJK, sans-serif; text-wrap: balance; word-break: auto-phrase;">
-          <p style="line-height: 1.2;">
+        <span class="text-stroke value quote lyricova-quote" data-value-fit="true" data-value-fit-max-height="340">
+          <p>
             {% for line in lines %}
               {{ line }}
               {% unless forloop.last %}
@@ -25,7 +24,7 @@
   <div class="flex--bottom flex flex--row title">
     {{ entry.title }} {% if isMain %}★{% endif %}{% if isOriginal %}☆{% endif %}
     {% for tag in entry.tags %}
-      <span class="label--outline label label--small" style="text-transform: uppercase;">{{ tag.name }}</span>
+      <span class="label--outline uppercase label label--small">{{ tag.name }}</span>
     {% endfor %}
   </div>
   <span class="instance">
@@ -38,3 +37,16 @@
     {% endif %}
   </span>
 </div>
+
+<style>
+  .lyricova-id {
+    top: 0;
+    right: 0;
+    z-index: -1;
+    --value-font-size : 6em;
+  }
+  [data-qr] {
+    bottom: 0; 
+    right: 0;
+  }
+</style>

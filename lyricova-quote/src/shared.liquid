@@ -21,7 +21,7 @@
   }
 
   .value.text-stroke p:not(:first-child) {
-    margin-top: 0.25em;
+    margin-top : 0.25em;
   }
   .screen--1bit, .screen--2bit {
     .lyricova-title-bar {
@@ -29,6 +29,37 @@
         font-family: NicoClean, JF-Dot-Shinonome16, C16XCN, sans-serif;
       }
     }
+  }
+  .relative {
+    position: relative;
+  }
+
+  .lyricova-quote {
+    font-feature-settings: 'ss03' 1, 'palt' 1;
+    font-family: InterVariable, Inter Variable, Inter, Noto Sans CJK, sans-serif;
+    text-wrap: balance;
+    word-break: auto-phrase;
+    p {
+      line-height: 1.2;
+    }
+  }
+
+  .uppercase {
+    text-transform: uppercase;
+  }
+
+  .trmnl .value.lyricova-id {
+    position: absolute;
+    font-weight: 600;
+    --value-font-weight: 600;
+    line-height: 1;
+    font-family: 'InterVariable', Inter, sans-serif;
+    --value-font-family: 'InterVariable', Inter, sans-serif;
+    font-feature-settings: 'cv01' 1, 'cv02' 1, 'cv03' 1, 'cv04' 1, 'cv09' 1;
+  }
+
+  [data-qr] {
+    position: absolute;
   }
 </style>
 

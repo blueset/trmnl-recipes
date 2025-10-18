@@ -31,7 +31,7 @@
   }
   .fz-12 {
     --font-family: fusion-pixel-12px-proportional-zh_hans, "WenQuanYi Bitmap Song 12px", sans-serif;
-    --font-size: 12px;
+    --fz: 12px;
     --line-height: 16px;
     .screen--4bit & {
       --font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
@@ -39,7 +39,7 @@
   }
   .fz-16 {
     --font-family: "WenQuanYi Bitmap Song 16px", "寒蝉点阵体 16px", "C16XCN", "Unifont", sans-serif;
-    --font-size: 16px;
+    --fz: 16px;
     --line-height: 24px;
     .screen--4bit & {
       --font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
@@ -47,16 +47,16 @@
   }
   .fz-24 {
     --font-family: BlockKie, "Hibiya24", "C24XCN", "NanoDyongChyangSong TCN 24", "Noto Serif CJK", serif;
-    --font-size: 24px;
+    --fz: 24px;
     --line-height: 34px;
     .screen--4bit & {
       --font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
     }
   }
   .left, .right {
-    justify-content: safe center;
+    justify-content : safe center; /* Not in Framework v2 */
     overflow: hidden;
-    padding-block-end: 1px;
+    padding-block-end : 1px; /* Not in Framework v2 */
     position: relative;
   }
   .zitou, .zitou span {
@@ -65,43 +65,32 @@
   }
   .title_bar .instance {
     font-family: NicoClean, "寒蝉点阵体 16px", "C16XCN", "Unifont", sans-serif;
-    font-size: 16px;
     .screen--4bit & {
       font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
     }
   }
   .ids, .yin-grid, .yi, .yi-redirect, .yi-en, .yi-13 {
     font-family: var(--font-family, fusion-pixel-12px-proportional-zh_hans, "WenQuanYi Bitmap Song 12px", sans-serif);
-    font-size: var(--font-size, 12px);
+    font-size : var(--fz, 12px); /* content based override */
     line-height: var(--line-height, 16px);
   }
   .yi-redirect, .yi-en, .yi-13 {
-    display: inline;
     &:not(:first-child) {
-      margin-inline-start: 5px;
+      margin-inline-start : 5px; /* Complex CSS selector */
     }
   }
-  .yi-en, .yi-13 {
-    margin-inline-end: 5px;
-  }
-  .yi-en, .yi-13 {
-    padding: 0 5px;
-  }
   .yin-grid {
-    display: grid;
     grid-template-columns: auto 1fr;
     gap: 5px;
     .yin-row {
-      display: grid;
+      display : grid; /* Need a grid without width 100% */
       grid-template-columns: subgrid;
       grid-column: 1 / -1;
       .yins {
-        display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 5px;
         .yin {
-          display: inline-block;
         }
         .level-A {
           letter-spacing: 1px;
@@ -121,19 +110,16 @@
   }
   
   .yin-grid.yin-grid-landscape {
-    display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     gap: 5px;
-    justify-content: center;
     .yin-row {
-      display: flex;
+      display : flex; /* Layout variant override */
       gap: 5px;
     }
   }
 
   .glyph-group {
-    display: flex;
     flex-direction: column;
     gap: 5px;
     svg {
@@ -145,7 +131,6 @@
     align-self: start;
   }
   .yi-node {
-    display: flex;
     flex-direction: row;
     gap: 5px;
     .yi-index {
@@ -155,7 +140,7 @@
 </style>
 
 <script>
-const textFontSize = "var(--font-size, 12px)";
+const textFontSize = "var(--fz, 12px)";
 const mainZiFontSize = "var(--zitou-size, 96px)";
   
 const data = {
@@ -168,24 +153,30 @@ function toReading(t) {
   return t ? t.split(":")[1] : t;
 }
 
-  async function rewriteCSS(main, callback, adjust = '125') {
-    if (!main) return;
-    let target = "main";
-    const CSS_TEXT = await fetch(main, { method: "GET", mode: "cors" }).then(i => i.text()).catch(async () => {
-        if (callback) {
-            target = "callback";
-            return await fetch(callback, { method: "GET", mode: "cors" }).then(i => i.text())
-        } else {
-            return false;
-        };
-    });
-    const CSS_RESULT = target == "main" ? main.replace(/result\.css$/, "") : callback.replace(/result\.css$/, "");
-    document.head.appendChild(
+function rewriteCSS(main, callback, adjust = '125') {
+  if (!main) return;
+  let target = "main";
+  
+  return fetch(main, { method: "GET", mode: "cors" })
+    .then(i => i.text())
+    .catch(() => {
+      if (callback) {
+        target = "callback";
+        return fetch(callback, { method: "GET", mode: "cors" })
+          .then(i => i.text());
+      } else {
+        return false;
+      }
+    })
+    .then(CSS_TEXT => {
+      const CSS_RESULT = target == "main" ? main.replace(/result\.css$/, "") : callback.replace(/result\.css$/, "");
+      document.head.appendChild(
         document.createElement("style")
-    ).textContent = CSS_TEXT?.replace(
+      ).textContent = CSS_TEXT?.replace(
         /url\(['"]?.\/([^'")]+)['"]?\)/g,
         `url("${CSS_RESULT}$1")`
-    )?.replaceAll('src:',`size-adjust:${adjust}%;src:`);
+      )?.replaceAll('src:', `size-adjust:${adjust}%;src:`);
+    });
 };
 
 rewriteCSS(
@@ -388,7 +379,7 @@ function replaceFont(text, options) {
 
       var height = `calc(1.2 * ${size})`
       var svgStart =
-        '<span style="display:inline-block;position:relative;width:' +
+        '<span class="inline-block" style="position:relative;width:' +
         size +
         ";height:" +
         (options?.zitou ? size : height) +
@@ -424,7 +415,7 @@ function replaceFont(text, options) {
 
       var textOverlaySize = segment.length > 2 ? `calc(${size} / 3)` : size;
       var overlay =
-        '<span style="position:absolute;color:rgba(0,0,0,0);left:0;top:0px;font-size:' +
+        '<span style="position:absolute;left:0;top:0px;font-size :' +
         textOverlaySize +
         '" x="0" y="' +
         size +
@@ -448,7 +439,7 @@ function replaceFont(text, options) {
   }
 
   return (
-    '<span style="font-size:' + size + ';">' + chars.join("") + "</span>"
+    '<span style="font-size :' + size + ';">' + chars.join("") + "</span>"
   );
 }
 

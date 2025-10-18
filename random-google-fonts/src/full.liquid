@@ -3,7 +3,7 @@
     <div class="item">
       <div class="meta"></div>
       <div class="content">
-        <span class="sample-large gFont" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">
+        <span class="sample-large gFont value--xlarge" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">
         </span>
       </div>
     </div>
@@ -14,38 +14,42 @@
   <div class="grid" style="height: 0; flex-grow: 1; grid-template-rows: 100%;">
     <div class="item col--span-6" style="height: 100%">
       <div class="meta"></div>
-      <div class="content" style="justify-content: center;">
-        <span class="gFont sample-small" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">
+      <div class="content row--center">
+        <span class="gFont value sample-small" dir="auto" lang="{{ metadata.primary_language | replace: "_", "-" }}">
         </span>
       </div>
     </div>
 
-    <div class="col col--span-3 gap flex flex--col flex--center-y sidebar" style="height: 100%" data-overflow="true">
+    <div class="flex flex--center-y flex--col col col--span-3 gap sidebar" style="height: 100%" data-overflow="true">
     </div>
   </div>
 </div>
 
 <div class="title_bar">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="image image-stroke"><path fill="currentColor" d="M4 2.8A3.6 3.6 0 1 0 4 10a3.6 3.6 0 0 0 0-7.2m7.6 0v18.4h7.2a5.2 5.2 0 1 1 0-10.4a4 4 0 1 1 0-8zm7.2 0v8a4 4 0 1 0 0-8m0 8v10.4A5.2 5.2 0 0 0 24 16a5.2 5.2 0 0 0-5.2-5.2m-7.7-7.206L0 21.199h8.8l2.3-3.64Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="image image-stroke no-shrink"><path fill="currentColor" d="M4 2.8A3.6 3.6 0 1 0 4 10a3.6 3.6 0 0 0 0-7.2m7.6 0v18.4h7.2a5.2 5.2 0 1 1 0-10.4a4 4 0 1 1 0-8zm7.2 0v8a4 4 0 1 0 0-8m0 8v10.4A5.2 5.2 0 0 0 24 16a5.2 5.2 0 0 0-5.2-5.2m-7.7-7.206L0 21.199h8.8l2.3-3.64Z"/></svg>
   <span class="title"></span>
   <span class="instance"></span>
 </div>
 
 <style>
   .sample-large {
-    font-size: 72px;
     white-space: nowrap;
     overflow: hidden;
     line-height: normal;
+    --value-xlarge-line-height: normal;
+    font-weight: 400;
+    --value-xlarge-font-weight: 400;
     height: 1lh;
     place-content: center;
     max-width: 100%;
   }
   .sample-small {
-    font-size: 36px;
     width: 100%;
     line-height: normal;
-    display: -webkit-box;
+    --value-line-height: normal;
+    font-weight: 400;
+    --value-font-weight: 400;
+    display : -webkit-box; /* Not in Framework v2 */
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 8;
     overflow: hidden;
