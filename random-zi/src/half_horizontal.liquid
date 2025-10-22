@@ -1,10 +1,10 @@
 <div class="layout zi-main-container" style="align-items: safe center;" lang="zh">
   <div class="gap--xsmall grid grid--cols-8" style="height: 100%; align-items: safe center; height: 100%;">
-    <div class="left flex flex--col gap--xsmall col--span-1 fz-12">
+    <div class="left h--max-full flex flex--col gap--xsmall col--span-1 fz-12">
       <div class="zitou"></div>
       <div class="ids"></div>
     </div>
-    <div class="right flex flex--col gap--xsmall col--span-7 fz-24">
+    <div class="right h--max-full flex flex--col gap--xsmall col--span-7 fz-24">
       <div class="flex layout--justify-center yin-grid yin-grid-landscape fz-12"></div>
       <div class="hidden glyphs"></div>
       <div class="yi"></div>
@@ -139,22 +139,24 @@
 
 
 const resizeObserver = new ResizeObserver(entries => {
-  for (const entry of entries) {
-    if (!entry.contentBoxSize) { 
-      console.log('no contentBoxSize', entry);
-      continue; 
-    }
-
-    const height = entry.contentBoxSize[0].blockSize;
-    const containerHeight = entry.target.closest('.zi-main-container').getBoundingClientRect().height;
+  for (const entry of [root.querySelector(".left"), root.querySelector(".right")]) {
+    
+    const height = entry.scrollHeight;
+    const containerHeight = 
+      entry.closest('.zi-main-container').getBoundingClientRect().height -
+      (root.querySelector('.yin-grid-landscape')?.getBoundingClientRect()?.height ?? 16) -
+      parseInt(getComputedStyle(root.querySelector(".right")).rowGap);
+    console.log('height', height, containerHeight);
 
     if (height > containerHeight) {
-      if (entry.target.classList.contains("fz-24")) {
-        entry.target.classList.remove("fz-24");
-        entry.target.classList.add("fz-16");
-      } else if (entry.target.classList.contains("fz-16")) {
-        entry.target.classList.remove("fz-16");
-        entry.target.classList.add("fz-12");
+      if (entry.classList.contains("fz-24")) {
+        entry.classList.remove("fz-24");
+        entry.classList.add("fz-16");
+        console.log('change class', entry, entry.classList);
+      } else if (entry.classList.contains("fz-16")) {
+        entry.classList.remove("fz-16");
+        entry.classList.add("fz-12");
+        console.log('change class', entry, entry.classList);
       }
     }
   }
@@ -162,6 +164,7 @@ const resizeObserver = new ResizeObserver(entries => {
 
 resizeObserver.observe(root.querySelector(".left"));
 resizeObserver.observe(root.querySelector(".right"));
+resizeObserver.observe(root.querySelector(".right .yi"));
 
    
   })();
