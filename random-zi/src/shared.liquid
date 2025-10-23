@@ -29,13 +29,16 @@
     font-family: "Hibiya24";
     src: url("https://togaras1.net/assets/font/KH-Dot-Hibiya-24.woff") format("woff");
   }
+  .zi-main-container {
+    container: zi-main-container / size;
+  }
   .trmnl .label--inverted {
     margin-block : -1px;
   }
   .fz-12 {
     --font-family: fusion-pixel-12px-proportional-zh_hans, "WenQuanYi Bitmap Song 12px", sans-serif;
     --fz: 12px;
-    --line-height: 16px;
+    --line-height: 18px;
     .screen--4bit & {
       --font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
     }
@@ -51,7 +54,7 @@
   .fz-24 {
     --font-family: BlockKie, "Hibiya24", "C24XCN", "NanoDyongChyangSong TCN 24", "Noto Serif CJK", serif;
     --fz: 24px;
-    --line-height: 34px;
+    --line-height: 35px;
     .screen--4bit & {
       --font-family: Inter, 'Noto Sans CJK', Plangothic, sans-serif;
     }
@@ -78,7 +81,7 @@
     line-height: var(--line-height, 16px);
   }
   .yi-redirect, .yi-en, .yi-13 {
-    &:not(:first-child) {
+    &:not(:first-child):not(:has(+ div.yi-node)) {
       margin-inline-start : 5px; /* Complex CSS selector */
     }
   }

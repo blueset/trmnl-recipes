@@ -18,6 +18,18 @@
   <span class="instance">Description</span>
 </div>
 
+<style>
+  
+  @container zi-main-container (width > 0px) {
+    .yin-grid {
+      max-height: round(down, calc(100cqb - 96px - var(--line-height, 12px) - var(--gap-xsmall, 5px)), calc(var(--line-height) + 5px));
+    }
+    .right .yi {
+      max-height: round(down, calc(100cqb - var(--glyphs-block-size, 0px) - var(--gap-xsmall, 5px)), var(--line-height));
+    }
+  }
+</style>
+
 <script>
 
   (() => {
@@ -136,21 +148,21 @@
 
 
 const resizeObserver = new ResizeObserver(entries => {
-  for (const entry of entries) {
-    if (!entry.contentBoxSize) {
-      continue; 
-    }
+  for (const {container, content} of [
+    {container: root.querySelector(".left"), content: root.querySelector(".left .yin-grid")},
+    {container: root.querySelector(".right"), content: root.querySelector(".right .yi")},
+    ]) {
 
-    const height = entry.contentBoxSize[0].blockSize;
-    const containerHeight = entry.target.closest('.zi-main-container').getBoundingClientRect().height;
+    const height = container.scrollHeight;
+    const containerHeight = container.closest('.zi-main-container').getBoundingClientRect().height;
 
     if (height > containerHeight) {
-      if (entry.target.classList.contains("fz-24")) {
-        entry.target.classList.remove("fz-24");
-        entry.target.classList.add("fz-16");
-      } else if (entry.target.classList.contains("fz-16")) {
-        entry.target.classList.remove("fz-16");
-        entry.target.classList.add("fz-12");
+      if (container.classList.contains("fz-24")) {
+        container.classList.remove("fz-24");
+        container.classList.add("fz-16");
+      } else if (container.classList.contains("fz-16")) {
+        container.classList.remove("fz-16");
+        container.classList.add("fz-12");
       }
     }
   }
@@ -159,6 +171,13 @@ const resizeObserver = new ResizeObserver(entries => {
 resizeObserver.observe(root.querySelector(".left"));
 resizeObserver.observe(root.querySelector(".right"));
 
+  
+  const glyphsResizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      entry.target.closest('.right').style.setProperty('--glyphs-block-size', `${entry.contentBoxSize[0].blockSize}px`);
+    }
+  });
+  glyphsResizeObserver.observe(root.querySelector(".glyphs"));
   
   })();
 </script>
