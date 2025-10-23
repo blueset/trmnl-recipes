@@ -29,6 +29,15 @@
       }
     }
   }
+  
+  @container zi-main-container (width > 0px) {
+    .yin-grid-landscape {
+      max-height: round(down, calc(100cqb - var(--zitou-size)), var(--line-height));
+    }
+    .right {
+      max-height: round(down, calc(100cqb), var(--line-height));
+    }
+  }
 </style>
 
 <script>
@@ -147,31 +156,29 @@
     }
 
 
-
-const resizeObserver = new ResizeObserver(entries => {
-  for (const entry of entries) {
-    if (!entry.contentBoxSize) { 
-      console.log('no contentBoxSize', entry);
-      continue; 
-    }
-
-    const height = entry.contentBoxSize[0].blockSize;
-    const containerHeight = entry.target.closest('.zi-main-container').getBoundingClientRect().height;
-
-    if (height > containerHeight) {
-      if (entry.target.classList.contains("fz-24")) {
-        entry.target.classList.remove("fz-24");
-        entry.target.classList.add("fz-16");
-      } else if (entry.target.classList.contains("fz-16")) {
-        entry.target.classList.remove("fz-16");
-        entry.target.classList.add("fz-12");
+    const resizeObserver = new ResizeObserver(entries => {
+      for (const entry of [root.querySelector(".left"), root.querySelector(".yi")]) {
+        const height = entry.getBoundingClientRect().height;
+        const containerHeight = entry.closest('.zi-main-container').getBoundingClientRect().height;
+        console.log('height', height, containerHeight);
+        const target = (entry.classList.contains('right') || entry.classList.contains('left')) ?
+          entry : entry.closest('.left,.right');
+    
+        if (height > containerHeight) {
+          if (target.classList.contains("fz-24")) {
+            target.classList.remove("fz-24");
+            target.classList.add("fz-16");
+          } else if (target.classList.contains("fz-16")) {
+            target.classList.remove("fz-16");
+            target.classList.add("fz-12");
+          }
+        }
       }
-    }
-  }
-});
-
-resizeObserver.observe(root.querySelector(".left"));
-resizeObserver.observe(root.querySelector(".right"));
+    });
+    
+    resizeObserver.observe(root.querySelector(".left"));
+    resizeObserver.observe(root.querySelector(".right"));
+    resizeObserver.observe(root.querySelector(".yi"));
 
   
   })();

@@ -12,7 +12,7 @@ custom_fields:
 - keyname: doesnt_matter
   name: About This Plugin
   field_type: author_bio
-  description: A random Vocaloid lyrics quote from <a href="https://lyricova.1a23.studio/">Project Lyricova</a> on each refresh.
+  description: A random lyrics quote of a Vocaloid song on each refresh. Data powered by <a href="https://lyricova.1a23.studio/">Project Lyricova</a>.
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://lyricova.1a23.studio/
 - keyname: type
@@ -52,5 +52,5 @@ custom_fields:
   multiple: true
   optional: true
   default: ''
-name: Lyricova Quote
+name: Vocaloid Lyrics Quote
 refresh_interval: 120

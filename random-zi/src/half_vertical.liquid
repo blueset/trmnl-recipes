@@ -1,8 +1,8 @@
-<div class="layout zi-main-container zi-main-container-vertical" style="align-items: safe center;" lang="zh">
+<div class="layout zi-main-container zi-main-container-vertical" style="--zitou-size: 96px; align-items: safe center;" lang="zh">
   <div class="gap--xsmall grid grid--cols-1 h-full" style="align-items: safe center; align-content: center;">
     <div class="top left flex flex--around flex--row gap--space-between col--span-1 fz-12">
       <div class="zitou"></div>
-      <div class="top-right flex flex--col gap--xsmall">
+      <div class="top-right grow flex flex--col gap--xsmall">
         <div class="ids"></div>
         <div class="flex layout--justify-center yin-grid yin-grid-landscape"></div>
       </div>
@@ -25,9 +25,14 @@
     justify-content : space-between; /* Override .top style */
   }
   .top-right {
-    height: 96px;
+    height: var(--zitou-size, 96px);
     align-self: safe center;
     justify-content : safe center; /* Not in Framework v2 */
+  }
+  @container zi-main-container (width > 0px) {
+    .right {
+      max-height: round(down, calc(100cqb - var(--zitou-size)), var(--line-height));
+    }
   }
 </style>
 

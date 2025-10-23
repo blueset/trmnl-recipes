@@ -19,6 +19,11 @@
 </div>
 
 <style>
+  @container zi-main-container (width > 0px) {
+    .right .yi {
+      max-height: round(down, calc(100cqb - var(--gap-xsmall, 5px) - var(--yin-grid-block-size, 0px)), var(--line-height));
+    }
+  }
 </style>
 
 <script>
@@ -165,6 +170,13 @@ const resizeObserver = new ResizeObserver(entries => {
 resizeObserver.observe(root.querySelector(".left"));
 resizeObserver.observe(root.querySelector(".right"));
 resizeObserver.observe(root.querySelector(".right .yi"));
+
+  const yinGridResizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      entry.target.closest('.right').style.setProperty('--yin-grid-block-size', `${entry.contentBoxSize[0].blockSize}px`);
+    }
+  });
+  yinGridResizeObserver.observe(root.querySelector(".yin-grid"));
 
    
   })();
