@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const filter = {{ trmnl.plugin_settings.custom_fields_values.filter | json }};
     if (filter) {
       // const filterFunction = new Function('f', `return (${filter});`);
-      fonts = fonts.filter(f => eval(`(function() { return ${filter}; }).call({ f })`));
+      fonts = fonts.filter((f, index, array) => eval(`(function() { return ${filter}; }).call({ f, index, array })`));
     }
   } catch (error) {
     console.error("failed to apply filter", error);
