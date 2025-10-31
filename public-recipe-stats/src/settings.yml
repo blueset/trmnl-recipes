@@ -1,0 +1,64 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: "{% case selection %}\r\n{% when \"recipe_ids\" %}\r\n{% assign ids = recipe_ids | split: \",\" %}\r\n{% for id in ids %}\r\nhttps://usetrmnl.com/recipes/{{ id }}.json\r\n{% endfor %}\r\n{% when \"author_id\" %}\r\nhttps://usetrmnl.com/recipes.json?user_id={{ author_id | default: trmnl.user.id }}&sort-by=popularity\r\n{% when \"keyword\" %}\r\nhttps://usetrmnl.com/recipes?search={{ keyword | url_encode }}&sort-by=newest\r\n{% endcase %}"
+polling_headers: ''
+polling_body: ''
+id: 170970
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: Shows connection statistics of public recipes. You can choose to show the latest, search for keywords, show your own recipes, or show selected recipe IDs. Data powered by <a href="https://docs.usetrmnl.com/go/public-api/recipes-api">TRMNL Recipes API</a>.
+  github_url: https://github.com/blueset/trmnl-recipes
+- keyname: selection
+  name: Selection mode
+  field_type: select
+  options:
+  - Recipe IDs
+  - Author ID
+  - Keyword
+  default: author_id
+  conditional_validation:
+  - when: Recipe IDs
+    hidden:
+    - author_id
+    - keyword
+  - when: Author ID
+    hidden:
+    - recipe_ids
+    - keyword
+  - when: Keyword
+    hidden:
+    - recipe_ids
+    - author_id
+- keyname: recipe_ids
+  field_type: multi_string
+  name: Recipe IDs
+  description: List of Recipe IDs to get statistics from
+  optional: true
+  placeholder: '000000'
+- keyname: author_id
+  field_type: string
+  name: Author ID
+  description: ID of the author to get statistics from, default to your own user ID
+  optional: true
+  placeholder: '000000'
+- keyname: keyword
+  field_type: string
+  name: Keyword
+  description: Keyword to get statistics from, leave empty to show all
+  optional: true
+  placeholder: ''
+- keyname: full_layout
+  name: Layout in Full view
+  field_type: select
+  options:
+  - Large
+  - Small
+  default: large
+name: Public Recipe Stats
+refresh_interval: 1440

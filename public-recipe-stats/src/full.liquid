@@ -1,0 +1,24 @@
+{% case trmnl.plugin_settings.custom_fields_values.full_layout %}
+{% when "small" %}
+{% render "plugin",
+    show_progress: true,
+    title_class: "title title--small",
+    value_class: "hidden",
+    item_class: "",
+    icon_class: "h--8 w--min-8 mx--0 image-dither",
+    meta_class: "flex flex--row gap--large flex--left",
+    overflow_cols: 3,
+    json_data: json_data, trmnl: trmnl
+%}
+{% else %}
+{% render "plugin",
+    show_progress: true,
+    title_class: "title",
+    value_class: "value",
+    item_class: "mb--1",
+    icon_class: "h--14 w--min-14 mx--1 image-dither",
+    meta_class: "flex flex--col gap--none flex--left",
+    overflow_cols: 2,
+    json_data: json_data, trmnl: trmnl
+%}
+{% endcase %}

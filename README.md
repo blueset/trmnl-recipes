@@ -59,6 +59,14 @@ A random typeface from [Google Fonts](https://fonts.google.com/) on each refresh
 
 ![Screenshot](./random-google-fonts/images/f.png)
 
+## Public Recipe Stats
+
+Shows connection statistics of public recipes. You can choose to show the latest, search for keywords, show your own recipes, or show selected recipe IDs. Data powered by [TRMNL Recipes API](https://docs.usetrmnl.com/go/public-api/recipes-api).
+
+[Learn More](./public-recipe-stats/README.md), [Install](https://usetrmnl.com/recipes/170970)
+
+![Screenshot](./public-recipe-stats/images/f.png)
+
 ## Visa Bulletin (Not published yet)
 
 Show the latest Visa Bulletin information, and trends for filing date and action date.

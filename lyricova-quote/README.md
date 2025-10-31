@@ -1,4 +1,4 @@
-# Lyricova Quote (Not published yet)
+# Lyricova Quote
 
 Show a random quote from [Lyricova](https://lyricova.1a23.studio/) on each refresh.
 

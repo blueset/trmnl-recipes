@@ -1,0 +1,278 @@
+{% template row %}
+<div class="item {{ item_class }}" data-connections="{{ data.stats.installs | plus: data.stats.forks }}" data-installs="{{ data.stats.installs }}" data-forks="{{ data.stats.forks }}">
+  <span class="meta"><span class="index">{{ idx }}</span></span>
+  <div class="flex flex--left flex--row content">
+    <img class="image w--auto no-shrink {{ icon_class }}" src="{{ data.icon_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" style="filter: url(#binarize);" />
+    <div class="flex flex--col flex--left gap--none">
+      <span class="{{ title_class }}" data-clamp="1">{{ data.name }}</span>
+      <div class="flex flex--row flex--left {{ meta_row_class }}">
+        <span class="{{ value_class }}">{{ data.stats.installs | plus: data.stats.forks }}</span>
+        <div class="{{ meta_class }}">
+          <span class="description">{{ data.stats.installs }} install{% if data.stats.installs > 1 %}s{% endif %}</span>
+          <span class="description">{{ data.stats.forks }} fork{% if data.stats.forks > 1 %}s{% endif %}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endtemplate %}
+
+{% template plugin %}
+{% liquid 
+    assign total_installs = 0
+    assign total_forks = 0
+    for item in json_data
+        assign total_installs = total_installs | plus: item.stats.installs
+        assign total_forks = total_forks | plus: item.stats.forks
+    endfor
+    assign total_connections = total_installs | plus: total_forks
+%}
+
+<svg width="0" height="0" style="position: absolute;">
+  <defs>
+    <filter id="binarize" color-interpolation-filters="linearRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+    <!-- Convert to grayscale -->
+    <feColorMatrix type="matrix"
+      values="0.0722 0.7152 0.2126 0 0
+              0.0722 0.7152 0.2126 0 0
+              0.0722 0.7152 0.2126 0 0
+              0      0      0      1 0"/>
+    <!-- Threshold: everything above 0.5 becomes white, below becomes black -->
+    <feComponentTransfer>
+      <feFuncR type="discrete" tableValues="0 0.25 0.75 1"/>
+      <feFuncG type="discrete" tableValues="0 0.25 0.75 1"/>
+      <feFuncB type="discrete" tableValues="0 0.25 0.75 1"/>
+    </feComponentTransfer>
+  </filter>
+  </defs>
+</svg>
+<div class="gap--large layout layout--col">
+  <div class="columns" data-overflow-max-cols="{{ overflow_cols }}">
+    <div class="column">
+      {% for item in json_data %}
+      {% render "row", idx: forloop.index, data: item, 
+         item_class: item_class, title_class: title_class, value_class: value_class, icon_class: icon_class, meta_class: meta_class, meta_row_class: meta_row_class %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% if total_connections > 0 and show_progress %}
+<div class="p--0 title_bar pbar-title" style="position: relative">
+  <span class="inline-flex bg--gray-30 rounded h--full t--0 l--0 installs-progress-bar" style="position: absolute; width: {{ total_installs | times: 100.0 | divided_by: total_connections }}%"> </span>
+  <div class="flex flex--between flex--row px--2 w--full" style="z-index: 1; position: relative">
+    {% if show_progress == "compact" %}
+    <span class="pt--1 text-stroke label label-connections" >+{{ total_connections }}</span>
+    <span class="pt--1 text-stroke label label-installs" style="position: absolute;">{{ total_installs }} install{% if total_installs > 1 %}s{% endif %}</span>
+    <span class="pt--1 text-stroke label label-forks">{{ total_forks }} fork{% if total_forks > 1 %}s{% endif %}</span>
+    {% else %}
+    <span class="pt--1 text-stroke label label-connections" >{{ total_connections }} connection{% if total_connections > 1 %}s{% endif %}</span>
+    <span class="pt--1 text-stroke label label-installs" style="position: absolute;">{{ total_installs }} install{% if total_installs > 1 %}s{% endif %}</span>
+    <span class="pt--1 text-stroke label label-forks">{{ total_forks }} fork{% if total_forks > 1 %}s{% endif %}</span>
+    {% endif %}
+  </div>
+</div>
+{% else %}
+<div class="title_bar">
+  <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg" alt="TRMNL Logo">
+  <span class="title">Public Recipe Stats</span>
+  <span class="instance">{{ total_connections }} connection{% if total_connections > 1 %}s{% endif %}</span>
+</div>
+{% endif %}
+
+<script>
+  {% if trmnl.plugin_settings.custom_fields_values.selection == "recipe_ids" %}
+    (() => {
+    const root = document.currentScript.closest(".view");
+    const container = root.querySelector("[data-overflow-max-cols] .column");
+    const children = Array.from(container.children);
+
+    children.sort((a, b) => {
+      const scoreA = parseInt(a.dataset.installs || 0) + parseInt(a.dataset.forks || 0);
+      const scoreB = parseInt(b.dataset.installs || 0) + parseInt(b.dataset.forks || 0);
+      return scoreB - scoreA;
+    });
+    
+    children.forEach((child, idx) => {
+      child.querySelector(".meta .index").innerText = idx + 1;
+      container.appendChild(child)
+    });
+  })();
+  {% endif %}
+  (() => {
+    const root = document.currentScript.closest(".view");
+    const container = root.querySelector(".pbar-title");
+    const installs = container.querySelector(".label-installs");
+    const connections = container.querySelector(".label-connections");
+    const forks = container.querySelector(".label-forks");
+    const pbar = container.querySelector(".installs-progress-bar");
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      // Get bounding rectangles relative to container
+      const containerRect = container.getBoundingClientRect();
+      const pbarRect = pbar.getBoundingClientRect();
+      const installsRect = installs.getBoundingClientRect();
+      const connectionsRect = connections.getBoundingClientRect();
+      const forksRect = forks.getBoundingClientRect();
+      
+      // Calculate positions relative to container
+      const pbarRightRelative = pbarRect.right - containerRect.left;
+      const connectionsRightRelative = connectionsRect.right - containerRect.left;
+      const forksLeftRelative = forksRect.left - containerRect.left;
+      
+      // Check which edge is closer to pbar right edge
+      const distanceToForks = Math.abs(pbarRightRelative - forksLeftRelative);
+      const distanceToConnections = Math.abs(pbarRightRelative - connectionsRightRelative);
+      
+      // Position installs based on the rules
+      let positioned = false;
+      
+      // Rule: Try right = 10px left of pbar right edge
+      if (!positioned) {
+        const optionRight = containerRect.width - pbarRightRelative + 10;
+        const optionLeft = containerRect.width - optionRight - installsRect.width;
+        if (optionLeft > connectionsRightRelative && optionLeft + installsRect.width < forksLeftRelative) {
+          installs.style.right = `${optionRight}px`;
+          installs.style.left = 'auto';
+          positioned = true;
+        }
+      }
+      
+      // Rule: Try left = 10px right of pbar right edge
+      if (!positioned) {
+        const optionLeft = pbarRightRelative + 10;
+        const optionRight = optionLeft + installsRect.width;
+        if (optionRight < forksLeftRelative && optionLeft > connectionsRightRelative) {
+          installs.style.left = `${optionLeft}px`;
+          installs.style.right = 'auto';
+          positioned = true;
+        }
+      }
+      
+      // Rule: If pbar right edge closer to forks: right = forks left edge - 20px
+      if (!positioned && distanceToForks <= distanceToConnections) {
+        const optionRight = containerRect.width - forksLeftRelative + 40;
+        const optionLeft = containerRect.width - optionRight - installsRect.width;
+        if (optionLeft > connectionsRightRelative) {
+          installs.style.right = `${optionRight}px`;
+          installs.style.left = 'auto';
+          positioned = true;
+        }
+      }
+      
+      // Rule: If pbar right edge closer to connections: left = connections right edge + 20px
+      if (!positioned && distanceToConnections < distanceToForks) {
+        const optionLeft = connectionsRightRelative + 40;
+        const optionRight = optionLeft + installsRect.width;
+        if (optionRight < forksLeftRelative) {
+          installs.style.left = `${optionLeft}px`;
+          installs.style.right = 'auto';
+          positioned = true;
+        }
+      }
+    });
+
+    resizeObserver.observe(root);
+    resizeObserver.observe(connections);
+    resizeObserver.observe(forks);
+    resizeObserver.observe(installs);
+    
+  })();
+</script>
+
+{% endtemplate %}
+
+{% liquid 
+	case trmnl.plugin_settings.custom_fields_values.selection
+	when "recite_ids"
+		assign json_data_str = "["
+		if IDX_0.data
+			assign j = IDX_0.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_1.data
+			assign j = IDX_1.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_2.data
+			assign j = IDX_2.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_3.data
+			assign j = IDX_3.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_4.data
+			assign j = IDX_4.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_5.data
+			assign j = IDX_5.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_6.data
+			assign j = IDX_6.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_7.data
+			assign j = IDX_7.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_8.data
+			assign j = IDX_8.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_9.data
+			assign j = IDX_9.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_10.data
+			assign j = IDX_10.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_11.data
+			assign j = IDX_11.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_12.data
+			assign j = IDX_12.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_13.data
+			assign j = IDX_13.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_14.data
+			assign j = IDX_14.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_15.data
+			assign j = IDX_15.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_16.data
+			assign j = IDX_16.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_17.data
+			assign j = IDX_17.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_18.data
+			assign j = IDX_18.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_19.data
+			assign j = IDX_19.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		if IDX_20.data
+			assign j = IDX_20.data | json
+			assign json_data_str = json_data_str | append: j | append: ","
+		endif
+		assign json_data_end_index = json_data_str | size | minus: 1
+		assign json_data_str = json_data_str | slice: 0, json_data_end_index | append: "]"
+		assign json_data = json_data_str | parse_json
+	else
+		assign json_data = data
+	endcase
+%}
