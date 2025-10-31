@@ -2,6 +2,8 @@
 
 Shows connection statistics of public recipes. You can choose to show the latest, search for keywords, show your own recipes, or show selected recipe IDs. Data powered by [TRMNL Recipes API](https://docs.usetrmnl.com/go/public-api/recipes-api).
 
+Built with help from Jasper, Mario Lurig, Ryan, Sitnik on TRMNL Discord.
+
 [Install](https://usetrmnl.com/recipes/170970)
 
 ## Screenshot
