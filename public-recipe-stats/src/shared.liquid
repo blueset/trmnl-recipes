@@ -1,9 +1,9 @@
 {% template row %}
 <div class="item {{ item_class }}" data-connections="{{ data.stats.installs | plus: data.stats.forks }}" data-installs="{{ data.stats.installs }}" data-forks="{{ data.stats.forks }}">
   <span class="meta {{ meta_label_class }}"><span class="index">{{ idx }}</span></span>
-  <img class="{{ screenshot_class | default: "hidden" }}" src="{{ data.screenshot_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" style="filter: url(#binarize);" />
-  <div class="{{ item_box_class | default: "flex flex--left flex--row content" }}">
-    <img class="image w--auto no-shrink {{ icon_class }}" src="{{ data.icon_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" style="filter: url(#binarize);" />
+  <img class="binarize {{ screenshot_class | default: "hidden" }}" src="{{ data.screenshot_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" />
+  <div class="binarize {{ item_box_class | default: "flex flex--left flex--row content" }}">
+    <img class="image w--auto no-shrink {{ icon_class }}" src="{{ data.icon_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" />
     <div class="{{ meta_box_class | default: "flex flex--col flex--left gap--none w--0 w--max-full grow" }}">
       <span class="{{ title_class }} truncate-text w--max-full">{{ data.name }}</span>
       <div class="flex flex--row flex--left {{ meta_row_class }}">
@@ -127,6 +127,13 @@
 }
 .screen--1bit .-m-b--1, .screen--2bit .-m-b--1 {
   margin-bottom: -0.25rem;
+}
+.aspect--5\/3 {
+  aspect-ratio: 5 / 3;
+}
+.screen--1bit .binarize, .screen--2bit .binarize {
+  /* for when image-dither didn’t take effect in preview */
+  filter: url(#binarize);
 }
 </style>
 <script>
