@@ -1,9 +1,10 @@
 {% template row %}
 <div class="item {{ item_class }}" data-connections="{{ data.stats.installs | plus: data.stats.forks }}" data-installs="{{ data.stats.installs }}" data-forks="{{ data.stats.forks }}">
-  <span class="meta"><span class="index">{{ idx }}</span></span>
-  <div class="flex flex--left flex--row content">
+  <span class="meta {{ meta_label_class }}"><span class="index">{{ idx }}</span></span>
+  <img class="{{ screenshot_class | default: "hidden" }}" src="{{ data.screenshot_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" style="filter: url(#binarize);" />
+  <div class="{{ item_box_class | default: "flex flex--left flex--row content" }}">
     <img class="image w--auto no-shrink {{ icon_class }}" src="{{ data.icon_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" style="filter: url(#binarize);" />
-    <div class="flex flex--col flex--left gap--none w--max-full w--0 grow">
+    <div class="{{ meta_box_class | default: "flex flex--col flex--left gap--none w--0 w--max-full grow" }}">
       <span class="{{ title_class }} truncate-text w--max-full">{{ data.name }}</span>
       <div class="flex flex--row flex--left {{ meta_row_class }}">
         <span class="{{ value_class }}">{{ data.stats.installs | plus: data.stats.forks }}</span>
@@ -27,7 +28,6 @@
     endfor
     assign total_connections = total_installs | plus: total_forks
 %}
-
 <svg width="0" height="0" style="position: absolute;">
   <defs>
     <filter id="binarize" color-interpolation-filters="linearRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
@@ -49,36 +49,45 @@
 <div class="gap--large layout layout--col">
   {% assign data_size = json_data | size %}
   {% if data_size > 0 %}
-    <div class="columns" data-overflow-max-cols="{{ overflow_cols }}" {% if overflow_counter and to < total %}data-overflow-counter="true"{% endif %}>
+    <div class="columns" {% if overflow_cols %}data-overflow-max-cols="{{ overflow_cols }}"{% endif %} {% if overflow_counter and to < total %}data-overflow-counter="true"{% endif %}>
       <div class="column">
         {% for item in json_data %}
         {% render "row", idx: forloop.index, data: item, 
-           item_class: item_class, title_class: title_class, value_class: value_class, icon_class: icon_class, meta_class: meta_class, meta_row_class: meta_row_class %}
+           item_class: item_class, title_class: title_class, value_class: value_class, 
+           icon_class: icon_class, meta_class: meta_class, 
+           meta_label_class: meta_label_class, screenshot_class: screenshot_class,
+           item_box_class: item_box_class, meta_box_class: meta_box_class,
+           meta_row_class: meta_row_class 
+        %}
         {% endfor %}
-        {% if overflow_counter and to < total %}
-        <div class="item" data-alt-overflow-label="true"><div class="meta"></div><div class="content"><span class="label label--gray">and {{ total | minus: to }} more</span></div></div>
+        {% if overflow_counter and data_size < total %}
+        <div class="item" data-alt-overflow-label="true"><div class="meta"></div><div class="content"><span class="label label--gray">and {{ total | minus: data_size }} more</span></div></div>
+        {% endif %}
+        {% if overflow_counter and trmnl.plugin_settings.custom_fields_values.selection == "recipe_ids" %}
+        {% assign total = trmnl.plugin_settings.custom_fields_values.recipe_ids | split: "," | size %}
+        <div class="item" data-alt-overflow-label="true"><div class="meta"></div><div class="content"><span class="label label--gray">and {{ total | minus: data_size }} more</span></div></div>
         {% endif %}
       </div>
     </div>
   {% else %}
     <div class="richtext gap">
       {% if trmnl.plugin_settings.custom_fields_values.selection == "keyword" and trmnl.plugin_settings.custom_fields_values.keyword != "" %}
-      <div class="content content--large text--center">“{{ trmnl.plugin_settings.custom_fields_values.keyword }}” did not match any result.</div>
-      <div class="content text--center">Try search for something else.</div>
+      <div class="text--center content--large content">“{{ trmnl.plugin_settings.custom_fields_values.keyword }}” did not match any result.</div>
+      <div class="text--center content">Try search for something else.</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "keyword" and trmnl.plugin_settings.custom_fields_values.keyword == "" %}
-      <div class="content content--large text--center">No new recipe is found.</div>
-      <div class="content text--center">This shouldn’t happen.</div>
+      <div class="text--center content--large content">No new recipe is found.</div>
+      <div class="text--center content">This shouldn’t happen.</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "author_id" and trmnl.plugin_settings.custom_fields_values.author_id == "" %}
-      <div class="content content--large text--center">You did not publish any recipe.</div>
+      <div class="text--center content--large content">You did not publish any recipe.</div>
       <div class="content">Learn how to publish your first one at https://help.usetrmnl.com/en/articles/9510536-private-plugins</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "author_id" and trmnl.plugin_settings.custom_fields_values.author_id != "" %}
-      <div class="content content--large text--center">User #{{ author_id }} did not publish any recipe.</div>
+      <div class="text--center content--large content">User #{{ author_id }} did not publish any recipe.</div>
       <div class="content">No recipe is found associated with this ID.</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "recipe_ids" and trmnl.plugin_settings.custom_fields_values.recipe_ids == "" %}
-      <div class="content content--large text--center">No recipe ID is found.</div>
+      <div class="text--center content--large content">No recipe ID is found.</div>
       <div class="content">Add a recipe ID to get started.</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "recipe_ids" and trmnl.plugin_settings.custom_fields_values.recipe_ids != "" %}
-      <div class="content content--large text--center">No recipe ID is found valid.</div>
+      <div class="text--center content--large content">No recipe ID is found valid.</div>
       <div class="content">None of the recipe IDs {{ trmnl.plugin_settings.custom_fields_values.recipe_ids }} are valid, please verify your settings.</div>
       {% endif %}
     </div>
@@ -113,9 +122,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-  .placeholder {
-    height: 1000vh;
-  }
+.screenshot-border {
+  border: 1px solid #000;
+}
+.screen--1bit .-m-b--1, .screen--2bit .-m-b--1 {
+  margin-bottom: -0.25rem;
+}
 </style>
 <script>
   {% if trmnl.plugin_settings.custom_fields_values.selection == "recipe_ids" %}

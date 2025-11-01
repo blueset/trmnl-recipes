@@ -10,8 +10,9 @@ watch:
 custom_fields: 
   selection: author_id
   author_id: 19375
-  # full_layout: small
-  full_layout: large
+  full_layout: small
+  # full_layout: large
+  # full_layout: gallery
 
 # override variables
 variables:

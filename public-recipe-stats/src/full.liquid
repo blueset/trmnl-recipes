@@ -1,4 +1,22 @@
 {% case trmnl.plugin_settings.custom_fields_values.full_layout %}
+{% when "gallery" %}
+{% render "plugin",
+    show_progress: true,
+    title_class: "title title--small",
+    value_class: "hidden",
+    meta_label_class: "hidden",
+    screenshot_class: "w--full screenshot-border rounded--small",
+    item_class: "flex flex--col gap--xsmall flex--left",
+    item_box_class: "flex flex--row gap--small flex--left w--full",
+    meta_box_class: "flex flex--col gap--none flex--left w--0 w--max-full grow",
+    icon_class: "h--8 w--min-8 mx--0 image-dither",
+    meta_class: "flex flex--row gap--large flex--left -m-b--1",
+    overflow_cols: 3,
+    to: to,
+    total: total,
+    overflow_counter: false,
+    json_data: json_data, trmnl: trmnl
+%}
 {% when "small" %}
 {% render "plugin",
     show_progress: true,

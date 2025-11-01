@@ -59,6 +59,8 @@ custom_fields:
   options:
   - Large
   - Small
+  - Gallery
   default: large
+  description: Choose layout for Full view mode, visit <a href="https://github.com/blueset/trmnl-recipes/blob/master/public-recipe-stats/README.md">here</a> for previews.
 name: Public Recipe Stats
 refresh_interval: 1440

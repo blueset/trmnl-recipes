@@ -8,12 +8,12 @@ Built with help from Jasper, Mario Lurig, Ryan, Sitnik on TRMNL Discord.
 
 ## Screenshot
 
-| Full (Large) | Full (Small) | Vertical |
-| :---: | :---: | :---: |
-| ![Screenshot](./images/f.png) | ![Screenshot](./images/f-sm.png) | ![Screenshot](./images/v.png) |
-
-| Horizontal | Quad |
+| Full (Large) | Full (Small) |
 | :---: | :---: |
+| ![Screenshot](./images/f.png) | ![Screenshot](./images/f-sm.png) |
+| Full (Gallery) | Vertical |
+ ![Screenshot](./images/f-gl.png) | ![Screenshot](./images/v.png) |
+| Horizontal | Quad |
 | ![Screenshot](./images/h.png) | ![Screenshot](./images/q.png) |
 
 ## Parameters
@@ -22,4 +22,4 @@ Built with help from Jasper, Mario Lurig, Ryan, Sitnik on TRMNL Discord.
 - Keyword (only if Selection is Keyword, defaults to show everything)
 - Author ID (only if Selection is Author ID, defaults to your own user ID)
 - Selected IDs (only if Selection is Selected IDs)
-- Layout in full view (Large, Small)r
+- Layout in full view (Large, Small, Gallery)
