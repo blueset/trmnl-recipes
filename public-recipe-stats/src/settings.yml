@@ -16,11 +16,12 @@ custom_fields:
   github_url: https://github.com/blueset/trmnl-recipes
 - keyname: selection
   name: Selection mode
+  description: Choose what recipes to show
   field_type: select
   options:
-  - Recipe IDs
-  - Author ID
-  - Keyword
+  - My recipes / Specify author: author_id
+  - All recipes / Search by keyword: keyword
+  - Specify recipe IDs: recipe_ids
   default: author_id
   conditional_validation:
   - when: Recipe IDs
@@ -35,6 +36,15 @@ custom_fields:
     hidden:
     - recipe_ids
     - author_id
+- keyname: full_layout
+  name: Layout in Full view
+  field_type: select
+  options:
+  - Large
+  - Small
+  - Gallery
+  default: large
+  description: Choose layout for Full view mode, visit <a href="https://github.com/blueset/trmnl-recipes/blob/master/public-recipe-stats/README.md">here</a> for previews.
 - keyname: recipe_ids
   field_type: multi_string
   name: Recipe IDs
@@ -53,14 +63,5 @@ custom_fields:
   description: Keyword to get statistics from, leave empty to show all
   optional: true
   placeholder: ''
-- keyname: full_layout
-  name: Layout in Full view
-  field_type: select
-  options:
-  - Large
-  - Small
-  - Gallery
-  default: large
-  description: Choose layout for Full view mode, visit <a href="https://github.com/blueset/trmnl-recipes/blob/master/public-recipe-stats/README.md">here</a> for previews.
 name: Public Recipe Stats
 refresh_interval: 1440
