@@ -12,7 +12,7 @@ custom_fields:
 - keyname: doesnt_matter
   name: About This Plugin
   field_type: author_bio
-  description: Shows connection statistics of public recipes. You can choose to show the latest, search for keywords, show your own recipes, or show selected recipe IDs. Data powered by <a href="https://docs.usetrmnl.com/go/public-api/recipes-api">TRMNL Recipes API</a>. Built with help from Jasper, Mario Lurig, Ryan, Sitnik on TRMNL Discord.
+  description: Shows connection statistics of public recipes. You can choose to show the latest, search for keywords, show your own recipes, or show selected recipe IDs. Data powered by <a href="https://docs.usetrmnl.com/go/public-api/recipes-api">TRMNL Recipes API</a>. Built with help from Jasper, Mario Lurig, Ryan, and Sitnik on TRMNL Discord.
   github_url: https://github.com/blueset/trmnl-recipes
 - keyname: selection
   name: Selection mode
@@ -24,15 +24,15 @@ custom_fields:
   - Specify recipe IDs: recipe_ids
   default: author_id
   conditional_validation:
-  - when: Recipe IDs
+  - when: recipe_ids
     hidden:
     - author_id
     - keyword
-  - when: Author ID
+  - when: author_id
     hidden:
     - recipe_ids
     - keyword
-  - when: Keyword
+  - when: keyword
     hidden:
     - recipe_ids
     - author_id
