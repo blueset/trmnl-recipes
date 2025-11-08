@@ -1,0 +1,57 @@
+<div class="layout layout--left">
+  <div class="richtext richtext--left gap h--max-full" data-overflow="true">
+    <div class="value value--xsmall text--left text--balance mb--4 lg:value--small" data-value-fit="true">
+      {% render "sentence": data: data, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
+    </div>
+    {% if sentences_per_translation_language == "all" %}
+      {% for item in data.translations %}
+        {% liquid
+          assign authorNames = authorNames | append: ", " | append: item.owner
+          assign licenses = licenses | append: ", " | append: item.license
+          assign language = lang_data[item.lang]
+        %}
+        <div class="item content flex flex--left flex--row gap--small flex--baseline" lang="{{ language.bcp47 }}">
+          <span class="label label--small label--outline lang-label inline-block text--center no-shrink">{{ language.label }}</span>
+          <div class="text--balance title title--small">
+            {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      {% for lang in translation_languages %}
+        {% liquid
+          assign translations = data.translations | where: "lang", lang | slice: 0, 1
+          assign language = lang_data[lang]
+        %}
+        {% for item in translations %}
+          {% liquid
+            assign authorNames = authorNames | append: ", " | append: item.owner
+            assign licenses = licenses | append: ", " | append: item.license
+          %}
+          <div class="item content flex flex--left flex--row gap flex--baseline" lang="{{ language.bcp47 }}">
+            <span class="label label--small label--underline inline-block text--center lang-label no-shrink">{{ language.label }}</span>
+            <div class="text--balance title title--small">
+              {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+  </div>
+  <div class="credit w--20 text--right"><span data-unique>{{ licenses }}</span><br><span data-unique>{{ authorNames }}</span></div>
+</div>
+
+<div class="title_bar">
+  {% render "logo" %}
+  <span class="title">{{ lang_data[main_language].label }} → {% for lang in translation_languages %}{{ lang_data[lang].label }}{% if forloop.last == false %}, {% endif %}{% endfor %}</span>
+  <span class="instance">#{{ data.id }}</span>
+</div>
+
+<script>
+  (() => {
+    const root = document.currentScript.closest(".view");
+    root.querySelectorAll('[data-unique]').forEach((e) => {
+      e.innerText = [...(new Set(e.innerText.split(/, /g)))].filter(Boolean).join(', ');
+    });
+  })();
+</script>

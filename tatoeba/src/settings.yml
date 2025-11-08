@@ -1,0 +1,971 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: "https://api.dev.tatoeba.org/unstable/sentences?lang={{ main_language }}&limit=1&sort=random\r\n{%- assign translation_languages_list = translation_languages | parse_json -%}\r\n{%- for translation_language in translation_languages_list -%}\r\n&trans:{{ forloop.index }}:lang={{ translation_language }}\r\n{%- endfor -%}\r\n{%- if translation_languages -%}\r\n&showtrans:lang={{- translation_languages_list | join: ',' -}}\r\n{%- endif -%}\r\n{%- if tags != \"\" -%}\r\n&tag={{- tags -}}\r\n{%- endif -%}\r\n{%- if approved_only == \"yes\" -%}\r\n&is_unapproved=no\r\n{%- endif -%}\r\n{%- if lists != \"\" -%}\r\n&list={{- lists -}}\r\n{%- endif -%}\r\n{%- if word_count != \"\" -%}\r\n&word_count={{- word_count -}}\r\n{%- endif -%}\r\n{%- if query != \"\" -%}\r\n&q={{- query -}}\r\n{%- endif -%}"
+polling_headers: ''
+polling_body: ''
+id: 177718
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: A random sentence in your chosen languages with translations. Data powered by <a href="https://tatoeba.org/">Tatoeba</a>
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://tatoeba.org/
+- keyname: main_language
+  field_type: select
+  name: Main Language
+  description: Language of sentence to be displayed in large font
+  options:
+  - English: eng
+  - Russian: rus
+  - Italian: ita
+  - Esperanto: epo
+  - Kabyle: kab
+  - Turkish: tur
+  - German: deu
+  - French: fra
+  - Berber: ber
+  - Portuguese: por
+  - Spanish: spa
+  - Hungarian: hun
+  - Japanese: jpn
+  - Hebrew: heb
+  - Dutch: nld
+  - Ukrainian: ukr
+  - Finnish: fin
+  - Lithuanian: lit
+  - Polish: pol
+  - Czech: ces
+  - Mandarin Chinese: cmn
+  - Marathi: mar
+  - Macedonian: mkd
+  - Tagalog: tgl
+  - Toki Pona: tok
+  - Arabic: ara
+  - Danish: dan
+  - Tatar: tat
+  - Swedish: swe
+  - Latin: lat
+  - Serbian: srp
+  - Tigre: tig
+  - Eastern Armenian: hye
+  - Greek: ell
+  - Interlingua: ina
+  - Romanian: ron
+  - Lingua Franca Nova: lfn
+  - Klingon: tlh
+  - Persian: pes
+  - Vietnamese: vie
+  - Slovak: slk
+  - Indonesian: ind
+  - Yiddish: yid
+  - Bulgarian: bul
+  - Congo Swahili: swc
+  - Occitan: oci
+  - Tashelhit: shi
+  - Hausa: hau
+  - Standard Moroccan Tamazight: zgh
+  - Cantonese: yue
+  - Low German (Low Saxon): nds
+  - Norwegian Bokmål: nob
+  - Lojban: jbo
+  - Bengali: ben
+  - Hindi: hin
+  - Korean: kor
+  - Assamese: asm
+  - Belarusian: bel
+  - Nande: nnb
+  - Ido: ido
+  - Latvian: lvs
+  - Icelandic: isl
+  - Central Kurdish (Soranî): ckb
+  - Norwegian Nynorsk: nno
+  - Interlingue: ile
+  - Azerbaijani: aze
+  - Gronings: gos
+  - Northern Kurdish (Kurmancî): kmr
+  - Catalan: cat
+  - Breton: bre
+  - Uyghur: uig
+  - Malay: zsm
+  - Galician: glg
+  - Ossetian: oss
+  - Georgian: kat
+  - Turkmen: tuk
+  - Thai: tha
+  - Volapük: vol
+  - Basque: eus
+  - Santali: sat
+  - Estonian: est
+  - Croatian: hrv
+  - Old Prussian: prg
+  - Coastal Kadazan: kzj
+  - Kirundi: run
+  - Udmurt: udm
+  - Lingala: lin
+  - Shanghainese: wuu
+  - Afrikaans: afr
+  - Swahili: swh
+  - Nepali: npi
+  - Kazakh: kaz
+  - Meadow Mari: mhr
+  - Kotava: avk
+  - Tigrinya: tir
+  - Cornish: cor
+  - Rohingya: rhg
+  - Central Kanuri: knc
+  - Slovenian: slv
+  - Guarani: grn
+  - Chavacano: cbk
+  - North Frisian: frr
+  - Central Dusun: dtp
+  - Irish: gle
+  - Urdu: urd
+  - Mongolian: mon
+  - Nuer: nus
+  - Albanian: sqi
+  - Ottoman Turkish: ota
+  - Ilocano: ilo
+  - Khmer: khm
+  - Hunsrik: hrx
+  - Algerian Arabic: arq
+  - Ho: hoc
+  - Waray: war
+  - Khasi: kha
+  - Malay (Vernacular): zlm
+  - Tarifit: rif
+  - Guadeloupean Creole French: gcf
+  - Ladino: lad
+  - Swabian: swg
+  - Ligurian: lij
+  - Mingrelian: xmf
+  - Literary Chinese: lzh
+  - Welsh: cym
+  - Zaza: zza
+  - Bosnian: bos
+  - Chuvash: chv
+  - Ancient Greek: grc
+  - Cebuano: ceb
+  - Lower Sorbian: dsb
+  - Southern Altai: alt
+  - Upper Sorbian: hsb
+  - Kapampangan: pam
+  - Egyptian Arabic: arz
+  - Javanese: jav
+  - unknown: unknown
+  - Picard: pcd
+  - Old East Slavic: orv
+  - Uzbek: uzb
+  - Scottish Gaelic: gla
+  - Buryat: bua
+  - Southern Kurdish: sdh
+  - Romani: rom
+  - Luxembourgish: ltz
+  - Yakut: sah
+  - Interslavic: isv
+  - Kashubian: csb
+  - Wayuu: guc
+  - Avar: ava
+  - Malayalam: mal
+  - Silesian: szl
+  - Kalmyk: xal
+  - Piedmontese: pms
+  - Asturian: ast
+  - Novial: nov
+  - Naga (Tangshang): nst
+  - Brithenig: bzt
+  - Sundanese: sun
+  - Frisian: fry
+  - Tachawit: shy
+  - Maltese: mlt
+  - Muskogee (Creek): mus
+  - Kven Finnish: fkv
+  - Tahaggart Tamahaq: thv
+  - Burmese: mya
+  - Ingrian: izh
+  - Kyrgyz: kir
+  - Mapuche: arn
+  - Tupinambá: tpn
+  - Tamil: tam
+  - Crimean Tatar: crh
+  - Chukchi: ckt
+  - Swiss German: gsw
+  - Min Nan Chinese: nan
+  - Maori: mri
+  - Ainu: ain
+  - Quechua: que
+  - Faroese: fao
+  - North Moluccan Malay: max
+  - Old English: ang
+  - Veps: vep
+  - Odia (Oriya): ori
+  - Luganda: lug
+  - Erzya: myv
+  - Bashkir: bak
+  - Chamorro: cha
+  - Talossan: tzl
+  - Latgalian: ltg
+  - Amharic: amh
+  - Kannada: kan
+  - Nogai: nog
+  - Kelantan-Pattani Malay: mfa
+  - Telugu: tel
+  - Karachay-Balkar: krc
+  - Tumbuka: tum
+  - Venetian: vec
+  - Kashmiri: kas
+  - Lezgi: lez
+  - Gothic: got
+  - Xhosa: xho
+  - Awadhi: awa
+  - Bavarian: bar
+  - Old Turkish: otk
+  - Nahuatl: nah
+  - Lao: lao
+  - Northern Sami: sme
+  - Laz: lzz
+  - Jewish Babylonian Aramaic: tmr
+  - Punjabi (Eastern): pan
+  - Old French: fro
+  - Mirandese: mwl
+  - Somali: som
+  - Sranan Tongo: srn
+  - Láadan: ldn
+  - Karelian: krl
+  - Hawaiian: haw
+  - Baluchi: bal
+  - Sumerian: sux
+  - Greenlandic: kal
+  - Gujarati: guj
+  - Quenya: qya
+  - Saterland Frisian: stq
+  - Sanskrit: san
+  - Livonian: liv
+  - Ancient Hebrew: hbo
+  - Kumyk: kum
+  - Banjar: bjn
+  - Middle English: enm
+  - Emilian: egl
+  - Hitchiti: mik
+  - Saraiki: skr
+  - Kabardian: kbd
+  - Sindarin: sjn
+  - Gulf Arabic: afb
+  - Choctaw: cho
+  - South Levantine Arabic: ajp
+  - Minangkabau: min
+  - Rusyn: rue
+  - Evenki: evn
+  - Yoruba: yor
+  - Old Norse: non
+  - Ojibwe: oji
+  - Zulu: zul
+  - Haitian Creole: hat
+  - Dutton World Speedwords: dws
+  - Wolof: wol
+  - Aragonese: arg
+  - Tetun: tet
+  - Ao Naga: njo
+  - Tok Pisin: tpi
+  - North Levantine Arabic: apc
+  - Moroccan Arabic: ary
+  - Iban: iba
+  - Baybayanon: bvy
+  - Shuswap: shs
+  - Scots: sco
+  - Hmong Daw (White): mww
+  - Tuvinian: tyv
+  - Papiamento: pap
+  - Hill Mari: mrj
+  - Khakas: kjh
+  - Western Armenian: hyw
+  - Navajo: nav
+  - Ladin: lld
+  - Central Mnong: cmo
+  - Extremaduran: ext
+  - Samoan: smo
+  - Kölsch: ksh
+  - Tajik: tgk
+  - Afrihili: afh
+  - Mohawk: moh
+  - Malagasy: mlg
+  - Komi-Zyrian: kpv
+  - Sinhala: sin
+  - Punjabi (Western): pnb
+  - Gagauz: gag
+  - Karakalpak: kaa
+  - Talysh: tly
+  - Seychellois Creole: crs
+  - CycL: cycl
+  - Neapolitan: nap
+  - Hakka Chinese: hak
+  - Bambara: bam
+  - Nuosu: iii
+  - Pangasinan: pag
+  - Pashto: pus
+  - Pipil: ppl
+  - Mambae: mgm
+  - Southern Sami: sma
+  - Lushootseed: lut
+  - Tibetan: bod
+  - Pennsylvania German: pdc
+  - Mahasu Pahari: bfz
+  - Bhojpuri: bho
+  - Isan: tts
+  - Middle Persian (Pahlavi): pal
+  - Chinook Jargon: chn
+  - Walloon: wln
+  - Plains Cree: crk
+  - Berom: bom
+  - Iraqi Arabic: acm
+  - Inuktitut: ike
+  - Shona: sna
+  - Samogitian: sgs
+  - Limburgish: lim
+  - Chechen: che
+  - Igbo: ibo
+  - Chinyanja: nya
+  - Komi-Permyak: koi
+  - Drents: drt
+  - Hiligaynon: hil
+  - Fijian: fij
+  - Guerrero Nahuatl: ngu
+  - Okinawan: ryu
+  - Setswana: tsn
+  - Dargwa: dar
+  - Dhivehi: div
+  - Manx: glv
+  - Central Huasteca Nahuatl: nch
+  - Abkhaz: abk
+  - Garhwali: gbm
+  - Niuean: niu
+  - Nigerian Fulfulde: fuv
+  - Sicilian: scn
+  - Palauan: pau
+  - Jamaican Patois: jam
+  - Interglossa: igs
+  - Friulian: fur
+  - Fiji Hindi: hif
+  - Middle French: frm
+  - Yucatec Maya: yua
+  - Old Spanish: osp
+  - Rapa Nui: rap
+  - Adyghe: ady
+  - Cayuga: cay
+  - Kinyarwanda: kin
+  - Dungan: dng
+  - Umbundu: umb
+  - Ga: gaa
+  - Tahitian: tah
+  - Cherokee: chr
+  - Lombard: lmo
+  - Bislama: bis
+  - O'odham: ood
+  - Gheg Albanian: aln
+  - Corsican: cos
+  - Tagal Murut: mvv
+  - Aklanon: akl
+  - Marshallese: mah
+  - Romansh: roh
+  - Ewe: ewe
+  - Lakota: lkt
+  - Kekchi (Q'eqchi'): kek
+  - Uab Meto: aoz
+  - Qashqai: qxq
+  - Tongan: ton
+  - Khalaj: klj
+  - Louisiana Creole: lou
+  - Old Aramaic: oar
+  - Pali: pli
+  - Ingush: inh
+  - Tonga (Zambezi): toi
+  - Ngeq: ngt
+  - Mi'kmaq: mic
+  - Jin Chinese: cjy
+  - Svan: sva
+  - Jewish Palestinian Aramaic: jpa
+  - Newari: new
+  - Sardinian: srd
+  - Sylheti: syl
+  - Tuvaluan: tvl
+  - Mandar: mdr
+  - Võro: vro
+  - Central Bikol: bcl
+  - Phoenician: phn
+  - Urhobo: urh
+  - Orizaba Nahuatl: nlv
+  - Gilbertese: gil
+  - Lak: lbe
+  - Old Frisian: ofs
+  - Aymara: aym
+  - Karakhanid: xqa
+  - Mono (USA): mnr
+  - Abaza: abq
+  - Erromintxela: emx
+  - Zeelandic: zea
+  - Sango: sag
+  - Pulaar: fuc
+  - Tokelauan: tkl
+  - Meitei: mni
+  - Nauruan: nau
+  - Bodo: brx
+  - Kamba: kam
+  - Konkani (Goan): gom
+  - West-Central Oromo: gaz
+  - Southern Subanen: laa
+  - Moksha: mdf
+  - Juhuri (Judeo-Tat): jdt
+  - Mon: mnw
+  - Chagatai: chg
+  - Gun: guw
+  - Maithili: mai
+  - K'iche': quc
+  - Madurese: mad
+  - Chinese Pidgin English: cpi
+  - Balinese: ban
+  - Swazi: ssw
+  - Southern Zaza (Dimli): diq
+  - Northern Zaza (Kirmanjki): kiu
+  - Assyrian Neo-Aramaic: aii
+  - Morisyen: mfe
+  - Sindhi: snd
+  - Temuan: tmw
+  - Tsonga: tso
+  - Xiang Chinese: hsn
+  - Keningau Murut: kxi
+  - Hmong Njua (Green): hnj
+  - Syriac: syc
+  - Old Saxon: osx
+  - Northern Haida: hdn
+  - Libyan Arabic: ayl
+  - Gan Chinese: gan
+  - Palatine German: pfl
+  - Southern Sotho: sot
+  - Rendille: rel
+  - Nyungar: nys
+  - Manchu: mnc
+  - Southern Haida: hax
+  - Cuyonon: cyo
+- keyname: translation_languages
+  description: Language of sentence to be displayed in small font.
+  help_text: Use <kbd>⌘</kbd>+<kbd>click</kbd> or <kbd>ctrl</kbd>+<kbd>click</kbd> to select and deselect multiple options.
+  field_type: select
+  name: Translation Languages
+  optional: true
+  multiple: true
+  options:
+  - English: eng
+  - Russian: rus
+  - Italian: ita
+  - Esperanto: epo
+  - Kabyle: kab
+  - Turkish: tur
+  - German: deu
+  - French: fra
+  - Berber: ber
+  - Portuguese: por
+  - Spanish: spa
+  - Hungarian: hun
+  - Japanese: jpn
+  - Hebrew: heb
+  - Dutch: nld
+  - Ukrainian: ukr
+  - Finnish: fin
+  - Lithuanian: lit
+  - Polish: pol
+  - Czech: ces
+  - Mandarin Chinese: cmn
+  - Marathi: mar
+  - Macedonian: mkd
+  - Tagalog: tgl
+  - Toki Pona: tok
+  - Arabic: ara
+  - Danish: dan
+  - Tatar: tat
+  - Swedish: swe
+  - Latin: lat
+  - Serbian: srp
+  - Tigre: tig
+  - Eastern Armenian: hye
+  - Greek: ell
+  - Interlingua: ina
+  - Romanian: ron
+  - Lingua Franca Nova: lfn
+  - Klingon: tlh
+  - Persian: pes
+  - Vietnamese: vie
+  - Slovak: slk
+  - Indonesian: ind
+  - Yiddish: yid
+  - Bulgarian: bul
+  - Congo Swahili: swc
+  - Occitan: oci
+  - Tashelhit: shi
+  - Hausa: hau
+  - Standard Moroccan Tamazight: zgh
+  - Cantonese: yue
+  - Low German (Low Saxon): nds
+  - Norwegian Bokmål: nob
+  - Lojban: jbo
+  - Bengali: ben
+  - Hindi: hin
+  - Korean: kor
+  - Assamese: asm
+  - Belarusian: bel
+  - Nande: nnb
+  - Ido: ido
+  - Latvian: lvs
+  - Icelandic: isl
+  - Central Kurdish (Soranî): ckb
+  - Norwegian Nynorsk: nno
+  - Interlingue: ile
+  - Azerbaijani: aze
+  - Gronings: gos
+  - Northern Kurdish (Kurmancî): kmr
+  - Catalan: cat
+  - Breton: bre
+  - Uyghur: uig
+  - Malay: zsm
+  - Galician: glg
+  - Ossetian: oss
+  - Georgian: kat
+  - Turkmen: tuk
+  - Thai: tha
+  - Volapük: vol
+  - Basque: eus
+  - Santali: sat
+  - Estonian: est
+  - Croatian: hrv
+  - Old Prussian: prg
+  - Coastal Kadazan: kzj
+  - Kirundi: run
+  - Udmurt: udm
+  - Lingala: lin
+  - Shanghainese: wuu
+  - Afrikaans: afr
+  - Swahili: swh
+  - Nepali: npi
+  - Kazakh: kaz
+  - Meadow Mari: mhr
+  - Kotava: avk
+  - Tigrinya: tir
+  - Cornish: cor
+  - Rohingya: rhg
+  - Central Kanuri: knc
+  - Slovenian: slv
+  - Guarani: grn
+  - Chavacano: cbk
+  - North Frisian: frr
+  - Central Dusun: dtp
+  - Irish: gle
+  - Urdu: urd
+  - Mongolian: mon
+  - Nuer: nus
+  - Albanian: sqi
+  - Ottoman Turkish: ota
+  - Ilocano: ilo
+  - Khmer: khm
+  - Hunsrik: hrx
+  - Algerian Arabic: arq
+  - Ho: hoc
+  - Waray: war
+  - Khasi: kha
+  - Malay (Vernacular): zlm
+  - Tarifit: rif
+  - Guadeloupean Creole French: gcf
+  - Ladino: lad
+  - Swabian: swg
+  - Ligurian: lij
+  - Mingrelian: xmf
+  - Literary Chinese: lzh
+  - Welsh: cym
+  - Zaza: zza
+  - Bosnian: bos
+  - Chuvash: chv
+  - Ancient Greek: grc
+  - Cebuano: ceb
+  - Lower Sorbian: dsb
+  - Southern Altai: alt
+  - Upper Sorbian: hsb
+  - Kapampangan: pam
+  - Egyptian Arabic: arz
+  - Javanese: jav
+  - unknown: unknown
+  - Picard: pcd
+  - Old East Slavic: orv
+  - Uzbek: uzb
+  - Scottish Gaelic: gla
+  - Buryat: bua
+  - Southern Kurdish: sdh
+  - Romani: rom
+  - Luxembourgish: ltz
+  - Yakut: sah
+  - Interslavic: isv
+  - Kashubian: csb
+  - Wayuu: guc
+  - Avar: ava
+  - Malayalam: mal
+  - Silesian: szl
+  - Kalmyk: xal
+  - Piedmontese: pms
+  - Asturian: ast
+  - Novial: nov
+  - Naga (Tangshang): nst
+  - Brithenig: bzt
+  - Sundanese: sun
+  - Frisian: fry
+  - Tachawit: shy
+  - Maltese: mlt
+  - Muskogee (Creek): mus
+  - Kven Finnish: fkv
+  - Tahaggart Tamahaq: thv
+  - Burmese: mya
+  - Ingrian: izh
+  - Kyrgyz: kir
+  - Mapuche: arn
+  - Tupinambá: tpn
+  - Tamil: tam
+  - Crimean Tatar: crh
+  - Chukchi: ckt
+  - Swiss German: gsw
+  - Min Nan Chinese: nan
+  - Maori: mri
+  - Ainu: ain
+  - Quechua: que
+  - Faroese: fao
+  - North Moluccan Malay: max
+  - Old English: ang
+  - Veps: vep
+  - Odia (Oriya): ori
+  - Luganda: lug
+  - Erzya: myv
+  - Bashkir: bak
+  - Chamorro: cha
+  - Talossan: tzl
+  - Latgalian: ltg
+  - Amharic: amh
+  - Kannada: kan
+  - Nogai: nog
+  - Kelantan-Pattani Malay: mfa
+  - Telugu: tel
+  - Karachay-Balkar: krc
+  - Tumbuka: tum
+  - Venetian: vec
+  - Kashmiri: kas
+  - Lezgi: lez
+  - Gothic: got
+  - Xhosa: xho
+  - Awadhi: awa
+  - Bavarian: bar
+  - Old Turkish: otk
+  - Nahuatl: nah
+  - Lao: lao
+  - Northern Sami: sme
+  - Laz: lzz
+  - Jewish Babylonian Aramaic: tmr
+  - Punjabi (Eastern): pan
+  - Old French: fro
+  - Mirandese: mwl
+  - Somali: som
+  - Sranan Tongo: srn
+  - Láadan: ldn
+  - Karelian: krl
+  - Hawaiian: haw
+  - Baluchi: bal
+  - Sumerian: sux
+  - Greenlandic: kal
+  - Gujarati: guj
+  - Quenya: qya
+  - Saterland Frisian: stq
+  - Sanskrit: san
+  - Livonian: liv
+  - Ancient Hebrew: hbo
+  - Kumyk: kum
+  - Banjar: bjn
+  - Middle English: enm
+  - Emilian: egl
+  - Hitchiti: mik
+  - Saraiki: skr
+  - Kabardian: kbd
+  - Sindarin: sjn
+  - Gulf Arabic: afb
+  - Choctaw: cho
+  - South Levantine Arabic: ajp
+  - Minangkabau: min
+  - Rusyn: rue
+  - Evenki: evn
+  - Yoruba: yor
+  - Old Norse: non
+  - Ojibwe: oji
+  - Zulu: zul
+  - Haitian Creole: hat
+  - Dutton World Speedwords: dws
+  - Wolof: wol
+  - Aragonese: arg
+  - Tetun: tet
+  - Ao Naga: njo
+  - Tok Pisin: tpi
+  - North Levantine Arabic: apc
+  - Moroccan Arabic: ary
+  - Iban: iba
+  - Baybayanon: bvy
+  - Shuswap: shs
+  - Scots: sco
+  - Hmong Daw (White): mww
+  - Tuvinian: tyv
+  - Papiamento: pap
+  - Hill Mari: mrj
+  - Khakas: kjh
+  - Western Armenian: hyw
+  - Navajo: nav
+  - Ladin: lld
+  - Central Mnong: cmo
+  - Extremaduran: ext
+  - Samoan: smo
+  - Kölsch: ksh
+  - Tajik: tgk
+  - Afrihili: afh
+  - Mohawk: moh
+  - Malagasy: mlg
+  - Komi-Zyrian: kpv
+  - Sinhala: sin
+  - Punjabi (Western): pnb
+  - Gagauz: gag
+  - Karakalpak: kaa
+  - Talysh: tly
+  - Seychellois Creole: crs
+  - CycL: cycl
+  - Neapolitan: nap
+  - Hakka Chinese: hak
+  - Bambara: bam
+  - Nuosu: iii
+  - Pangasinan: pag
+  - Pashto: pus
+  - Pipil: ppl
+  - Mambae: mgm
+  - Southern Sami: sma
+  - Lushootseed: lut
+  - Tibetan: bod
+  - Pennsylvania German: pdc
+  - Mahasu Pahari: bfz
+  - Bhojpuri: bho
+  - Isan: tts
+  - Middle Persian (Pahlavi): pal
+  - Chinook Jargon: chn
+  - Walloon: wln
+  - Plains Cree: crk
+  - Berom: bom
+  - Iraqi Arabic: acm
+  - Inuktitut: ike
+  - Shona: sna
+  - Samogitian: sgs
+  - Limburgish: lim
+  - Chechen: che
+  - Igbo: ibo
+  - Chinyanja: nya
+  - Komi-Permyak: koi
+  - Drents: drt
+  - Hiligaynon: hil
+  - Fijian: fij
+  - Guerrero Nahuatl: ngu
+  - Okinawan: ryu
+  - Setswana: tsn
+  - Dargwa: dar
+  - Dhivehi: div
+  - Manx: glv
+  - Central Huasteca Nahuatl: nch
+  - Abkhaz: abk
+  - Garhwali: gbm
+  - Niuean: niu
+  - Nigerian Fulfulde: fuv
+  - Sicilian: scn
+  - Palauan: pau
+  - Jamaican Patois: jam
+  - Interglossa: igs
+  - Friulian: fur
+  - Fiji Hindi: hif
+  - Middle French: frm
+  - Yucatec Maya: yua
+  - Old Spanish: osp
+  - Rapa Nui: rap
+  - Adyghe: ady
+  - Cayuga: cay
+  - Kinyarwanda: kin
+  - Dungan: dng
+  - Umbundu: umb
+  - Ga: gaa
+  - Tahitian: tah
+  - Cherokee: chr
+  - Lombard: lmo
+  - Bislama: bis
+  - O'odham: ood
+  - Gheg Albanian: aln
+  - Corsican: cos
+  - Tagal Murut: mvv
+  - Aklanon: akl
+  - Marshallese: mah
+  - Romansh: roh
+  - Ewe: ewe
+  - Lakota: lkt
+  - Kekchi (Q'eqchi'): kek
+  - Uab Meto: aoz
+  - Qashqai: qxq
+  - Tongan: ton
+  - Khalaj: klj
+  - Louisiana Creole: lou
+  - Old Aramaic: oar
+  - Pali: pli
+  - Ingush: inh
+  - Tonga (Zambezi): toi
+  - Ngeq: ngt
+  - Mi'kmaq: mic
+  - Jin Chinese: cjy
+  - Svan: sva
+  - Jewish Palestinian Aramaic: jpa
+  - Newari: new
+  - Sardinian: srd
+  - Sylheti: syl
+  - Tuvaluan: tvl
+  - Mandar: mdr
+  - Võro: vro
+  - Central Bikol: bcl
+  - Phoenician: phn
+  - Urhobo: urh
+  - Orizaba Nahuatl: nlv
+  - Gilbertese: gil
+  - Lak: lbe
+  - Old Frisian: ofs
+  - Aymara: aym
+  - Karakhanid: xqa
+  - Mono (USA): mnr
+  - Abaza: abq
+  - Erromintxela: emx
+  - Zeelandic: zea
+  - Sango: sag
+  - Pulaar: fuc
+  - Tokelauan: tkl
+  - Meitei: mni
+  - Nauruan: nau
+  - Bodo: brx
+  - Kamba: kam
+  - Konkani (Goan): gom
+  - West-Central Oromo: gaz
+  - Southern Subanen: laa
+  - Moksha: mdf
+  - Juhuri (Judeo-Tat): jdt
+  - Mon: mnw
+  - Chagatai: chg
+  - Gun: guw
+  - Maithili: mai
+  - K'iche': quc
+  - Madurese: mad
+  - Chinese Pidgin English: cpi
+  - Balinese: ban
+  - Swazi: ssw
+  - Southern Zaza (Dimli): diq
+  - Northern Zaza (Kirmanjki): kiu
+  - Assyrian Neo-Aramaic: aii
+  - Morisyen: mfe
+  - Sindhi: snd
+  - Temuan: tmw
+  - Tsonga: tso
+  - Xiang Chinese: hsn
+  - Keningau Murut: kxi
+  - Hmong Njua (Green): hnj
+  - Syriac: syc
+  - Old Saxon: osx
+  - Northern Haida: hdn
+  - Libyan Arabic: ayl
+  - Gan Chinese: gan
+  - Palatine German: pfl
+  - Southern Sotho: sot
+  - Rendille: rel
+  - Nyungar: nys
+  - Manchu: mnc
+  - Southern Haida: hax
+  - Cuyonon: cyo
+- keyname: tags
+  field_type: multi_string
+  name: Tags
+  placeholder: idiom
+  description: Tags to pick sentences from. <a href="https://tatoeba.org/en/tags/view_all">View all tags</a> on Tatoeba.
+  optional: true
+- keyname: approved_only
+  field_type: select
+  name: Approved Sentences Only
+  description: If enabled, only sentences that have been approved by Tatoeba moderators will be used.
+  default: 'no'
+  options:
+  - Show all sentences: 'no'
+  - Show approved sentences only: 'yes'
+- keyname: lists
+  field_type: multi_string
+  name: Lists
+  placeholder: 12345
+  description: List IDs to pick sentences from. <a href="https://tatoeba.org/en/sentences_lists/index">View all lists</a> on Tatoeba.
+  optional: true
+- keyname: query
+  field_type: string
+  name: Search Query
+  description: A search query to filter sentences. <a href="https://en.wiki.tatoeba.org/articles/show/text-search">Learn more about Tatoeba advanced search syntax</a>.
+  optional: true
+  placeholder: hello world
+- keyname: word_count
+  field_type: string
+  name: Word Count
+  description: A word count range to filter sentences. Leave empty to allow all word counts.
+  optional: true
+  placeholder: 3-7
+  help_text: |
+    Examples:<br>
+    <b>10-</b> 10 words or more<br>
+    <b>-10</b> 10 words or less<br>
+    <b>5-10</b> between 5 and 10 words<br>
+    <b>7</b> exactly 7 words<br>
+    <b>!3</b> any number of words but 3<br>
+    <b>1,10</b> either 1 or 10 words<br>
+    <b>2-4,10-11</b> 2, 3, 4, 10 or 11 words<br>
+    <b>!2-</b> 1 word only<br>
+    <b>!2-5</b> 1 word, or more than 5<br>
+    <b>!2-5,10-</b> 1 word, or between 6 and 9 words<br>
+- keyname: romanization
+  field_type: select
+  name: Show Romanization
+  description: For sentences or translation that has romanization available. See below for options specific to Chinese.
+  default: 'no'
+  options:
+  - Do not show romanization: 'no'
+  - Show romanization only: only
+  - Show romanization next to the sentence: both
+- keyname: cmn_display
+  field_type: select
+  name: Mandarin Chinese Display Style
+  description: Choose how to display Mandarin Chinese sentences when selected as main or translation language.
+  default: Hant
+  multiple: true
+  options:
+  - Simplified Chinese: Hans
+  - Traditional Chinese: Hant
+  - Pinyin: Latn
+- keyname: jpn_display
+  field_type: select
+  name: Japanese Display Style
+  description: Choose how to display Japanese sentences when selected as main or translation language.
+  default: default
+  options:
+  - Show the sentence without furigana: default
+  - Show the sentence with furigana: Hrkt
+- keyname: sentences_per_translation_language
+  field_type: select
+  name: Sentences Per Translation Language
+  description: Number of sentences to show per selected translation language.
+  default: all
+  options:
+  - All sentences: all
+  - Only the first sentence: first
+name: 'Language Learning: Sentences'
+refresh_interval: 120

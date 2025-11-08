@@ -1,0 +1,538 @@
+{% capture lang_json %}{
+  "eng":{"bcp47":"en","name":"English","label":"En"},
+  "rus":{"bcp47":"ru","name":"Russian","label":"Ру"},
+  "ita":{"bcp47":"it","name":"Italian","label":"It"},
+  "epo":{"bcp47":"eo","name":"Esperanto","label":"Eo"},
+  "kab":{"bcp47":"kab","name":"Kabyle","label":"Kb"},
+  "tur":{"bcp47":"tr","name":"Turkish","label":"Tü"},
+  "deu":{"bcp47":"de","name":"German","label":"De"},
+  "fra":{"bcp47":"fr","name":"French","label":"Fr"},
+  "ber":{"bcp47":"ber","name":"Berber","label":"Br"},
+  "por":{"bcp47":"pt","name":"Portuguese","label":"Pt"},
+  "spa":{"bcp47":"es","name":"Spanish","label":"Es"},
+  "hun":{"bcp47":"hu","name":"Hungarian","label":"Hu"},
+  "jpn":{"bcp47":"ja","name":"Japanese","label":"日"},
+  "heb":{"bcp47":"he","name":"Hebrew","label":"עב"},
+  "nld":{"bcp47":"nl","name":"Dutch","label":"Nl"},
+  "ukr":{"bcp47":"uk","name":"Ukrainian","label":"Ук"},
+  "fin":{"bcp47":"fi","name":"Finnish","label":"Fi"},
+  "lit":{"bcp47":"lt","name":"Lithuanian","label":"Lt"},
+  "pol":{"bcp47":"pl","name":"Polish","label":"Pl"},
+  "ces":{"bcp47":"cs","name":"Czech","label":"Cs"},
+  "cmn":{"bcp47":"zh","name":"Mandarin Chinese","label":"普"},
+  "mar":{"bcp47":"mr","name":"Marathi","label":"मा"},
+  "mkd":{"bcp47":"mk","name":"Macedonian","label":"Ма"},
+  "tgl":{"bcp47":"fil","name":"Tagalog","label":"Tl"},
+  "tok":{"bcp47":"tok","name":"Toki Pona","label":"Tp"},
+  "ara":{"bcp47":"ar","name":"Arabic","label":"ع"},
+  "dan":{"bcp47":"da","name":"Danish","label":"Da"},
+  "tat":{"bcp47":"tt","name":"Tatar","label":"Тт"},
+  "swe":{"bcp47":"sv","name":"Swedish","label":"Sv"},
+  "lat":{"bcp47":"la","name":"Latin","label":"La"},
+  "srp":{"bcp47":"sr","name":"Serbian","label":"Ср"},
+  "tig":{"bcp47":"tig","name":"Tigre","label":"ትግ"},
+  "hye":{"bcp47":"hy","name":"Eastern Armenian","label":"Ար"},
+  "ell":{"bcp47":"el","name":"Greek","label":"Ελ"},
+  "ina":{"bcp47":"ia","name":"Interlingua","label":"Ia"},
+  "ron":{"bcp47":"ro","name":"Romanian","label":"Ro"},
+  "lfn":{"bcp47":"lfn","name":"Lingua Franca Nova","label":"Lf"},
+  "tlh":{"bcp47":"tlh","name":"Klingon","label":"tlh"},
+  "pes":{"bcp47":"fa","name":"Persian","label":"فا"},
+  "vie":{"bcp47":"vi","name":"Vietnamese","label":"Vi"},
+  "slk":{"bcp47":"sk","name":"Slovak","label":"Sk"},
+  "ind":{"bcp47":"id","name":"Indonesian","label":"Id"},
+  "yid":{"bcp47":"yi","name":"Yiddish","label":"יי"},
+  "bul":{"bcp47":"bg","name":"Bulgarian","label":"Бг"},
+  "swc":{"bcp47":"sw-CD","name":"Congo Swahili","label":"Sw"},
+  "oci":{"bcp47":"oc","name":"Occitan","label":"Oc"},
+  "shi":{"bcp47":"shi","name":"Tashelhit","label":"Ta"},
+  "hau":{"bcp47":"ha","name":"Hausa","label":"Ha"},
+  "zgh":{"bcp47":"zgh","name":"Standard Moroccan Tamazight","label":"Tm"},
+  "yue":{"bcp47":"yue","name":"Cantonese","label":"粵"},
+  "nds":{"bcp47":"nds","name":"Low German (Low Saxon)","label":"Nd"},
+  "nob":{"bcp47":"nb","name":"Norwegian Bokmål","label":"Nb"},
+  "jbo":{"bcp47":"jbo","name":"Lojban","label":"jb"},
+  "ben":{"bcp47":"bn","name":"Bengali","label":"ব"},
+  "hin":{"bcp47":"hi","name":"Hindi","label":"हि"},
+  "kor":{"bcp47":"ko","name":"Korean","label":"한"},
+  "asm":{"bcp47":"as","name":"Assamese","label":"অ"},
+  "bel":{"bcp47":"be","name":"Belarusian","label":"Бе"},
+  "nnb":{"bcp47":"nnb","name":"Nande","label":"Na"},
+  "ido":{"bcp47":"io","name":"Ido","label":"Io"},
+  "lvs":{"bcp47":"lv","name":"Latvian","label":"Lv"},
+  "isl":{"bcp47":"is","name":"Icelandic","label":"Ís"},
+  "ckb":{"bcp47":"ckb","name":"Central Kurdish (Soranî)","label":"ک"},
+  "nno":{"bcp47":"nn","name":"Norwegian Nynorsk","label":"Nn"},
+  "ile":{"bcp47":"ie","name":"Interlingue","label":"Ie"},
+  "aze":{"bcp47":"az","name":"Azerbaijani","label":"Az"},
+  "gos":{"bcp47":"gos","name":"Gronings","label":"Gr"},
+  "kmr":{"bcp47":"ku","name":"Northern Kurdish (Kurmancî)","label":"Ku"},
+  "cat":{"bcp47":"ca","name":"Catalan","label":"Ca"},
+  "bre":{"bcp47":"br","name":"Breton","label":"Br"},
+  "uig":{"bcp47":"ug","name":"Uyghur","label":"ئۇ"},
+  "zsm":{"bcp47":"ms","name":"Malay","label":"Ms"},
+  "glg":{"bcp47":"gl","name":"Galician","label":"Gl"},
+  "oss":{"bcp47":"os","name":"Ossetian","label":"Ос"},
+  "kat":{"bcp47":"ka","name":"Georgian","label":"ქა"},
+  "tuk":{"bcp47":"tk","name":"Turkmen","label":"Tm"},
+  "tha":{"bcp47":"th","name":"Thai","label":"ไท"},
+  "vol":{"bcp47":"vo","name":"Volapük","label":"Vo"},
+  "eus":{"bcp47":"eu","name":"Basque","label":"Eu"},
+  "sat":{"bcp47":"sat","name":"Santali","label":"ᱥ"},
+  "est":{"bcp47":"et","name":"Estonian","label":"Et"},
+  "hrv":{"bcp47":"hr","name":"Croatian","label":"Hr"},
+  "prg":{"bcp47":"prg","name":"Old Prussian","label":"Pr"},
+  "kzj":{"bcp47":"dtp","name":"Coastal Kadazan","label":"Ka"},
+  "run":{"bcp47":"rn","name":"Kirundi","label":"Ru"},
+  "udm":{"bcp47":"udm","name":"Udmurt","label":"Уд"},
+  "lin":{"bcp47":"ln","name":"Lingala","label":"Li"},
+  "wuu":{"bcp47":"wuu","name":"Shanghainese","label":"沪"},
+  "afr":{"bcp47":"af","name":"Afrikaans","label":"Af"},
+  "swh":{"bcp47":"sw","name":"Swahili","label":"Sw"},
+  "npi":{"bcp47":"ne","name":"Nepali","label":"ने"},
+  "kaz":{"bcp47":"kk","name":"Kazakh","label":"Қз"},
+  "mhr":{"bcp47":"chm","name":"Meadow Mari","label":"Мар"},
+  "avk":{"bcp47":"avk","name":"Kotava","label":"Kv"},
+  "tir":{"bcp47":"ti","name":"Tigrinya","label":"ትግ"},
+  "cor":{"bcp47":"kw","name":"Cornish","label":"Kw"},
+  "rhg":{"bcp47":"rhg","name":"Rohingya","label":"Ru"},
+  "knc":{"bcp47":"kr","name":"Central Kanuri","label":"Kn"},
+  "slv":{"bcp47":"sl","name":"Slovenian","label":"Sl"},
+  "grn":{"bcp47":"gn","name":"Guarani","label":"Gu"},
+  "cbk":{"bcp47":"cbk","name":"Chavacano","label":"Cv"},
+  "frr":{"bcp47":"frr","name":"North Frisian","label":"Fr"},
+  "dtp":{"bcp47":"dtp","name":"Central Dusun","label":"Du"},
+  "gle":{"bcp47":"ga","name":"Irish","label":"Ga"},
+  "urd":{"bcp47":"ur","name":"Urdu","label":"ارد"},
+  "mon":{"bcp47":"mn","name":"Mongolian","label":"мон"},
+  "nus":{"bcp47":"nus","name":"Nuer","label":"Nu"},
+  "sqi":{"bcp47":"sq","name":"Albanian","label":"Sh"},
+  "ota":{"bcp47":"ota","name":"Ottoman Turkish","label":"عث"},
+  "ilo":{"bcp47":"ilo","name":"Ilocano","label":"Il"},
+  "khm":{"bcp47":"km","name":"Khmer","label":"ខ"},
+  "hrx":{"bcp47":"hrx","name":"Hunsrik","label":"Hu"},
+  "arq":{"bcp47":"arq","name":"Algerian Arabic","label":"جز"},
+  "hoc":{"bcp47":"hoc","name":"Ho","label":"Ho"},
+  "war":{"bcp47":"war","name":"Waray","label":"Wa"},
+  "kha":{"bcp47":"kha","name":"Khasi","label":"Ka"},
+  "zlm":{"bcp47":"zlm","name":"Malay (Vernacular)","label":"My"},
+  "rif":{"bcp47":"rif","name":"Tarifit","label":"Tr"},
+  "gcf":{"bcp47":"gcf","name":"Guadeloupean Creole French","label":"Gc"},
+  "lad":{"bcp47":"lad","name":"Ladino","label":"La"},
+  "swg":{"bcp47":"swg","name":"Swabian","label":"Sw"},
+  "lij":{"bcp47":"lij","name":"Ligurian","label":"Li"},
+  "xmf":{"bcp47":"xmf","name":"Mingrelian","label":"მი"},
+  "lzh":{"bcp47":"lzh","name":"Literary Chinese","label":"文"},
+  "cym":{"bcp47":"cy","name":"Welsh","label":"Cy"},
+  "zza":{"bcp47":"zza","name":"Zaza","label":"Za"},
+  "bos":{"bcp47":"bs","name":"Bosnian","label":"Bs"},
+  "chv":{"bcp47":"cv","name":"Chuvash","label":"Чў"},
+  "grc":{"bcp47":"grc","name":"Ancient Greek","label":"Ἑ"},
+  "ceb":{"bcp47":"ceb","name":"Cebuano","label":"Ce"},
+  "dsb":{"bcp47":"dsb","name":"Lower Sorbian","label":"Ds"},
+  "alt":{"bcp47":"alt","name":"Southern Altai","label":"Ал"},
+  "hsb":{"bcp47":"hsb","name":"Upper Sorbian","label":"Hs"},
+  "pam":{"bcp47":"pam","name":"Kapampangan","label":"Ka"},
+  "arz":{"bcp47":"arz","name":"Egyptian Arabic","label":"مص"},
+  "jav":{"bcp47":"jv","name":"Javanese","label":"Jv"},
+  "unknown":{"bcp47":"unknown","name":"unknown","label":"?"},
+  "pcd":{"bcp47":"pcd","name":"Picard","label":"Pi"},
+  "orv":{"bcp47":"orv","name":"Old East Slavic","label":"Ру"},
+  "uzb":{"bcp47":"uz","name":"Uzbek","label":"Uz"},
+  "gla":{"bcp47":"gd","name":"Scottish Gaelic","label":"Gd"},
+  "bua":{"bcp47":"bua","name":"Buryat","label":"Бу"},
+  "sdh":{"bcp47":"sdh","name":"Southern Kurdish","label":"کو"},
+  "rom":{"bcp47":"rom","name":"Romani","label":"Ro"},
+  "ltz":{"bcp47":"lb","name":"Luxembourgish","label":"Lb"},
+  "sah":{"bcp47":"sah","name":"Yakut","label":"Сх"},
+  "isv":{"bcp47":"isv","name":"Interslavic","label":"Sl"},
+  "csb":{"bcp47":"csb","name":"Kashubian","label":"Ks"},
+  "guc":{"bcp47":"guc","name":"Wayuu","label":"Wy"},
+  "ava":{"bcp47":"av","name":"Avar","label":"Ав"},
+  "mal":{"bcp47":"ml","name":"Malayalam","label":"മ"},
+  "szl":{"bcp47":"szl","name":"Silesian","label":"Śl"},
+  "xal":{"bcp47":"xal","name":"Kalmyk","label":"Хл"},
+  "pms":{"bcp47":"pms","name":"Piedmontese","label":"Pm"},
+  "ast":{"bcp47":"ast","name":"Asturian","label":"As"},
+  "nov":{"bcp47":"nov","name":"Novial","label":"No"},
+  "nst":{"bcp47":"nst","name":"Naga (Tangshang)","label":"Na"},
+  "bzt":{"bcp47":"bzt","name":"Brithenig","label":"Br"},
+  "sun":{"bcp47":"su","name":"Sundanese","label":"Su"},
+  "fry":{"bcp47":"fy","name":"Frisian","label":"Fy"},
+  "shy":{"bcp47":"shy","name":"Tachawit","label":"Ta"},
+  "mlt":{"bcp47":"mt","name":"Maltese","label":"Mt"},
+  "mus":{"bcp47":"mus","name":"Muskogee (Creek)","label":"Mu"},
+  "fkv":{"bcp47":"fkv","name":"Kven Finnish","label":"Kv"},
+  "thv":{"bcp47":"thv","name":"Tahaggart Tamahaq","label":"Tg"},
+  "mya":{"bcp47":"my","name":"Burmese","label":"မြ"},
+  "izh":{"bcp47":"izh","name":"Ingrian","label":"In"},
+  "kir":{"bcp47":"ky","name":"Kyrgyz","label":"Кы"},
+  "arn":{"bcp47":"arn","name":"Mapuche","label":"Ma"},
+  "tpn":{"bcp47":"tpn","name":"Tupinambá","label":"Tu"},
+  "tam":{"bcp47":"ta","name":"Tamil","label":"த"},
+  "crh":{"bcp47":"crh","name":"Crimean Tatar","label":"Қр"},
+  "ckt":{"bcp47":"ckt","name":"Chukchi","label":"Чк"},
+  "gsw":{"bcp47":"gsw","name":"Swiss German","label":"Sz"},
+  "nan":{"bcp47":"nan","name":"Min Nan Chinese","label":"閩"},
+  "mri":{"bcp47":"mi","name":"Maori","label":"Ma"},
+  "ain":{"bcp47":"ain","name":"Ainu","label":"アイ"},
+  "que":{"bcp47":"qu","name":"Quechua","label":"Qu"},
+  "fao":{"bcp47":"fo","name":"Faroese","label":"Fo"},
+  "max":{"bcp47":"max","name":"North Moluccan Malay","label":"Mm"},
+  "ang":{"bcp47":"ang","name":"Old English","label":"Æ"},
+  "vep":{"bcp47":"vep","name":"Veps","label":"Ve"},
+  "ori":{"bcp47":"or","name":"Odia (Oriya)","label":"ଓ"},
+  "lug":{"bcp47":"lg","name":"Luganda","label":"Lu"},
+  "myv":{"bcp47":"myv","name":"Erzya","label":"Эр"},
+  "bak":{"bcp47":"ba","name":"Bashkir","label":"Бш"},
+  "cha":{"bcp47":"ch","name":"Chamorro","label":"Ch"},
+  "tzl":{"bcp47":"tzl","name":"Talossan","label":"Tz"},
+  "ltg":{"bcp47":"ltg","name":"Latgalian","label":"Lg"},
+  "amh":{"bcp47":"am","name":"Amharic","label":"አማ"},
+  "kan":{"bcp47":"kn","name":"Kannada","label":"ಕ"},
+  "nog":{"bcp47":"nog","name":"Nogai","label":"Но"},
+  "mfa":{"bcp47":"mfa","name":"Kelantan-Pattani Malay","label":"Km"},
+  "tel":{"bcp47":"te","name":"Telugu","label":"తెల"},
+  "krc":{"bcp47":"krc","name":"Karachay-Balkar","label":"Кр"},
+  "tum":{"bcp47":"tum","name":"Tumbuka","label":"Tu"},
+  "vec":{"bcp47":"vec","name":"Venetian","label":"Ve"},
+  "kas":{"bcp47":"ks","name":"Kashmiri","label":"كش"},
+  "lez":{"bcp47":"lez","name":"Lezgi","label":"Лз"},
+  "got":{"bcp47":"got","name":"Gothic","label":"𐌲"},
+  "xho":{"bcp47":"xh","name":"Xhosa","label":"Xh"},
+  "awa":{"bcp47":"awa","name":"Awadhi","label":"अव"},
+  "bar":{"bcp47":"bar","name":"Bavarian","label":"Ba"},
+  "otk":{"bcp47":"otk","name":"Old Turkish","label":"𐰴"},
+  "nah":{"bcp47":"nah","name":"Nahuatl","label":"Na"},
+  "lao":{"bcp47":"lo","name":"Lao","label":"ລ"},
+  "sme":{"bcp47":"se","name":"Northern Sami","label":"Sa"},
+  "lzz":{"bcp47":"lzz","name":"Laz","label":"Lz"},
+  "tmr":{"bcp47":"tmr","name":"Jewish Babylonian Aramaic","label":"אר"},
+  "pan":{"bcp47":"pa","name":"Punjabi (Eastern)","label":"ਪੰ"},
+  "fro":{"bcp47":"fro","name":"Old French","label":"Of"},
+  "mwl":{"bcp47":"mwl","name":"Mirandese","label":"Mi"},
+  "som":{"bcp47":"so","name":"Somali","label":"So"},
+  "srn":{"bcp47":"srn","name":"Sranan Tongo","label":"Sr"},
+  "ldn":{"bcp47":"ldn","name":"Láadan","label":"Lá"},
+  "krl":{"bcp47":"krl","name":"Karelian","label":"Ka"},
+  "haw":{"bcp47":"haw","name":"Hawaiian","label":"Ha"},
+  "bal":{"bcp47":"bal","name":"Baluchi","label":"Bl"},
+  "sux":{"bcp47":"sux","name":"Sumerian","label":"𒅴"},
+  "kal":{"bcp47":"kl","name":"Greenlandic","label":"Kl"},
+  "guj":{"bcp47":"gu","name":"Gujarati","label":"ગુ"},
+  "qya":{"bcp47":"qya","name":"Quenya","label":"Qy"},
+  "stq":{"bcp47":"stq","name":"Saterland Frisian","label":"Sf"},
+  "san":{"bcp47":"sa","name":"Sanskrit","label":"सं"},
+  "liv":{"bcp47":"liv","name":"Livonian","label":"Li"},
+  "hbo":{"bcp47":"hbo","name":"Ancient Hebrew","label":"עת"},
+  "kum":{"bcp47":"kum","name":"Kumyk","label":"Ку"},
+  "bjn":{"bcp47":"bjn","name":"Banjar","label":"Bj"},
+  "enm":{"bcp47":"enm","name":"Middle English","label":"Me"},
+  "egl":{"bcp47":"egl","name":"Emilian","label":"Em"},
+  "mik":{"bcp47":"mik","name":"Hitchiti","label":"Hi"},
+  "skr":{"bcp47":"skr","name":"Saraiki","label":"سر"},
+  "kbd":{"bcp47":"kbd","name":"Kabardian","label":"Кб"},
+  "sjn":{"bcp47":"sjn","name":"Sindarin","label":"Sd"},
+  "afb":{"bcp47":"afb","name":"Gulf Arabic","label":"خل"},
+  "cho":{"bcp47":"cho","name":"Choctaw","label":"Ch"},
+  "ajp":{"bcp47":"ajp","name":"South Levantine Arabic","label":"شم"},
+  "min":{"bcp47":"min","name":"Minangkabau","label":"Mi"},
+  "rue":{"bcp47":"rue","name":"Rusyn","label":"Ру"},
+  "evn":{"bcp47":"evn","name":"Evenki","label":"Эв"},
+  "yor":{"bcp47":"yo","name":"Yoruba","label":"Yo"},
+  "non":{"bcp47":"non","name":"Old Norse","label":"ᚾ"},
+  "oji":{"bcp47":"oj","name":"Ojibwe","label":"Oj"},
+  "zul":{"bcp47":"zu","name":"Zulu","label":"Zu"},
+  "hat":{"bcp47":"ht","name":"Haitian Creole","label":"Ht"},
+  "dws":{"bcp47":"dws","name":"Dutton World Speedwords","label":"Dw"},
+  "wol":{"bcp47":"wo","name":"Wolof","label":"Wo"},
+  "arg":{"bcp47":"an","name":"Aragonese","label":"Ar"},
+  "tet":{"bcp47":"tet","name":"Tetun","label":"Te"},
+  "njo":{"bcp47":"njo","name":"Ao Naga","label":"Ao"},
+  "tpi":{"bcp47":"tpi","name":"Tok Pisin","label":"Tp"},
+  "apc":{"bcp47":"apc","name":"North Levantine Arabic","label":"شم"},
+  "ary":{"bcp47":"ary","name":"Moroccan Arabic","label":"مغ"},
+  "iba":{"bcp47":"iba","name":"Iban","label":"Ib"},
+  "bvy":{"bcp47":"bvy","name":"Baybayanon","label":"Ba"},
+  "shs":{"bcp47":"shs","name":"Shuswap","label":"Sh"},
+  "sco":{"bcp47":"sco","name":"Scots","label":"Sc"},
+  "mww":{"bcp47":"mww","name":"Hmong Daw (White)","label":"Hm"},
+  "tyv":{"bcp47":"tyv","name":"Tuvinian","label":"Ты"},
+  "pap":{"bcp47":"pap","name":"Papiamento","label":"Pa"},
+  "mrj":{"bcp47":"mrj","name":"Hill Mari","label":"Мар"},
+  "kjh":{"bcp47":"kjh","name":"Khakas","label":"Хк"},
+  "hyw":{"bcp47":"hyw","name":"Western Armenian","label":"Ար"},
+  "nav":{"bcp47":"nv","name":"Navajo","label":"Na"},
+  "lld":{"bcp47":"lld","name":"Ladin","label":"Ld"},
+  "cmo":{"bcp47":"cmo","name":"Central Mnong","label":"Mn"},
+  "ext":{"bcp47":"ext","name":"Extremaduran","label":"Ex"},
+  "smo":{"bcp47":"sm","name":"Samoan","label":"Sm"},
+  "ksh":{"bcp47":"ksh","name":"Kölsch","label":"Kö"},
+  "tgk":{"bcp47":"tg","name":"Tajik","label":"То"},
+  "afh":{"bcp47":"afh","name":"Afrihili","label":"Af"},
+  "moh":{"bcp47":"moh","name":"Mohawk","label":"Mo"},
+  "mlg":{"bcp47":"mg","name":"Malagasy","label":"Mg"},
+  "kpv":{"bcp47":"kv","name":"Komi-Zyrian","label":"Ком"},
+  "sin":{"bcp47":"si","name":"Sinhala","label":"සි"},
+  "pnb":{"bcp47":"lah","name":"Punjabi (Western)","label":"پن"},
+  "gag":{"bcp47":"gag","name":"Gagauz","label":"Ga"},
+  "kaa":{"bcp47":"kaa","name":"Karakalpak","label":"Қа"},
+  "tly":{"bcp47":"tly","name":"Talysh","label":"تل"},
+  "crs":{"bcp47":"crs","name":"Seychellois Creole","label":"Sc"},
+  "cycl":{"bcp47":"cycl","name":"CycL","label":"Cy"},
+  "nap":{"bcp47":"nap","name":"Neapolitan","label":"Np"},
+  "hak":{"bcp47":"hak","name":"Hakka Chinese","label":"客"},
+  "bam":{"bcp47":"bm","name":"Bambara","label":"Bm"},
+  "iii":{"bcp47":"ii","name":"Nuosu","label":"ꆈ"},
+  "pag":{"bcp47":"pag","name":"Pangasinan","label":"Pa"},
+  "pus":{"bcp47":"ps","name":"Pashto","label":"پش"},
+  "ppl":{"bcp47":"ppl","name":"Pipil","label":"Pi"},
+  "mgm":{"bcp47":"mgm","name":"Mambae","label":"Ma"},
+  "sma":{"bcp47":"sma","name":"Southern Sami","label":"Sa"},
+  "lut":{"bcp47":"lut","name":"Lushootseed","label":"Lu"},
+  "bod":{"bcp47":"bo","name":"Tibetan","label":"བ"},
+  "pdc":{"bcp47":"pdc","name":"Pennsylvania German","label":"Pg"},
+  "bfz":{"bcp47":"bfz","name":"Mahasu Pahari","label":"Ma"},
+  "bho":{"bcp47":"bho","name":"Bhojpuri","label":"भो"},
+  "tts":{"bcp47":"tts","name":"Isan","label":"อี"},
+  "pal":{"bcp47":"pal","name":"Middle Persian (Pahlavi)","label":"𐭯"},
+  "chn":{"bcp47":"chn","name":"Chinook Jargon","label":"Ch"},
+  "wln":{"bcp47":"wa","name":"Walloon","label":"Wa"},
+  "crk":{"bcp47":"crk","name":"Plains Cree","label":"Cr"},
+  "bom":{"bcp47":"bom","name":"Berom","label":"Be"},
+  "acm":{"bcp47":"acm","name":"Iraqi Arabic","label":"عر"},
+  "ike":{"bcp47":"iu","name":"Inuktitut","label":"ᐃᓄ"},
+  "sna":{"bcp47":"sn","name":"Shona","label":"Sn"},
+  "sgs":{"bcp47":"sgs","name":"Samogitian","label":"Sm"},
+  "lim":{"bcp47":"li","name":"Limburgish","label":"Li"},
+  "che":{"bcp47":"ce","name":"Chechen","label":"Чч"},
+  "ibo":{"bcp47":"ig","name":"Igbo","label":"Ig"},
+  "nya":{"bcp47":"ny","name":"Chinyanja","label":"Ny"},
+  "koi":{"bcp47":"koi","name":"Komi-Permyak","label":"Ком"},
+  "drt":{"bcp47":"drt","name":"Drents","label":"Dr"},
+  "hil":{"bcp47":"hil","name":"Hiligaynon","label":"Hi"},
+  "fij":{"bcp47":"fj","name":"Fijian","label":"Fj"},
+  "ngu":{"bcp47":"ngu","name":"Guerrero Nahuatl","label":"Na"},
+  "ryu":{"bcp47":"ryu","name":"Okinawan","label":"沖"},
+  "tsn":{"bcp47":"tn","name":"Setswana","label":"Tw"},
+  "dar":{"bcp47":"dar","name":"Dargwa","label":"Дар"},
+  "div":{"bcp47":"dv","name":"Dhivehi","label":"ދ"},
+  "glv":{"bcp47":"gv","name":"Manx","label":"Mx"},
+  "nch":{"bcp47":"nch","name":"Central Huasteca Nahuatl","label":"Na"},
+  "abk":{"bcp47":"ab","name":"Abkhaz","label":"Аб"},
+  "gbm":{"bcp47":"gbm","name":"Garhwali","label":"गढ़"},
+  "niu":{"bcp47":"niu","name":"Niuean","label":"Ni"},
+  "fuv":{"bcp47":"fuv","name":"Nigerian Fulfulde","label":"Fu"},
+  "scn":{"bcp47":"scn","name":"Sicilian","label":"Si"},
+  "pau":{"bcp47":"pau","name":"Palauan","label":"Pa"},
+  "jam":{"bcp47":"jam","name":"Jamaican Patois","label":"Ja"},
+  "igs":{"bcp47":"igs","name":"Interglossa","label":"Ig"},
+  "fur":{"bcp47":"fur","name":"Friulian","label":"Fr"},
+  "hif":{"bcp47":"hif","name":"Fiji Hindi","label":"Fi"},
+  "frm":{"bcp47":"frm","name":"Middle French","label":"Mf"},
+  "yua":{"bcp47":"yua","name":"Yucatec Maya","label":"Ya"},
+  "osp":{"bcp47":"osp","name":"Old Spanish","label":"Os"},
+  "rap":{"bcp47":"rap","name":"Rapa Nui","label":"Ra"},
+  "ady":{"bcp47":"ady","name":"Adyghe","label":"Ады"},
+  "cay":{"bcp47":"cay","name":"Cayuga","label":"Ca"},
+  "kin":{"bcp47":"rw","name":"Kinyarwanda","label":"Rw"},
+  "dng":{"bcp47":"dng","name":"Dungan","label":"Ду"},
+  "umb":{"bcp47":"umb","name":"Umbundu","label":"Um"},
+  "gaa":{"bcp47":"gaa","name":"Ga","label":"Ga"},
+  "tah":{"bcp47":"ty","name":"Tahitian","label":"Ta"},
+  "chr":{"bcp47":"chr","name":"Cherokee","label":"Ꮳ"},
+  "lmo":{"bcp47":"lmo","name":"Lombard","label":"Lm"},
+  "bis":{"bcp47":"bi","name":"Bislama","label":"Bi"},
+  "ood":{"bcp47":"ood","name":"O'odham","label":"Oo"},
+  "aln":{"bcp47":"aln","name":"Gheg Albanian","label":"Sh"},
+  "cos":{"bcp47":"co","name":"Corsican","label":"Co"},
+  "mvv":{"bcp47":"mvv","name":"Tagal Murut","label":"Tm"},
+  "akl":{"bcp47":"akl","name":"Aklanon","label":"Ak"},
+  "mah":{"bcp47":"mh","name":"Marshallese","label":"Ma"},
+  "roh":{"bcp47":"rm","name":"Romansh","label":"Rm"},
+  "ewe":{"bcp47":"ee","name":"Ewe","label":"Ew"},
+  "lkt":{"bcp47":"lkt","name":"Lakota","label":"La"},
+  "kek":{"bcp47":"kek","name":"Kekchi (Q'eqchi')","label":"Qe"},
+  "aoz":{"bcp47":"aoz","name":"Uab Meto","label":"Ua"},
+  "qxq":{"bcp47":"qxq","name":"Qashqai","label":"Qa"},
+  "ton":{"bcp47":"to","name":"Tongan","label":"To"},
+  "klj":{"bcp47":"klj","name":"Khalaj","label":"Kh"},
+  "lou":{"bcp47":"lou","name":"Louisiana Creole","label":"Lc"},
+  "oar":{"bcp47":"oar","name":"Old Aramaic","label":"אר"},
+  "pli":{"bcp47":"pi","name":"Pali","label":"पा"},
+  "inh":{"bcp47":"inh","name":"Ingush","label":"Инг"},
+  "toi":{"bcp47":"toi","name":"Tonga (Zambezi)","label":"Tg"},
+  "ngt":{"bcp47":"ngt","name":"Ngeq","label":"Ng"},
+  "mic":{"bcp47":"mic","name":"Mi'kmaq","label":"Mi"},
+  "cjy":{"bcp47":"cjy","name":"Jin Chinese","label":"晋"},
+  "sva":{"bcp47":"sva","name":"Svan","label":"Sv"},
+  "jpa":{"bcp47":"jpa","name":"Jewish Palestinian Aramaic","label":"אר"},
+  "new":{"bcp47":"new","name":"Newari","label":"ने"},
+  "srd":{"bcp47":"sc","name":"Sardinian","label":"Sa"},
+  "syl":{"bcp47":"syl","name":"Sylheti","label":"সि"},
+  "tvl":{"bcp47":"tvl","name":"Tuvaluan","label":"Tu"},
+  "mdr":{"bcp47":"mdr","name":"Mandar","label":"Ma"},
+  "vro":{"bcp47":"vro","name":"Võro","label":"Võ"},
+  "bcl":{"bcp47":"bik","name":"Central Bikol","label":"Bi"},
+  "phn":{"bcp47":"phn","name":"Phoenician","label":"𐤐"},
+  "urh":{"bcp47":"urh","name":"Urhobo","label":"Ur"},
+  "nlv":{"bcp47":"nlv","name":"Orizaba Nahuatl","label":"Na"},
+  "gil":{"bcp47":"gil","name":"Gilbertese","label":"Gi"},
+  "lbe":{"bcp47":"lbe","name":"Lak","label":"Лк"},
+  "ofs":{"bcp47":"ofs","name":"Old Frisian","label":"Of"},
+  "aym":{"bcp47":"ay","name":"Aymara","label":"Ay"},
+  "xqa":{"bcp47":"xqa","name":"Karakhanid","label":"ك"},
+  "mnr":{"bcp47":"mnr","name":"Mono (USA)","label":"Mo"},
+  "abq":{"bcp47":"abq","name":"Abaza","label":"Аб"},
+  "emx":{"bcp47":"emx","name":"Erromintxela","label":"Er"},
+  "zea":{"bcp47":"zea","name":"Zeelandic","label":"Ze"},
+  "sag":{"bcp47":"sg","name":"Sango","label":"Sa"},
+  "fuc":{"bcp47":"ff","name":"Pulaar","label":"Pu"},
+  "tkl":{"bcp47":"tkl","name":"Tokelauan","label":"Tk"},
+  "mni":{"bcp47":"mni","name":"Meitei","label":"মে"},
+  "nau":{"bcp47":"na","name":"Nauruan","label":"Na"},
+  "brx":{"bcp47":"brx","name":"Bodo","label":"Bo"},
+  "kam":{"bcp47":"kam","name":"Kamba","label":"Ka"},
+  "gom":{"bcp47":"gom","name":"Konkani (Goan)","label":"कों"},
+  "gaz":{"bcp47":"om","name":"West-Central Oromo","label":"Or"},
+  "laa":{"bcp47":"laa","name":"Southern Subanen","label":"Su"},
+  "mdf":{"bcp47":"mdf","name":"Moksha","label":"Мо"},
+  "jdt":{"bcp47":"jdt","name":"Juhuri (Judeo-Tat)","label":"Жу"},
+  "mnw":{"bcp47":"mnw","name":"Mon","label":"ဒ"},
+  "chg":{"bcp47":"chg","name":"Chagatai","label":"چا"},
+  "guw":{"bcp47":"guw","name":"Gun","label":"Gu"},
+  "mai":{"bcp47":"mai","name":"Maithili","label":"मै"},
+  "quc":{"bcp47":"quc","name":"K'iche'","label":"Ki"},
+  "mad":{"bcp47":"mad","name":"Madurese","label":"Ma"},
+  "cpi":{"bcp47":"cpi","name":"Chinese Pidgin English","label":"Pe"},
+  "ban":{"bcp47":"ban","name":"Balinese","label":"Ba"},
+  "ssw":{"bcp47":"ss","name":"Swazi","label":"Sw"},
+  "diq":{"bcp47":"zza","name":"Southern Zaza (Dimli)","label":"Zd"},
+  "kiu":{"bcp47":"kiu","name":"Northern Zaza (Kirmanjki)","label":"Zk"},
+  "aii":{"bcp47":"aii","name":"Assyrian Neo-Aramaic","label":"ܐܣ"},
+  "mfe":{"bcp47":"mfe","name":"Morisyen","label":"Mo"},
+  "snd":{"bcp47":"sd","name":"Sindhi","label":"سن"},
+  "tmw":{"bcp47":"tmw","name":"Temuan","label":"Te"},
+  "tso":{"bcp47":"ts","name":"Tsonga","label":"Ts"},
+  "hsn":{"bcp47":"hsn","name":"Xiang Chinese","label":"湘"},
+  "kxi":{"bcp47":"kxi","name":"Keningau Murut","label":"Km"},
+  "hnj":{"bcp47":"hnj","name":"Hmong Njua (Green)","label":"Hm"},
+  "syc":{"bcp47":"syc","name":"Syriac","label":"ܣܘ"},
+  "osx":{"bcp47":"osx","name":"Old Saxon","label":"Os"},
+  "hdn":{"bcp47":"hai","name":"Northern Haida","label":"Ha"},
+  "ayl":{"bcp47":"ayl","name":"Libyan Arabic","label":"لي"},
+  "gan":{"bcp47":"gan","name":"Gan Chinese","label":"贛"},
+  "pfl":{"bcp47":"pfl","name":"Palatine German","label":"Pf"},
+  "sot":{"bcp47":"st","name":"Southern Sotho","label":"So"},
+  "rel":{"bcp47":"rel","name":"Rendille","label":"Re"},
+  "nys":{"bcp47":"nys","name":"Nyungar","label":"Ny"},
+  "mnc":{"bcp47":"mnc","name":"Manchu","label":"满"},
+  "hax":{"bcp47":"hax","name":"Southern Haida","label":"Ha"},
+  "cyo":{"bcp47":"cyo","name":"Cuyonon","label":"Cu"}
+}{% endcapture %}
+{% assign lang_data = lang_json | parse_json %}
+
+{% liquid 
+assign data = data[0]
+assign authorNames = data.owner
+assign licenses = data.license
+assign main_language = trmnl.plugin_settings.custom_fields_values.main_language
+assign translation_languages = trmnl.plugin_settings.custom_fields_values.translation_languages
+assign romanization = trmnl.plugin_settings.custom_fields_values.romanization
+assign jpn_display = trmnl.plugin_settings.custom_fields_values.jpn_display
+assign cmn_display = trmnl.plugin_settings.custom_fields_values.cmn_display
+assign sentences_per_translation_language = trmnl.plugin_settings.custom_fields_values.sentences_per_translation_language
+assign approved_only = trmnl.plugin_settings.custom_fields_values.approved_only
+%}
+{% template sentence %}
+{% assign bcp47 = lang_data[data.lang].bcp47 %}
+{% if data.lang == "cmn" %}
+  {% assign rendered_text = false %}
+  {% for script in cmn_display %}
+    {% liquid
+      assign script_transcriptions = data.transcriptions | where: "script", script
+      if approved_only == "yes"
+        assign script_transcriptions = script_transcriptions | where: "needsReview", false
+      endif
+      assign transcriptions_size = script_transcriptions | size
+    %}
+    {% if transcriptions_size > 0 %}
+      {% for t in script_transcriptions %}
+        <div dir="auto" lang="{{ bcp47 }}-{{ t.script }}">{{ t.html | default: t.text }}</div>
+        {% assign rendered_text = true %}
+      {% endfor %}
+    {% elsif data.script == script %}
+      <div dir="auto" lang="{{ bcp47 }}-{{ data.script }}">{{ data.html | default: data.text }}</div>
+      {% assign rendered_text = true %}
+    {% endif %}
+  {% endfor %}
+  {% if rendered_text == false %}
+    <div dir="auto" lang="{{ bcp47 }}-{{ data.script }}">{{ data.html | default: data.text }}</div>
+  {% endif %}
+{% elsif data.lang == "jpn" %}
+  {% liquid
+    assign script_transcriptions = data.transcriptions | where: "script", "Hrkt"
+    if approved_only == "yes"
+      assign script_transcriptions = script_transcriptions | where: "needsReview", false
+    endif
+    assign transcriptions_size = script_transcriptions | size 
+  %}
+  {% if jpn_display == "Hrkt" and transcriptions_size > 0 %}
+    {% for t in script_transcriptions %}
+      <div dir="auto" lang="{{ bcp47 }}-{{ t.script }}">{{ t.html | default: t.text }}</div>
+    {% endfor %}
+  {% else %}
+    <div dir="auto" lang="{{ bcp47 }}">{{ data.html | default: data.text }}</div>
+  {% endif %}
+{% else %}
+  {% liquid
+    assign script_transcriptions = data.transcriptions | where: "script", "Latn"
+    if approved_only == "yes"
+      assign script_transcriptions = script_transcriptions | where: "needsReview", false
+    endif
+    assign transcriptions_size = script_transcriptions | size 
+  %}
+  {% if transcriptions_size > 0 %}
+    {% if romanization == "both" or romanization == "no" %}
+      <div dir="auto" lang="{{ bcp47 }}">{{ data.html | default: data.text }}</div>
+    {% endif %}
+    {% if romanization == "both" or romanization == "only" %}
+      {% for t in script_transcriptions %}
+        <div dir="auto" lang="{{ bcp47 }}-{{ t.script }}">{{ t.html | default: t.text }}</div>
+      {% endfor %}
+    {% endif %}
+  {% else %}
+    <div dir="auto" lang="{{ bcp47 }}">{{ data.html | default: data.text }}</div>
+  {% endif %}
+{% endif %}
+{% endtemplate %}
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Tiny5&display=swap');
+  .layout {
+    position: relative;
+  }
+  .text--balance {
+    text-wrap: balance;
+  }
+  .credit {
+    font-size : 8px;
+    font-family: "Tiny5", sans-serif;
+    position: absolute;
+    bottom: 0px;
+    right: 0;
+  }
+  .lang-label {
+    min-width : 1lh;
+    .screen--1bit &, .screen--2bit & {
+      padding-top : 3px;
+    }
+    .screen--4bit & {
+      padding : 3px;
+    }
+  }
+</style>
+{% template logo %}
+<svg xmlns="http://www.w3.org/2000/svg" class="image image-stroke" version="1.0" viewBox="0 0 72 72"><defs><radialGradient id="a" cx=".3" cy=".4"><stop offset=".1" stop-color="green"/><stop offset=".4" stop-color="#CDEFAC"/></radialGradient><radialGradient id="b" cx=".6" cy=".4"><stop offset="0" stop-color="#B3E87E"/><stop offset="1" stop-color="#ABE66F"/></radialGradient><radialGradient id="c" cx=".6" cy=".4"><stop offset="0" stop-color="#4B8616"/><stop offset="1" stop-color="#3F7513"/></radialGradient><radialGradient id="d" cx=".6" cy=".4"><stop offset="0" stop-color="#80D832"/><stop offset="1" stop-color="#74D325"/></radialGradient><filter id="filter291" width="1" height="1" x="0" y="0" style="color-interpolation-filters:sRGB"><feColorMatrix id="feColorMatrix291" values="0.21 0.22 0.072 -0.3 0 0.21 0.22 0.072 -0.3 0 0.21 0.22 0.072 -0.3 0 0 0 0 1 0"/></filter></defs><g stroke="#000" stroke-opacity=".1" stroke-width=".5" style="filter:url(#filter291)"><path d="M33 39 22 21.6"/><path d="M22 21.6 19.4 7"/><path d="M22 21.6 35.7 7"/><path d="m33 39 14-18.7"/><path d="m33 39 27.4-5.6"/><path d="m60.4 33.4 5-15.2"/><path d="m33 39 26.7 17.5"/><path d="m33 39 8.8 15.6"/><path d="m33 39-.3 24.2"/><path d="m33 39-20.7 2.5"/><path d="m12.3 41.5 6.4 18"/><path d="M12.3 41.5 6.8 55.2"/></g><circle cx="33" cy="39" r="8.2" style="fill:url(#a);filter:url(#filter291)"/><circle cx="22" cy="21.6" r="7.5" style="fill:url(#b);filter:url(#filter291)"/><circle cx="12.3" cy="41.5" r="6.7" style="fill:url(#c);filter:url(#filter291)"/><circle cx="6.8" cy="55.2" r="4.2" style="fill:url(#b);filter:url(#filter291)"/><circle cx="18.7" cy="59.5" r="5.4" style="fill:url(#d);filter:url(#filter291)"/><circle cx="32.7" cy="63.2" r="5.8" style="fill:url(#d);filter:url(#filter291)"/><circle cx="41.8" cy="54.6" r="4" style="fill:url(#b);filter:url(#filter291)"/><circle cx="19.4" cy="7" r="4.7" style="fill:url(#b);filter:url(#filter291)"/><circle cx="35.7" cy="7" r="4.8" style="fill:url(#d);filter:url(#filter291)"/><circle cx="60.4" cy="33.4" r="6.8" style="fill:url(#d);filter:url(#filter291)"/><circle cx="65.4" cy="18.2" r="4.5" style="fill:url(#b);filter:url(#filter291)"/><circle cx="59.7" cy="56.5" r="10" style="fill:url(#c);filter:url(#filter291)"/><circle cx="47" cy="20.3" r="9.7" style="fill:url(#d);filter:url(#filter291)"/></svg>
+{% endtemplate %}

@@ -67,6 +67,14 @@ Shows connection statistics of public recipes. You can choose to show the latest
 
 ![Screenshot](./public-recipe-stats/images/f.png)
 
+## Tatoeba
+
+A random sentence in your chosen languages with translations. Data powered by [Tatoeba](https://tatoeba.org/).
+
+[Learn More](./tatoeba/README.md), [Install](https://usetrmnl.com/recipes/177718)
+
+![Screenshot](./tatoeba/images/f.png)
+
 ## Visa Bulletin (Not published yet)
 
 Show the latest Visa Bulletin information, and trends for filing date and action date.

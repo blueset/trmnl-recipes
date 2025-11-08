@@ -1,0 +1,69 @@
+<div class="layout">
+  <div class="richtext richtext--center gap h--max-full lg:gap--large" data-overflow="true">
+    <div class="value text--center text--balance mb--4 lg:value--large lg:mb--8" data-value-fit="true">
+      {% render "sentence": data: data, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
+    </div>
+    {% if sentences_per_translation_language == "all" %}
+      {% for item in data.translations %}
+        {% liquid
+          assign authorNames = authorNames | append: ", " | append: item.owner
+          assign licenses = licenses | append: ", " | append: item.license
+          assign language = lang_data[item.lang]
+        %}
+        <div class="item content flex flex--row gap flex--baseline" lang="{{ language.bcp47 }}">
+          <span class="label label--outline lang-label inline-block text--center no-shrink">{{ language.label }}</span>
+          <div class="text--balance title">
+            {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      {% for lang in translation_languages %}
+        {% liquid
+          assign translations = data.translations | where: "lang", lang | slice: 0, 1
+          assign language = lang_data[lang]
+        %}
+        {% for item in translations %}
+          {% liquid
+            assign authorNames = authorNames | append: ", " | append: item.owner
+            assign licenses = licenses | append: ", " | append: item.license
+          %}
+          <div class="item content flex flex--row gap flex--baseline" lang="{{ language.bcp47 }}">
+            <span class="label label--outline lang-label inline-block text--cente no-shrink">{{ language.label }}</span>
+            <div class="text--balance title">
+              {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+  </div>
+  <div class="credit w--20 text--right"><span data-unique>{{ licenses }}</span><br><span data-unique>{{ authorNames }}</span></div>
+  <div class="image image-dither image-stroke" style="position: absolute; bottom: 0px; left: 0px;" data-qr data-scale="2">https://tatoeba.org/en/sentences/show/101224{{ data.id }}</div>
+</div>
+
+<div class="title_bar">
+  {% render "logo" %}
+  <span class="title">{{ lang_data[main_language].name }} to {% for lang in translation_languages %}{{ lang_data[lang].name }}{% if forloop.last == false %}, {% endif %}{% endfor %}</span>
+  <span class="instance">#{{ data.id }}</span>
+</div>
+
+<script>
+  (() => {
+    const root = document.currentScript.closest(".view");
+    root.querySelectorAll('[data-unique]').forEach((e) => {
+      e.innerText = [...(new Set(e.innerText.split(/, /g)))].filter(Boolean).join(', ');
+    });
+  })();
+</script>
+
+<style>
+  .lang-label {
+    .screen--1bit &, .screen--2bit & {
+      translate: 0 -4px;
+    }
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
+<script src="https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@536f8a59298f826810a87f2d73347edeb961ef4f/QR.js" defer></script>
