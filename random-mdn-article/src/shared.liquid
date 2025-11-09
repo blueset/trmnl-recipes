@@ -21,6 +21,21 @@
   del {
     text-decoration-color: #777;
   }
+  .screen--lg .mdn {
+    --factor: 1.5;
+    --richtext-small-font-size: calc(13px * var(--factor) * var(--ui-scale));
+    --richtext-small-line-height: calc(18px * var(--factor) * var(--ui-scale));
+    --richtext-font-size: calc(16px * var(--factor) * var(--ui-scale));
+    --title-font-size: calc(21px * var(--factor) * var(--ui-scale));
+  }
+  .screen--4bit .mdn {
+    .richtext .content--small {
+      --richtext-small-font-weight: 400;
+    }
+    .title.page-title {
+      --title-font-weight: 600;
+    }
+  }
 </style>
 
 {% template yes %}
