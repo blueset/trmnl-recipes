@@ -1,5 +1,5 @@
 <div class="layout zi-main-container" style="align-items: safe center; --zitou-size: 60px;" lang="zh">
-  <div class="flex flex--row gap--xsmall w-full" style="height: 100%; align-items: safe center; height: 100%;">
+  <div class="flex flex--row gap--xsmall lg:gap w-full" style="height: 100%; align-items: safe center; height: 100%;">
     <div class="left flex flex--col gap--xsmall fz-12" style="width: var(--zitou-size); flex-shrink: 0;">
       <div class="zitou"></div>
       <div class="ids hidden"></div>
@@ -19,6 +19,9 @@
 </div>
 
 <style>
+  .screen--lg .layout {
+    --zitou-size: 80px !important;
+  }
   .yin-grid.yin-grid-landscape {
     gap: 0;
     .yin-row {

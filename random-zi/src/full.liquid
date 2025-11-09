@@ -5,7 +5,7 @@
       <div class="ids"></div>
       <div class="grid yin-grid"></div>
     </div>
-    <div class="right flex flex--col gap--xsmall col--span-6 fz-24">
+    <div class="right flex flex--col gap--xsmall lg:gap col--span-6 fz-24">
       <div class="flex flex--row glyphs"></div>
       <div class="yi"></div>
     </div>
@@ -19,7 +19,9 @@
 </div>
 
 <style>
-  
+  .screen--lg {
+    --zitou-size: 120px;
+  }
   @container zi-main-container (width > 0px) {
     .yin-grid {
       max-height: round(down, calc(100cqb - 96px - var(--line-height, 12px) - var(--gap-xsmall, 5px)), calc(var(--line-height) + 5px));

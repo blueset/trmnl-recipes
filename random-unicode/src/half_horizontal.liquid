@@ -10,6 +10,9 @@
 </script>
 {% else %}
 <style>
+  /* Nunito */
+  @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,75..125,200..1000;1,6..12,75..125,200..1000&display=swap');
+
   /* Ari-W9500 Regular */
   @font-face {
     font-family: 'Ari-W9500';
@@ -134,15 +137,25 @@
     font-family: 'Ari-W9500 Condensed', sans-serif;
     font-size: 11px;
     line-height: 14px;
+    .screen--4bit & {
+      font-family: 'Nunito Sans', sans-serif;
+      line-height: 1.5;
+    }
+    .screen--lg.screen--4bit & {
+      font-size: 14px;
+    }
   }
   .description.narrow, .narrow {
     font-family: 'Ari-W9500 Condensed', sans-serif;
+    .screen--4bit & {
+      font-family: 'Nunito Sans', sans-serif;
+      font-stretch: 75%;
+    }
   }
   .character svg {
     aspect-ratio: 1 / 1;
   }
   .description.large {
-    
     font-family: 'MotaPixel', sans-serif;
     font-size: 20px;
     font-weight: 300;
@@ -156,6 +169,15 @@
     em {
       text-decoration: underline;
       font-style: normal;
+    }
+    .screen--4bit & {
+      font-family: 'Nunito Sans', sans-serif;
+      p {
+        line-height: 1.1;
+      }
+    }
+    .screen--lg.screen--4bit & {
+      font-size: 20px;
     }
   }
   .characters:has(.character:nth-child(2)) {

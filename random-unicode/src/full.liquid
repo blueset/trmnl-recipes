@@ -189,6 +189,11 @@
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
+    
+    .screen--lg & {
+      gap: 10px;
+    }
+    
     .property-group-key {
       font-family: "Ari-W9500", sans-serif;
       font-weight: bold;
@@ -197,6 +202,11 @@
       
       .screen--4bit & {
         font-family: 'Nunito Sans', sans-serif;
+      }
+
+      .screen--lg & {
+        font-size: 18px;
+        line-height: 24px;
       }
     }
     .property {
@@ -218,6 +228,13 @@
         color: white;
         padding: 2px 4px;
         border-radius: 0 3px 3px 0;
+      }
+      .screen--lg & {
+        font-size: 16px;
+        line-height: 20px;
+        .property-key, .property-value {
+          padding: 3px 6px;
+        }
       }
     }
   }

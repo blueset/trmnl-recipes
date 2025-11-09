@@ -16,6 +16,14 @@
     width: 100%;
   }
 
+  .screen--lg {
+    .view--half_vertical, .view--full {
+      .wtc {
+        gap: 10px 0;
+      }
+    }
+  }
+
   /* Row wrapper (subgrid columns/rows as specified). Provide graceful fallback for browsers lacking subgrid. */
   .wtc__row {
     display: grid;
@@ -154,6 +162,13 @@
   .item[data-overflow-label] {
     grid-column: 1 / -1;
     margin-block-start: 5px;
+  }
+  .screen--4bit {
+    .wtc__hourline, .wtc__labelcol {
+      .label:not(.label--small) {
+        --label-font-weight: 700;
+      }
+    }
   }
 </style>
 

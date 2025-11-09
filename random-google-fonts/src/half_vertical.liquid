@@ -9,7 +9,7 @@
     </div>
 
     <div style="height: 0; flex-grow: 1; overflow: hidden">
-      <div class="flex flex--col gap--xsmall sidebar" data-overflow="true" data-label-class="label--small">
+      <div class="flex flex--col sm:gap--xsmall md:gap--xsmall lg:gap--small sidebar" data-overflow="true" data-label-class="sm:label--small md:label--small">
       </div>
     </div>
   </div>
@@ -31,6 +31,10 @@
     -webkit-line-clamp: 5;
     overflow: hidden;
     max-width: 100%;
+  }
+
+  .screen--lg .sample-5 {
+    -webkit-line-clamp: 10;
   }
 
   .classification {

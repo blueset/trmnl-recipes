@@ -10,6 +10,9 @@
 </script>
 {% else %}
 <style>
+  /* Nunito */
+  @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,75..125,200..1000;1,6..12,75..125,200..1000&display=swap');
+
   /* Ari-W9500 Regular */
   @font-face {
     font-family: 'Ari-W9500';
@@ -136,14 +139,30 @@
       text-transform: uppercase;
       font-weight: bold;
     }
+    .screen--lg & {
+      gap: 10px 20px;
+    }
   }
   .label--small, .description {
     font-family: 'Ari-W9500 Condensed', sans-serif;
     font-size: 11px;
     line-height: 14px;
+
+    .screen--4bit & {
+      font-family: 'Nunito Sans', sans-serif;
+      line-height: 1.5;
+    }
+    .screen--lg.screen--4bit & {
+      font-size: 14px;
+    }
   }
   .description.narrow, .narrow {
     font-family: 'Ari-W9500 Condensed', sans-serif;
+    
+    .screen--4bit & {
+      font-family: 'Nunito Sans', sans-serif;
+      font-stretch: 75%;
+    }
   }
   .character svg {
     aspect-ratio: 1 / 1;
@@ -162,6 +181,13 @@
     em {
       text-decoration: underline;
       font-style: normal;
+    }
+    
+    .screen--4bit & {
+      font-family: 'Nunito Sans', sans-serif;
+      p {
+        line-height: 1.1;
+      }
     }
   }
   .characters {
@@ -218,6 +244,9 @@
     gap: 20px 20px !important;
     align-content: center;
     align-items: center;
+    .screen--lg & {
+      gap: 40px 20px !important;
+    }
   }
   .layout:has(.characters .character:nth-child(3):last-child) {
     grid-template-columns: 2fr 6fr 2fr;
