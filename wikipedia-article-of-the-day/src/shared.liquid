@@ -61,6 +61,23 @@
     word-break: normal;
   }
 
+  .trmnl .screen--4bit {
+    .wiki-richtext .title {
+      &:lang(bn), &:lang(el), &:lang(en), &:lang(hu), &:lang(sv), &:lang(zh) {
+        font-family: 'Linux Libertine','Georgia','Times','Source Serif 4',serif;
+      }
+      &:lang(de), &:lang(vi) {
+        font-family: "Linux Libertine","Palatino Linotype","Georgia","Times",serif;
+      }
+      &:lang(sd) {
+        font-family: "SSRead",Georgia,Arial,Calibri,Times,sans-serif;
+      }
+      &:lang(ur) {
+        font-family: "Jameel Noori Nastaleeq","Mehr Nastaliq Web","Alvi Lahori Nastaleeq","Alvi Nastaleeq","Nafees Nastaleeq","Nafees Nastaleeq v1.01","Pak Nastaleeq","Urdu Emad Nastaleeq","PDMS_Jauhar","Urdu Typesetting",Nafees,IranNastaliq,Amiri,Georgia,"Times New Roman",Times,sans-serif;
+      }
+    }
+  }
+  
   .trmnl .screen--1bit, .trmnl .screen--2bit {
     .richtext .content:lang(ja), .content:lang(ja),
     .title_bar .title:lang(ja), .title_bar .title:lang(ja){
@@ -89,6 +106,10 @@
     .title:lang(zh), .title:lang(zh) {
       font-family: "C24XCN", "Hibiya24", "NanoDyongChyangSong TCN 24", "Unifont", serif;
       font-size: 24px;
+    }
+
+    b {
+      text-decoration: underline dotted;
     }
   }
   .title_bar .title {
@@ -151,8 +172,8 @@
     const content = root.querySelector(".wiki-richtext .content");
     const p = root.querySelector(".wiki-richtext .content p");
     function measure(reset) {
-      if (reset) {
-        content?.style.removeProperty('webkitLineClamp');
+      if (reset && content) {
+        content.style.webkitLineClamp = "";
       }
       const height = content.getBoundingClientRect().height;
       const lineHeight = parseInt(getComputedStyle(p || content).lineHeight);
@@ -171,5 +192,11 @@
     window.addEventListener('load', () => measure(true));
     window.addEventListener('resize', () => measure(true));
     window.addEventListener('orientationchange', () => measure(true));
+    setTimeout(() => {
+      measure(true)
+      document.fonts.ready.then(() => {
+        measure(true)
+      });
+    }, 2000);
   })();
 </script>
