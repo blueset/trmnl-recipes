@@ -65,5 +65,92 @@
   }
 </style>
 
+<script>
+  (() => {
+    const root = document.currentScript.closest('.view');
+    
+    // Debug Logging
+    const logContainer = document.createElement('div');
+    logContainer.style.position = 'fixed';
+    logContainer.style.top = '10px';
+    logContainer.style.left = '10px';
+    logContainer.style.width = 'calc(100% - 20px)';
+    logContainer.style.whiteSpace = 'pre-wrap';
+    logContainer.style.wordBreak = 'break-word';
+    logContainer.classList.add('label');
+    logContainer.classList.add('label--small');
+    logContainer.classList.add('text-stroke');
+    
+    // root.appendChild(logContainer);
+
+    function log(...args) {
+      if (logContainer) {
+        logContainer.textContent += "> " + args.map(arg => {
+          if (typeof arg === 'string') return arg;
+          if (arg instanceof HTMLElement) {
+            let desc = arg.className ? `.${arg.className.replace(/\s+/g, '.')}` : '';
+            if (arg.id) desc += `#${arg.id}`;
+            if (arg.dataset && Object.keys(arg.dataset).length) {
+              desc += `[${Object.entries(arg.dataset).map(([k, v]) => `${k}=${v}`).join(',')}]`;
+            }
+            let innerText = arg.textContent.trim().slice(0, 30).replace(/[\r\n]/g, ' ');
+            if (innerText) {
+              innerText += ` "${innerText}${arg.textContent.trim().length > 30 ? '...' : ''}"`;
+            }
+            return `<${arg.tagName.toLowerCase()}${desc ? ' ' + desc : ''}>${innerText}`;
+          }
+          if (arg instanceof Text) {
+            return `#text "${arg.textContent.trim().slice(0, 30)}${arg.textContent.trim().length > 30 ? '...' : ''}"`;
+          }
+          if (arg === null) return 'null';
+          if (arg === undefined) return 'undefined';
+          if (typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'bigint' || typeof arg === 'symbol') {
+            return String(arg);
+          }
+          try {
+            if (JSON.stringify(arg) !== "{}") {
+              return JSON.stringify(arg);
+            }
+          } catch {
+            return `${arg}`;
+          }
+          return `${arg}`;
+        }).join(' ') + '\n';
+      }
+      console.log(...args);
+    }
+
+    function remeasure() {
+        root.querySelectorAll('[dir="auto"]').forEach(e => {
+        log("computing", e)
+        e.style.width = "";
+        log("before size: w", e.getBoundingClientRect().width, "h", e.getBoundingClientRect().height)
+        const range = document.createRange();
+        range.setStartBefore(e.firstChild);
+        range.setEndAfter(e.lastChild);
+        const width = Math.ceil(range.getBoundingClientRect().width) + 1;
+        log("after w", range.getBoundingClientRect().width, "h", range.getBoundingClientRect().height, "resulting", width);
+        e.style.width = `${width}px`;
+      });
+    }
+    
+    const resizeObserver = new ResizeObserver((es) => {
+      log("on resize", "blockSize", es[0].contentBoxSize[0].blockSize, "inlineSize", es[0].contentBoxSize[0].inlineSize);
+      remeasure();
+    });
+    resizeObserver.observe(root);
+    log("root remeasure");
+    remeasure();
+    setTimeout(() => {
+      log("timeout remeasure");
+      remeasure();
+      document.fonts.ready.then(() => {
+        log("font remeasure");
+        remeasure();
+      });
+    }, 2000);
+  })();
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
 <script src="https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@536f8a59298f826810a87f2d73347edeb961ef4f/QR.js" defer></script>
