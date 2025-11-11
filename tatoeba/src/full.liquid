@@ -128,7 +128,7 @@
         const range = document.createRange();
         range.setStartBefore(e.firstChild);
         range.setEndAfter(e.lastChild);
-        const width = Math.ceil(range.getBoundingClientRect().width) + 1;
+        const width = Math.ceil(range.getBoundingClientRect().width) + 2;
         log("after w", range.getBoundingClientRect().width, "h", range.getBoundingClientRect().height, "resulting", width);
         e.style.width = `${width}px`;
       });

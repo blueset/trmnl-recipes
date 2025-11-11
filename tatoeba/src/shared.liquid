@@ -513,6 +513,24 @@ assign approved_only = trmnl.plugin_settings.custom_fields_values.approved_only
   .layout {
     position: relative;
   }
+  .title {
+    font-family: var(--title-font-family), sans-serif;
+    &.title--small {
+      font-family: var(--title-small-font-family), sans-serif;
+    }
+    .title_bar & {
+      font-family: var(--title-bar-font-family), sans-serif;
+    }
+  }
+  .label {
+    font-family: var(--label-font-family), sans-serif;
+    &.label--small {
+      font-family: var(--label-small-font-family), sans-serif;
+    }
+  }
+  .value {
+    font-family: var(--value-font-family), sans-serif;
+  }
   .text--balance {
     text-wrap: balance;
   }
