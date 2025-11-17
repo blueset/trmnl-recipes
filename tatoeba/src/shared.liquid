@@ -554,3 +554,28 @@ assign approved_only = trmnl.plugin_settings.custom_fields_values.approved_only
 {% template logo %}
 <svg xmlns="http://www.w3.org/2000/svg" class="image image-stroke" version="1.0" viewBox="0 0 72 72"><defs><radialGradient id="a" cx=".3" cy=".4"><stop offset=".1" stop-color="green"/><stop offset=".4" stop-color="#CDEFAC"/></radialGradient><radialGradient id="b" cx=".6" cy=".4"><stop offset="0" stop-color="#B3E87E"/><stop offset="1" stop-color="#ABE66F"/></radialGradient><radialGradient id="c" cx=".6" cy=".4"><stop offset="0" stop-color="#4B8616"/><stop offset="1" stop-color="#3F7513"/></radialGradient><radialGradient id="d" cx=".6" cy=".4"><stop offset="0" stop-color="#80D832"/><stop offset="1" stop-color="#74D325"/></radialGradient><filter id="filter291" width="1" height="1" x="0" y="0" style="color-interpolation-filters:sRGB"><feColorMatrix id="feColorMatrix291" values="0.21 0.22 0.072 -0.3 0 0.21 0.22 0.072 -0.3 0 0.21 0.22 0.072 -0.3 0 0 0 0 1 0"/></filter></defs><g stroke="#000" stroke-opacity=".1" stroke-width=".5" style="filter:url(#filter291)"><path d="M33 39 22 21.6"/><path d="M22 21.6 19.4 7"/><path d="M22 21.6 35.7 7"/><path d="m33 39 14-18.7"/><path d="m33 39 27.4-5.6"/><path d="m60.4 33.4 5-15.2"/><path d="m33 39 26.7 17.5"/><path d="m33 39 8.8 15.6"/><path d="m33 39-.3 24.2"/><path d="m33 39-20.7 2.5"/><path d="m12.3 41.5 6.4 18"/><path d="M12.3 41.5 6.8 55.2"/></g><circle cx="33" cy="39" r="8.2" style="fill:url(#a);filter:url(#filter291)"/><circle cx="22" cy="21.6" r="7.5" style="fill:url(#b);filter:url(#filter291)"/><circle cx="12.3" cy="41.5" r="6.7" style="fill:url(#c);filter:url(#filter291)"/><circle cx="6.8" cy="55.2" r="4.2" style="fill:url(#b);filter:url(#filter291)"/><circle cx="18.7" cy="59.5" r="5.4" style="fill:url(#d);filter:url(#filter291)"/><circle cx="32.7" cy="63.2" r="5.8" style="fill:url(#d);filter:url(#filter291)"/><circle cx="41.8" cy="54.6" r="4" style="fill:url(#b);filter:url(#filter291)"/><circle cx="19.4" cy="7" r="4.7" style="fill:url(#b);filter:url(#filter291)"/><circle cx="35.7" cy="7" r="4.8" style="fill:url(#d);filter:url(#filter291)"/><circle cx="60.4" cy="33.4" r="6.8" style="fill:url(#d);filter:url(#filter291)"/><circle cx="65.4" cy="18.2" r="4.5" style="fill:url(#b);filter:url(#filter291)"/><circle cx="59.7" cy="56.5" r="10" style="fill:url(#c);filter:url(#filter291)"/><circle cx="47" cy="20.3" r="9.7" style="fill:url(#d);filter:url(#filter291)"/></svg>
 {% endtemplate %}
+
+
+<script type="module" data-t-script>
+  import { applyPlaintext } from 'https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@2e95bbd620f0c5d0726e3dfbe4d765edb417ccf8/i18n.js';
+  import { DefaultFunctions } from 'https://cdn.jsdelivr.net/npm/messageformat@4.0.0-13/lib/functions/+esm';
+
+  const langJson = {{ lang_json }};
+  
+  applyPlaintext({
+    langName: (context, options, input) => { 
+      const result = (new Intl.DisplayNames(context.locales, { type: "language" })).of(input);
+      const name = result !== input ? result : Object.values(langJson).find(a => a.bcp47 === result).name ?? result;
+      return DefaultFunctions.string(context, options, name);
+    },
+    langNameList: (context, options, input) => { 
+      const dn = new Intl.DisplayNames(context.locales, { type: "language" });
+      const result = new Intl.ListFormat(context.locales[0], { style: "narrow" }).format(input.map(i => {
+        const result = dn.of(i);
+        const name = result !== input ? result : Object.values(langJson).find(a => a.bcp47 === result).name ?? result;
+        return name;
+      }));
+      return DefaultFunctions.string(context, options, result);
+    },
+  });
+</script>
