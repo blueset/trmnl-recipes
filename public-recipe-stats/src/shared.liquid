@@ -9,8 +9,8 @@
       <div class="flex flex--row flex--left {{ meta_row_class }}">
         <span class="{{ value_class }}">{{ data.stats.installs | plus: data.stats.forks }}</span>
         <div class="{{ meta_class }}">
-          <span class="description">{{ data.stats.installs }} install{% if data.stats.installs > 1 %}s{% endif %}</span>
-          <span class="description">{{ data.stats.forks }} fork{% if data.stats.forks > 1 %}s{% endif %}</span>
+          <span class="description" data-t="installs" data-t-value="{{ data.stats.installs }}">{% raw %}.input {$value :number} .match $value zero {{No install}} one {{{$value} install}} * {{{$value} installs}}{% endraw %}</span>
+          <span class="description" data-t="forks" data-t-value="{{ data.stats.forks }}">{% raw %}.input {$value :number} .match $value zero {{No fork}} one {{{$value} fork}} * {{{$value} forks}} {% endraw %}</span>
         </div>
       </div>
     </div>
@@ -19,6 +19,7 @@
 {% endtemplate %}
 
 {% template plugin %}
+<div style="display: contents;" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ 'public_recipe_stats' | l_word: trmnl.user.locale | json | escape }}">
 {% liquid 
     assign total_installs = 0
     assign total_forks = 0
@@ -61,34 +62,34 @@
         %}
         {% endfor %}
         {% if overflow_counter and data_size < total %}
-        <div class="item" data-alt-overflow-label="true"><div class="meta"></div><div class="content"><span class="label label--gray">and {{ total | minus: data_size }} more</span></div></div>
+        <div class="item" data-alt-overflow-label="true"><div class="meta"></div><div class="content"><span class="label label--gray" data-t="and_more" data-t-value="{{ total | minus: data_size }}">and {$value} more</span></div></div>
         {% endif %}
         {% if overflow_counter and trmnl.plugin_settings.custom_fields_values.selection == "recipe_ids" %}
         {% assign total = trmnl.plugin_settings.custom_fields_values.recipe_ids | split: "," | size %}
-        <div class="item" data-alt-overflow-label="true"><div class="meta"></div><div class="content"><span class="label label--gray">and {{ total | minus: data_size }} more</span></div></div>
+        <div class="item" data-alt-overflow-label="true"><div class="meta"></div><div class="content"><span class="label label--gray" data-t="and_more" data-t-value="{{ total | minus: data_size }}">and {$value} more</span></div></div>
         {% endif %}
       </div>
     </div>
   {% else %}
     <div class="richtext gap">
       {% if trmnl.plugin_settings.custom_fields_values.selection == "keyword" and trmnl.plugin_settings.custom_fields_values.keyword != "" %}
-      <div class="text--center content--large content">“{{ trmnl.plugin_settings.custom_fields_values.keyword }}” did not match any result.</div>
-      <div class="text--center content">Try search for something else.</div>
+      <div class="text--center content--large content" data-t="error_keyword_title" data-t-keyword="{{ trmnl.plugin_settings.custom_fields_values.keyword }}">“{$keyword}” did not match any result.</div>
+      <div class="text--center content" data-t="error_keyword_subtitle">Try searching for something else.</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "keyword" and trmnl.plugin_settings.custom_fields_values.keyword == "" %}
-      <div class="text--center content--large content">No new recipe is found.</div>
-      <div class="text--center content">This shouldn’t happen.</div>
+      <div class="text--center content--large content" data-t="error_new_title">No new recipe is found.</div>
+      <div class="text--center content" data-t="error_new_subtitle">This shouldn’t happen.</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "author_id" and trmnl.plugin_settings.custom_fields_values.author_id == "" %}
-      <div class="text--center content--large content">You did not publish any recipe.</div>
-      <div class="content">Learn how to publish your first one at https://help.usetrmnl.com/en/articles/9510536-private-plugins</div>
+      <div class="text--center content--large content" data-t="error_self_title">You did not publish any recipe.</div>
+      <div class="content" data-t="error_self_subtitle">Learn how to publish your first one at https://help.usetrmnl.com/en/articles/9510536-private-plugins</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "author_id" and trmnl.plugin_settings.custom_fields_values.author_id != "" %}
-      <div class="text--center content--large content">User #{{ author_id }} did not publish any recipe.</div>
-      <div class="content">No recipe is found associated with this ID.</div>
+      <div class="text--center content--large content" data-t="error_author_id_title" data-t-author="{{ author_id }}">User #{$authorId} did not publish any recipe.</div>
+      <div class="content" data-t="error_author_id_subtitle">No recipe is found associated with this ID.</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "recipe_ids" and trmnl.plugin_settings.custom_fields_values.recipe_ids == "" %}
-      <div class="text--center content--large content">No recipe ID is found.</div>
-      <div class="content">Add a recipe ID to get started.</div>
+      <div class="text--center content--large content" data-t="error_recipe_ids_title">No recipe ID is found.</div>
+      <div class="content" data-t="error_recipe_ids_subtitle">Add a recipe ID to get started.</div>
       {% elsif trmnl.plugin_settings.custom_fields_values.selection == "recipe_ids" and trmnl.plugin_settings.custom_fields_values.recipe_ids != "" %}
-      <div class="text--center content--large content">No recipe ID is found valid.</div>
-      <div class="content">None of the recipe IDs {{ trmnl.plugin_settings.custom_fields_values.recipe_ids }} are valid, please verify your settings.</div>
+      <div class="text--center content--large content" data-t="error_recipe_ids_title">No recipe ID is found valid.</div>
+      <div class="content" data-t="error_recipe_ids_subtitle" data-t-ids="{{ trmnl.plugin_settings.custom_fields_values.recipe_ids }}">None of the recipe IDs {$ids} are valid, please verify your settings.</div>
       {% endif %}
     </div>
   {% endif %}
@@ -99,12 +100,12 @@
   <div class="flex flex--between flex--row px--2 w--full" style="z-index: 1; position: relative">
     {% if show_progress == "compact" %}
     <span class="pt--1 text-stroke label label-connections" >+{{ total_connections }}</span>
-    <span class="pt--1 text-stroke label label-installs" style="position: absolute;">{{ total_installs }} install{% if total_installs > 1 %}s{% endif %}</span>
-    <span class="pt--1 text-stroke label label-forks">{{ total_forks }} fork{% if total_forks > 1 %}s{% endif %}</span>
+    <span class="pt--1 text-stroke label label-installs" style="position: absolute;" data-t="installs" data-t-value="{{ total_installs }}">{% raw %}.input {$value :number} .match $value zero {{No install}} one {{{$value} install}} * {{{$value} installs}}{% endraw %}</span>
+    <span class="pt--1 text-stroke label label-forks" data-t="forks" data-t-value="{{ total_forks }}">{% raw %}.input {$value :number} .match $value zero {{No fork}} one {{{$value} fork}} * {{{$value} forks}} {% endraw %}</span>
     {% else %}
     <span class="pt--1 text-stroke label label-connections" >{{ total_connections }} connection{% if total_connections > 1 %}s{% endif %}</span>
-    <span class="pt--1 text-stroke label label-installs" style="position: absolute;">{{ total_installs }} install{% if total_installs > 1 %}s{% endif %}</span>
-    <span class="pt--1 text-stroke label label-forks">{{ total_forks }} fork{% if total_forks > 1 %}s{% endif %}</span>
+    <span class="pt--1 text-stroke label label-installs" style="position: absolute;" data-t="installs" data-t-value="{{ total_installs }}">{% raw %}.input {$value :number} .match $value zero {{No install}} one {{{$value} install}} * {{{$value} installs}}{% endraw %}</span>
+    <span class="pt--1 text-stroke label label-forks" data-t="forks" data-t-value="{{ total_forks }}">{% raw %}.input {$value :number} .match $value zero {{No fork}} one {{{$value} fork}} * {{{$value} forks}} {% endraw %}</span>
     {% endif %}
   </div>
 </div>
@@ -112,7 +113,8 @@
 <div class="title_bar">
   <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg" alt="TRMNL Logo">
   <span class="title">Public Recipe Stats</span>
-  <span class="instance">{{ total_connections }} connection{% if total_connections > 1 %}s{% endif %}</span>
+  <span class="instance" data-t="connections" data-t-value="{{ total_connections }}">{% raw %}.input {$value :number} .match $value zero {{No connection}} one {{{$value} connection} * {{{$value} connections}}{% endraw %}</span>
+</div>
 </div>
 {% endif %}
 
@@ -173,8 +175,8 @@
       
       // Calculate positions relative to container
       const pbarRightRelative = pbarRect.right - containerRect.left;
-      const connectionsRightRelative = connectionsRect.right - containerRect.left;
-      const forksLeftRelative = forksRect.left - containerRect.left;
+      const connectionsRightRelative = connectionsRect.right - containerRect.left + 20;
+      const forksLeftRelative = forksRect.left - containerRect.left - 20;
       
       // Check which edge is closer to pbar right edge
       const distanceToForks = Math.abs(pbarRightRelative - forksLeftRelative);
@@ -190,6 +192,7 @@
         if (optionLeft > connectionsRightRelative && optionLeft + installsRect.width < forksLeftRelative) {
           installs.style.right = `${optionRight}px`;
           installs.style.left = 'auto';
+          installs.dataset.rule = "Try right = 10px left of pbar right edge";
           positioned = true;
         }
       }
@@ -201,28 +204,31 @@
         if (optionRight < forksLeftRelative && optionLeft > connectionsRightRelative) {
           installs.style.left = `${optionLeft}px`;
           installs.style.right = 'auto';
+          installs.dataset.rule = "Try left = 10px right of pbar right edge";
           positioned = true;
         }
       }
       
       // Rule: If pbar right edge closer to forks: right = forks left edge - 20px
       if (!positioned && distanceToForks <= distanceToConnections) {
-        const optionRight = containerRect.width - forksLeftRelative + 40;
+        const optionRight = containerRect.width - forksLeftRelative;
         const optionLeft = containerRect.width - optionRight - installsRect.width;
         if (optionLeft > connectionsRightRelative) {
           installs.style.right = `${optionRight}px`;
           installs.style.left = 'auto';
+          installs.dataset.rule = "If pbar right edge closer to forks: right = forks left edge - 20px";
           positioned = true;
         }
       }
       
       // Rule: If pbar right edge closer to connections: left = connections right edge + 20px
       if (!positioned && distanceToConnections < distanceToForks) {
-        const optionLeft = connectionsRightRelative + 40;
+        const optionLeft = connectionsRightRelative;
         const optionRight = optionLeft + installsRect.width;
         if (optionRight < forksLeftRelative) {
           installs.style.left = `${optionLeft}px`;
           installs.style.right = 'auto';
+          installs.dataset.rule = " If pbar right edge closer to connections: left = connections right edge + 20px";
           positioned = true;
         }
       }
@@ -235,6 +241,12 @@
     
   })();
 </script>
+
+<script type="module" data-t-script>
+  import { applyPlaintext } from 'https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@2e95bbd620f0c5d0726e3dfbe4d765edb417ccf8/i18n.js';
+  applyPlaintext();
+</script>
+
 
 {% endtemplate %}
 

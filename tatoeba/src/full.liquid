@@ -42,9 +42,17 @@
   <div class="image image-dither image-stroke" style="position: absolute; bottom: 0px; left: 0px;" data-qr data-scale="2">https://tatoeba.org/en/sentences/show/{{ data.id }}</div>
 </div>
 
-<div class="title_bar">
+<div class="title_bar" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ 'language_learning_sentences' | l_word: trmnl.user.locale | json | escape }}">
   {% render "logo" %}
-  <span class="title">{{ lang_data[main_language].name }} to {% for lang in translation_languages %}{{ lang_data[lang].name }}{% if forloop.last == false %}, {% endif %}{% endfor %}</span>
+  {% assign translation_languages_size = translation_languages | size %}
+  {% if translation_languages_size > 0 %}
+  <span class="title" 
+    data-t="from_to"
+    data-t-from="{{ lang_data[main_language].bcp47 }}" 
+    data-t-to="{{ translation_languages | json | escape }}">{$from :langName} to {$to :langNameList}</span>
+  {% else %}
+  <span data-t="lang" data-t-from="{{ lang_data[main_language].bcp47 }}">{$from :langName}</span>
+  {% endif %}
   <span class="instance">#{{ data.id }}</span>
 </div>
 
