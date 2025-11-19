@@ -1,6 +1,6 @@
 <div class="relative layout" lang="{{ language }}">
-  <div class="text--gray-75 lyricova-id value">#{{ entryId }}</div>
-  <div data-qr data-scale="2">https://lyricova.1a23.studio/entries/{{ entryId }}</div>
+  <div class="text--gray-75 lyricova-id value">#{{ entryId }}</div>  
+  <div class="qr">{{ "https://lyricova.1a23.studio/entries/" | append: entryId | qr_code: 2, "l" }}</div>
   <div class="columns">
     <div class="column">
       <div class="flex flex--left richtext">
@@ -45,7 +45,7 @@
     z-index: -1;
     --value-font-size : 6em;
   }
-  [data-qr] {
+  .qr {
     bottom: 0; 
     right: 0;
   }
