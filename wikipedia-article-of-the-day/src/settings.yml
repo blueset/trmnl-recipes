@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-polling_url: https://blueset.github.io/wikipedia-featured/{{ language }}.json
+polling_url: https://blueset.github.io/wikipedia-featured/{{ language }}{% if language == "en" and en_view and en_view != "default" %}_{{ en_view }}{% elsif language == "zh" and zh_view and zh_view != "default" %}_{{ zh_view }}{% endif %}.json
 polling_headers: ''
 polling_body: ''
 id: 148054
@@ -12,7 +12,7 @@ custom_fields:
 - keyname: doesnt_matter
   name: About This Plugin
   field_type: author_bio
-  description: Multilingual Wikipedia Article of the Day plugin
+  description: Multilingual Wikipedia feed recipe, supports <b class="italic font-normal">Article of the Day</b>, <b class="italic font-normal">On this day</b>, and <b class="italic font-normal">Did you know</b>, for multiple languages.
   github_url: https://github.com/blueset/trmnl-recipes
 - keyname: language
   field_type: select
@@ -32,10 +32,77 @@ custom_fields:
   - اردو (Urdu): ur
   - Tiếng Việt (Vietnamese): vi
   - 中文 (Chinese): zh
+  conditional_validation:
+  - when: bn
+    hidden:
+    - en_view
+    - zh_view
+  - when: de
+    hidden:
+    - en_view
+    - zh_view
+  - when: el
+    hidden:
+    - en_view
+    - zh_view
+  - when: en
+    hidden:
+    - zh_view
+  - when: he
+    hidden:
+    - en_view
+    - zh_view
+  - when: hu
+    hidden:
+    - en_view
+    - zh_view
+  - when: ja
+    hidden:
+    - en_view
+    - zh_view
+  - when: sd
+    hidden:
+    - en_view
+    - zh_view
+  - when: sv
+    hidden:
+    - en_view
+    - zh_view
+  - when: ur
+    hidden:
+    - en_view
+    - zh_view
+  - when: vi
+    hidden:
+    - en_view
+    - zh_view
+  - when: zh
+    hidden:
+    - en_view
+- keyname: en_view
+  field_type: select
+  name: View
+  description: Select what content to show
+  default: default
+  optional: true
+  options:
+  - Article of the Day: default
+  - In the news: itn
+  - Did you know: dyn
+- keyname: zh_view
+  field_type: select
+  name: 视图
+  description: 选择要显示的内容
+  default: default
+  optional: true
+  options:
+  - 典范条目: default
+  - 新闻动态: itn
+  - 你知道吗: dyn
 - keyname: date_format
   field_type: string
   name: Date format
   description: Format the date, see <a href="https://strftime.net/">strftime</a> for syntax.
   default: "%Y-%m-%d"
-name: Wikipedia Article of the Day
+name: Wikipedia Feeds
 refresh_interval: 240

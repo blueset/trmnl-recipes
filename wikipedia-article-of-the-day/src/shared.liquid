@@ -5,6 +5,8 @@
 <style>
   @import url("https://fontsapi.zeoseven.com/359/main/result.css");
   @import url("https://fontsapi.zeoseven.com/536/main/result.css");
+  @import url("https://fontsapi.zeoseven.com/570/12px/result.css");
+  
   @font-face {
     font-family: 'UnifontExMono';
     src: url('https://stgiga.github.io/UnifontEX/UnifontExMono.eot'); /* IE9 Compat Modes */
@@ -108,6 +110,11 @@
       font-size: 24px;
     }
 
+    .description:lang(zh) {
+      font-family: "Fusion Pixel 12px P latin", sans-serif;
+      font-size: 12px;
+    }
+    
     b {
       text-decoration: underline dotted;
     }
@@ -139,7 +146,7 @@
       overflow: hidden;
   }
   
-  .wiki-richtext {
+  .wiki-richtext, .wiki-itn, .wiki-dyn {
       max-height: 100%;
       overflow: hidden;
   }
@@ -148,9 +155,77 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .wiki-itn a, .wiki-dyn a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .wiki-itn figure, .wiki-dyn figure {
+    display: none;
+    max-width: 30%;
+    .view--full &, .view--half_horizontal & {
+      display: block;
+    }
+  }
+
+  .wiki-dyn:lang(zh) b > a::after {
+    content:  " (" attr(title) ")"
+  }
 </style>
 
-<div class="layout" lang="{{ trmnl.plugin_settings.custom_fields_values.language }}">
+{% liquid 
+  assign language = trmnl.plugin_settings.custom_fields_values.language
+  assign view = ""
+  if language == "en"
+    assign view = trmnl.plugin_settings.custom_fields_values.en_view
+  elsif language == "zh"
+    assign view = trmnl.plugin_settings.custom_fields_values.zh_view
+  endif
+%}
+
+<div class="layout" lang="{{ language }}">
+  {% if view == "dyn" %}
+  <div class="flex flex--row gap wiki-dyn">
+    <div class="flex flex--col gap" data-overflow="true">
+      {% for fact in facts %}
+      <div class="item richtext">
+        <div class="meta"></div>
+        <div class="content">
+          <p>{{ fact.html }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% if image.url %}<figure class="content"><img src="{{ image.url }}" alt="{{ image.alt }}" class="image image-dither" />{% if image.caption %}<figcaption class="description">{{ image.caption }}</figcaption>{% endif %}{% endif %}
+  </div>
+  {% elsif view == "itn" %}
+  <div class="flex flex--row gap wiki-itn">
+    <div class="flex flex--col gap" data-overflow="true">
+      {% for headline in headlines %}
+      <div class="item richtext">
+        <div class="meta"></div>
+        <div class="content">
+          <p>{{ headline.html }}</p>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="description">Ongoing: {% for og in ongoing %}{{ og.text }}{% unless forloop.last %} · {% endunless %}{% endfor %}</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="meta"></div>
+        <div class="content">
+          <span class="description">Recent deaths: {% for rd in recentDeaths %}{{ rd.name }}{% unless forloop.last %} · {% endunless %}{% endfor %}</span>
+        </div>
+      </div>
+    </div>
+    {% if image.url %}<figure class="content"><img src="{{ image.url }}" alt="{{ image.alt }}" class="image image-dither" />{% if image.caption %}<figcaption class="description">{{ image.caption }}</figcaption>{% endif %}{% endif %}
+  </div>
+  {% else %}
   <div class="columns wiki-columns">
     <div class="column wiki-column">
       <div class="richtext richtext--center gap--medium wiki-richtext">
@@ -162,12 +237,13 @@
       </div>
     </div>
   </div>
+  {% endif %}
 </div>
 
-<div class="title_bar" lang="{{ trmnl.plugin_settings.custom_fields_values.language }}">
+<div class="title_bar" lang="{{ language }}">
   <img class="image image-stroke" src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Wikipedia%27s_W.svg">
   <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
-  <span class="instance">{{ timestamp | date: trmnl.plugin_settings.custom_fields_values.date_format }}</span>
+  <span class="instance">{{ timestamp | default: "now" | date: trmnl.plugin_settings.custom_fields_values.date_format }}</span>
 </div>
 
 <script>
