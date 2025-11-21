@@ -172,6 +172,19 @@
   .wiki-dyn:lang(zh) b > a::after {
     content:  " (" attr(title) ")"
   }
+
+  .wiki-ongoing:lang(en)::before {
+    content: "Ongoing: ";
+  }
+  .wiki-recent-deaths:lang(en)::before {
+    content: "Recent deaths: ";
+  }
+  .wiki-ongoing:lang(zh)::before {
+    content: "正在发生：";
+  }
+  .wiki-recent-deaths:lang(zh)::before {
+    content: "最近逝世：";
+  }
 </style>
 
 {% liquid 
@@ -213,13 +226,13 @@
       <div class="item">
         <div class="meta"></div>
         <div class="content">
-          <span class="description">Ongoing: {% for og in ongoing %}{{ og.text }}{% unless forloop.last %} · {% endunless %}{% endfor %}</span>
+          <span class="description wiki-ongoing">{% for og in ongoing %}{{ og.text }}{% unless forloop.last %} · {% endunless %}{% endfor %}</span>
         </div>
       </div>
       <div class="item">
         <div class="meta"></div>
         <div class="content">
-          <span class="description">Recent deaths: {% for rd in recentDeaths %}{{ rd.name }}{% unless forloop.last %} · {% endunless %}{% endfor %}</span>
+          <span class="description wiki-recent-deaths">{% for rd in recentDeaths %}{{ rd.name }}{% unless forloop.last %} · {% endunless %}{% endfor %}</span>
         </div>
       </div>
     </div>
