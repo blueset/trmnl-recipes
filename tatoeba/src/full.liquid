@@ -149,14 +149,14 @@
     resizeObserver.observe(root);
     log("root remeasure");
     remeasure();
-    setTimeout(() => {
+    setInterval(() => {
       log("timeout remeasure");
       remeasure();
       document.fonts.ready.then(() => {
         log("font remeasure");
         remeasure();
       });
-    }, 1000);
+    }, 500);
   })();
 </script>
 
