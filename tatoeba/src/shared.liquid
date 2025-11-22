@@ -458,11 +458,11 @@ assign approved_only = trmnl.plugin_settings.custom_fields_values.approved_only
     %}
     {% if transcriptions_size > 0 %}
       {% for t in script_transcriptions %}
-        <div dir="auto" lang="{{ bcp47 }}-{{ t.script }}">{{ t.html | default: t.text }}</div>
+        <div dir="auto" lang="{{ bcp47 }}-{{ t.script }}"{% if script == "Latn" and rendered_text %} class="title title--small"{% endif %}>{{ t.html | default: t.text }}</div>
         {% assign rendered_text = true %}
       {% endfor %}
     {% elsif data.script == script %}
-      <div dir="auto" lang="{{ bcp47 }}-{{ data.script }}">{{ data.html | default: data.text }}</div>
+      <div dir="auto" lang="{{ bcp47 }}-{{ data.script }}"{% if script == "Latn" and rendered_text %} class="title title--small"{% endif %}>{{ data.html | default: data.text }}</div>
       {% assign rendered_text = true %}
     {% endif %}
   {% endfor %}
@@ -498,7 +498,7 @@ assign approved_only = trmnl.plugin_settings.custom_fields_values.approved_only
     {% endif %}
     {% if romanization == "both" or romanization == "only" %}
       {% for t in script_transcriptions %}
-        <div dir="auto" lang="{{ bcp47 }}-{{ t.script }}">{{ t.html | default: t.text }}</div>
+        <div dir="auto" lang="{{ bcp47 }}-{{ t.script }}"{% if romanization == "both" %} class="title title--small"{% endif %}>{{ t.html | default: t.text }}</div>
       {% endfor %}
     {% endif %}
   {% else %}
