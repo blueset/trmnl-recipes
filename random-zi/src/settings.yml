@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-polling_url: https://trmnl.1a23.workers.dev/zi-tools{{ qps }}
+polling_url: "https://trmnl.1a23.workers.dev/zi-tools?compress{{ qps }}\r\nhttps://usetrmnl.com/custom_plugin_example_data.json"
 polling_headers: ''
 polling_body: ''
 id: 156095
@@ -19,7 +19,7 @@ custom_fields:
   field_type: select
   options:
   - Default chance: ''
-  - Increase chance of rare ideograph in random: "?rare"
+  - Increase chance of rare ideograph in random: "&rare"
   default: ''
   name: Random selection mode
 name: Random Zi
