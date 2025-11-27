@@ -15,6 +15,7 @@ custom_fields:
   description: A random CJKV ideograph (Chinese characters, Hanzi, Kanji, Hanja, Chữ Nôm) with pronunciations, definitions, and regional glyphs on each refresh. Data powered by <a href="https://zi.tools/">zi.tools 字統网</a>.
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://zi.tools/
+  category: discovery,education
 - keyname: qps
   field_type: select
   options:
