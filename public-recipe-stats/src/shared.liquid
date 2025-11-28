@@ -7,7 +7,8 @@
     <div class="{{ meta_box_class | default: "flex flex--col flex--left gap--none w--0 w--max-full grow" }}">
       <span class="{{ title_class }} truncate-text w--max-full">{{ data.name }}</span>
       <div class="flex flex--row flex--left {{ meta_row_class }}">
-        <span class="{{ value_class }}">{{ data.stats.installs | plus: data.stats.forks }}</span>
+        <span class="{{ value_class }}" data-t="total">&lcub;{{ data.stats.installs | plus: data.stats.forks }} :number &rcub;</span>
+        <span class="hidden {{ value_class }}">{{ data.stats.installs | plus: data.stats.forks }}</span>
         <div class="{{ meta_class }}">
           <span class="description" data-t="installs" data-t-value="{{ data.stats.installs }}">{% raw %}.input {$value :number} .match $value zero {{No install}} one {{{$value} install}} * {{{$value} installs}}{% endraw %}</span>
           <span class="description" data-t="forks" data-t-value="{{ data.stats.forks }}">{% raw %}.input {$value :number} .match $value zero {{No fork}} one {{{$value} fork}} * {{{$value} forks}} {% endraw %}</span>
