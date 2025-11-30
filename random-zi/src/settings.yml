@@ -24,4 +24,4 @@ custom_fields:
   default: ''
   name: Random selection mode
 name: Random Zi
-refresh_interval: 15
+refresh_interval: 240
