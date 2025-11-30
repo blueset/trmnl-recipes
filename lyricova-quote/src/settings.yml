@@ -15,6 +15,7 @@ custom_fields:
   description: A random lyrics quote of a Vocaloid song on each refresh. Data powered by <a href="https://lyricova.1a23.studio/">Project Lyricova</a>.
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://lyricova.1a23.studio/
+  category: discovery,art
 - keyname: type
   field_type: select
   name: Types of quotes

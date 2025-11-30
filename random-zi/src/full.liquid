@@ -1,9 +1,9 @@
 {% if error %}
-<div class="layout richtext">
+<div class="layout richtext grow w--full">
   <div class="content">{{ error }}</div>
 </div>
 {% else %}
-<div class="layout zi-main-container" style="align-items: safe center;" lang="zh">
+<div class="layout zi-main-container grow w--full" style="align-items: safe center;" lang="zh">
   <div class="gap--xsmall grid grid--cols-8" style="height: 100%; align-items: safe center; height: 100%;">
     <div class="left flex flex--col gap--xsmall col--span-2 fz-16">
       <div class="zitou"></div>
@@ -38,9 +38,16 @@
 </style>
 
 <script>
-
-  (() => {
-    const root = document.currentScript.closest(".view");
+  const root = document.currentScript.closest(".view");
+  (async () => {
+    const compressedString = {{ IDX_0 | json }};
+    const dataJson = await decodeCompressedResponse(compressedString);
+ 
+    Object.keys(dataJson).forEach(key => {
+      data[key] = dataJson[key];
+    });
+    
+    const result = formulate(data);
     root.querySelector(".title_bar .title").innerText = `${result.codepoint} (${result.block})`;
     root.querySelector(".title_bar .instance").innerText = `${result.properties.join(' ')}` || {{ trmnl.plugin_settings.instance_name | json }};
 

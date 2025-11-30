@@ -15,5 +15,6 @@ custom_fields:
   description: A random Unicode codepoint on each refresh. Data powered by <a href="https://codepoints.net/">codepoints.net</a>.
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://codepoints.net/
+  category: discovery,programming
 name: Random Unicode
 refresh_interval: 15

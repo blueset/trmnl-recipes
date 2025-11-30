@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/base92@3.2.1/dist/browser.min.js"></script>
 <style>
   @import url("https://fontsapi.zeoseven.com/285/main/result.css"); /* Noto Serif CJK */
   @import url("https://fontsapi.zeoseven.com/69/main/result.css"); /* Noto Sans CJK */
@@ -151,10 +152,7 @@ const textFontSize = "var(--fz, 12px)";
 const mainZiFontSize = "var(--zitou-size, 96px)";
   
 const data = {
-  _zi: {{ _zi | json }},
-  yi: {{ yi | json }},
-  font: {{ font | json }},
-}
+};
 
 function toReading(t) {
   return t ? t.split(":")[1] : t;
@@ -1129,6 +1127,39 @@ function formulate(data) {
   return { mainZi, yi, yin: yinData, ids: replaceFont(data.yi.kv.ids_zi_tools || data._zi, { size: textFontSize, not_replace_ids: true }), properties, codepoint, block, glyphs: glyphData };
 }
 
-const result = formulate(data);
+async function decodeCompressedResponse(encodedString) {
+  // Step 1: Parse the outer JSON to get the base92 string
+  const base92String = encodedString;
+  
+  // Step 2: Decode base92 to get compressed bytes
+  const base92 = new Base92();
+  const compressed = base92.decode(base92String);
+  
+  // Step 3: Decompress gzip
+  const stream = new ReadableStream({
+    start(controller) {
+      controller.enqueue(compressed);
+      controller.close();
+    },
+  }).pipeThrough(new DecompressionStream("gzip"));
 
+  const chunks = [];
+  const reader = stream.getReader();
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+  }
+  const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+  const decompressed = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const chunk of chunks) {
+    decompressed.set(chunk, offset);
+    offset += chunk.length;
+  }
+  
+  // Step 4: Decode UTF-8 and parse JSON
+  const jsonString = new TextDecoder().decode(decompressed);
+  return JSON.parse(jsonString);
+}
 </script>

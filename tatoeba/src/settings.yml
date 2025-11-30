@@ -15,6 +15,7 @@ custom_fields:
   description: A random sentence in your chosen languages with translations. Data powered by <a href="https://tatoeba.org/">Tatoeba</a>
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://tatoeba.org/
+  category: education
 - keyname: main_language
   field_type: select
   name: Main Language
