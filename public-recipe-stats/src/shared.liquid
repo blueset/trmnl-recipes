@@ -3,7 +3,7 @@
   <span class="meta {{ meta_label_class }}"><span class="index">{{ idx }}</span></span>
   <img class="binarize {{ screenshot_class | default: "hidden" }}" src="{{ data.screenshot_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" />
   <div class="binarize {{ item_box_class | default: "flex flex--left flex--row content" }}">
-    <img class="image w--auto no-shrink {{ icon_class }}" src="{{ data.icon_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" />
+    <img class="image w--auto no-shrink {{ icon_class }}" src="{{ data.icon_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" onerror="handleImageError(this)" data-content-type="{{ data.icon_content_type }}" />
     <div class="{{ meta_box_class | default: "flex flex--col flex--left gap--none w--0 w--max-full grow" }}">
       <span class="{{ title_class }} truncate-text w--max-full">{{ data.name }}</span>
       <div class="flex flex--row flex--left {{ meta_row_class }}">
@@ -241,6 +241,21 @@
     resizeObserver.observe(installs);
     
   })();
+</script>
+
+<script>
+async function handleImageError(img) {
+  try {
+    const response = await fetch(img.src);
+    const blob = await response.blob();
+    const svgBlob = new Blob([await blob.text()], { type: img.dataset?.contentType || 'image/svg+xml' });
+    const blobUrl = URL.createObjectURL(svgBlob);
+    img.onerror = null; // Prevent infinite loop if blob URL also fails
+    img.src = blobUrl;
+  } catch (error) {
+    console.error('Failed to load image:', error);
+  }
+}
 </script>
 
 <script type="module" data-t-script>
