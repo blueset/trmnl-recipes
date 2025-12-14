@@ -27,8 +27,16 @@
 </style>
 
 <script>
-
-  (() => {
+  const root = document.currentScript.closest(".view");
+  (async () => {
+    const compressedString = {{ IDX_0 | json }};
+    const dataJson = await decodeCompressedResponse(compressedString);
+ 
+    Object.keys(dataJson).forEach(key => {
+      data[key] = dataJson[key];
+    });
+    
+    const result = formulate(data);
     const root = document.currentScript.closest(".view");
     root.querySelector(".title_bar .title").innerText = `${result.codepoint} (${result.block})`;
     root.querySelector(".title_bar .instance").innerText = `${result.properties.join(' ')}` || {{ trmnl.plugin_settings.instance_name | json }};

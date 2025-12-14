@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-polling_url: "https://api.dev.tatoeba.org/unstable/sentences?lang={{ main_language }}&limit=1&sort=random\r\n{%- assign translation_languages_list = translation_languages | parse_json -%}\r\n{%- for translation_language in translation_languages_list -%}\r\n&trans:{{ forloop.index }}:lang={{ translation_language }}\r\n{%- endfor -%}\r\n{%- if translation_languages -%}\r\n&showtrans:lang={{- translation_languages_list | join: ',' -}}\r\n{%- endif -%}\r\n{%- if tags != \"\" -%}\r\n&tag={{- tags -}}\r\n{%- endif -%}\r\n{%- if approved_only == \"yes\" -%}\r\n&is_unapproved=no\r\n{%- endif -%}\r\n{%- if lists != \"\" -%}\r\n&list={{- lists -}}\r\n{%- endif -%}\r\n{%- if word_count != \"\" -%}\r\n&word_count={{- word_count -}}\r\n{%- endif -%}\r\n{%- if query != \"\" -%}\r\n&q={{- query -}}\r\n{%- endif -%}"
+polling_url: "https://api.tatoeba.org/unstable/sentences?lang={{ main_language }}&limit=1&sort=random\r\n{%- assign translation_languages_list = translation_languages | parse_json -%}\r\n{%- for translation_language in translation_languages_list -%}\r\n&trans:{{ forloop.index }}:lang={{ translation_language }}\r\n{%- endfor -%}\r\n{%- if translation_languages -%}\r\n&showtrans:lang={{- translation_languages_list | join: ',' -}}\r\n{%- endif -%}\r\n{%- if tags != \"\" -%}\r\n&tag={{- tags -}}\r\n{%- endif -%}\r\n{%- if approved_only == \"yes\" -%}\r\n&is_unapproved=no\r\n{%- endif -%}\r\n{%- if lists != \"\" -%}\r\n&list={{- lists -}}\r\n{%- endif -%}\r\n{%- if word_count != \"\" -%}\r\n&word_count={{- word_count -}}\r\n{%- endif -%}\r\n{%- if query != \"\" -%}\r\n&q={{- query -}}\r\n{%- endif -%}"
 polling_headers: ''
 polling_body: ''
 id: 177718
@@ -15,6 +15,7 @@ custom_fields:
   description: A random sentence in your chosen languages with translations. Data powered by <a href="https://tatoeba.org/">Tatoeba</a>
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://tatoeba.org/
+  category: education
 - keyname: main_language
   field_type: select
   name: Main Language

@@ -14,6 +14,7 @@ custom_fields:
   field_type: author_bio
   description: Multilingual Wikipedia feed recipe, supports <b class="italic font-normal">Article of the Day</b>, <b class="italic font-normal">On this day</b>, and <b class="italic font-normal">Did you know</b>, for multiple languages.
   github_url: https://github.com/blueset/trmnl-recipes
+  category: discovery,news
 - keyname: language
   field_type: select
   name: Language

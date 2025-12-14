@@ -3,11 +3,12 @@
   <span class="meta {{ meta_label_class }}"><span class="index">{{ idx }}</span></span>
   <img class="binarize {{ screenshot_class | default: "hidden" }}" src="{{ data.screenshot_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" />
   <div class="binarize {{ item_box_class | default: "flex flex--left flex--row content" }}">
-    <img class="image w--auto no-shrink {{ icon_class }}" src="{{ data.icon_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" />
+    <img class="image w--auto no-shrink {{ icon_class }}" src="{{ data.icon_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" onerror="handleImageError(this)" data-content-type="{{ data.icon_content_type }}" />
     <div class="{{ meta_box_class | default: "flex flex--col flex--left gap--none w--0 w--max-full grow" }}">
       <span class="{{ title_class }} truncate-text w--max-full">{{ data.name }}</span>
       <div class="flex flex--row flex--left {{ meta_row_class }}">
-        <span class="{{ value_class }}">{{ data.stats.installs | plus: data.stats.forks }}</span>
+        <span class="{{ value_class }}" data-t="total">&lcub;{{ data.stats.installs | plus: data.stats.forks }} :number &rcub;</span>
+        <span class="hidden {{ value_class }}">{{ data.stats.installs | plus: data.stats.forks }}</span>
         <div class="{{ meta_class }}">
           <span class="description" data-t="installs" data-t-value="{{ data.stats.installs }}">{% raw %}.input {$value :number} .match $value zero {{No install}} one {{{$value} install}} * {{{$value} installs}}{% endraw %}</span>
           <span class="description" data-t="forks" data-t-value="{{ data.stats.forks }}">{% raw %}.input {$value :number} .match $value zero {{No fork}} one {{{$value} fork}} * {{{$value} forks}} {% endraw %}</span>
@@ -99,13 +100,13 @@
   <span class="inline-flex bg--gray-30 rounded h--full t--0 l--0 installs-progress-bar" style="position: absolute; width: {{ total_installs | times: 100.0 | divided_by: total_connections }}%"> </span>
   <div class="flex flex--between flex--row px--2 w--full" style="z-index: 1; position: relative">
     {% if show_progress == "compact" %}
-    <span class="pt--1 text-stroke label label-connections" >+{{ total_connections }}</span>
-    <span class="pt--1 text-stroke label label-installs" style="position: absolute;" data-t="installs" data-t-value="{{ total_installs }}">{% raw %}.input {$value :number} .match $value zero {{No install}} one {{{$value} install}} * {{{$value} installs}}{% endraw %}</span>
-    <span class="pt--1 text-stroke label label-forks" data-t="forks" data-t-value="{{ total_forks }}">{% raw %}.input {$value :number} .match $value zero {{No fork}} one {{{$value} fork}} * {{{$value} forks}} {% endraw %}</span>
+    <span class="pt--1 text-stroke label label-connections" data-t="connectionsShort">+&lcub;{{ total_connections }} :number &rcub;</span>
+    <span class="pt--1 text-stroke label label-installs" style="position: absolute;" data-t="installs" data-t-value="{{ total_installs }}">{% raw %}.input {$value :number} .match $value zero {{No install}} one {{{$value :number} install}} * {{{$value :number} installs}}{% endraw %}</span>
+    <span class="pt--1 text-stroke label label-forks" data-t="forks" data-t-value="{{ total_forks }}">{% raw %}.input {$value :number} .match $value zero {{No fork}} one {{{$value :number} fork}} * {{{$value :number} forks}} {% endraw %}</span>
     {% else %}
-    <span class="pt--1 text-stroke label label-connections" >{{ total_connections }} connection{% if total_connections > 1 %}s{% endif %}</span>
-    <span class="pt--1 text-stroke label label-installs" style="position: absolute;" data-t="installs" data-t-value="{{ total_installs }}">{% raw %}.input {$value :number} .match $value zero {{No install}} one {{{$value} install}} * {{{$value} installs}}{% endraw %}</span>
-    <span class="pt--1 text-stroke label label-forks" data-t="forks" data-t-value="{{ total_forks }}">{% raw %}.input {$value :number} .match $value zero {{No fork}} one {{{$value} fork}} * {{{$value} forks}} {% endraw %}</span>
+    <span class="pt--1 text-stroke label label-connections" data-t="connections" data-t-value="{{ total_connections }}">{% raw %}.input {$value :number} .match $value zero {{No connection}} one {{{$value :number} connection}} * {{{$value :number} connections}}{% endraw %}</span>
+    <span class="pt--1 text-stroke label label-installs" style="position: absolute;" data-t="installs" data-t-value="{{ total_installs }}">{% raw %}.input {$value :number} .match $value zero {{No install}} one {{{$value :number} install}} * {{{$value :number} installs}}{% endraw %}</span>
+    <span class="pt--1 text-stroke label label-forks" data-t="forks" data-t-value="{{ total_forks }}">{% raw %}.input {$value :number} .match $value zero {{No fork}} one {{{$value :number} fork}} * {{{$value :number} forks}} {% endraw %}</span>
     {% endif %}
   </div>
 </div>
@@ -113,7 +114,7 @@
 <div class="title_bar">
   <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg" alt="TRMNL Logo">
   <span class="title">Public Recipe Stats</span>
-  <span class="instance" data-t="connections" data-t-value="{{ total_connections }}">{% raw %}.input {$value :number} .match $value zero {{No connection}} one {{{$value} connection} * {{{$value} connections}}{% endraw %}</span>
+  <span class="instance" data-t="connections" data-t-value="{{ total_connections }}">{% raw %}.input {$value :number} .match $value zero {{No connection}} one {{{$value :number} connection} * {{{$value :number} connections}}{% endraw %}</span>
 </div>
 </div>
 {% endif %}
@@ -240,6 +241,21 @@
     resizeObserver.observe(installs);
     
   })();
+</script>
+
+<script>
+async function handleImageError(img) {
+  try {
+    const response = await fetch(img.src);
+    const blob = await response.blob();
+    const svgBlob = new Blob([await blob.text()], { type: img.dataset?.contentType || 'image/svg+xml' });
+    const blobUrl = URL.createObjectURL(svgBlob);
+    img.onerror = null; // Prevent infinite loop if blob URL also fails
+    img.src = blobUrl;
+  } catch (error) {
+    console.error('Failed to load image:', error);
+  }
+}
 </script>
 
 <script type="module" data-t-script>
