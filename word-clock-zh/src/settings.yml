@@ -1,0 +1,53 @@
+---
+strategy: static
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: ''
+polling_headers: ''
+polling_body: ''
+id: 187631
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: Word Clock in Chinese. Supports 24-hour and 12-hour formats, as well as Simplified and Traditional Chinese. The highest precision is 5 minutes (determined by the plugin and device refresh rate).
+  description-zh-CN: 中文文字时钟。支持 24 小时和 12 小时，支持简体繁体。最高精度为 5 分钟（由插件和设备刷新频率决定）。
+  description-zh-HK: 中文文字時鐘。支援 24 小時和 12 小時，支援簡體繁體。最高精度為 5 分鐘（由插件和設備刷新頻率決定）。
+  github_url: https://github.com/blueset/trmnl-recipes
+  category: productivity,calendar
+- keyname: cycle
+  field_type: select
+  name: Time Format
+  name-zh-CN: 时制
+  name-zh-HK: 時制
+  default: h23
+  options:
+  - 24-hour: h23
+  - 12-hour: h12
+  options-zh-CN:
+  - 24 小时制: h23
+  - 12 小时制: h12
+  options-zh-HK:
+  - 24 小時制: h23
+  - 12 小時制: h12
+- keyname: script
+  field_type: select
+  name: Script
+  name-zh-CN: 文字
+  name-zh-HK: 文字
+  default: Hans
+  default-zh-CN: Hans
+  default-zh-HK: Hant
+  options:
+  - Simplified: Hans
+  - Traditional: Hant
+  options-zh-CN:
+  - 简体: Hans
+  - 繁体: Hant
+  options-zh-HK:
+  - 簡體: Hans
+  - 繁體: Hant
+name: Word Clock 中文
+refresh_interval: 15

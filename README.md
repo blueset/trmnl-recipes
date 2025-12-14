@@ -2,13 +2,30 @@
 
 [What is TRMNL?](https://usetrmnl.com/)
 
-## Wikipedia Article of the Day
+## Table of Contents
 
-A TRMNL plugin that fetches and displays the Wikipedia article of the day in multiple languages.
+* [Wikipedia Feed](#wikipedia-feed)
+* [Random Unicode](#random-unicode)
+* [Random MDN Article](#random-mdn-article)
+* [World clock](#world-clock)
+* [Lyricova Quote](#lyricova-quote)
+* [Random Zi](#random-zi)
+* [Random Google Fonts](#random-google-fonts)
+* [Public Recipe Stats](#public-recipe-stats)
+* [Tatoeba](#tatoeba)
+* [Slickdeals Frontpage](#slickdeals-frontpage)
+* [Word Clock 日本語](#word-clock-日本語)
+* [Word Clock 中文](#word-clock-中文)
+* [Sunrise and Sunset Chart](#sunrise-and-sunset-chart)
+* [Visa Bulletin](#visa-bulletin-not-published-yet)
 
-[Learn More](./wikipedia-article-of-the-day/README.md), [Install](https://usetrmnl.com/recipes/148054)
+## Wikipedia Feed
 
-![Screenshot](./wikipedia-article-of-the-day/images/en-f.png)
+Multilingual Wikipedia feed recipe, supports _Article of the Day_, _On this day_, and _Did you know_, for multiple languages.
+
+[Learn More](./wikipedia-feed/README.md), [Install](https://usetrmnl.com/recipes/148054)
+
+![Screenshot](./wikipedia-feed/images/en-f.png)
 
 ## Random Unicode
 
@@ -74,6 +91,38 @@ A random sentence in your chosen languages with translations. Data powered by [T
 [Learn More](./tatoeba/README.md), [Install](https://usetrmnl.com/recipes/177718)
 
 ![Screenshot](./tatoeba/images/f.png)
+
+## Slickdeals Frontpage
+
+Slickdeals Frontpage and Popular deals. Data from Slickdeals RSS feed.
+
+[Learn More](./slickdeals/README.md), [Install](https://usetrmnl.com/recipes/184875)
+
+![Screenshot](./slickdeals/images/f.png)
+
+## Word Clock 日本語
+
+Word clock in Japanese. Supports 24-hour and 12-hour formats, with a maximum display precision of 5 minutes (depending on recipe and device update frequency).
+
+[Learn More](./word-clock-ja/README.md), [Install](https://usetrmnl.com/recipes/187661)
+
+![Screenshot](./word-clock-ja/images/f.png)
+
+## Word Clock 中文
+
+Word Clock in Chinese. Supports 24-hour and 12-hour formats, as well as Simplified and Traditional Chinese. The highest precision is 5 minutes (determined by the plugin and device refresh rate).
+
+[Learn More](./word-clock-zh/README.md), [Install](https://usetrmnl.com/recipes/187631)
+
+![Screenshot](./word-clock-zh/images/f.png)
+
+## Sunrise and Sunset Chart
+
+Sunrise and sunset time with a daily and yearly chart.
+
+[Learn More](./sun-chart/README.md), [Install](https://usetrmnl.com/recipes/195274)
+
+![Screenshot](./sun-chart/images/f.png)
 
 ## Visa Bulletin (Not published yet)
 

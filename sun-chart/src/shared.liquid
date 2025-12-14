@@ -1,0 +1,328 @@
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@custom-variant screen-lg (.screen--lg &);
+@custom-variant screen-md (.screen--md &);
+@custom-variant screen-pix (.screen--1bit &, .screen--2bit &);
+@custom-variant screen-1bit (.screen--1bit &);
+@custom-variant screen-2bit (.screen--2bit &);
+@custom-variant screen-4bit (.screen--4bit &);
+@custom-variant full (.view--full &);
+@custom-variant hori (.view--half_horizontal &);
+@custom-variant vert (.view--half_vertical &);
+@custom-variant quad (.view--quadrant &);
+</style>
+
+{% assign instance_id = "chart-" | append_random %}
+<script type="module" data-id="{{ instance_id }}" data-t-script>
+  import suncalc from 'https://cdn.jsdelivr.net/npm/suncalc@1.9.0/+esm';
+  import tzLookup from 'https://cdn.jsdelivr.net/npm/tz-lookup@6.1.25/+esm';
+  import {
+    Temporal
+  } from 'https://cdn.jsdelivr.net/npm/@js-temporal/polyfill@0.5.1/+esm';
+  import { applyPlaintext } from 'https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@2e95bbd620f0c5d0726e3dfbe4d765edb417ccf8/i18n.js';
+  import { DefaultFunctions } from 'https://cdn.jsdelivr.net/npm/messageformat@4.0.0-13/lib/functions/+esm';
+  
+  applyPlaintext({});
+  
+  // Line below includes Liquid variables 
+  const {
+    Latitude,
+    Longitude
+  } = {{ trmnl.plugin_settings.custom_fields_values | json }};
+  const root = document.querySelector(".view:has([data-id='{{ instance_id }}'])");
+  const locale = root.querySelector("[lang]").lang;
+  const hourCycle = root.querySelector("[data-hour-cycle]").dataset.hourCycle || 'h23';
+  const timeZone = root.querySelector("[data-hour-cycle]").dataset.tz || tzLookup(Latitude, Longitude);
+
+  function getLocalTimeValuesForDay(date) {
+    // Get current time at the target location's timezone
+    const currentTimeAtLocation = Temporal.Now.zonedDateTimeISO(timeZone);
+    // Create a date at the target timezone for SunCalc
+    const dateAtLocation = date.toZonedDateTime({
+      timeZone,
+      plainTime: Temporal.PlainTime.from('12:00')
+    });
+    const jsDate = new Date(dateAtLocation.epochMilliseconds);
+    // Get sun times (these will be in local system timezone)
+    const sunTimes = suncalc.getTimes(jsDate, Latitude, Longitude);
+    // Convert each time to the correct timezone
+    const result = {};
+    for (const [key, value] of Object.entries(sunTimes)) {
+      if (value instanceof Date && !isNaN(value.valueOf())) {
+        // Convert to Temporal.Instant then to the target timezone
+        const instant = Temporal.Instant.fromEpochMilliseconds(value.getTime());
+        const zonedTime = instant.toZonedDateTimeISO(timeZone);
+        result[key] = zonedTime.toString();
+      } else if (isNaN(value.valueOf())) {
+        result[key] = null;
+      } else {
+        result[key] = value;
+      }
+    }
+    return result;
+  }
+  // Get today's date in the local timezone
+  const today = Temporal.Now.plainDateISO().toZonedDateTime(timeZone).toPlainDate();
+  const localTimeValues = getLocalTimeValuesForDay(today);
+
+  function buildTimeline(node, date, localTimeValues, axis) {
+    let startTime = date.toZonedDateTime({
+      timeZone,
+      plainTime: Temporal.PlainTime.from('00:00')
+    });
+    const spans = [{
+        name: "nightEnd",
+        color: "bg--black"
+      },
+      {
+        name: "nauticalDawn",
+        color: "bg--gray-25"
+      },
+      {
+        name: "dawn",
+        color: "bg--gray-45"
+      },
+      {
+        name: "sunrise",
+        color: "bg--gray-65"
+      },
+      {
+        name: "sunset",
+        color: "bg--white"
+      },
+      {
+        name: "dusk",
+        color: "bg--gray-65"
+      },
+      {
+        name: "nauticalDusk",
+        color: "bg--gray-45"
+      },
+      {
+        name: "night",
+        color: "bg--gray-25"
+      },
+      {
+        name: "EOD",
+        color: "bg--black"
+      }
+    ];
+    let lastSkippedColor = null;
+    const startOfDay = new Date(startTime.epochMilliseconds);
+    const sunPositionAtSOD = suncalc.getPosition(startOfDay, Latitude, Longitude);
+    const altitudeDeg = sunPositionAtSOD.altitude * 180 / Math.PI;
+    if (altitudeDeg > -0.5) {
+      lastSkippedColor = "bg--white"; // Polar day (sun above horizon)
+    } else if (altitudeDeg > -6) {
+      lastSkippedColor = "bg--gray-65"; // Civil twilight
+    } else if (altitudeDeg > -12) {
+      lastSkippedColor = "bg--gray-45"; // Nautical twilight
+    } else if (altitudeDeg > -18) {
+      lastSkippedColor = "bg--gray-25"; // Astronomical twilight
+    } else {
+      lastSkippedColor = "bg--black"; // Polar night (sun well below horizon)
+    }
+    console.log(date.toString(), 'starting last skipped color', lastSkippedColor, 'deg', altitudeDeg);
+    let accumulatedPercent = 0;
+    for (const span of spans) {
+      let endTime;
+      if (span.name !== "EOD") {
+        if (!localTimeValues[span.name]) {
+          // If the time is undefined (e.g., polar day/night), skip this span
+          if (!lastSkippedColor) {
+            lastSkippedColor = span.color;
+            //console.log(date.toString(), 'assigning last skipped color', span.name, span.color);
+          }
+          continue;
+        } else {
+          lastSkippedColor = null;
+          //console.log(date.toString(), 'resetting last skipped color', span.name);
+        }
+      }
+      if (span.name === "EOD") {
+        endTime = date.toZonedDateTime({
+          timeZone,
+          plainTime: Temporal.PlainTime.from('23:59:59.999999999')
+        });
+      } else {
+        endTime = Temporal.ZonedDateTime.from(localTimeValues[span.name]);
+      }
+      const durationInMinutes = endTime.since(startTime).total('minutes');
+      if (durationInMinutes <= 0) {
+        // Skip spans that have no duration
+        if (!lastSkippedColor) {
+          lastSkippedColor = span.color;
+        }
+        continue;
+      }
+      const axisPercent = span.name === "EOD" ? (100 - accumulatedPercent) : (durationInMinutes / 1440) * 100; // 1440 minutes in a day
+      const spanElement = document.createElement("div");
+      let color = span.color;
+      if (span.name === "EOD" && lastSkippedColor) {
+        color = lastSkippedColor;
+        //console.log(date.toString(), 'using last skipped color', color);
+      }
+      spanElement.className = `h-full ${color}`;
+      spanElement.style[axis] = `${axisPercent}%`;
+      spanElement.dataset.span = span.name;
+      node.appendChild(spanElement);
+      startTime = endTime;
+      accumulatedPercent += axisPercent;
+    }
+  }
+  const todayChartNode = root.querySelector(".chart-today");
+  if (todayChartNode) {
+    buildTimeline(root.querySelector(".chart-today"), today, localTimeValues, todayChartNode.classList.contains("vertical") ? "height" : "width");
+  }
+  const nowAtLocation = Temporal.Now.zonedDateTimeISO(timeZone);
+  const indicator = root.querySelector(".chart-today-indicator");
+  if (indicator) {
+    const minutesSinceStartOfDay = nowAtLocation.hour * 60 + nowAtLocation.minute + nowAtLocation.second / 60;
+    const percentOfDay = (minutesSinceStartOfDay / 1440) * 100;
+    const axis = indicator.classList.contains("vertical") ? "top" : "left";
+    indicator.style[axis] = `${percentOfDay}%`;
+  }
+  // Build year chart
+  const year = today.year;
+  const totalDaysInYear = Temporal.PlainDate.from({
+    year,
+    month: 12,
+    day: 31
+  }).dayOfYear;
+  const yearChartNode = root.querySelector(".year-chart");
+  if (yearChartNode) {
+    for (let date = Temporal.PlainDate.from({
+        year,
+        month: 1,
+        day: 1
+      }); date.year === year; date = date.add({
+        days: 1
+      })) {
+      const localTimeValuesForDay = getLocalTimeValuesForDay(date);
+      console.log([date.toString(), localTimeValuesForDay.nightEnd?.match(/\d+:\d+:\d+/)[1], localTimeValuesForDay.nauticalDawn?.match(/\d+:\d+:\d+/)[0], localTimeValuesForDay.dawn?.match(/\d+:\d+:\d+/)[0], localTimeValuesForDay.sunrise?.match(/\d+:\d+:\d+/)[0], localTimeValuesForDay.sunset?.match(/\d+:\d+:\d+/)[0], localTimeValuesForDay.dusk?.match(/\d+:\d+:\d+/)[0], localTimeValuesForDay.nauticalDusk?.match(/\d+:\d+:\d+/)[0], localTimeValuesForDay.night?.match(/\d+:\d+:\d+/)[0]].toString());
+      const dayNode = document.createElement("div");
+      dayNode.className = "h-full flex flex-col grow gap-0";
+      dayNode.dataset.date = date.toString();
+      buildTimeline(dayNode, date, localTimeValuesForDay, "height");
+      yearChartNode.appendChild(dayNode);
+    }
+  }
+  const yearIndicator = root.querySelector(".year-today-indicator");
+  if (yearIndicator) {
+    const dayOfYearNow = nowAtLocation.dayOfYear;
+    const percentOfYear = (dayOfYearNow / totalDaysInYear) * 100;
+    yearIndicator.style.left = `${percentOfYear}%`;
+  }
+  
+  // Update sunrise and sunset times
+
+  function populatePartsWithSmall(element, parts, smallTypes) {
+    element.textContent = "";
+    for (const part of parts) {
+      const node = document.createElement(smallTypes.includes(part.type) ? "small" : "span");
+      node.textContent = part.value;
+      element.appendChild(node);
+    }
+  }
+
+  const sunriseTimeElement = root.querySelector(".sunrise-time");
+  if (sunriseTimeElement) {
+    if (localTimeValues.sunrise) {
+      const sunriseZDT = Temporal.ZonedDateTime.from(localTimeValues.sunrise);
+      populatePartsWithSmall(sunriseTimeElement, (new Intl.DateTimeFormat(locale, {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone,
+        hourCycle
+      })).formatToParts(new Date(sunriseZDT.toInstant().toString())), ['dayPeriod']);
+    } else {
+      sunriseTimeElement.textContent = "-";
+    }
+  }
+
+  const sunsetTimeElement = root.querySelector(".sunset-time");
+  if (sunsetTimeElement) {
+    if (localTimeValues.sunset) {
+      const sunsetZDT = Temporal.ZonedDateTime.from(localTimeValues.sunset);
+      populatePartsWithSmall(sunsetTimeElement, (new Intl.DateTimeFormat(locale, {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZone,
+        hourCycle
+      })).formatToParts(new Date(sunsetZDT.toInstant().toString())), ['dayPeriod']);
+    } else {
+      sunsetTimeElement.textContent = "-";
+    }
+  }
+  const dayLengthElement = root.querySelector(".day-length");
+  if (dayLengthElement) {
+    if (localTimeValues.sunrise || localTimeValues.sunset) {
+      let start, end, suffix = "";
+      if (localTimeValues.sunrise && localTimeValues.sunset) {
+        start = Temporal.ZonedDateTime.from(localTimeValues.sunrise);
+        end = Temporal.ZonedDateTime.from(localTimeValues.sunset);
+      } else if (localTimeValues.sunrise) {
+        start = Temporal.ZonedDateTime.from(localTimeValues.sunrise);
+        end = start.with({
+          hour: 23,
+          minute: 59,
+          second: 59
+        });
+        suffix = "+";
+      } else if (localTimeValues.sunset) {
+        end = Temporal.ZonedDateTime.from(localTimeValues.sunset);
+        start = end.with({
+          hour: 0,
+          minute: 0,
+          second: 0
+        });
+        suffix = "+";
+      }
+      const duration = end.since(start).with({
+        seconds: 0,
+        milliseconds: 0,
+      })
+      populatePartsWithSmall(dayLengthElement, (new Intl.DurationFormat(locale, {
+        style: 'narrow',
+        secondDisplay: 'auto',
+      })).formatToParts(duration), ['unit', 'literal']);
+      if (suffix) {
+        dayLengthElement.appendChild(document.createTextNode(suffix));
+      }
+    } else {
+      dayLengthElement.textContent = "-";
+    }
+  }
+  // populate hour labels based on hourCycle
+  const hourLabels = root.querySelector(".hour-labels");
+  if (hourLabels) {
+    const labels = hourCycle === 'h12' ? ['12', '4', '8', '12', '4', '8', '12'] : ['0', '4', '8', '12', '16', '20', '24'];
+    labels.forEach((label, index) => {
+      const labelDiv = document.createElement("div");
+      labelDiv.className = "label label--small";
+      labelDiv.textContent = label;
+      hourLabels.appendChild(labelDiv);
+    });
+  }
+  // populate month labels based on locale
+  const monthLabels = root.querySelector(".month-labels");
+  if (monthLabels) {
+    const monthNames = [];
+    for (let month = 0; month < 12; month++) {
+      const dtf = new Intl.DateTimeFormat(locale, {
+        month: 'short'
+      });
+      const sampleDate = new Date(2024, month, 1); // Year doesn't matter
+      monthNames.push(dtf.format(sampleDate));
+    }
+    monthNames.forEach((monthName) => {
+      const monthDiv = document.createElement("div");
+      monthDiv.className = "label label--small grow";
+      monthDiv.textContent = monthName;
+      monthLabels.appendChild(monthDiv);
+    });
+  }
+</script>

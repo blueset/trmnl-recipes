@@ -1,0 +1,40 @@
+---
+strategy: static
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://suntracker.me/?lat={{ Latitude }}&lon={{ Longitude }}
+polling_headers: ''
+polling_body: ''
+id: 195274
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: Sunrise and sunset time with a daily and yearly chart.
+  category: calendar,life
+  github_url: https://github.com/blueset/trmnl-recipes
+- keyname: Latitude
+  field_type: string
+  name: Latitude
+  description: Location in Latitude, find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+- keyname: Longitude
+  field_type: string
+  name: Longitude
+  description: Location in Longitude, find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+- keyname: hour_cycle
+  field_type: select
+  name: Time format
+  options:
+  - 24-hour: h23
+  - 12-hour: h12
+  default: h23
+- keyname: time_zone
+  field_type: time_zone
+  name: Time Zone
+  description: By default, we will guess the time zone to use based on the location. You can also specify one below.
+  default: ''
+  optional: true
+name: Sunrise and Sunset Chart
+refresh_interval: 15

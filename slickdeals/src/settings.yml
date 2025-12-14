@@ -1,0 +1,27 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://trmnl.1a23.workers.dev/slickdeals?mode={{ mode }}
+polling_headers: ''
+polling_body: ''
+id: 184875
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: Slickdeals Frontpage and Popular deals. Data from Slickdeals RSS feed.
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://slickdeals.net/
+  category: discovery,ecommerce
+- keyname: mode
+  field_type: select
+  options:
+  - Frontpage: frontpage
+  - Popular: popdeals
+  default: frontpage
+  name: Mode
+name: Slickdeals Frontpage
+refresh_interval: 120

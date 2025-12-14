@@ -1,0 +1,163 @@
+{% assign timestamp_utc = trmnl.system.timestamp_utc %}
+{% assign user_timestamp = timestamp_utc | plus: trmnl.user.utc_offset %}
+{% assign hour = user_timestamp | date: "%H" %} 
+{% assign minute = user_timestamp | date: "%M" %}
+{% assign cycle = trmnl.plugin_settings.custom_fields_values.cycle %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100..900&display=swap');
+  
+  @font-face {
+      font-family: 'JF-Dot-Shinonome16';
+      font-weight: normal;
+      src: url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16.woff2') format('woff2'),
+           url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16.ttf') format('truetype');
+  }
+
+  .wc_clock {
+    container-type: size;
+    font-weight: bold;
+    grid-template-columns: repeat(6, auto);
+    align-content: space-around;
+    justify-content: space-around;
+    > span {
+      font-family: "M PLUS 1", sans-serif;
+      font-size: min(15cqb, 12cqi);
+      display: block;
+      width: max-content;
+      line-height: 1;
+    }
+    .view--half_horizontal & {
+      grid-template-columns: repeat(10, auto);
+      > span {
+        font-size: min(23cqb, 8cqi);
+      }
+    }
+  }
+
+  .screen--1bit, .screen--2bit {
+    .title_bar .title, .title_bar .instance {
+      --title-bar-font-family: JF-Dot-Shinonome16, sans-serif;
+      --title-bar-padding-top: 0;
+    }
+  }
+  .wc_highlighted {
+    color: #000;
+  }
+</style>
+<div class="layout layout--col layout--center-y" data-hour="{{ hour }}" data-minute="{{ minute }}" data-cycle="{{ cycle }}">
+  <div class="wc_clock text--gray-7 w-full h-full grid gap--none" lang="ja">
+    <span>正</span><span>午</span><span>前</span><span>後</span><span>二</span><span>十</span>
+    <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+    <span>七</span><span>八</span><span>九</span><span>零</span><span>時</span><span>半</span>
+    <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>十</span>
+    <span>五</span><span>分</span><span>ち</span><span>ょ</span><span>う</span><span>ど</span>
+  </div>
+</div>
+<div class="title_bar word-clock-ja">
+  <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg" />
+  <span class="title" lang="ja">文字時計</span>
+  <span class="instance">{{trmnl.user.time_zone}}</span>
+</div>
+
+<script>
+  (() => {
+    const hour = parseInt(document.querySelector('.layout').dataset.hour);
+    const minute = parseInt(document.querySelector('.layout').dataset.minute);
+    const cycle = document.querySelector('.layout').dataset.cycle;
+    const wordNodes = document.querySelectorAll('.wc_clock span');
+
+    // Snap minute to nearest 5 (floor)
+    const snappedMinute = Math.floor(minute / 5) * 5;
+    
+    // Formatted minutes mapping (0-55 in steps of 5)
+    const minuteFormats = [
+      'ちょうど',      // 0
+      '五分',  // 5
+      '十分',    // 10
+      '十五分',    // 15
+      '二十分',    // 20
+      '二十五分',  // 25
+      '半',      // 30
+      '三十五分',  // 35
+      '四十分',    // 40
+      '四十五分',    // 45
+      '五十分',    // 50
+      '五十五分'   // 55
+    ];
+    
+    // Hour formatting (0-23)
+    const hourFormats = [
+      '零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十',
+      '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九',
+      '二十', '二十一', '二十二', '二十三'
+    ];
+    
+    // Period prefixes for h12 cycle
+    const getPeriod = (h) => {
+      if (h >= 0 && h <= 11) return '午前';
+      if (h == 12) return '正午';
+      return '午後';
+    };
+    
+    // Format the hour part
+    let formattedHour;
+    if (cycle === 'h12') {
+      const period = getPeriod(hour);
+      const h12 = hour % 12 || 12;
+      formattedHour = period + hourFormats[h12];
+    } else {
+      formattedHour = hourFormats[hour];
+    }
+    
+    // Format the minute part
+    const minuteIndex = snappedMinute / 5;
+    const formattedMinute = minuteFormats[minuteIndex];
+    
+    // Build full time string
+    const timeString = formattedHour + '時' + formattedMinute;
+    
+    // Greedily match nodes
+    const nodeTexts = Array.from(wordNodes).map(n => n.textContent);
+    let searchIndex = 0;
+    
+    for (let i = 0; i < timeString.length; i++) {
+      const char = timeString[i];
+      // Find next matching node starting from searchIndex
+      for (let j = searchIndex; j < nodeTexts.length; j++) {
+        if (nodeTexts[j] === char) {
+          wordNodes[j].classList.add('wc_highlighted');
+          searchIndex = j + 1;
+          break;
+        }
+      }
+    }
+    
+    function getLocalizedTimeZoneName(tzdataId = {{ trmnl.user.time_zone_iana | json }}, locale = 'ja') {
+      // Create a new Date object. The specific date doesn't matter for getting the timezone name,
+      // but a date is required for the Intl.DateTimeFormat constructor.
+      const date = new Date(); 
+    
+      // Create an Intl.DateTimeFormat instance with the desired locale and timezone options.
+      const formatter = new Intl.DateTimeFormat(locale, {
+        timeZone: tzdataId,
+        timeZoneName: 'long', // 'long' for full name (e.g., "Pacific Standard Time"), 'short' for abbreviation (e.g., "PST")
+      });
+    
+      // Format the date to get the localized timezone name.
+      // The output will be a string like "Tuesday, December 3, 2025 at 6:03:00 PM Pacific Standard Time".
+      // We need to extract only the timezone name part.
+      const formattedString = formatter.format(date);
+    
+      // Extract the timezone name from the formatted string.
+      // This approach assumes the timezone name is typically at the end of the formatted string.
+      // For more robust extraction, you might consider using formatToParts().
+      const parts = formatter.formatToParts(date);
+      const timeZoneNamePart = parts.find(part => part.type === 'timeZoneName');
+    
+      return timeZoneNamePart ? timeZoneNamePart.value : {{ trmnl.user.time_zone | json }};
+    }
+    
+    document.querySelector('.word-clock-ja .instance').innerText = getLocalizedTimeZoneName();
+  })();
+</script>

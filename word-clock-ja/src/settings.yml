@@ -1,0 +1,31 @@
+---
+strategy: static
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: ''
+polling_headers: ''
+polling_body: ''
+id: 187661
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: Word clock in Japanese. Supports 24-hour and 12-hour formats, with a maximum display precision of 5 minutes (depending on recipe and device update frequency).
+  description-ja: 日本語の文字時計。24 時制と 12 時制対応、最大表示精度は 5 分（レシピとデバイスの更新頻度による）。
+  github_url: https://github.com/blueset/trmnl-recipes
+  category: productivity,calendar
+- keyname: cycle
+  field_type: select
+  name: Time format
+  name-ja: 時刻表示方法
+  default: h23
+  options:
+  - 24-hour: h23
+  - 12-hour: h12
+  options-ja:
+  - 24 時制: h23
+  - 12 時制: h12
+name: Word Clock 日本語
+refresh_interval: 15
