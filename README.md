@@ -124,8 +124,8 @@ Sunrise and sunset time with a daily and yearly chart.
 
 ![Screenshot](./sun-chart/images/f.png)
 
-## Visa Bulletin (Not published yet)
+## Visa Bulletin (Unlisted)
 
 Show the latest Visa Bulletin information, and trends for filing date and action date.
 
-[Learn More](./visa-bulletin/README.md).
+[Learn More](./visa-bulletin/README.md), [Install](https://usetrmnl.com/recipes/155086)
