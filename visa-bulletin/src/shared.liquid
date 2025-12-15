@@ -1,9 +1,9 @@
 {% liquid 
 # Config
-assign category = "EB-3"
-assign region = "cn"
-assign look_back_months = 24
-assign target_date = "2024-02-05"
+assign category = trmnl.plugin_settings.custom_fields_values.category
+assign region = trmnl.plugin_settings.custom_fields_values.region
+assign look_back_months = trmnl.plugin_settings.custom_fields_values.look_back_months
+assign target_date = trmnl.plugin_settings.custom_fields_values.target_date
 
 assign item = data.items | find_by: "category", category
 
