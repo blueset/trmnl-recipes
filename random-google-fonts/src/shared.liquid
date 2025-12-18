@@ -1,13 +1,13 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 <script>
-  (() => {
-
 const root = document.currentScript.closest(".view");
-// const data = {{ IDX_0 | json | replace: "<", "&lt;" }};
-  
-function onError(error) {
+addEventListener("DOMContentLoaded", (() => {
+
+  // const data = {{ IDX_0 | json | replace: "<", "&lt;" }};
+
+  function onError(error) {
     let errorMessage = root.querySelector('#error-message');
     if (!errorMessage) {
       errorMessage = document.createElement('div');
@@ -23,53 +23,60 @@ function onError(error) {
     }
     errorMessage.innerText += `\nError: ${error instanceof Error ? error.message : String(error)}\n${error instanceof Error && error.stack ? error.stack : ''}`;
     root.style.position = 'relative';
-}
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const response = await fetch('https://blueset.github.io/google-fonts-metadata/metadata.json');
-  const data = await response.json();
-  let fonts = data.fonts;
-
-  try {
-    const filter = {{ trmnl.plugin_settings.custom_fields_values.filter | json }};
-    if (filter) {
-      // const filterFunction = new Function('f', `return (${filter});`);
-      fonts = fonts.filter((f, index, array) => eval(`(function() { return ${filter}; }).call({ f, index, array })`));
-    }
-  } catch (error) {
-    console.error("failed to apply filter", error);
-    onError(error);
   }
 
+  {% for error in errors%}
+    onError({{ error | json | replace: "<", "&lt;" }});
+  {% endfor %}
+
+  // document.addEventListener("DOMContentLoaded", async () => {
+  //   const response = await fetch('https://blueset.github.io/google-fonts-metadata/metadata.json');
+  //   const data = await response.json();
+  //   let fonts = data.fonts;
+
+  // try {
+  //   const filter = {{ trmnl.plugin_settings.custom_fields_values.filter | json }};
+  //   if (filter) {
+  //     // const filterFunction = new Function('f', `return (${filter});`);
+  //     fonts = fonts.filter((f, index, array) => eval(`(function() { return ${filter}; }).call({ f, index, array })`));
+  //   }
+  // } catch (error) {
+  //   console.error("failed to apply filter", error);
+  //   onError(error);
+  // }
+
   try {
-    const font = fonts[Math.floor(Math.random() * fonts.length)] || {};
-    const sampleText = 
-      font.sample_text?.[0] ||
-      data.sample_texts[font.primary_language]?.sample_text?.[0] ||
-      data.sample_texts.en_Latn.sample_text[0];
-  
+    // const font = fonts[Math.floor(Math.random() * fonts.length)] || {};
+    // const sampleText =
+    //   font.sample_text?.[0] ||
+    //   data.sample_texts[font.primary_language]?.sample_text?.[0] ||
+    //   data.sample_texts.en_Latn.sample_text[0];
+
+    const font = {{ font | json | replace: "<", "&lt;" }};
+    const sampleText = {{ sampleText | json | replace: "<", "&lt;" }};
+
     // Load font
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(font.name)}&display=swap`;
     document.head.appendChild(link);
-  
+
     const sidebar = root.querySelector('.sidebar');
     if (sidebar) {
       // clear sidebar content
       sidebar.innerHTML = '';
       const labelClass = sidebar.dataset.labelClass || '';
-  
+
       const metaNode = () => {
         const node = document.createElement('div');
         node.className = 'meta';
         return node;
       };
-  
+
       const toArray = v => Array.isArray(v) ? v : v ? [v] : [];
-  
+
       const titleCase = str => str.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
-  
+
       // Classifications
       {
         const classificationsNode = document.createElement('div');
@@ -83,17 +90,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         contentNode.appendChild(labelNode);
         const flexNode = document.createElement('div');
         flexNode.className = 'flex flex--row gap--xsmall lg:gap flex--wrap flex--left';
-  
+
         const classifications = toArray(font.classification);
         const categories = toArray(font.category);
-  
+
         (classifications.length > 0 ? classifications : categories).forEach(ca => {
           const span = document.createElement('span');
           span.className = 'label sm:label--small md:label--small label--inverted';
           span.innerText = titleCase(ca);
           flexNode.appendChild(span);
         });
-  
+
         font.qualities?.forEach(q => {
           if (q.type !== 'Quality') {
             const span = document.createElement('span');
@@ -102,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             flexNode.appendChild(span);
           }
         });
-  
+
         let toFilter = '';
         let scriptLabel = '';
         if (font.has_primary_language && font.primary_language !== 'en_Latn') {
@@ -118,7 +125,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           span.innerText = scriptLabel;
           flexNode.appendChild(span);
         }
-  
+
         font.subsets?.forEach?.(s => {
           const sLower = s.replace(/-/g, ' ').toLowerCase();
           if (s !== 'latin' && s !== 'latin-ext' && s !== 'greek-ext' && s !== 'cyrillic-ext' && s !== 'menu' && sLower !== toFilter) {
@@ -128,12 +135,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             flexNode.appendChild(span);
           }
         });
-  
+
         contentNode.appendChild(flexNode);
         classificationsNode.appendChild(contentNode);
         sidebar.appendChild(classificationsNode);
       }
-      
+
       // Variants
       {
         const variantsNode = document.createElement('div');
@@ -147,9 +154,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         contentNode.appendChild(labelNode);
         const flexNode = document.createElement('div');
         flexNode.className = 'flex flex--row gap--xsmall lg:gap flex--wrap flex--left';
-  
+
         const varFilesCount = (font.fonts || []).filter(f => f.filename?.match(/\[.*\]/g)).length;
-  
+
         (font.axes || []).forEach(a => {
           const tagLower = a.tag.toLowerCase();
           const span = document.createElement('span');
@@ -157,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           span.innerText = `${data.axes[tagLower]?.display_name || a.tag}: ${a.min_value}..${a.max_value}`;
           flexNode.appendChild(span);
         });
-  
+
         (font.fonts || []).forEach(f => {
           if (f.filename?.match(/\[.*\]/g)) {
             if (varFilesCount < 2) return;
@@ -173,15 +180,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             flexNode.appendChild(span);
           }
         });
-  
+
         contentNode.appendChild(flexNode);
         variantsNode.appendChild(contentNode);
         if (flexNode.innerText !== "400") {
           sidebar.appendChild(variantsNode);
         }
       }
-  
-      // Added on 
+
+      // Added on
       {
         const addedNode = document.createElement('div');
         addedNode.className = 'added item';
@@ -201,7 +208,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         addedNode.appendChild(contentNode);
         sidebar.appendChild(addedNode);
       }
-  
+
       // Copyright
       {
         const copyrightNode = document.createElement('div');
@@ -223,7 +230,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         sidebar.appendChild(copyrightNode);
       }
     }
-  
+
     const large = root.querySelector(".sample-large");
     if (large) {
       large.innerText = sampleText.styles;
@@ -247,13 +254,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     onError(error);
   }
-  
+
   try {
     const overrideJson = {{ trmnl.plugin_settings.custom_fields_values.override | json }};
     if (overrideJson) {
       const override = JSON.parse(overrideJson);
-      const f = {{ metadata | json }};
-      
+      const f = font;
+
       if (override.large) {
         override.large.forEach(([cond, text]) => {
           if ((() => { return eval(cond); }).call({ f })) {
@@ -261,7 +268,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
         });
       }
-      
+
       if (override.small) {
         override.small.forEach(([cond, text]) => {
           if ((() => { return eval(cond); }).call({ f })) {
@@ -295,16 +302,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   remeasure();
   resizeObserver.observe(root);
-  resizeObserver.observe(root.querySelector('.sample-small'));
   document.fonts.ready.then(() => {
     remeasure();
   });
   setTimeout(() => {
     remeasure();
+    resizeObserver.observe(root.querySelector('.sample-small'));
     document.fonts.ready.then(() => {
       remeasure();
     });
   }, 2000);
-});
-    })();
+}));
 </script>
