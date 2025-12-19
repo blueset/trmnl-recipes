@@ -8,6 +8,7 @@ addEventListener("DOMContentLoaded", (() => {
   // const data = {{ IDX_0 | json | replace: "<", "&lt;" }};
 
   function onError(error) {
+    console.error(error);
     let errorMessage = root.querySelector('#error-message');
     if (!errorMessage) {
       errorMessage = document.createElement('div');
@@ -49,11 +50,13 @@ addEventListener("DOMContentLoaded", (() => {
     // const font = fonts[Math.floor(Math.random() * fonts.length)] || {};
     // const sampleText =
     //   font.sample_text?.[0] ||
-    //   data.sample_texts[font.primary_language]?.sample_text?.[0] ||
+    //   sampleText?.sample_text?.[0] ||
     //   data.sample_texts.en_Latn.sample_text[0];
 
     const font = {{ font | json | replace: "<", "&lt;" }};
     const sampleText = {{ sampleText | json | replace: "<", "&lt;" }};
+    const script = {{ script | json | replace: "<", "&lt;" }};
+    const axes = {{ axes | json | replace: "<", "&lt;" }};
 
     // Load font
     const link = document.createElement('link');
@@ -113,11 +116,11 @@ addEventListener("DOMContentLoaded", (() => {
         let toFilter = '';
         let scriptLabel = '';
         if (font.has_primary_language && font.primary_language !== 'en_Latn') {
-          toFilter = data.sample_texts[font.primary_language]?.name?.toLowerCase() || '';
-          scriptLabel = `Language: ${data.sample_texts[font.primary_language]?.name || font.primary_language}`;
+          toFilter = sampleText?.name?.toLowerCase() || '';
+          scriptLabel = `Language: ${sampleText?.name || font.primary_language}`;
         } else if (font.has_primary_script && font.primary_script !== 'Latn') {
-          toFilter = data.scripts[font.primary_script]?.name?.toLowerCase() || '';
-          scriptLabel = `Script: ${data.scripts[font.primary_script]?.name || font.primary_script}`;
+          toFilter = script?.name?.toLowerCase() || '';
+          scriptLabel = `Script: ${script?.name || font.primary_script}`;
         }
         if (scriptLabel) {
           const span = document.createElement('span');
@@ -161,7 +164,7 @@ addEventListener("DOMContentLoaded", (() => {
           const tagLower = a.tag.toLowerCase();
           const span = document.createElement('span');
           span.className = 'label label--inverted sm:label--small md:label--small';
-          span.innerText = `${data.axes[tagLower]?.display_name || a.tag}: ${a.min_value}..${a.max_value}`;
+          span.innerText = `${axes[tagLower]?.display_name || a.tag}: ${a.min_value}..${a.max_value}`;
           flexNode.appendChild(span);
         });
 
