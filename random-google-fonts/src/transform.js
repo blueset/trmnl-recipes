@@ -13,7 +13,7 @@ function transform(input) {
     errors.push(`failed to apply filter: ${error instanceof Error ? error.message : String(error)}\n${error instanceof Error && error.stack ? error.stack : ''}`);
   }
 
-  let font, sampleText;
+  let font, sampleText, script;
 
   try {
     font = fonts[Math.floor(Math.random() * fonts.length)] || {};
@@ -21,6 +21,7 @@ function transform(input) {
       font.sample_text?.[0] ||
       data.sample_texts[font.primary_language]?.sample_text?.[0] ||
       data.sample_texts.en_Latn.sample_text[0];
+    script = data.scripts[font.primary_script];
   } catch (error) {
     console.error("failed to select font or sample text", error);
     errors.push(`failed to select font or sample text: ${error instanceof Error ? error.message : String(error)}\n${error instanceof Error && error.stack ? error.stack : ''}`);
@@ -29,7 +30,9 @@ function transform(input) {
   return {
     font,
     sampleText,
+    script,
     randomizerKey: input.IDX_1.text,
     errors,
+    axes: data.axes,
   }
 }
