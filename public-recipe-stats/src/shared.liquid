@@ -268,7 +268,7 @@ async function handleImageError(img) {
 
 {% liquid 
 	case trmnl.plugin_settings.custom_fields_values.selection
-	when "recite_ids"
+	when "recipe_ids"
 		assign json_data_str = "["
 		if IDX_0.data
 			assign j = IDX_0.data | json
