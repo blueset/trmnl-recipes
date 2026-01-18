@@ -1,0 +1,75 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: 'https://trmnl.1a23.workers.dev/transit?key={{ key }}&lat={{ lat }}&lon={{ lon }}{% if radius %}&radius={{ radius }}{% endif %}{% if hourCycle %}&hourCycle={{ hourCycle }}{% endif %}{% if distanceUnit %}&distanceUnit={{ distanceUnit }}{% endif %}{% assign stopIdsSize = stopIds | size %}{% if stopIdsSize > 0 %}&stopIds={{ stopIds | join: "," }}{% endif %}{% assign routeIdsSize = routeIds | size %}{% if routeIdsSize > 0 %}&routeIds={{ routeIds | join: "," }}{% endif %}'
+polling_headers: ''
+polling_body: ''
+id: 225183
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: 'Dashboard public transit information close to you. Supports all public transit types in Puget Sound, Washington, USA: bus, lightrail, street car, monorail, Amtrak, ferries and more. Support multiple layouts. <a href="https://github.com/blueset/trmnl-recipes/tree/master/transit" class="underline" target="_blank">Checkout previews of each layout</a>.'
+  category: personal,travel
+  github_url: https://github.com/blueset/trmnl-recipes
+- keyname: key
+  field_type: string
+  name: OneBusAway API Key
+  help_text: Check <a href="https://www.soundtransit.org/help-contacts/business-information/open-transit-data-otd" class="underline" target="_blank">https://www.soundtransit.org/help-contacts/business-information/open-transit-data-otd</a> for details on obtaining an API key.
+- keyname: lat
+  field_type: string
+  name: Latitude
+  help_text: Find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+- keyname: lon
+  field_type: string
+  name: Longitude
+  help_text: Find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+- keyname: radius
+  field_type: number
+  name: Radius in meters
+  description: Radius from origin to look for stops. 500m by default.
+  optional: true
+- keyname: hourCycle
+  field_type: select
+  name: Time format
+  default: h23
+  optional: true
+  options:
+  - 24-hour: h23
+  - 12-hour: h12
+- keyname: distanceUnit
+  field_type: select
+  name: Distance Unit
+  description: Unit of distance to show on screen
+  default: meter
+  optional: true
+  options:
+  - meter
+  - feet
+- keyname: stopIds
+  field_type: multi_string
+  name: Stops to show
+  description: Specify stops to show, all stops near by are shown by default.
+  help_text: Enter stop IDs, one ID in a row. Check <a href="https://pugetsound.onebusaway.org/" class="underline" target="_blank">https://pugetsound.onebusaway.org/</a> for stop IDs.
+  placeholder: e.g. 40_532, 1_1550, 96_SCM, 40_E15-T1, 40_S_KS_T3
+  optional: true
+- keyname: routeIds
+  field_type: multi_string
+  name: Routes to show
+  description: Specify routes to show for nearby or selected stops, all routes near by are shown by default.
+  help_text: Enter route IDs, one ID in a row. Check <a href="https://pugetsound.onebusaway.org/" class="underline" target="_blank">https://pugetsound.onebusaway.org/</a> for route IDs.
+  placeholder: e.g. 40_100479, 96_SCM, 40_100236, 23_100340, 40_2LINE, 51_60
+  optional: true
+- keyname: fullLayout
+  field_type: select
+  name: Layout in full view
+  description: Check out <a href="https://github.com/blueset/trmnl-recipes/tree/master/transit" class="underline" target="_blank">previews of each layout</a>.
+  default: large
+  options:
+  - Large
+  - Compact
+name: Puget Sound Transit Nearby
+refresh_interval: 1440

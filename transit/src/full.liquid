@@ -1,0 +1,25 @@
+{% if trmnl.plugin_settings.custom_fields_values.fullLayout == "compact" %}
+{% render "content", 
+    stops: stops, 
+    rowHeight: "30px",
+    gridYGap: "2px",
+    gridCols: "grid-cols-[40px_1fr_40px_1fr_40px_1fr_40px_1fr]",
+    circleShapeClass: "rounded-full w-6 px--1 value value--xxsmall h-6 pb-0 pt-1.5",
+    rectangleShapeClass: "rounded-sm px--1 value value--xxsmall h-6 pb-0 pt-1.5 w-full overflow-hidden whitespace-nowrap text-clip",
+    arrivalContainerClass: "flex flex-row items-baseline gap-0 [&:nth-child(3)]:hidden",
+    firstMinuteClass: "text-xl leading-7 leading-none",
+    otherMinuteClass: "text-base leading-none",
+    stopOriginDistanceClass: "order-2 label label--small 2bit:text--gray-55 4bit:text--gray-55",
+    destinationNameClass: "hidden",
+    stopGridClass: "grid col-span-4 grid-cols-subgrid",
+    stopInfoGridClass: "col-span-4 leading-none",
+    stopCodesClass: "hidden",
+    stationGridClass: "gap-x-2 gap-y-1",
+    destinationClass: "label grow gap-1",
+    stopNameClass: "block label text-balance",
+    stopInfoBoxClass: "flex flex-row justify-between items-center gap-0 grow",
+    routeGridClass: "gap-x-2"
+%}
+{% else %}
+{% render "content", stops: stops %}
+{% endif %}

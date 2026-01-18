@@ -1,0 +1,147 @@
+{% template content %}
+{% liquid  
+  assign rowHeight = rowHeight | default: "50px"
+  assign gridCols = gridCols | default: "grid-cols-[100px_1fr_100px_1fr] gap-2"
+  assign circleShapeClass = circleShapeClass | default: "rounded-full w-12 px--1 py--1 value font-semibold"
+  assign rectangleShapeClass = rectangleShapeClass | default: "rounded w-full px--3 py--1 value font-semibold overflow-hidden whitespace-nowrap text-clip"
+  assign arrivalContainerClass = arrivalContainerClass | default: "flex flex-col gap-0"
+  assign firstMinuteClass = firstMinuteClass | default: "text-3xl leading-10"
+  assign otherMinuteClass = otherMinuteClass | default: "text-xl translate-y-2.5"
+  assign stopOriginDistanceClass = stopOriginDistanceClass | default: "label label--small"
+  assign stopTravelDirectionsClass = stopTravelDirectionsClass | default: ""
+  assign stopCodesClass = stopCodesClass | default: "items-end tabular-nums text-right label label--small 2bit:text--gray-55 4bit:text--gray-55"
+  assign destinationClass = destinationClass | default: "font-[100] font-[Archivo] font-stretch-[60%] text-xl text-balance leading-[1.1] grow"
+  assign stationGridClass = stationGridClass | default: ""
+  assign routeGridClass = routeGridClass | default: ""
+  assign gridYGap = gridYGap | default: "4px"
+  assign stopNameClass = stopNameClass | default: "block label text-balance"
+  assign stopNameMutedClass = stopNameMutedClass | default: "text--gray-55 1bit:text--gray-30"
+  assign stopGridClass = stopGridClass | default: "grid col-span-2 grid-cols-subgrid"
+  assign stopInfoGridClass = stopInfoGridClass | default: "col-span-2 leading-none"
+  assign stopInfoBoxClass = stopInfoBoxClass | default: "flex flex-col justify-end gap-0 grow"
+%}
+<div class="p-0 layout layout-container">
+  <div class="content-start grid w-full h-full {{ gridCols }} overflow-hidden grid-row-fit grid-flow-dense" style="--row-height: {{ rowHeight }}; --grid-y-gap: {{ gridYGap }};">
+  {% for stop in stops %}
+  {% assign rowSpan = stop.routes.size | plus: 1 %}
+  {% if stopGridClass contains "col-span-4" %}
+    {% assign rowSpan = stop.routes.size | times: 0.5 | plus: 1 | ceil %}
+  {% endif %}
+  <div class="{{ stopGridClass }} row-span-{{ rowSpan }} grid-rows-subgrid {{ stationGridClass }}">
+    <div class="{{ stopInfoGridClass }} item">
+      <div class="meta"></div>
+      <div class="{{ stopInfoBoxClass }}">
+        <span class="{{ stopOriginDistanceClass }}">{{ stop.bearingToOrigin }} {{ stop.distanceToOrigin }}</span>
+        <span class="{{ stopNameClass }}">
+          {% for segment in stop.segmentedName %}
+            {% if segment.isMuted %}<span class="{{ stopNameMutedClass }}">{{ segment.text }}</span>{% else %}{{ segment.text }}{% endif %}
+          {% endfor %}
+          <span class="{{ stopTravelDirectionsClass }}">
+            {% if stop.travelDirections.size > 0 %}
+              {% for direction in stop.travelDirections %} {{ direction }}{% endfor %}
+            {% endif %}
+          </span>
+        </span>
+      </div>
+      <span class="{{ stopCodesClass }}">
+          {% for code in stop.stopCodes %}
+            #{{ code }}{% unless forloop.last %}<br>{% endunless %}
+          {% endfor %}
+      </span>
+    </div>
+    {% for route in stop.routes %}
+    <div class="grid grid-cols-subgrid col-span-2 {{ routeGridClass }}">
+      {% if route.routeColorLuminance < 0.15 %}
+        {% assign bgClass = "bg--gray-10" %}
+        {% assign textClass = "text-white 1bit:text-stroke--xlarge 1bit:text-stroke--black" %}
+      {% elsif route.routeColorLuminance < 0.25 %}
+        {% assign bgClass = "bg--gray-15" %}
+        {% assign textClass = "text-white 1bit:text-stroke--xlarge 1bit:text-stroke--black" %}
+      {% elsif route.routeColorLuminance < 0.35 %}
+        {% assign bgClass = "bg--gray-25" %}
+        {% assign textClass = "text-white 1bit:text-stroke--xlarge 1bit:text-stroke--black" %}
+      {% elsif route.routeColorLuminance < 0.45 %}
+        {% assign bgClass = "bg--gray-35" %}
+        {% assign textClass = "text-white 1bit:text-stroke--xlarge 1bit:text-stroke--black" %}
+      {% elsif route.routeColorLuminance < 0.55 %}
+        {% assign bgClass = "bg--gray-50" %}
+        {% assign textClass = "text-white 1bit:text-stroke--xlarge 1bit:text-stroke--black" %}
+      {% elsif route.routeColorLuminance < 0.65 %}
+        {% assign bgClass = "bg--gray-60" %}
+        {% assign textClass = "text-black text-stroke--xlarge" %}
+      {% elsif route.routeColorLuminance < 0.75 %}
+        {% assign bgClass = "bg--gray-70" %}
+        {% assign textClass = "text-black text-stroke--xlarge" %}
+      {% else %}
+        {% assign bgClass = "bg--gray-75" %}
+        {% assign textClass = "text-black text-stroke--xlarge" %}
+      {% endif %}
+      {% if route.routeShape == "circle" %}
+        {% assign shapeClass = circleShapeClass %}
+      {% else %}
+        {% assign shapeClass = rectangleShapeClass %}
+      {% endif %}
+      <div class="{{ shapeClass }} {{ bgClass }} {{ textClass }} mx-auto text-center">
+        {{ route.routeShortName | slice: 0, 3 }}
+      </div>
+      <div class="flex flex-row items-center">
+        <div class="{{ destinationClass }}">
+          <small class="{{ destinationToClass }}">to</small> <span class="{{ destinationNameClass }}">{{ route.routeDestination }}</span> <span class="{{ destinationDirectionClass }}">{{ route.routeTravelDirection }}</span>
+        </div>
+        <div class="flex flex-end items-baseline gap-1 shrink-0">
+          {% for arrival in route.arrivals %}
+          <div class="{{ arrivalContainerClass }}">
+            <span class="h-2 label label--small">{{ arrival.arrivalHour }}</span>
+            <span class="value {% if forloop.first %}{{ firstMinuteClass }}{% else %}{{ otherMinuteClass }}{% endif %} font-semibold">{{ arrival.arrivalMinute }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+  .font-semibold {
+  --value-font-weight: 600;
+  }
+  .value {
+    font-variation-settings: unset !important;
+    font-feature-settings: "ss01" on;
+  }
+</style>
+<style>
+  @import "https://fonts.googleapis.com/css2?family=Roboto+Flex:wdth,wght@25..151,100..1000&display=swap";
+  @import "https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap";
+  .layout-container {
+    container-type: size;
+  }
+  .grid-row-fit {
+    /* --row-count: round(down, calc( (100cqh - var(--grid-y-gap)) / (var(--row-height) + var(--grid-y-gap)) )); */
+    /* --row-height-computed: calc( (100cqh - (var(--row-count) - 1) * var(--grid-y-gap)) / var(--row-count) ); */
+    grid-template-rows: repeat(auto-fill,var(--row-height-computed));
+    row-gap: var(--grid-y-gap);
+  }
+</style>
+<script>
+  const root = document.currentScript.parentElement;
+  const grid = root.querySelector('.grid-row-fit');
+  const resizeObserver = new ResizeObserver(entries => {
+    for (let entry of entries) {
+      const height = entry.contentRect.height;
+      const rowCount = Math.round( (height - parseFloat(getComputedStyle(entry.target).getPropertyValue('--grid-y-gap'))) / (parseFloat(getComputedStyle(entry.target).getPropertyValue('--row-height')) + parseFloat(getComputedStyle(entry.target).getPropertyValue('--grid-y-gap'))) );
+      entry.target.style.setProperty('--row-count', rowCount);
+      const rowHeightComputed = (height - (rowCount) * parseFloat(getComputedStyle(entry.target).getPropertyValue('--grid-y-gap'))) / rowCount;
+      entry.target.style.setProperty('--row-height-computed', `${rowHeightComputed}px`);
+    }
+  });
+  resizeObserver.observe(grid);
+</script>
+{% endtemplate %}

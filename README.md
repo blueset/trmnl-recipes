@@ -18,6 +18,7 @@
 * [Word Clock 中文](#word-clock-中文)
 * [Sunrise and Sunset Chart](#sunrise-and-sunset-chart)
 * [Visa Bulletin](#visa-bulletin-not-published-yet)
+* [Puget Sound Transit Nearby](#puget-sound-transit-nearby)
 
 ## Wikipedia Feed
 
@@ -129,3 +130,11 @@ Sunrise and sunset time with a daily and yearly chart.
 Show the latest Visa Bulletin information, and trends for filing date and action date.
 
 [Learn More](./visa-bulletin/README.md), [Install](https://usetrmnl.com/recipes/155086)
+
+## Puget Sound Transit Nearby
+
+Dashboard public transit information close to you. Supports all public transit types in Puget Sound, Washington, USA: bus, lightrail, street car, monorail, Amtrak, ferries and more. Supports multiple layouts.
+
+[Learn More](./transit/README.md), [Install](https://usetrmnl.com/recipes/225183)
+
+![Screenshot](./transit/images/f-large.png)
