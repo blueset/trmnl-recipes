@@ -1,0 +1,19 @@
+{% if view == 'travelTime' %}
+  {%
+    render 'trafficTime',
+    trafficTime: trafficTime,
+    trmnl: trmnl
+  %}
+{% elsif view == 'alert' %}
+  {%
+    render 'alerts',
+    alerts: alerts,
+    trmnl: trmnl
+  %}
+{% elsif view == 'camera' %}
+  {%
+    render 'cameras',
+    cameras: cameras,
+    trmnl: trmnl
+  %}
+{% endif %}

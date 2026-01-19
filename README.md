@@ -17,8 +17,9 @@
 * [Word Clock 日本語](#word-clock-日本語)
 * [Word Clock 中文](#word-clock-中文)
 * [Sunrise and Sunset Chart](#sunrise-and-sunset-chart)
-* [Visa Bulletin](#visa-bulletin-not-published-yet)
+* [Visa Bulletin](#visa-bulletin-unlisted)
 * [Puget Sound Transit Nearby](#puget-sound-transit-nearby)
+* [Washington DOT Real-time Travel Info](#washington-dot-real-time-travel-info)
 
 ## Wikipedia Feed
 
@@ -138,3 +139,11 @@ Dashboard public transit information close to you. Supports all public transit t
 [Learn More](./transit/README.md), [Install](https://usetrmnl.com/recipes/225183)
 
 ![Screenshot](./transit/images/f-large.png)
+
+## Washington DOT Real-time Travel Info
+
+Real-time travel info from Washington State Department of Transportation (WSDOT). Show travel times, traffic cameras, and alerts on your dashboard. Data powered by WSDOT Traffic API.
+
+[Learn More](./wsdot/README.md), [Install](https://usetrmnl.com/recipes/227171)
+
+![Screenshot](./wsdot/images/f-alerts.png)

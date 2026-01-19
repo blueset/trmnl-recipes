@@ -1,0 +1,61 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: "https://wsdot.wa.gov/traffic/api/TravelTimes/kml.aspx\r\nhttps://wsdot.wa.gov/traffic/api/HighwayAlerts/kml.aspx\r\nhttps://wsdot.wa.gov/traffic/api/HighwayCameras/kml.aspx"
+polling_headers: ''
+polling_body: ''
+id: 227171
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: 'Real-time travel info from Washington State Department of Transportation (WSDOT). Show travel times, traffic cameras, and alerts on your dashboard. <a href="https://github.com/blueset/trmnl-recipes/tree/master/wsdot" class="underline" target="_blank">Checkout previews of each content</a>. Data powered by <a href="https://wsdot.com/traffic/api/" class="underline" target="_blank">WSDOT Traffic API</a>.
+
+    '
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://wsdot.com/traffic/api/
+- keyname: view
+  field_type: select
+  name: Content to show
+  description: Select which content to show on dashboard. <a href="https://github.com/blueset/trmnl-recipes/tree/master/wsdot" class="underline" target="_blank">Checkout previews of each content</a>.
+  default: travelTime
+  options:
+  - Travel time: travelTime
+  - Traffic cameras: camera
+  - Alerts: alert
+  conditional_validation:
+  - when: travelTime
+    hidden:
+    - cameraKeywords
+    - alertBBox
+  - when: camera
+    hidden:
+    - travelTimeKeywords
+    - alertBBox
+  - when: alert
+    hidden:
+    - travelTimeKeywords
+    - cameraKeywords
+- keyname: travelTimeKeywords
+  field_type: multi_string
+  name: Name of travel time monitors
+  description: Names are matched partially. Find travel time monitors at <a href="https://wsdot.com/Travel/Real-time/Map/?layers=travel-time" target="_blank" class="underline">WSDOT Real-Time Travel Map</a>. One name per line.
+  placeholder: Seattle to SeaTac
+  optional: true
+- keyname: cameraKeywords
+  field_type: multi_string
+  name: Name of traffic cameras
+  description: Names are matched partially. Find traffic cameras at <a href="https://wsdot.com/Travel/Real-time/Map/?layers=camera" target="_blank" class="underline">WSDOT Real-Time Travel Map</a>. One name per line.
+  placeholder: 'I-5 at MP 165.4: Columbia St Express Lanes'
+  optional: true
+- keyname: alertBBox
+  field_type: string
+  name: Area to show alerts for
+  description: 'Coordinate bounding box to filter alerts. Format: "left,bottom,right,top". Find coordinates at <a href="https://norbertrenner.de/osm/bbox.html?zoom=8&lat=47.48661&lon=-120.73199&layers=FBT" target="_blank" class="underline">bbox tool</a>.'
+  placeholder: "-122.429,47.525,-122.043,47.718"
+  optional: true
+name: Washington Real-time Travel Info
+refresh_interval: 1440

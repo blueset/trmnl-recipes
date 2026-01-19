@@ -1,0 +1,34 @@
+{% if view == 'travelTime' %}
+  {%
+    render 'trafficTime',
+    trafficTime: trafficTime,
+    trmnl: trmnl,
+    titleClass: 'label label--small',
+    titleAttr: 'style="display : -webkit-box;-webkit-box-orien t: vertical;-webkit-line-clamp : 1;overflow : hidden;"',
+    diffValueClass: 'value value--small',
+    originDestClass: 'hidden',
+    curTimeClass: 'hidden',
+    minClass: 'value value--xxsmall',
+    timeBoxClass: 'flex flex--row gap--xsmall flex--bottom',
+    cols: 2,
+  %}
+{% elsif view == 'alert' %}
+  {%
+    render 'alerts',
+    alerts: alerts,
+    trmnl: trmnl,
+    mapColClass: 'col--span-5 image image-dither',
+    showIcon: true,
+    layoutClass: 'p--0',
+    alertsColClass: 'hidden',
+  %}
+{% elsif view == 'camera' %}
+  {%
+    render 'cameras',
+    cameras: cameras,
+    trmnl: trmnl,
+    layoutClass: 'p--0',
+    hideTitleBar: true,
+    cols: 1,
+  %}
+{% endif %}
