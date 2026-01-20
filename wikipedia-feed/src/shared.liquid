@@ -57,6 +57,54 @@
       src: url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16.woff2') format('woff2'),
            url('https://blueset.github.io/wikipedia-featured/fonts/JF-Dot-Shinonome16.ttf') format('truetype');
   }
+  @font-face {
+      font-family: 'Helvetica 17';
+      src: url('https://blueset.github.io/xorg-fonts/font-adobe-100dpi-1.0.4/helvR12.ttf') format('truetype');
+      font-weight: 500;
+      font-style: normal;
+  }
+  @font-face {
+      font-family: 'Helvetica 17';
+      src: url('https://blueset.github.io/xorg-fonts/font-adobe-100dpi-1.0.4/helvB12.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+  }
+  @font-face {
+      font-family: 'Helvetica 17';
+      src: url('https://blueset.github.io/xorg-fonts/font-adobe-100dpi-1.0.4/helvBO12.ttf') format('truetype');
+      font-weight: 700;
+      font-style: oblique;
+  }
+  @font-face {
+      font-family: 'Helvetica 17';
+      src: url('https://blueset.github.io/xorg-fonts/font-adobe-100dpi-1.0.4/helvO12.ttf') format('truetype');
+      font-weight: 500;
+      font-style: oblique;
+  }
+  @font-face {
+      font-family: 'Utopia 25';
+      src: url('https://blueset.github.io/xorg-fonts/font-adobe-utopia-100dpi-1.0.5/UTRG__18.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+  }
+  @font-face {
+      font-family: 'Utopia 25';
+      src: url('https://blueset.github.io/xorg-fonts/font-adobe-utopia-100dpi-1.0.5/UTBI__18.ttf') format('truetype');
+      font-weight: 700;
+      font-style: italic;
+  }
+  @font-face {
+      font-family: 'Utopia 25';
+      src: url('https://blueset.github.io/xorg-fonts/font-adobe-utopia-100dpi-1.0.5/UTB___18.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+  }
+  @font-face {
+      font-family: 'Utopia 25';
+      src: url('https://blueset.github.io/xorg-fonts/font-adobe-utopia-100dpi-1.0.5/UTI___18.ttf') format('truetype');
+      font-weight: 400;
+      font-style: italic;
+  }
   
   .trmnl .richtext .content p, .content p {
     line-height: 20px;
@@ -81,6 +129,10 @@
   }
   
   .trmnl .screen--1bit, .trmnl .screen--2bit {
+    --richtext-font-family: 'Helvetica 17', sans-serif;
+    --richtext-font-size: 18px;
+    --title-font-family: 'Utopia 25', serif;
+    --title-font-size: 29px;
     .richtext .content:lang(ja), .content:lang(ja),
     .title_bar .title:lang(ja), .title_bar .title:lang(ja){
       font-family: "JF-Dot-Shinonome16", "DotGothic16", sans-serif;
