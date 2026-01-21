@@ -12,7 +12,7 @@ custom_fields:
 - keyname: author_bio
   field_type: author_bio
   name: About This Plugin
-  description: 'Dashboard public transit information close to you. Supports all public transit types in Puget Sound, Washington, USA: bus, lightrail, street car, monorail, Amtrak, ferries and more. Support multiple layouts. <a href="https://github.com/blueset/trmnl-recipes/tree/master/transit" class="underline" target="_blank">Checkout previews of each layout</a>.'
+  description: 'Dashboard public transit information close to you. Supports all public transit types in Puget Sound, Washington, USA: bus, lightrail, street car, monorail, Amtrak, ferries and more. Supports multiple layouts. <a href="https://github.com/blueset/trmnl-recipes/tree/master/transit" class="underline" target="_blank">Check out previews of each layout</a>.'
   category: personal,travel
   github_url: https://github.com/blueset/trmnl-recipes
 - keyname: key

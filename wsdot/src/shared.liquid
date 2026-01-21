@@ -250,9 +250,15 @@
 {% endunless %}
 
 <style>
-  .camera-columns .column {
-    align-self : stretch;
-    justify-content : space-between;
+  .camera-columns {
+    .column {
+      justify-content: space-between;
+      align-self: stretch;
+      .item {
+        flex-grow: 1;
+        flex-basis: 0;
+      }
+    }
   }
   .layout {
     container-type: size;
