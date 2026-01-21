@@ -57,5 +57,5 @@ custom_fields:
   description: 'Coordinate bounding box to filter alerts. Format: "left,bottom,right,top". Find coordinates at <a href="https://norbertrenner.de/osm/bbox.html?zoom=8&lat=47.48661&lon=-120.73199&layers=FBT" target="_blank" class="underline">bbox tool</a>.'
   placeholder: "-122.429,47.525,-122.043,47.718"
   optional: true
-name: 'Washington Real-time Travel Info: Travel Times, Cameras, Alerts'
+name: Washington Real-time Travel Times, Cameras, Alerts
 refresh_interval: 1440
