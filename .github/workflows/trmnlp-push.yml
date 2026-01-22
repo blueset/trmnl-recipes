@@ -1,0 +1,305 @@
+name: Run TRMNLP Push
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+# Ensure only one workflow runs at a time
+concurrency:
+  group: trmnlp-sync
+  cancel-in-progress: false
+
+jobs:
+  trmnlp-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Check for open pull PR
+        id: check-open-pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Checking for open PRs from trmnlp-pull-updates branch..."
+          PR_COUNT=$(gh pr list --head "trmnlp-pull-updates" --state open --json number --jq 'length')
+          echo "Found $PR_COUNT open PR(s)"
+
+          if [ "$PR_COUNT" -gt "0" ]; then
+            echo "Open pull PR exists - skipping push to avoid state conflict"
+            echo "Please review and merge the pull PR first"
+            echo "skip_push=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "No open pull PR found - proceeding with push"
+          echo "skip_push=false" >> $GITHUB_OUTPUT
+
+      - name: Check if merge from pull branch
+        id: check-merge
+        if: steps.check-open-pr.outputs.skip_push == 'false'
+        run: |
+          echo "Checking if this is a merge from trmnlp-pull-updates branch..."
+
+          # Check if this is a merge commit
+          PARENT_COUNT=$(git log -1 --pretty=%P | wc -w)
+
+          if [ "$PARENT_COUNT" -gt "1" ]; then
+            echo "This is a merge commit with $PARENT_COUNT parents"
+
+            # Check if merge message mentions trmnlp-pull-updates
+            COMMIT_MSG=$(git log -1 --pretty=%s)
+            if echo "$COMMIT_MSG" | grep -qi "trmnlp-pull-updates"; then
+              echo "Commit is merge from pull branch - skipping conflict check"
+              echo "This merge IS the conflict resolution - will push merged state to remote"
+              echo "is_pull_merge=true" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+          fi
+
+          echo "Not a merge from pull branch - will perform conflict check"
+          echo "is_pull_merge=false" >> $GITHUB_OUTPUT
+
+      - name: Validate environment
+        if: >
+          steps.check-open-pr.outputs.skip_push == 'false'
+        env:
+          TRMNL_API_KEY: ${{ secrets.TRMNL_API_KEY }}
+        run: |
+          if [ -z "$TRMNL_API_KEY" ]; then
+            echo "ERROR: TRMNL_API_KEY secret is not set"
+            exit 1
+          fi
+          echo "Environment validation passed"
+
+      - name: Find changed plugins
+        id: find-plugins
+        if: >
+          steps.check-open-pr.outputs.skip_push == 'false'
+        run: |
+          echo "Finding all plugin directories..."
+          PLUGIN_DIRS=$(find . -name ".trmnlp.yml" -type f -exec dirname {} \; | sort)
+
+          if [ -z "$PLUGIN_DIRS" ]; then
+            echo "No plugin directories found"
+            echo "has_plugins=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Found plugin directories:"
+          echo "$PLUGIN_DIRS"
+
+          echo "Detecting which plugins have changes in this push..."
+
+          # Handle first push edge case
+          BEFORE_COMMIT="${{ github.event.before }}"
+          AFTER_COMMIT="${{ github.event.after }}"
+
+          if [ -z "$BEFORE_COMMIT" ] || [ "$BEFORE_COMMIT" = "0000000000000000000000000000000000000000" ]; then
+            echo "First push detected - all plugins considered changed"
+            CHANGED_PLUGINS="$PLUGIN_DIRS"
+          else
+            # Get changed files between before and after commits
+            CHANGED_FILES=$(git diff --name-only "$BEFORE_COMMIT" "$AFTER_COMMIT")
+            echo "Changed files:"
+            echo "$CHANGED_FILES"
+
+            # Filter to only plugins with changes
+            CHANGED_PLUGINS=""
+            for dir in $PLUGIN_DIRS; do
+              # Normalize path for comparison (remove leading ./)
+              NORM_DIR="${dir#./}"
+              # Check if any changed file is in this directory
+              if echo "$CHANGED_FILES" | grep -q "^${NORM_DIR}/"; then
+                echo "Plugin $dir has changes"
+                CHANGED_PLUGINS="$CHANGED_PLUGINS $dir"
+              fi
+            done
+          fi
+
+          if [ -z "$CHANGED_PLUGINS" ]; then
+            echo "No plugin directories have changes in this push"
+            echo "has_plugins=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Changed plugins:"
+          echo "$CHANGED_PLUGINS"
+
+          # Save to output (convert spaces to newlines for better handling)
+          echo "has_plugins=true" >> $GITHUB_OUTPUT
+          # Use delimiter for multiline output
+          echo "changed_plugins<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED_PLUGINS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Check for remote divergence
+        id: check-divergence
+        if: >
+          steps.check-open-pr.outputs.skip_push == 'false' &&
+          steps.find-plugins.outputs.has_plugins == 'true' &&
+          steps.check-merge.outputs.is_pull_merge == 'false'
+        env:
+          TRMNL_API_KEY: ${{ secrets.TRMNL_API_KEY }}
+        run: |
+          BEFORE_COMMIT="${{ github.event.before }}"
+          AFTER_COMMIT="${{ github.event.after }}"
+
+          # Handle first push edge case
+          if [ -z "$BEFORE_COMMIT" ] || [ "$BEFORE_COMMIT" = "0000000000000000000000000000000000000000" ]; then
+            echo "First push detected - skipping conflict check"
+            echo "remote_diverged=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "Checking if remote diverged from before commit: $BEFORE_COMMIT"
+
+          # Checkout the "before" commit
+          git checkout "$BEFORE_COMMIT"
+
+          # Pull remote content onto "before" commit's state for changed plugins
+          CHANGED_PLUGINS="${{ steps.find-plugins.outputs.changed_plugins }}"
+
+          for dir in $CHANGED_PLUGINS; do
+            echo "Pulling remote state for $dir on before commit..."
+            cd "$dir"
+            docker run --rm \
+              --volume "$(pwd):/plugin" \
+              --env TRMNL_API_KEY="${TRMNL_API_KEY}" \
+              trmnl/trmnlp pull -f
+            cd - > /dev/null
+          done
+
+          # Check if remote differs from "before" commit
+          if ! git diff --quiet; then
+            echo "Remote has diverged from commit $BEFORE_COMMIT - conflict detected!"
+            echo "Changes pulled from remote:"
+            git diff --stat
+
+            echo "remote_diverged=true" >> $GITHUB_OUTPUT
+          else
+            echo "Remote matches before commit - safe to push current changes"
+            echo "remote_diverged=false" >> $GITHUB_OUTPUT
+          fi
+
+          # Return to current commit
+          git checkout "$AFTER_COMMIT"
+
+      - name: Trigger pull workflow for conflict resolution
+        if: >
+          steps.check-open-pr.outputs.skip_push == 'false' &&
+          steps.find-plugins.outputs.has_plugins == 'true' &&
+          steps.check-merge.outputs.is_pull_merge == 'false' &&
+          steps.check-divergence.outputs.remote_diverged == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Triggering pull workflow to create PR with remote changes..."
+          gh workflow run trmnlp-pull.yml
+
+          echo "Pull workflow triggered successfully"
+          echo "A PR will be created with the remote changes for review and conflict resolution"
+          echo "After merging the PR, the push workflow will run again and sync the resolved state"
+
+          exit 1
+
+      - name: Push changed plugins to remote
+        if: >
+          steps.check-open-pr.outputs.skip_push == 'false' &&
+          steps.find-plugins.outputs.has_plugins == 'true' &&
+          (steps.check-merge.outputs.is_pull_merge == 'true' ||
+           steps.check-divergence.outputs.remote_diverged == 'false')
+        env:
+          TRMNL_API_KEY: ${{ secrets.TRMNL_API_KEY }}
+        run: |
+          CHANGED_PLUGINS="${{ steps.find-plugins.outputs.changed_plugins }}"
+
+          echo "Pushing changed plugins to TRMNL cloud..."
+          echo "Changed plugins: $CHANGED_PLUGINS"
+
+          FAILED_PLUGINS=""
+          SUCCESS_COUNT=0
+          FAIL_COUNT=0
+
+          for dir in $CHANGED_PLUGINS; do
+            echo "=========================================="
+            echo "Pushing $dir to remote..."
+            cd "$dir"
+
+            if docker run --rm \
+              --volume "$(pwd):/plugin" \
+              --env TRMNL_API_KEY="${TRMNL_API_KEY}" \
+              trmnl/trmnlp push -f; then
+              echo "Successfully pushed $dir"
+              SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
+            else
+              echo "Failed to push $dir"
+              FAILED_PLUGINS="$FAILED_PLUGINS $dir"
+              FAIL_COUNT=$((FAIL_COUNT + 1))
+            fi
+
+            cd - > /dev/null
+          done
+
+          echo "=========================================="
+          echo "Push summary:"
+          echo "  Successful: $SUCCESS_COUNT"
+          echo "  Failed: $FAIL_COUNT"
+
+          if [ -n "$FAILED_PLUGINS" ]; then
+            echo "Failed plugins:$FAILED_PLUGINS"
+            echo "ERROR: Some plugins failed to push"
+            exit 1
+          fi
+
+          echo "All changed plugins pushed successfully!"
+
+      - name: Report results
+        if: always()
+        run: |
+          echo "=========================================="
+          echo "TRMNLP Push Workflow Results"
+          echo "=========================================="
+
+          if [ "${{ steps.check-open-pr.outputs.skip_push }}" = "true" ]; then
+            echo "Status: SKIPPED (open pull PR exists)"
+            echo "Action: Review and merge the pull PR first"
+            exit 0
+          fi
+
+          if [ "${{ steps.find-plugins.outputs.has_plugins }}" != "true" ]; then
+            echo "Status: SKIPPED (no plugin changes detected)"
+            exit 0
+          fi
+
+          if [ "${{ steps.check-merge.outputs.is_pull_merge }}" = "true" ]; then
+            echo "Status: COMPLETED (merge from pull branch)"
+            echo "Merged state synced to remote successfully"
+            exit 0
+          fi
+
+          if [ "${{ steps.check-divergence.outputs.remote_diverged }}" = "true" ]; then
+            echo "Status: CONFLICT DETECTED"
+            echo "Action: Pull workflow triggered to create conflict resolution PR"
+            echo "Next steps: Review and merge the PR, then push will complete automatically"
+            exit 0
+          fi
+
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "Status: SUCCESS"
+            echo "All changed plugins synced to TRMNL cloud"
+          else
+            echo "Status: FAILED"
+            echo "Check logs above for error details"
+          fi

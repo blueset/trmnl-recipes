@@ -1,48 +1,57 @@
-# GitHub Actions Workflows
+# TRMNLP Sync Workflows
 
-## trmnlp-pull.yml
+This directory contains two GitHub Actions workflows that synchronize TRMNL plugins between this repository and the TRMNL cloud.
 
-This workflow automates the process of running `trmnlp pull` on all TRMNL plugins in the repository.
+## Workflows Overview
 
-### Triggers
+### 1. TRMNLP Pull (`trmnlp-pull.yml`)
 
-- **Manual**: Can be triggered manually via workflow_dispatch
-- **Scheduled**: Runs daily at 00:00 UTC
+**Triggers:** Daily at 00:00 UTC, or manually via workflow dispatch.
 
-### Required Secrets
+**Purpose:** Pulls the latest plugin configurations from the TRMNL cloud and creates a PR if changes are detected.
 
-- `TRMNL_API_KEY`: Your TRMNL API key required for the trmnlp tool
+**How it works:**
+1. Checks for an existing `trmnlp-pull-updates` branch with an open PR
+   - If the branch exists without an active PR, it deletes and recreates it
+   - If an active PR exists, it checks out that branch to add new changes
+2. Finds all directories containing `.trmnlp.yml` files
+3. Runs `trmnlp pull -f` on each plugin directory using Docker
+4. If changes are detected, commits and pushes to the `trmnlp-pull-updates` branch
+5. Creates a new PR if one doesn't already exist
 
-### What it does
+### 2. TRMNLP Push (`trmnlp-push.yml`)
 
-1. **Setup Docker**: Installs Docker Buildx for running containers
-2. **Branch Management**:
-   - Checks if a branch named `trmnlp-pull-updates` exists
-   - If it exists:
-     - Checks if there's an active (open) PR associated with the branch
-     - If no active PR exists: deletes the branch (both local and remote) and recreates it from the current branch
-     - If an active PR exists: checks out the existing branch
-   - If the branch doesn't exist, creates a new branch with that name
-3. **Process Plugins**:
-   - Finds all directories containing `.trmnlp.yml` files
-   - For each directory, runs:
-     ```bash
-     docker run --rm \
-       --volume "$(pwd):/plugin" \
-       --env TRMNL_API_KEY="${TRMNL_API_KEY}" \
-       trmnl/trmnlp pull -f
-     ```
-4. **Commit Changes**:
-   - Checks if any files were modified
-   - If no changes, the workflow exits
-   - If changes exist, commits all modified files
-5. **Push and PR**:
-   - Pushes the branch to origin
-   - If this is a new branch (not previously associated with a PR), creates a new Pull Request
+**Triggers:** On push to `master` branch, or manually via workflow dispatch.
 
-### Notes
+**Purpose:** Pushes local plugin changes to the TRMNL cloud, with conflict detection.
 
-- The workflow will only create a PR once. Subsequent runs will push to the existing branch without creating new PRs.
-- If a branch exists but the associated PR has been closed or merged, the workflow will delete and recreate the branch from scratch to ensure a clean state.
-- The PR will be created against the `master` branch.
-- All commits are made by `github-actions[bot]`.
+**How it works:**
+1. **Open PR Check:** If there's an open PR from `trmnlp-pull-updates`, the push is skipped to avoid conflicts
+2. **Merge Detection:** If the current commit is a merge from the pull branch, skips conflict checking (the merge itself is the resolution)
+3. **Change Detection:** Identifies which plugins have changes in the current push
+4. **Conflict Check:** For changed plugins, pulls remote state onto the "before" commit to detect if the remote has diverged
+   - If diverged: Triggers the pull workflow to create a conflict resolution PR, then fails
+   - If no divergence: Proceeds with push
+5. **Push:** Runs `trmnlp push -f` on all changed plugins
+
+## Conflict Resolution Flow
+
+```mermaid
+flowchart TD
+    A[Local Change] --> B[Push Workflow]
+    B --> C{Conflict Detected?}
+    C -->|No| D[Push to TRMNL]
+    C -->|Yes| E[Trigger Pull Workflow]
+    E --> F[Create PR with<br/>remote changes]
+    F --> G[Merge PR - resolve conflicts]
+    G --> H[Push Workflow runs again]
+    H --> D
+```
+
+## Required Secrets
+
+- `TRMNL_API_KEY`: API key for authenticating with the TRMNL cloud service
+
+## Concurrency
+
+The push workflow uses concurrency control (`group: trmnlp-sync`) to ensure only one sync operation runs at a time, preventing race conditions.
