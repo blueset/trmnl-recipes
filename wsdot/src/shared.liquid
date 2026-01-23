@@ -83,7 +83,7 @@
     </div>
     {% unless hideMap %}
     <div class="{{ mapColClass | default: 'col--span-2 image image-dither' }}">
-      <div class="w--full h--full"  id="map-container"></div>
+      <div class="w--full h--full map-container"></div>
     </div>
     {% endunless %}
   </div>
@@ -104,19 +104,16 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-providers@latest/leaflet-providers.js"></script>
 <script>
+  (() => {
   const data = {{ alerts | json }};
-  const mapContainer = document.getElementById('map-container');
+  const mapContainer = document.currentScript.closest('.view').querySelector('.map-container');
   // 1. Array of coordinates [lat, lng, label]
   const points = data.map((item, idx) => [item.coordinates.latitude, item.coordinates.longitude, idx + 1, item.severityLevel]);
 
   // 2. Initialize map (set view is temporary, fitBounds will override)
-  const map = L.map('map-container', {zoomControl: false}).setView([0, 0], 2);
+  const map = L.map(mapContainer, {zoomControl: false}).setView([0, 0], 2);
 
   // 3. Add a tile layer with NO labels
-  // Other option: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
-  // L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
-  //     attribution: '© OpenStreetMap contributors © CARTO'
-  // }).addTo(map);
   L.tileLayer.provider('OpenStreetMap.CAT').addTo(map);
   
   
@@ -175,6 +172,7 @@
       }
   });
   resizeObserver.observe(mapContainer);
+  })();
 </script>
 {% endunless %}
 <style>

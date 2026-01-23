@@ -2,7 +2,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 <script>
-const root = document.currentScript.closest(".view");
+(() => {
+  const root = document.currentScript.closest(".view");
 addEventListener("DOMContentLoaded", (() => {
 
   // const data = {{ IDX_0 | json | replace: "<", "&lt;" }};
@@ -30,28 +31,7 @@ addEventListener("DOMContentLoaded", (() => {
     onError({{ error | json | replace: "<", "&lt;" }});
   {% endfor %}
 
-  // document.addEventListener("DOMContentLoaded", async () => {
-  //   const response = await fetch('https://blueset.github.io/google-fonts-metadata/metadata.json');
-  //   const data = await response.json();
-  //   let fonts = data.fonts;
-
-  // try {
-  //   const filter = {{ trmnl.plugin_settings.custom_fields_values.filter | json }};
-  //   if (filter) {
-  //     // const filterFunction = new Function('f', `return (${filter});`);
-  //     fonts = fonts.filter((f, index, array) => eval(`(function() { return ${filter}; }).call({ f, index, array })`));
-  //   }
-  // } catch (error) {
-  //   console.error("failed to apply filter", error);
-  //   onError(error);
-  // }
-
   try {
-    // const font = fonts[Math.floor(Math.random() * fonts.length)] || {};
-    // const sampleText =
-    //   font.sample_text?.[0] ||
-    //   sampleText?.sample_text?.[0] ||
-    //   data.sample_texts.en_Latn.sample_text[0];
 
     const font = {{ font | json | replace: "<", "&lt;" }};
     const sampleText = {{ sampleText | json | replace: "<", "&lt;" }};
@@ -316,4 +296,5 @@ addEventListener("DOMContentLoaded", (() => {
     });
   }, 2000);
 }));
+})();
 </script>

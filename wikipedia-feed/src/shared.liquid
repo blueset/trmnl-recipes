@@ -341,7 +341,7 @@
       measure(reset);
     });
     resizeObserver.observe(root);
-    resizeObserver.observe(p);
+    if (p) resizeObserver.observe(p);
     document.fonts.ready.then(() => measure(true));
     document.fonts.addEventListener('loadingdone', () => measure(true));
     window.addEventListener('load', () => measure(true));
