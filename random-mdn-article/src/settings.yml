@@ -17,4 +17,4 @@ custom_fields:
   learn_more_url: https://developer.mozilla.org/
   category: discovery,programming
 name: Random MDN Article
-refresh_interval: 60
+refresh_interval: 1440

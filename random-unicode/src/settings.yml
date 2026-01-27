@@ -17,4 +17,4 @@ custom_fields:
   learn_more_url: https://codepoints.net/
   category: discovery,programming
 name: Random Unicode
-refresh_interval: 15
+refresh_interval: 1440
