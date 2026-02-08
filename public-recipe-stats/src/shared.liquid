@@ -2,7 +2,7 @@
 <div class="item {{ item_class }}" data-connections="{{ data.stats.installs | plus: data.stats.forks }}" data-installs="{{ data.stats.installs }}" data-forks="{{ data.stats.forks }}">
   <span class="meta {{ meta_label_class }}"><span class="index">{{ idx }}</span></span>
   <img class="binarize {{ screenshot_class | default: "hidden" }}" src="{{ data.screenshot_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" />
-  <div class="binarize {{ item_box_class | default: "flex flex--left flex--row content" }}">
+  <div class="binarize {{ item_box_class | default: "flex flex--left flex--row content grow" }}">
     <img class="image w--auto no-shrink {{ icon_class }}" src="{{ data.icon_url | default: "https://usetrmnl.com/images/plugins/trmnl--render.svg" }}" onerror="handleImageError(this)" data-content-type="{{ data.icon_content_type }}" />
     <div class="{{ meta_box_class | default: "flex flex--col flex--left gap--none w--0 w--max-full grow" }}">
       <span class="{{ title_class }} truncate-text w--max-full">{{ data.name }}</span>
