@@ -1,11 +1,11 @@
 {% liquid 
   assign languageCount = data.translations | size | add: 1
   if languageCount <= 3
-    assign mainSentenceClass = "value lg:value--large"
-    assign translationClass = "value value--small lg:value"
+    assign mainSentenceClass = "value lg:value--xlarge"
+    assign translationClass = "value value--small lg:title--xlarge"
   else
-    assign mainSentenceClass = "value--xsmall lg:value--small"
-    assign translationClass = "title title--small"
+    assign mainSentenceClass = "value--xsmall lg:title--xxlarge"
+    assign translationClass = "title title--small lg:title--large"
   endif
 %}
 <div class="layout layout--left">

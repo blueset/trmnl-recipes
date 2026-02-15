@@ -12,7 +12,7 @@
         %}
         <div class="item content flex flex--row gap flex--baseline" lang="{{ language.bcp47 }}">
           <span class="label label--outline lang-label inline-block text--center no-shrink">{{ language.label }}</span>
-          <div class="text--balance title">
+          <div class="text--balance title lg:title--large">
             {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
           </div>
         </div>
@@ -30,7 +30,7 @@
           %}
           <div class="item content flex flex--row gap flex--baseline" lang="{{ language.bcp47 }}">
             <span class="label label--outline lang-label inline-block text--cente no-shrink">{{ language.label }}</span>
-            <div class="text--balance title">
+            <div class="text--balance title lg:title--large">
               {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
             </div>
           </div>
@@ -129,9 +129,10 @@
     }
 
     function remeasure() {
-        root.querySelectorAll('[dir="auto"]').forEach(e => {
+      root.querySelectorAll('[dir="auto"]').forEach(e => {
         log("computing", e)
         e.style.width = "";
+        e.style.maxWidth = "max-content";
         log("before size: w", e.getBoundingClientRect().width, "h", e.getBoundingClientRect().height)
         const range = document.createRange();
         range.setStartBefore(e.firstChild);
@@ -149,14 +150,16 @@
     resizeObserver.observe(root);
     log("root remeasure");
     remeasure();
-    setInterval(() => {
-      log("timeout remeasure");
-      remeasure();
+    setTimeout(() => {
       document.fonts.ready.then(() => {
         log("font remeasure");
         remeasure();
       });
-    }, 500);
+    }, 100);
+    setInterval(() => {
+      log("interval remeasure");
+      remeasure();
+    }, 100);
   })();
 </script>
 
