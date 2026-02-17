@@ -1,4 +1,4 @@
-# One Headline News
+# One Headline
 
 News of the day, one headline at a time. News sourced from [Kagi News](https://news.kagi.com/).
 

@@ -22,7 +22,7 @@
 * [Washington DOT Real-time Travel Info](#washington-dot-real-time-travel-info)
 * [GitHub Trending Repos](#github-trending-repos)
 * [HTTP Dogs](#http-dogs)
-* [One Headline News](#one-headline-news)
+* [One Headline](#one-headline)
 
 ## Wikipedia Feed
 
@@ -167,7 +167,7 @@ A random HTTP Dog picture on each refresh. Works well with HTTP Cats too. Images
 
 ![Screenshot](./http-dogs/images/f.png)
 
-## One Headline News
+## One Headline
 
 News of the day, one headline at a time. News sourced from Kagi News.
 
