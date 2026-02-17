@@ -1,4 +1,4 @@
-<div class="gap--space-between layout layout--col">
+<div class="gap--large layout layout--col">
   <div class="grid">
     <div class="row">
       <div class="grid">
@@ -71,7 +71,9 @@
   <script src="https://usetrmnl.com/js/highcharts/12.3.0/highcharts-more.js"></script>
   <script src="https://usetrmnl.com/js/highcharts/12.3.0/pattern-fill.js"></script>
 
-  <div id="chart-8513af80da0f" class="w--full" data-highcharts-chart="0" style="overflow: hidden;"></div>
+  <div class="w--full grow" style="overflow: hidden;">
+    <div id="chart-8513af80da0f" class="h--full" data-highcharts-chart="0"></div>
+  </div>
 
   <script type="text/javascript">
     var actionDates = {{ data[history_key][category][action_date_key] | json }};
@@ -127,7 +129,6 @@
     Highcharts.chart('chart-8513af80da0f', {
       chart: { 
         type: 'spline',
-        height: {{ trmnl.device.height }} - 277,
         width: null,
         animation: false,
         spacing: [10, 10, 0, 10]
@@ -158,13 +159,7 @@
         lineWidth: 5,
         name: data[1].name,
         zIndex: 1,
-        color: {
-          pattern: {
-            image: 'https://usetrmnl.com/images/grayscale/gray-5.png',
-            width: 12,
-            height: 12
-          }
-        }
+        color: '#aaa',
       }],
       tooltip: { enabled: false },
       legend: { enabled: false },
