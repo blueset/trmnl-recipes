@@ -1,0 +1,134 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://news.kagi.com/{{ category }}.json
+polling_headers: ''
+polling_body: ''
+id: 243967
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: News of the day, one headline at a time. News sourced from <a href="https://news.kagi.com">Kagi News</a>.
+  category: news,discovery
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://news.kagi.com/
+- keyname: category
+  field_type: select
+  name: Category
+  default: world
+  options:
+  - Argentina: argentina
+  - 3D Printing: 3d_printing
+  - Bay: bay
+  - Catholic: catholic
+  - Apple: apple
+  - Africa: africa
+  - Climate Change: climate_change
+  - Colombia: colombia
+  - AI: ai
+  - Belgium: belgium
+  - Science: science
+  - Business: business
+  - Brazil: brazil
+  - Gaming: gaming
+  - USA: usa
+  - Cybersecurity: cybersecurity
+  - Finland | Helsinki: finland_|_helsinki
+  - Diplomacy: diplomacy
+  - Denmark: denmark
+  - Cryptocurrency: cryptocurrency
+  - Cycling: cycling
+  - Defense: defense
+  - Croatia: croatia
+  - Sports: sports
+  - Australia: australia
+  - French Music: french_music
+  - World: world
+  - Costa Rica: costa_rica
+  - Economy: economy
+  - Germany | Hamburg: germany_|_hamburg
+  - Estonia: estonia
+  - Formula E: formula_e
+  - Formula 1: formula_1
+  - Czech Republic: czech_republic
+  - Europe: europe
+  - Iran: iran
+  - Germany | Hesse: germany_|_hesse
+  - Technology: tech
+  - Finland: finland
+  - Google: google
+  - Germany | Baden-Württemberg: germany_|_baden-württemberg
+  - Metal Music: metal_music
+  - Hungary: hungary
+  - Asia: asia
+  - Linux & OSS: linux_oss
+  - Israel: israel
+  - Microsoft: microsoft
+  - Germany: germany
+  - Lithuania: lithuania
+  - Middle East: middle_east
+  - MMA: mma
+  - Palestine: palestine
+  - Movies: movies
+  - Morocco: morocco
+  - Music: music
+  - Pakistan: pakistan
+  - Hong Kong: hong_kong
+  - MLB: mlb
+  - Italy: italy
+  - France: france
+  - Ireland: ireland
+  - NFL: nfl
+  - NHL: nhl
+  - Japan: japan
+  - North Macedonia: north_macedonia
+  - Podcasting: podcasting
+  - New Zealand: new_zealand
+  - Privacy: privacy
+  - India: india
+  - Philippines: philippines
+  - Nintendo: nintendo
+  - Mexico: mexico
+  - Norway: norway
+  - Simulation Games: simulation_games
+  - Greece: greece
+  - Portugal: portugal
+  - Professional Wrestling: professional_wrestling
+  - Singapore: singapore
+  - Poland: poland
+  - Russia: russia
+  - Switzerland (DE): switzerland_(de)
+  - Slovakia: slovakia
+  - USA | Austin, TX: usa_|_austin,_tx
+  - U.S. Soccer: u.s._soccer
+  - USA | Boston: usa_|_boston
+  - USA | Minnesota: usa_|_minnesota
+  - USA | New Mexico: usa_|_new_mexico
+  - USA | Ohio: usa_|_ohio
+  - USA | Nevada: usa_|_nevada
+  - USA | Michigan: usa_|_michigan
+  - USA | Colorado: usa_|_colorado
+  - USA | Chicago: usa_|_chicago
+  - Sweden: sweden
+  - The Netherlands: the_netherlands
+  - USA | Virginia: usa_|_virginia
+  - USA | Florida: usa_|_florida
+  - USA | New York City: usa_|_new_york_city
+  - Ukraine: ukraine
+  - USA | Utah: usa_|_utah
+  - USA | Vermont: usa_|_vermont
+  - Watches & Horology: watches_horology
+  - USA | Washington: usa_|_washington
+  - Venezuela: venezuela
+  - Turkey: turkey
+  - Spain: spain
+  - UK: uk
+  - USA | Oregon: usa_|_oregon
+  - South Korea: south_korea
+  - Taiwan: taiwan
+name: One Headline News
+refresh_interval: 60

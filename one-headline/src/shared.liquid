@@ -1,0 +1,33 @@
+{% template content %}
+{% if cluster.primary_image %}{% assign hasImage = true %}{% endif %}
+<div class="layout {{ layoutCls }}">
+  <div class="flex flex--col h--full w--full{% if hasImage %} flex--bottom{% else %} flex--center-y{% endif %}" style="position: relative;">
+    <div class="richtext gap richtext--left text-stroke text-stroke--xlarge px--4 py--2 w--full" style="z-index: 2;">
+      <div class="{% if hasImage %}{{ titleCls | default: "title title--xxlarge" }}{% else %}{{ largeTitleCls }}{% endif %}" style="text-wrap: balance; font-family: Google Sans, sans-serif;">{{ cluster.title }}</div>
+      <div class="{% if hasImage %}{{ contentCls | default: "content content--left" }}{% else %}{{ largeContentCls }}{% endif %}" {% if hasImage %}{{ contentClamp | default: 'data-clamp="3" data-clamp-lg="6"' }}{% else %}{{ largeContentClamp }}{% endif %}>
+        {{ cluster.short_summary }}
+      </div>
+    </div>
+    {% if hasImage %}
+    <div style="position: absolute;" class="w--full h--full">
+      <div style="position: absolute; background-image: linear-gradient(to bottom, transparent 50%, white 85%);" class="w--full h--full"></div> 
+      <img src="https://news.kagi.com/api/image-proxy?url={{ cluster.primary_image.url | urlencode }}" class="rounded w-full h-full image-dither image image--cover" />
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="title_bar">
+  <span class="title"><span class="image-stroke" style="font-family: 'Fluent Emoji High Contrast';">{{ cluster.emoji }}</span> {{ cluster.category }}</span>
+  <span class="instance">{{ category }} News</span>
+</div>
+
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+{% endtemplate %}
+
+<style>
+  @import url('https://tetunori.github.io/fluent-emoji-webfont/dist/FluentEmojiHighContrast.css');
+  .screen--lg .lg\:title--xxxlarge {
+    font-size: 60px;
+  }
+</style>

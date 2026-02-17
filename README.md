@@ -20,6 +20,9 @@
 * [Visa Bulletin](#visa-bulletin-unlisted)
 * [Puget Sound Transit Nearby](#puget-sound-transit-nearby)
 * [Washington DOT Real-time Travel Info](#washington-dot-real-time-travel-info)
+* [GitHub Trending Repos](#github-trending-repos)
+* [HTTP Dogs](#http-dogs)
+* [One Headline News](#one-headline-news)
 
 ## Wikipedia Feed
 
@@ -147,3 +150,27 @@ Real-time travel info from Washington State Department of Transportation (WSDOT)
 [Learn More](./wsdot/README.md), [Install](https://usetrmnl.com/recipes/227171)
 
 ![Screenshot](./wsdot/images/f-alerts.png)
+
+## GitHub Trending Repos
+
+GitHub Trending Repositories. API courtesy of [doforce](https://github.com/doforce/github-trending).
+
+[Learn More](./github-trending-repos/README.md), [Install](https://usetrmnl.com/recipes/243710)
+
+![Screenshot](./github-trending-repos/images/f.png)
+
+## HTTP Dogs
+
+A random HTTP Dog picture on each refresh. Works well with HTTP Cats too. Images from HTTP Dogs and HTTP Status Dogs.
+
+[Learn More](./http-dogs/README.md), [Install](https://usetrmnl.com/recipes/243773)
+
+![Screenshot](./http-dogs/images/f.png)
+
+## One Headline News
+
+News of the day, one headline at a time. News sourced from Kagi News.
+
+[Learn More](./one-headline/README.md), [Install](https://usetrmnl.com/recipes/243967)
+
+![Screenshot](./one-headline/images/f.png)

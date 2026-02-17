@@ -1,0 +1,19 @@
+---
+strategy: static
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: ''
+polling_headers: ''
+polling_body: ''
+id: 243773
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: A random HTTP Dog picture on each refresh. Works well with <a href="https://trmnl.com/recipes/235410">HTTP Cats</a> too. Images from <a href="https://http.dog/">HTTP Dogs</a> and <a href="https://httpstatusdogs.com/">HTTP Status Dogs</a>.
+  category: programming,discovery
+  github_url: https://github.com/blueset/trmnl-recipes
+name: HTTP Dogs
+refresh_interval: 1440
