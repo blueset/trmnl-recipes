@@ -1,6 +1,6 @@
 <div class="layout layout--left">
   <div class="richtext richtext--left gap--xsmall lg:gap h--max-full" data-overflow="true">
-    <div class="value value--xxsmall text--left text--balance lg:mb--4 lg:value--xsmall" data-value-fit="true">
+    <div class="value value--xxsmall text--left text--balance lg:mb--4 lg:value--base" data-value-fit="true">
       {% render "sentence": data: data, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
     </div>
     {% if sentences_per_translation_language == "all" %}
@@ -12,7 +12,7 @@
         %}
         <div class="item content flex flex--left flex--row gap--small flex--baseline" lang="{{ language.bcp47 }}">
           <span class="label label--small label--outline lang-label inline-block text--center no-shrink">{{ language.label }}</span>
-          <div class="text--balance label label--small flex--col flex--left">
+          <div class="text--balance label label--small flex--col flex--left lg:title--base">
             {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
           </div>
         </div>
@@ -30,7 +30,7 @@
           %}
           <div class="item content flex flex--left flex--row gap flex--baseline" lang="{{ language.bcp47 }}">
             <span class="label label--small label--underline inline-block text--center lang-label no-shrink">{{ language.label }}</span>
-            <div class="text--balance label label--small block flex--col flex--left">
+            <div class="text--balance label label--small block flex--col flex--left lg:title--base">
               {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
             </div>
           </div>
