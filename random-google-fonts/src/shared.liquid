@@ -79,7 +79,7 @@ addEventListener("DOMContentLoaded", (() => {
 
         (classifications.length > 0 ? classifications : categories).forEach(ca => {
           const span = document.createElement('span');
-          span.className = 'label sm:label--small md:label--small label--inverted';
+          span.className = 'label sm:label--small md:label--small lg:label--large label--inverted';
           span.innerText = titleCase(ca);
           flexNode.appendChild(span);
         });
@@ -87,7 +87,7 @@ addEventListener("DOMContentLoaded", (() => {
         font.qualities?.forEach(q => {
           if (q.type !== 'Quality') {
             const span = document.createElement('span');
-            span.className = 'label label--outline sm:label--small md:label--small';
+            span.className = 'label label--outline sm:label--small lg:label--large md:label--small';
             span.innerText = titleCase(q.quality);
             flexNode.appendChild(span);
           }
@@ -104,7 +104,7 @@ addEventListener("DOMContentLoaded", (() => {
         }
         if (scriptLabel) {
           const span = document.createElement('span');
-          span.className = 'label sm:label--small md:label--small label--inverted';
+          span.className = 'label sm:label--small md:label--small lg:label--large label--inverted';
           span.innerText = scriptLabel;
           flexNode.appendChild(span);
         }
@@ -113,7 +113,7 @@ addEventListener("DOMContentLoaded", (() => {
           const sLower = s.replace(/-/g, ' ').toLowerCase();
           if (s !== 'latin' && s !== 'latin-ext' && s !== 'greek-ext' && s !== 'cyrillic-ext' && s !== 'menu' && sLower !== toFilter) {
             const span = document.createElement('span');
-            span.className = 'label label--outline label--small';
+            span.className = 'label label--outline label--small lg:label--large';
             span.innerText = `Subset: ${s.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
             flexNode.appendChild(span);
           }
@@ -143,7 +143,7 @@ addEventListener("DOMContentLoaded", (() => {
         (font.axes || []).forEach(a => {
           const tagLower = a.tag.toLowerCase();
           const span = document.createElement('span');
-          span.className = 'label label--inverted sm:label--small md:label--small';
+          span.className = 'label label--inverted sm:label--small md:label--small lg:label--large';
           span.innerText = `${axes[tagLower]?.display_name || a.tag}: ${a.min_value}..${a.max_value}`;
           flexNode.appendChild(span);
         });
@@ -153,12 +153,12 @@ addEventListener("DOMContentLoaded", (() => {
             if (varFilesCount < 2) return;
             const fAxes = f.filename.match(/(\[.*\])/)[1];
             const span = document.createElement('span');
-            span.className = 'label label--outline sm:label--small md:label--small';
+            span.className = 'label label--outline sm:label--small md:label--small lg:label--large';
             span.innerText = `${fAxes}${f.style === 'italic' ? 'i' : ''}`;
             flexNode.appendChild(span);
           } else {
             const span = document.createElement('span');
-            span.className = 'label label--outline sm:label--small md:label--small';
+            span.className = 'label label--outline sm:label--small md:label--small lg:label--large';
             span.innerText = `${f.weight || 400}${f.style === 'italic' ? 'i' : ''}`;
             flexNode.appendChild(span);
           }
