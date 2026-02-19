@@ -13,7 +13,16 @@
     gap: 0px 0;
     align-content: safe center;
     align-items: stretch;
-    width: 100%;
+    inline-size: 100%;
+    max-block-size: 100%;
+  }
+  
+  .screen--portrait {
+    .view--half_vertical, .view--quadrant {
+       .wtc {
+         writing-mode: vertical-rl;
+       }   
+    }
   }
 
   .screen--lg {
@@ -31,14 +40,14 @@
     grid-template-columns: subgrid;
     grid-template-rows: max-content auto;
     align-items: center;
-    height: 55px;
+    block-size: var(--wtc-row-height, 55px);
     gap: 2px var(--wtc-gap);
   }
 
   .meta {
     grid-column: 1;
     grid-row: 2;
-    height: 100%;
+    block-size: 100%;
   }
   /* Left label stack (column 1, row 2) */
   .wtc__labelcol {
@@ -70,7 +79,7 @@
     grid-template-rows: subgrid;
     align-items: stretch;
     justify-items: stretch;
-    width: var(--wtc-cell-width);
+    inline-size: var(--wtc-cell-width);
     > .label {
       justify-content: center;
     }
@@ -130,7 +139,7 @@
   .wtc__periodline, .label.label--small {
     .screen--1bit &, .screen--2bit & {
       line-height: 10px;
-      height: 10px;
+      block-size: 10px;
     }
   }
   .wtc__hourline, .wtc__daystack {
@@ -147,7 +156,7 @@
     }
   }
 
-  .wtc__weekday { min-height: 1em; } /* reserve line for weekday */
+  .wtc__weekday { min-block-size: 1em; } /* reserve line for weekday */
   .wtc__namewrap {
     display: inline-flex;
     align-items: center;
@@ -365,16 +374,22 @@
       view[key] = { before: [], now: buildCell(zNow), after: [], tz, el: row, isHome };
     });
   
-    // Decide cell width per spec
     const cellWidthNormal = 30, cellWidthWide = 35;
+    const isLargeFull = root.closest('.screen--lg .view--full');
+    const scaleFactor = isLargeFull ? 1.3 : 1;
     const anyMinuteNonZero = Object.values(view).some(v => v && v.now && v.now.minute !== '0');
-    const cellWidth = (hourCycle === 'h12' && anyMinuteNonZero) ? cellWidthWide : cellWidthNormal;
+    const cellWidth = scaleFactor * ((hourCycle === 'h12' && anyMinuteNonZero) ? cellWidthWide : cellWidthNormal);
     // Apply cell width as inline style to override CSS default
     root.style.setProperty('--wtc-cell-width', cellWidth + 'px');
+    root.style.setProperty('--wtc-row-height', (55 * scaleFactor) + 'px');
   
     // For each row, compute before/after cell counts based on available width
     function computeRailCells(railEl) {
-      const w = railEl.clientWidth || 0;
+      const style = getComputedStyle(railEl);
+      const wm = style.writingMode;
+      const isVertical = wm.startsWith("vertical") || wm.startsWith("sideways");
+      
+      const w = (!isVertical ? railEl.clientWidth : railEl.clientHeight) || 0;
       return Math.floor(w / cellWidth);
     }
   
@@ -434,12 +449,12 @@
         // Day stack: month (small) + day (large)
         const dayStack = el('div', 'wtc__daystack');
         dayStack.appendChild(el('div', 'label label--small', cell.month ?? ''));
-        dayStack.appendChild(el('div', 'label', cell.day));
+        dayStack.appendChild(el('div', 'label full:lg:label--large', cell.day));
         block.appendChild(dayStack);
       } else {
         // Hour line
         const hourLine = el('div', 'wtc__hourline');
-        hourLine.appendChild(el('span', 'label', cell.hour));
+        hourLine.appendChild(el('span', 'label full:lg:label--large', cell.hour));
         if (hasDayPeriod && cell.minute) {
           hourLine.appendChild(el('span', 'label label--small', cell.minute));
         }
@@ -504,7 +519,14 @@
           (diff.minutes ? ':' + (Math.abs(diff.minutes).toString().padStart(2, '0')) : '');
         row.el.querySelector('.meta .index').textContent = diffText;
         if (diffText.length > 1) {
-          row.el.querySelector('.meta .index').style.writingMode = 'vertical-rl';
+          const style = getComputedStyle(row.el);
+          const wm = style.writingMode;
+          const isVertical = wm.startsWith("vertical") || wm.startsWith("sideways");
+          if (!isVertical) {
+            row.el.querySelector('.meta .index').style.writingMode = 'vertical-rl';
+          } else {
+            row.el.querySelector('.meta .index').style.writingMode = 'horizontal-tb';
+          }
         }
       }
     });

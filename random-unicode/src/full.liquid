@@ -262,7 +262,7 @@
 <div class="layout">
       
   <div class="characters">
-    {% for svg in svgs %}
+    {% for svg in svgs limit:4 %}
       <div class="character">
         {{ svg.svg }}
         <span class="label label--small text-stroke">{{ svg.font }}</span>
