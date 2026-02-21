@@ -43,7 +43,7 @@
   }
 </style>
 <div class="layout layout--col layout--center-y" data-hour="{{ hour }}" data-minute="{{ minute }}" data-cycle="{{ cycle }}">
-  <div class="gap--none grid w-full h-full text--gray-7 wc_clock" lang="zh-{{ script }}">
+  <div class="wc_clock text--gray-7 w-full h-full grid gap--none" lang="zh-{{ script }}">
     <span>上</span><span>中</span><span>下</span><span>午</span><span>二</span><span>十</span>
     <span>一</span><span>二</span><span>{% if script == "Hans" %}两{% else %}兩{% endif %}</span><span>三</span><span>四</span><span>五</span>
     <span>六</span><span>七</span><span>八</span><span>九</span><span>零</span><span>{% if script == "Hans" %}点{% else %}點{% endif %}</span>
@@ -52,7 +52,7 @@
   </div>
 </div>
 <div class="title_bar word-clock-zh">
-  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg" />
+  <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg" />
   <span class="title" lang="zh-{{ script }}">{% if script == "Hans" %}文字时钟{% else %}文字時鐘{% endif %}</span>
   <span class="instance">{{trmnl.user.time_zone}}</span>
 </div>
