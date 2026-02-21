@@ -2,7 +2,7 @@
 strategy: static
 no_screen_padding: 'no'
 dark_mode: 'no'
-static_data: '{}'
+static_data: "{}"
 polling_verb: get
 polling_url: https://suntracker.me/?lat={{ Latitude }}&lon={{ Longitude }}
 polling_headers: ''
