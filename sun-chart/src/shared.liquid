@@ -1,18 +1,6 @@
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script type="module" src="https://blueset.github.io/trmnl-recipes/trmnl-play-cdn.mjs"></script>
 <style type="text/tailwindcss">
-@layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities);
-@custom-variant lg (.screen--lg &);
-@custom-variant md (.screen--md &);
-@custom-variant pix (.screen--1bit &, .screen--2bit &);
-@custom-variant 1bit (.screen--1bit &);
-@custom-variant 2bit (.screen--2bit &);
-@custom-variant 4bit (.screen--4bit &);
-@custom-variant full (.view--full &);
-@custom-variant hori (.view--half_horizontal &);
-@custom-variant vert (.view--half_vertical &);
-@custom-variant quad (.view--quadrant &);
+@import "trmnl-shared.css";
 </style>
 
 {% assign instance_id = "chart-" | append_random %}
