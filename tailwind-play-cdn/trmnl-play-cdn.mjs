@@ -12,6 +12,7 @@ const cssTheme = await fetch("https://esm.sh/tailwindcss@4/theme.css").then(
 const cssUtilities = await fetch(
   "https://esm.sh/tailwindcss@4/utilities.css",
 ).then((res) => res.text());
+const trmnlShared = await fetch("https://blueset.github.io/trmnl-recipes/trmnl-shared.css").then((res) => res.text());
 
 const STYLE_TYPE = "text/tailwindcss";
 let compiler;
@@ -86,6 +87,16 @@ async function loadStylesheet(id, base) {
         path: "virtual:tailwindcss/utilities.css",
         base,
         content: cssUtilities,
+      };
+    } else if (
+      id === "trmnl-shared" ||
+      id === "trmnl-shared.css" ||
+      id === "./trmnl-shared.css"
+    ) {
+      return {
+        path: "virtual:trmnl-shared.css",
+        base,
+        content: trmnlShared,
       };
     }
 

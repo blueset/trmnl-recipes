@@ -193,8 +193,8 @@ jobs:
             echo "remote_diverged=false" >> $GITHUB_OUTPUT
           fi
 
-          # Return to current commit
-          git checkout "$AFTER_COMMIT"
+          # Return to current commit (force to discard CRLF/LF artifacts from pull)
+          git checkout -f "$AFTER_COMMIT"
 
       - name: Trigger pull workflow for conflict resolution
         if: >
