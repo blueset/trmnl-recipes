@@ -1,9 +1,9 @@
 {% template screen %}
 <div class="layout">
-  <div class="columns" data-overflow="true" data-overflow-cols="{{ cols }}">
-    <div class="column flex flex--col gap">
+  <!-- <div class="columns" dataa-overflow="true" dataa-overflow-cols="{{ cols }}"> -->
+    <div class="h--max-full" style="columns: {{ cols }};">
       {% for item in data %}
-      <div class="item">
+      <div class="item mb--2">
         <div class="meta">
           <span class="index" style="writing-mode: vertical-rl;">{{ item.thumbScore }}</span>
         </div>
@@ -19,7 +19,7 @@
       </div>
       {% endfor %}
     </div>
-  </div>
+  <!-- </div> -->
 </div>
 
 <div class="title_bar">
