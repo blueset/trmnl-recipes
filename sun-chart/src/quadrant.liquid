@@ -1,17 +1,17 @@
-<div class="layout flex-col place-content-around" lang="{{ trmnl.user.locale }}" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle }}">
-  <div class="chart-today-container w-full mx-2 -px-2 relative">
-    <div class="hour-labels flex flex-row gap-0 place-content-between screen-4bit:mb-1"></div>
-    <div class="chart-today w-full gap-0 h-4 rounded flex flex-row border"></div>
-    <div class="chart-today-indicator inline-block -translate-x-1/2 absolute">▲</div>
+<div class="flex-col place-content-around layout" lang="{{ trmnl.user.locale }}" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle }}">
+  <div class="relative mx-2 -px-2 w-full chart-today-container">
+    <div class="flex flex-row place-content-between gap-0 4bit:mb-1 hour-labels"></div>
+    <div class="flex flex-row gap-0 border rounded w-full h-4 chart-today"></div>
+    <div class="inline-block absolute -translate-x-1/2 chart-today-indicator">▲</div>
   </div>
   <div class="flex flex-row w-full">
-    <div class="grow flex flex-col place-content-center gap-0">
-      <div class="label text-center inline-block" data-t="sunrise">Sunrise</div>
-      <div class="value text-center [&_small]:text-2xl screen-lg:text-5xl screen-lg:[&_small]:text-3xl sunrise-time"></div>
+    <div class="flex flex-col place-content-center gap-0 grow">
+      <div class="inline-block text-center label" data-t="sunrise">Sunrise</div>
+      <div class="[&_small]:text-2xl lg:[&_small]:text-3xl lg:text-5xl text-center value sunrise-time"></div>
     </div>
-    <div class="grow flex flex-col place-content-center gap-0">
-      <div class="label text-center inline-block" data-t="sunset">Sunset</div>
-      <div class="value text-center [&_small]:text-2xl screen-lg:text-5xl screen-lg:[&_small]:text-3xl sunset-time"></div>
+    <div class="flex flex-col place-content-center gap-0 grow">
+      <div class="inline-block text-center label" data-t="sunset">Sunset</div>
+      <div class="[&_small]:text-2xl lg:[&_small]:text-3xl lg:text-5xl text-center value sunset-time"></div>
     </div>
   </div>
 </div>

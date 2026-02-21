@@ -7,7 +7,10 @@ watch:
   - src
 
 # values of custom fields (defined in src/settings.yml)
-custom_fields: {}
+custom_fields: 
+  language: en
+  en_view: dyn
+  zh_view: itn
 
 # override variables
 variables:

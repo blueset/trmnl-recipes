@@ -1,23 +1,23 @@
 <div class="contents" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ 'sun_chart' | l_word: trmnl.user.locale | json | escape }}">
-<div class="layout flex-row place-content-around" lang="{{ trmnl.user.locale }}" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle }}" data-tz="{{ trmnl.plugin_settings.custom_fields_values.time_zone }}">
-  <div class="chart-today-container h-full mx-2 -px-2 relative flex flex-row">
-    <div class="hour-labels flex flex-col gap-0 place-content-between">
+<div class="flex-row place-content-around layout" lang="{{ trmnl.user.locale }}" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle }}" data-tz="{{ trmnl.plugin_settings.custom_fields_values.time_zone }}">
+  <div class="relative flex flex-row mx-2 -px-2 h-full chart-today-container">
+    <div class="flex flex-col place-content-between gap-0 hour-labels">
     </div>
-    <div class="chart-today vertical h-full gap-0 w-4 rounded flex flex-col border"></div>
-    <div class="chart-today-indicator vertical inline-block -translate-y-1/2 absolute translate-x-12">◀</div>
+    <div class="flex flex-col gap-0 border rounded w-4 h-full chart-today vertical"></div>
+    <div class="inline-block absolute -translate-y-1/2 translate-x-12 chart-today-indicator vertical">◀</div>
   </div>
   <div class="flex flex-col h-full grow">
-    <div class="grow flex flex-col place-content-center gap-0">
-      <div class="label text-center inline-block" data-t="sunrise">Sunrise</div>
-      <div class="value value--large screen-lg:text-7xl text-center [&_small]:text-4xl screen-lg:[&_small]:text-6xl sunrise-time"></div>
+    <div class="flex flex-col place-content-center gap-0 grow">
+      <div class="inline-block text-center label" data-t="sunrise">Sunrise</div>
+      <div class="[&_small]:text-4xl lg:[&_small]:text-6xl lg:text-7xl text-center value value--large sunrise-time"></div>
     </div>
-    <div class="grow flex flex-col place-content-center gap-0">
-      <div class="label text-center inline-block" data-t="daylength">Daylength</div>
-      <div class="value value--large screen-lg:text-7xl text-center [&_small]:text-4xl screen-lg:[&_small]:text-6xl day-length">-</div>
+    <div class="flex flex-col place-content-center gap-0 grow">
+      <div class="inline-block text-center label" data-t="daylength">Daylength</div>
+      <div class="[&_small]:text-4xl lg:[&_small]:text-6xl lg:text-7xl text-center value value--large day-length">-</div>
     </div>
-    <div class="grow flex flex-col place-content-center gap-0">
-      <div class="label text-center inline-block" data-t="sunset">Sunset</div>
-      <div class="value value--large screen-lg:text-7xl text-center [&_small]:text-4xl screen-lg:[&_small]:text-6xl sunset-time"></div>
+    <div class="flex flex-col place-content-center gap-0 grow">
+      <div class="inline-block text-center label" data-t="sunset">Sunset</div>
+      <div class="[&_small]:text-4xl lg:[&_small]:text-6xl lg:text-7xl text-center value value--large sunset-time"></div>
     </div>
   </div>
 </div>

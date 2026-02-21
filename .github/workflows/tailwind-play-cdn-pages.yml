@@ -1,0 +1,38 @@
+name: Deploy Tailwind Play CDN Files
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "tailwind-play-cdn/**"
+      - ".github/workflows/tailwind-play-cdn-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-tailwind-play-cdn
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./tailwind-play-cdn
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

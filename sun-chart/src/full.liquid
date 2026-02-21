@@ -1,29 +1,29 @@
 <div class="contents" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ 'sun_chart' | l_word: trmnl.user.locale | json | escape }}">
-<div class="layout flex-col place-content-between gap-0" lang="{{ trmnl.user.locale | escape }}" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle }}" data-tz="{{ trmnl.plugin_settings.custom_fields_values.time_zone }}">
-  <div class="chart-today-container w-full mx-2 -px-2 relative mb-6">
-    <div class="hour-labels flex flex-row gap-0 place-content-between screen-4bit:mb-1">
+<div class="flex-col place-content-between gap-0 layout" lang="{{ trmnl.user.locale | escape }}" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle }}" data-tz="{{ trmnl.plugin_settings.custom_fields_values.time_zone }}">
+  <div class="relative mx-2 mb-6 -px-2 w-full chart-today-container">
+    <div class="flex flex-row place-content-between gap-0 4bit:mb-1 hour-labels">
     </div>
-    <div class="chart-today w-full gap-0 h-4 rounded flex flex-row border"></div>
-    <div class="chart-today-indicator inline-block -translate-x-1/2 absolute">▲</div>
+    <div class="flex flex-row gap-0 border rounded w-full h-4 chart-today"></div>
+    <div class="inline-block absolute -translate-x-1/2 chart-today-indicator">▲</div>
   </div>
   <div class="flex flex-row w-full grow-2">
-    <div class="grow flex flex-col place-content-center gap-0">
-      <div class="label text-center inline-block" data-t="sunrise">Sunrise</div>
-      <div class="value value--large screen-lg:text-7xl text-center [&_small]:text-4xl screen-lg:[&_small]:text-6xl sunrise-time">-</div>
+    <div class="flex flex-col place-content-center gap-0 grow">
+      <div class="inline-block text-center label" data-t="sunrise">Sunrise</div>
+      <div class="[&_small]:text-4xl lg:[&_small]:text-6xl lg:text-7xl text-center value value--large sunrise-time">-</div>
     </div>
-    <div class="grow flex flex-col place-content-center gap-0">
-      <div class="label text-center inline-block" data-t="daylength">Daylength</div>
-      <div class="value value--large screen-lg:text-7xl text-center [&_small]:text-4xl screen-lg:[&_small]:text-6xl day-length">-</div>
+    <div class="flex flex-col place-content-center gap-0 grow">
+      <div class="inline-block text-center label" data-t="daylength">Daylength</div>
+      <div class="[&_small]:text-4xl lg:[&_small]:text-6xl lg:text-7xl text-center value value--large day-length">-</div>
     </div>
-    <div class="grow flex flex-col place-content-center gap-0">
-      <div class="label text-center inline-block" data-t="sunset">Sunset</div>
-      <div class="value value--large screen-lg:text-7xl text-center [&_small]:text-4xl screen-lg:[&_small]:text-6xl sunset-time">-</div>
+    <div class="flex flex-col place-content-center gap-0 grow">
+      <div class="inline-block text-center label" data-t="sunset">Sunset</div>
+      <div class="[&_small]:text-4xl lg:[&_small]:text-6xl lg:text-7xl text-center value value--large sunset-time">-</div>
     </div>
   </div>
-  <div class="year-chart-container w-full mx-2 -px-2 relative grow-3 flex flex-col gap-0">
-    <div class="year-today-indicator inline-block -translate-x-1/2 absolute">▼</div>
-    <div class="year-chart w-full flex flex-row gap-0 border rounded mt-6 grow"></div>
-    <div class="month-labels flex flex-row gap-0 screen-4bit:mt-1">
+  <div class="relative flex flex-col gap-0 mx-2 -px-2 w-full year-chart-container grow-3">
+    <div class="inline-block absolute -translate-x-1/2 year-today-indicator">▼</div>
+    <div class="flex flex-row gap-0 mt-6 border rounded w-full year-chart grow"></div>
+    <div class="flex flex-row gap-0 4bit:mt-1 month-labels">
     </div>
   </div>
 </div>

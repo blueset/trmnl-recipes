@@ -1,0 +1,18 @@
+
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@plugin "trmnl-plugin";
+  
+@custom-variant lg (.screen--lg &);
+@custom-variant md (.screen--md &);
+@custom-variant pix (.screen--1bit &, .screen--2bit &);
+@custom-variant 1bit (.screen--1bit &);
+@custom-variant 2bit (.screen--2bit &);
+@custom-variant 4bit (.screen--4bit &);
+@custom-variant full (.view--full &);
+@custom-variant hori (.view--half_horizontal &);
+@custom-variant vert (.view--half_vertical &);
+@custom-variant quad (.view--quadrant &);
+@custom-variant land (.screen--landscape &);
+@custom-variant port (.screen--portrait &);
