@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-polling_url: "https://wsdot.wa.gov/traffic/api/TravelTimes/kml.aspx\r\nhttps://wsdot.wa.gov/traffic/api/HighwayAlerts/kml.aspx\r\nhttps://wsdot.wa.gov/traffic/api/HighwayCameras/kml.aspx"
+polling_url: "https://wsdot.wa.gov/traffic/api/TravelTimes/kml.aspx\nhttps://wsdot.wa.gov/traffic/api/HighwayAlerts/kml.aspx\nhttps://wsdot.wa.gov/traffic/api/HighwayCameras/kml.aspx"
 polling_headers: ''
 polling_body: ''
 id: 227171

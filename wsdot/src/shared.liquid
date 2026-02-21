@@ -217,12 +217,15 @@
     {% if showMaxCols %}
     data-overflow-max-cols="{% if cols %}{{ cols }}{% else %}3{% endif %}"
     {% endif %}
+    {% if portMaxCols %}data-overflow-max-cols-portrait="{{ portMaxCols }}"{% endif %}
+    {% if lgMaxCols %}data-overflow-max-cols-lg="{{ lgMaxCols }}"{% endif %}
+    {% if lgPortMaxCols %}data-overflow-max-cols-lg-portrait="{{ lgPortMaxCols }}"{% endif %}
   >
     <div class="column {% if cols == 1 or size == 1 %}h--full w--full{% endif %}">
       {% for item in cameras %}
         <div class="item {% if cols == 1 or size == 1 %}h--full w--full{% endif %}">
           <div class="gap--xsmall content">
-            <div class="{{ cameraTitleClass | default: 'mb-2' }}" style="text-wrap: balance; {{ cameraTitleStyle }}">
+            <div class="{{ cameraTitleClass | default: '' }}" style="text-wrap: balance; {{ cameraTitleStyle }}">
               <span class="{{ cameraNameClass | default: 'title title--small' }}">{{ item.name }}</span>
               <span class="{{ cameraFolderClass | default: 'label label--small label--outline' }}">{{ item.folder }}</span>
             </div>
@@ -251,7 +254,7 @@
   .camera-columns {
     .column {
       justify-content: space-between;
-      align-self: stretch;
+      align-self: start;
       .item {
         flex-grow: 1;
         flex-basis: 0;
@@ -264,6 +267,17 @@
       max-height : calc(100cqh - var(--label-small-font-size) * 1.2 - var(--gap-xsmall));
     }
   }
+  .view--quadrant {
+  
+    .camera-image {
+      height : calc(100cqh - var(--label-small-font-size) * 1.2 - var(--gap-xsmall));
+      object-fit: contain;
+    }
+  }
+</style>
+<script type="module" src="https://blueset.github.io/trmnl-recipes/trmnl-play-cdn.mjs"></script>
+<style type="text/tailwindcss">
+@import "trmnl-shared.css";
 </style>
 {% endtemplate %}
 
