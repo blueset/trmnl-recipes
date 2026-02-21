@@ -2,7 +2,7 @@
 
 Show a random quote from [Lyricova](https://lyricova.1a23.studio/) on each refresh.
 
-[Install](https://usetrmnl.com/recipes/150439)
+[Install](https://trmnl.com/recipes/150439)
 
 ## Screenshot
 

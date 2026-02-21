@@ -2,7 +2,7 @@
 
 Slickdeals Frontpage and Popular deals. Data from Slickdeals RSS feed.
 
-[Install](https://usetrmnl.com/recipes/184875)
+[Install](https://trmnl.com/recipes/184875)
 
 ## Screenshot
 

@@ -20,7 +20,7 @@ To onboard a new recipe into the repository, please follow these steps:
 
 <RECIPE_DESCRIPTION_IN_MARKDOWN>
 
-[Install](https://usetrmnl.com/recipes/<RECIPE_ID>)
+[Install](https://trmnl.com/recipes/<RECIPE_ID>)
 
 ## Screenshot
 
@@ -65,7 +65,7 @@ At the end of the main `README.md` file in the repository root, add a section fo
 
 <RECIPE_DESCRIPTION_IN_PLAIN_TEXT>
 
-[Learn More](./<RECIPE_PATH>/README.md), [Install](https://usetrmnl.com/recipes/<RECIPE_ID>)
+[Learn More](./<RECIPE_PATH>/README.md), [Install](https://trmnl.com/recipes/<RECIPE_ID>)
 
 ![Screenshot](./<RECIPE_PATH>/images/f.png)
 <!-- if multiple screenshot variants exist, use the most representative one -->

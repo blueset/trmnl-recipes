@@ -1,6 +1,6 @@
 # Eana’s TRMNL Recipies
 
-[What is TRMNL?](https://usetrmnl.com/)
+[What is TRMNL?](https://trmnl.com/)
 
 ## Table of Contents
 
@@ -28,7 +28,7 @@
 
 Multilingual Wikipedia feed recipe, supports _Article of the Day_, _On this day_, and _Did you know_, for multiple languages.
 
-[Learn More](./wikipedia-feed/README.md), [Install](https://usetrmnl.com/recipes/148054)
+[Learn More](./wikipedia-feed/README.md), [Install](https://trmnl.com/recipes/148054)
 
 ![Screenshot](./wikipedia-feed/images/en-f.png)
 
@@ -36,7 +36,7 @@ Multilingual Wikipedia feed recipe, supports _Article of the Day_, _On this day_
 
 A random Unicode codepoint on each refresh. Data powered by [codepoints.net](https://codepoints.net/).
 
-[Learn More](./random-unicode/README.md), [Install](https://usetrmnl.com/recipes/151050)
+[Learn More](./random-unicode/README.md), [Install](https://trmnl.com/recipes/151050)
 
 ![Screenshot](./random-unicode/images/f.png)
 
@@ -44,7 +44,7 @@ A random Unicode codepoint on each refresh. Data powered by [codepoints.net](htt
 
 A random [MDN](https://developer.mozilla.org/) Web article on each refresh.
 
-[Learn More](./random-mdn-article/README.md), [Install](https://usetrmnl.com/recipes/153731)
+[Learn More](./random-mdn-article/README.md), [Install](https://trmnl.com/recipes/153731)
 
 ![Screenshot](./random-mdn-article/images/f.png)
 
@@ -52,7 +52,7 @@ A random [MDN](https://developer.mozilla.org/) Web article on each refresh.
 
 A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](https://www.worldtimebuddy.com/) and _Windows 11 World Clock_.
 
-[Learn More](./world-clock/README.md), [Install](https://usetrmnl.com/recipes/153664)
+[Learn More](./world-clock/README.md), [Install](https://trmnl.com/recipes/153664)
 
 ![Screenshot](./world-clock/images/f.png)
 
@@ -61,7 +61,7 @@ A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](h
 
 Show a random quote from [Lyricova](https://lyricova.1a23.studio/) on each refresh.
 
-[Learn More](./lyricova-quote/README.md), [Install](https://usetrmnl.com/recipes/150439)
+[Learn More](./lyricova-quote/README.md), [Install](https://trmnl.com/recipes/150439)
 
 ![Screenshot](./lyricova-quote/images/f.png)
 
@@ -69,7 +69,7 @@ Show a random quote from [Lyricova](https://lyricova.1a23.studio/) on each refre
 
 A random CJKV ideograph with pronunciations, definitions, and regional glyphs on each refresh. Data powered by [zi.tools 字統网](https://zi.tools).
 
-[Learn More](./random-zi/README.md), [Install](https://usetrmnl.com/recipes/156095)
+[Learn More](./random-zi/README.md), [Install](https://trmnl.com/recipes/156095)
 
 ![Screenshot](./random-zi/images/f.png)
 
@@ -77,15 +77,15 @@ A random CJKV ideograph with pronunciations, definitions, and regional glyphs on
 
 A random typeface from [Google Fonts](https://fonts.google.com/) on each refresh.
 
-[Learn More](./random-google-fonts/README.md), [Install](https://usetrmnl.com/recipes/163790)
+[Learn More](./random-google-fonts/README.md), [Install](https://trmnl.com/recipes/163790)
 
 ![Screenshot](./random-google-fonts/images/f.png)
 
 ## Public Recipe Stats
 
-Shows connection statistics of public recipes. You can choose to show the latest, search for keywords, show your own recipes, or show selected recipe IDs. Data powered by [TRMNL Recipes API](https://docs.usetrmnl.com/go/public-api/recipes-api).
+Shows connection statistics of public recipes. You can choose to show the latest, search for keywords, show your own recipes, or show selected recipe IDs. Data powered by [TRMNL Recipes API](https://docs.trmnl.com/go/public-api/recipes-api).
 
-[Learn More](./public-recipe-stats/README.md), [Install](https://usetrmnl.com/recipes/170970)
+[Learn More](./public-recipe-stats/README.md), [Install](https://trmnl.com/recipes/170970)
 
 ![Screenshot](./public-recipe-stats/images/f.png)
 
@@ -93,7 +93,7 @@ Shows connection statistics of public recipes. You can choose to show the latest
 
 A random sentence in your chosen languages with translations. Data powered by [Tatoeba](https://tatoeba.org/).
 
-[Learn More](./tatoeba/README.md), [Install](https://usetrmnl.com/recipes/177718)
+[Learn More](./tatoeba/README.md), [Install](https://trmnl.com/recipes/177718)
 
 ![Screenshot](./tatoeba/images/f.png)
 
@@ -101,7 +101,7 @@ A random sentence in your chosen languages with translations. Data powered by [T
 
 Slickdeals Frontpage and Popular deals. Data from Slickdeals RSS feed.
 
-[Learn More](./slickdeals/README.md), [Install](https://usetrmnl.com/recipes/184875)
+[Learn More](./slickdeals/README.md), [Install](https://trmnl.com/recipes/184875)
 
 ![Screenshot](./slickdeals/images/f.png)
 
@@ -109,7 +109,7 @@ Slickdeals Frontpage and Popular deals. Data from Slickdeals RSS feed.
 
 Word clock in Japanese. Supports 24-hour and 12-hour formats, with a maximum display precision of 5 minutes (depending on recipe and device update frequency).
 
-[Learn More](./word-clock-ja/README.md), [Install](https://usetrmnl.com/recipes/187661)
+[Learn More](./word-clock-ja/README.md), [Install](https://trmnl.com/recipes/187661)
 
 ![Screenshot](./word-clock-ja/images/f.png)
 
@@ -117,7 +117,7 @@ Word clock in Japanese. Supports 24-hour and 12-hour formats, with a maximum dis
 
 Word Clock in Chinese. Supports 24-hour and 12-hour formats, as well as Simplified and Traditional Chinese. The highest precision is 5 minutes (determined by the plugin and device refresh rate).
 
-[Learn More](./word-clock-zh/README.md), [Install](https://usetrmnl.com/recipes/187631)
+[Learn More](./word-clock-zh/README.md), [Install](https://trmnl.com/recipes/187631)
 
 ![Screenshot](./word-clock-zh/images/f.png)
 
@@ -125,7 +125,7 @@ Word Clock in Chinese. Supports 24-hour and 12-hour formats, as well as Simplifi
 
 Sunrise and sunset time with a daily and yearly chart.
 
-[Learn More](./sun-chart/README.md), [Install](https://usetrmnl.com/recipes/195274)
+[Learn More](./sun-chart/README.md), [Install](https://trmnl.com/recipes/195274)
 
 ![Screenshot](./sun-chart/images/f.png)
 
@@ -133,13 +133,13 @@ Sunrise and sunset time with a daily and yearly chart.
 
 Show the latest Visa Bulletin information, and trends for filing date and action date.
 
-[Learn More](./visa-bulletin/README.md), [Install](https://usetrmnl.com/recipes/155086)
+[Learn More](./visa-bulletin/README.md), [Install](https://trmnl.com/recipes/155086)
 
 ## Puget Sound Transit Nearby
 
 Dashboard public transit information close to you. Supports all public transit types in Puget Sound, Washington, USA: bus, lightrail, street car, monorail, Amtrak, ferries and more. Supports multiple layouts.
 
-[Learn More](./transit/README.md), [Install](https://usetrmnl.com/recipes/225183)
+[Learn More](./transit/README.md), [Install](https://trmnl.com/recipes/225183)
 
 ![Screenshot](./transit/images/f-large.png)
 
@@ -147,7 +147,7 @@ Dashboard public transit information close to you. Supports all public transit t
 
 Real-time travel info from Washington State Department of Transportation (WSDOT). Show travel times, traffic cameras, and alerts on your dashboard. Data powered by WSDOT Traffic API.
 
-[Learn More](./wsdot/README.md), [Install](https://usetrmnl.com/recipes/227171)
+[Learn More](./wsdot/README.md), [Install](https://trmnl.com/recipes/227171)
 
 ![Screenshot](./wsdot/images/f-alerts.png)
 
@@ -155,7 +155,7 @@ Real-time travel info from Washington State Department of Transportation (WSDOT)
 
 GitHub Trending Repositories. API courtesy of [doforce](https://github.com/doforce/github-trending).
 
-[Learn More](./github-trending-repos/README.md), [Install](https://usetrmnl.com/recipes/243710)
+[Learn More](./github-trending-repos/README.md), [Install](https://trmnl.com/recipes/243710)
 
 ![Screenshot](./github-trending-repos/images/f.png)
 
@@ -163,7 +163,7 @@ GitHub Trending Repositories. API courtesy of [doforce](https://github.com/dofor
 
 A random HTTP Dog picture on each refresh. Works well with HTTP Cats too. Images from HTTP Dogs and HTTP Status Dogs.
 
-[Learn More](./http-dogs/README.md), [Install](https://usetrmnl.com/recipes/243773)
+[Learn More](./http-dogs/README.md), [Install](https://trmnl.com/recipes/243773)
 
 ![Screenshot](./http-dogs/images/f.png)
 
@@ -171,6 +171,6 @@ A random HTTP Dog picture on each refresh. Works well with HTTP Cats too. Images
 
 News of the day, one headline at a time. News sourced from Kagi News.
 
-[Learn More](./one-headline/README.md), [Install](https://usetrmnl.com/recipes/243967)
+[Learn More](./one-headline/README.md), [Install](https://trmnl.com/recipes/243967)
 
 ![Screenshot](./one-headline/images/f.png)

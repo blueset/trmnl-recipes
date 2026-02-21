@@ -2,7 +2,7 @@
 
 Sunrise and sunset time with a daily and yearly chart.
 
-[Install](https://usetrmnl.com/recipes/195274)
+[Install](https://trmnl.com/recipes/195274)
 
 ## Screenshot
 

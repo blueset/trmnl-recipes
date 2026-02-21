@@ -2,7 +2,7 @@
 
 Real-time travel info from Washington State Department of Transportation (WSDOT). Show travel times, traffic cameras, and alerts on your dashboard. Data powered by [WSDOT Traffic API](https://wsdot.com/traffic/api/).
 
-[Install](https://usetrmnl.com/recipes/227171)
+[Install](https://trmnl.com/recipes/227171)
 
 ## Screenshot
 

@@ -2,7 +2,7 @@
 
 Dashboard public transit information close to you. Supports all public transit types in Puget Sound, Washington, USA: bus, lightrail, street car, monorail, Amtrak, ferries and more. Supports multiple layouts.
 
-[Install](https://usetrmnl.com/recipes/225183)
+[Install](https://trmnl.com/recipes/225183)
 
 ## Screenshot
 

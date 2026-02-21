@@ -2,7 +2,7 @@
 
 A random Unicode codepoint on each refresh. Data powered by [codepoints.net](https://codepoints.net/).
 
-[Install](https://usetrmnl.com/recipes/151050)
+[Install](https://trmnl.com/recipes/151050)
 
 ## Screenshots
 

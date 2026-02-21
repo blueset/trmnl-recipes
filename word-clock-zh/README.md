@@ -2,7 +2,7 @@
 
 Word Clock in Chinese. Supports 24-hour and 12-hour formats, as well as Simplified and Traditional Chinese. The highest precision is 5 minutes (determined by the plugin and device refresh rate).
 
-[Install](https://usetrmnl.com/recipes/187631)
+[Install](https://trmnl.com/recipes/187631)
 
 ## Screenshot
 

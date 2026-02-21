@@ -2,7 +2,7 @@
 
 A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](https://www.worldtimebuddy.com/) and _Windows 11 World Clock_.
 
-[Install](https://usetrmnl.com/recipes/153664)
+[Install](https://trmnl.com/recipes/153664)
 
 ## Screenshots
 

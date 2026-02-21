@@ -2,7 +2,7 @@
 
 GitHub Trending Repositories. API courtesy of [doforce](https://github.com/doforce/github-trending).
 
-[Install](https://usetrmnl.com/recipes/243710)
+[Install](https://trmnl.com/recipes/243710)
 
 ## Screenshot
 

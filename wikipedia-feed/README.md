@@ -2,7 +2,7 @@
 
 Multilingual Wikipedia feed recipe, supports _Article of the Day_, _In the news_, and _Did you know_, for multiple languages.
 
-[Install](https://usetrmnl.com/recipes/148054)
+[Install](https://trmnl.com/recipes/148054)
 
 ## Screenshots
 

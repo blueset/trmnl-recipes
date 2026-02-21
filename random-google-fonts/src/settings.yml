@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-polling_url: "https://blueset.github.io/google-fonts-metadata/metadata.json\r\nhttps://usetrmnl.com/custom_plugin_example_data.json"
+polling_url: "https://blueset.github.io/google-fonts-metadata/metadata.json\r\nhttps://trmnl.com/custom_plugin_example_data.json"
 polling_headers: ''
 polling_body: ''
 id: 163790

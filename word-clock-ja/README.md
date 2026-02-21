@@ -2,7 +2,7 @@
 
 Word clock in Japanese. Supports 24-hour and 12-hour formats, with a maximum display precision of 5 minutes (depending on recipe and device update frequency).
 
-[Install](https://usetrmnl.com/recipes/187661)
+[Install](https://trmnl.com/recipes/187661)
 
 ## Screenshot
 

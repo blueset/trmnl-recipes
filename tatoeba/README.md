@@ -2,7 +2,7 @@
 
 A random sentence in your chosen languages with translations. Data powered by [Tatoeba](https://tatoeba.org/).
 
-[Install](https://usetrmnl.com/recipes/177718)
+[Install](https://trmnl.com/recipes/177718)
 
 ## Screenshot
 

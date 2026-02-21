@@ -2,7 +2,7 @@
 
 A random typeface from [Google Fonts](https://fonts.google.com/) on each refresh.
 
-[Install](https://usetrmnl.com/recipes/163790)
+[Install](https://trmnl.com/recipes/163790)
 
 ## Screenshot
 

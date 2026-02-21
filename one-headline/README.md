@@ -2,7 +2,7 @@
 
 News of the day, one headline at a time. News sourced from [Kagi News](https://news.kagi.com/).
 
-[Install](https://usetrmnl.com/recipes/243967)
+[Install](https://trmnl.com/recipes/243967)
 
 ## Screenshot
 
