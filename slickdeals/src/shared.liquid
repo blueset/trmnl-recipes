@@ -1,4 +1,10 @@
 {% template screen %}
+{% assign size = data | size %}
+{% if size == 0 %} 
+  <script> 
+    window.TRMNL_SKIP_SCREEN_GENERATION = true; 
+  </script> 
+{% endif %}
 <div class="layout">
   <!-- <div class="columns" dataa-overflow="true" dataa-overflow-cols="{{ cols }}"> -->
     <div class="h--max-full" style="columns: {{ cols }};">
