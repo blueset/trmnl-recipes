@@ -1,8 +1,16 @@
 # World clock
 
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=153664)
+
 A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](https://www.worldtimebuddy.com/) and _Windows 11 World Clock_.
 
-[Install](https://trmnl.com/recipes/153664)
+<a href="https://trmnl.com/recipes/153664" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../.assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="../.assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src="../.assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
 
 ## Screenshots
 

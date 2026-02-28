@@ -18,9 +18,17 @@ To onboard a new recipe into the repository, please follow these steps:
 ```md
 # <RECIPE_NAME>
 
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=<RECIPE_ID>)
+
 <RECIPE_DESCRIPTION_IN_MARKDOWN>
 
-[Install](https://trmnl.com/recipes/<RECIPE_ID>)
+<a href="https://trmnl.com/recipes/<RECIPE_ID>" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../.assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="../.assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src="../.assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
 
 ## Screenshot
 
@@ -63,9 +71,19 @@ At the end of the main `README.md` file in the repository root, add a section fo
 ```md
 ## <RECIPE_NAME>
 
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=<RECIPE_ID>)
+
 <RECIPE_DESCRIPTION_IN_PLAIN_TEXT>
 
-[Learn More](./<RECIPE_PATH>/README.md), [Install](https://trmnl.com/recipes/<RECIPE_ID>)
+[Learn More](./<RECIPE_PATH>/README.md)
+
+<a href="https://trmnl.com/recipes/<RECIPE_ID>" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src=".assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
 
 ![Screenshot](./<RECIPE_PATH>/images/f.png)
 <!-- if multiple screenshot variants exist, use the most representative one -->

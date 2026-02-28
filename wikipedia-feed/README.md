@@ -1,8 +1,16 @@
 # Wikipedia Feed
 
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=148054)
+
 Multilingual Wikipedia feed recipe, supports _Article of the Day_, _In the news_, and _Did you know_, for multiple languages.
 
-[Install](https://trmnl.com/recipes/148054)
+<a href="https://trmnl.com/recipes/148054" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../.assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="../.assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src="../.assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
 
 ## Screenshots
 

@@ -1,8 +1,16 @@
 # Puget Sound Transit Nearby
 
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=225183)
+
 Dashboard public transit information close to you. Supports all public transit types in Puget Sound, Washington, USA: bus, lightrail, street car, monorail, Amtrak, ferries and more. Supports multiple layouts.
 
-[Install](https://trmnl.com/recipes/225183)
+<a href="https://trmnl.com/recipes/225183" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../.assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="../.assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src="../.assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
 
 ## Screenshot
 

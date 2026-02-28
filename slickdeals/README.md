@@ -1,8 +1,16 @@
 # Slickdeals Frontpage
 
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=184875)
+
 Slickdeals Frontpage and Popular deals. Data from Slickdeals RSS feed.
 
-[Install](https://trmnl.com/recipes/184875)
+<a href="https://trmnl.com/recipes/184875" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../.assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="../.assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src="../.assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
 
 ## Screenshot
 
