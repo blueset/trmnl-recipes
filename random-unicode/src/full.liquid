@@ -204,7 +204,7 @@
         font-family: 'Nunito Sans', sans-serif;
       }
 
-      .screen--lg & {
+      .screen--lg.screen--4bit & {
         font-size: 18px;
         line-height: 24px;
       }
@@ -229,7 +229,7 @@
         padding: 2px 4px;
         border-radius: 0 3px 3px 0;
       }
-      .screen--lg & {
+      .screen--lg.screen--4bit & {
         font-size: 16px;
         line-height: 20px;
         .property-key, .property-value {
@@ -255,6 +255,19 @@
   }
   .title_bar .instance {
     flex-grow: 0;
+  }
+  
+    
+  .screen--portrait & {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .properties {
+      grid-column: span 1;
+    }
+    .characters {
+      max-width: 30%;
+    }
   }
 }
 </style>

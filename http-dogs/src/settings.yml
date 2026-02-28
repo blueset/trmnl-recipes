@@ -16,4 +16,4 @@ custom_fields:
   category: programming,discovery
   github_url: https://github.com/blueset/trmnl-recipes
 name: HTTP Dogs
-refresh_interval: 360
+refresh_interval: 30

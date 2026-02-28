@@ -195,6 +195,18 @@
   .title_bar .instance {
     flex-grow: 0;
   }
+  .screen--portrait & {
+    .layout {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+    }
+    .characters {
+      max-width: 40%;
+    }
+    .details {
+      height: auto;
+    }
+  }
 }
 </style>
 
