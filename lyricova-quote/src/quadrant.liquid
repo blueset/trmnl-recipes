@@ -1,4 +1,6 @@
 <div class="relative layout lyricova-layout-quad" lang="{{ language }}">
+  <div class="text--gray-75 lyricova-id value hidden lg:block">#{{ entryId }}</div>
+  <div class="qr hidden lg:block">{{ "https://lyricova.1a23.studio/entries/" | append: entryId | qr_code: 2, "l" }}</div>
   <div class="columns">
     <div class="column">
       <div class="flex flex--left richtext">
@@ -53,9 +55,13 @@
   
   .trmnl .value.lyricova-id {
     top: 5px; 
-    right: 10px; 
-    --value-font-size : 2em; 
+    right: 10px;
+    --value-font-size : 4em;
     z-index: 0;
+  }
+  .qr {
+    bottom: 10px; 
+    right: 10px;
   }
   [data-qr] {
     bottom: 5px; 
