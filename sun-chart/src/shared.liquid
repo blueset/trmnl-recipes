@@ -19,9 +19,9 @@
   const {
     Latitude,
     Longitude
-  } = {{ trmnl.plugin_settings.custom_fields_values | json }};
+  } = {{ trmnl.plugin_settings.custom_fields_values | json }} || {"Latitude": 0, "Longitude": 0};
   const root = document.querySelector(".view:has([data-id='{{ instance_id }}'])");
-  const locale = root.querySelector("[lang]").lang;
+  const locale = root.querySelector("[lang]").lang || 'en';
   const hourCycle = root.querySelector("[data-hour-cycle]").dataset.hourCycle || 'h23';
   const timeZone = root.querySelector("[data-hour-cycle]").dataset.tz || tzLookup(Latitude, Longitude);
 
