@@ -1,6 +1,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP&family=Noto+Sans+SC&family=Noto+Sans+TC&family=Noto+Serif+JP&family=Noto+Serif+SC&family=Noto+Serif+TC&display=swap" rel="stylesheet">
 
 <style>
   @import url("https://fontsapi.zeoseven.com/359/main/result.css"); /* ChillBitmap_16px */
@@ -108,11 +108,17 @@
 
   .trmnl .screen--4bit {
     .wiki-richtext .title {
-      &:lang(bn), &:lang(el), &:lang(en), &:lang(hu), &:lang(sv), &:lang(zh) {
+      &:lang(bn), &:lang(el), &:lang(en), &:lang(hu), &:lang(sv) {
         font-family: 'Linux Libertine','Georgia','Times','Source Serif 4',serif;
       }
       &:lang(de), &:lang(vi) {
         font-family: "Linux Libertine","Palatino Linotype","Georgia","Times",serif;
+      }
+      &:lang(zh) {
+        font-family: "Linux Libertine","Palatino Linotype","Georgia","Times","Noto Serif SC","Noto Serif TC",serif;
+      }
+      &:lang(ja) {
+        font-family: "Linux Libertine","Palatino Linotype","Georgia","Times","Noto Serif JP",serif;
       }
       &:lang(sd) {
         font-family: "SSRead",Georgia,Arial,Calibri,Times,sans-serif;
@@ -120,6 +126,12 @@
       &:lang(ur) {
         font-family: "Jameel Noori Nastaleeq","Mehr Nastaliq Web","Alvi Lahori Nastaleeq","Alvi Nastaleeq","Nafees Nastaleeq","Nafees Nastaleeq v1.01","Pak Nastaleeq","Urdu Emad Nastaleeq","PDMS_Jauhar","Urdu Typesetting",Nafees,IranNastaliq,Amiri,Georgia,"Times New Roman",Times,sans-serif;
       }
+    }
+    .richtext .content:lang(zh), .description:lang(zh) {
+      font-family: "Inter Variable", Inter, "Noto Sans SC", "Noto Sans TC", sans-serif;
+    }
+    .richtext .content:lang(ja), .description:lang(ja) {
+      font-family: "Inter Variable", Inter, "Noto Sans JP", sans-serif;
     }
   }
   
