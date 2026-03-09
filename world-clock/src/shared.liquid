@@ -352,7 +352,7 @@
       const day = fDay.format(zdt.toInstant().epochMilliseconds);
       const month = fMonth.format(zdt.toInstant().epochMilliseconds);
   
-      /** @type {{hour:string, minute?:string, dayPeriod?:string, weekday?:string, day?:string, month?:string, time: Temporal.ZonedDateTime}} */
+      /** @type {{hour:string, minute?:string, dayPeriod?:string, weekday?:string, day?:string, month?:string, dst?:'spring-forward'|'fall-back', time: Temporal.ZonedDateTime}} */
       return {
         hour: hourStr,
         minute: minuteStr,
@@ -360,6 +360,7 @@
         weekday,
         day,
         month,
+        dst: undefined,
         time: zdt
       };
     }
@@ -408,6 +409,13 @@
     function postProcess(cells) {
       for (let i = 0; i < cells.length; i++) {
         const c = cells[i];
+
+        // DST detection via wall-clock hour gap
+        if (i > 0) {
+          const hourGap = (c.time.hour - cells[i - 1].time.hour + 24) % 24;
+          if (hourGap === 2) c.dst = 'spring-forward';
+          else if (hourGap === 0) c.dst = 'fall-back';
+        }
   
         // If minute == "0" → undefined
         if (c.minute === '0') c.minute = undefined;
@@ -453,10 +461,11 @@
         block.appendChild(dayStack);
       } else {
         // Hour line
+        const dstSpringClass = cell.dst ? ' text--white text-stroke text-stroke--black text-stroke--large lg:text-stroke--xlarge': '';
         const hourLine = el('div', 'wtc__hourline');
-        hourLine.appendChild(el('span', 'label full:lg:label--large', cell.hour));
+        hourLine.appendChild(el('span', 'label full:lg:label--large' + dstSpringClass, cell.hour));
         if (hasDayPeriod && cell.minute) {
-          hourLine.appendChild(el('span', 'label label--small', cell.minute));
+          hourLine.appendChild(el('span', 'label label--small' + dstSpringClass, cell.minute));
         }
         block.appendChild(hourLine);
   
