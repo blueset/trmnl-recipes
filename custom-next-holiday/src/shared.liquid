@@ -1,0 +1,196 @@
+{% template common %}
+<script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/temporal-polyfill@0.3.0/global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.1/dist/js-yaml.min.js"></script>
+<script type="module" src="https://blueset.github.io/trmnl-recipes/trmnl-play-cdn.mjs"></script>
+<style type="text/tailwindcss">
+@import "trmnl-shared.css";
+</style>
+
+<script>
+  const root = document.currentScript.closest('.view');
+  let holidays;
+  const noHolidayIcon = "fluent:calendar-sync-20-regular";
+  try {
+    holidays = jsyaml.load(root.querySelector('[data-holidays]').dataset.holidays);
+  } catch (e) {
+    console.error("Failed to parse holidays YAML:", e);
+    holidays = [];
+  }
+
+  const tz = root.querySelector('.layout').dataset.tz || Temporal.Now.timeZoneId();
+  const today = Temporal.Now.plainDateISO(tz);
+
+  function nthWeekdayOfMonth(year, month, n, dow, cal) {
+    // dow: 1=Mon … 7=Sun (ISO)
+    const mc = `M${String(month).padStart(2, '0')}`;
+    const first = cal
+      ? Temporal.PlainDate.from({ year, monthCode: mc, day: 1, calendar: cal })
+      : new Temporal.PlainDate(year, month, 1);
+    const offset = (dow - first.dayOfWeek + 7) % 7;
+    const day = first.add({ days: offset + (n - 1) * 7 });
+    if (day.monthCode !== first.monthCode) return null;
+    return cal ? day.withCalendar('iso8601') : day;
+  }
+
+  function lastNthWeekdayOfMonth(year, month, n, dow, cal) {
+    // dow: 1=Mon … 7=Sun (ISO), n-th from the end
+    const mc = `M${String(month).padStart(2, '0')}`;
+    const first = cal
+      ? Temporal.PlainDate.from({ year, monthCode: mc, day: 1, calendar: cal })
+      : new Temporal.PlainDate(year, month, 1);
+    const last = cal
+      ? Temporal.PlainDate.from({ year, monthCode: mc, day: first.daysInMonth, calendar: cal })
+      : new Temporal.PlainDate(year, month, first.daysInMonth);
+    const offset = (last.dayOfWeek - dow + 7) % 7;
+    const day = last.subtract({ days: offset + (n - 1) * 7 });
+    if (day.monthCode !== first.monthCode) return null;
+    return cal ? day.withCalendar('iso8601') : day;
+  }
+
+  function roundToWeekday(date, weekdays) {
+    if (weekdays.includes(date.dayOfWeek)) return date;
+    let bestDist = 8;
+    let bestDate = date;
+    for (const dow of weekdays) {
+      const fwd = (dow - date.dayOfWeek + 7) % 7 || 7;
+      const bwd = (date.dayOfWeek - dow + 7) % 7 || 7;
+      if (fwd < bestDist) { bestDist = fwd; bestDate = date.add({ days: fwd }); }
+      if (bwd < bestDist) { bestDist = bwd; bestDate = date.subtract({ days: bwd }); }
+    }
+    return bestDate;
+  }
+
+  function resolveDate(dateStr, year) {
+    // Extract calendar suffix [u-ca=...] if present
+    let cal = null;
+    const calMatch = dateStr.match(/\[u-ca=([^\]]+)\]$/);
+    if (calMatch) {
+      cal = calMatch[1];
+      dateStr = dateStr.slice(0, -calMatch[0].length);
+    }
+
+    function calYear() {
+      return new Temporal.PlainDate(year, 7, 1).withCalendar(cal).year;
+    }
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      if (cal) {
+        const [y, m, d] = dateStr.split('-').map(Number);
+        const mc = `M${String(m).padStart(2, '0')}`;
+        return Temporal.PlainDate.from({ year: y, monthCode: mc, day: d, calendar: cal })
+          .withCalendar('iso8601');
+      }
+      return Temporal.PlainDate.from(dateStr);
+    }
+    if (/^\d{2}-\d{2}$/.test(dateStr)) {
+      const [m, d] = dateStr.split('-').map(Number);
+      if (cal) {
+        const mc = `M${String(m).padStart(2, '0')}`;
+        return Temporal.PlainDate.from({ year: calYear(), monthCode: mc, day: d, calendar: cal })
+          .withCalendar('iso8601');
+      }
+      return new Temporal.PlainDate(year, m, d);
+    }
+    const wm = dateStr.match(/^(\d{2})W(\d+)-(\d)$/);
+    if (wm)
+      return nthWeekdayOfMonth(cal ? calYear() : year, +wm[1], +wm[2], +wm[3], cal);
+    const wnm = dateStr.match(/^(\d{2})Wn(\d+)-(\d)$/);
+    if (wnm)
+      return lastNthWeekdayOfMonth(cal ? calYear() : year, +wnm[1], +wnm[2], +wnm[3], cal);
+    return null;
+  }
+
+  function findHolidays(holidays, today) {
+    let todayHoliday = null;
+    let nextHoliday = null;
+    let nextDays = Infinity;
+
+    for (const h of holidays) {
+      const isFixed = /^\d{4}/.test(h.date);
+      const years = isFixed ? [today.year] : [today.year, today.year + 1];
+      for (const y of years) {
+        let d = resolveDate(h.date, y);
+        if (!d) continue;
+        if (h.round && h.round.length > 0) d = roundToWeekday(d, h.round);
+        const diff = today.until(d, { largestUnit: 'day' }).days;
+        if (diff === 0) todayHoliday = h;
+        else if (diff > 0 && diff < nextDays) {
+          nextDays = diff;
+          nextHoliday = { ...h, daysUntil: diff };
+        }
+      }
+    }
+    return { todayHoliday, nextHoliday };
+  }
+
+  const { todayHoliday, nextHoliday } = findHolidays(holidays, today);
+
+  const iconEl = root.querySelector('iconify-icon');
+  const textEl = root.querySelector('[data-text-container]');
+{% raw %}
+
+  if (todayHoliday && nextHoliday) {
+    // B: today is holiday, next holiday available
+    iconEl.setAttribute('icon', todayHoliday.icon);
+    textEl.dataset.t = "today_and_next";
+    textEl.dataset.tName = todayHoliday.name;
+    textEl.dataset.tNextName = nextHoliday.name;
+    textEl.dataset.tNextDays = nextHoliday.daysUntil;
+    textEl.innerText = 
+      `.input {$nextDays :number} .match $nextDays ` +
+      `one {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Tomorrow is {$nextName}.{/subLabel} }}` +
+      `* {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Next holiday is {$nextName} in {$nextDays} days.{/subLabel} }}`;
+  } else if (todayHoliday) {
+    // B without 3rd row: today is holiday, no next holiday
+    iconEl.setAttribute('icon', todayHoliday.icon);
+    textEl.dataset.t = "today_only";
+    textEl.dataset.tName = todayHoliday.name;
+    textEl.innerText = `{#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}`;
+  } else if (nextHoliday) {
+    // A: not today, next holiday available
+    iconEl.setAttribute('icon', nextHoliday.icon);
+    textEl.dataset.t = "next_only";
+    textEl.dataset.tNextName = nextHoliday.name;
+    textEl.dataset.tNextDays = nextHoliday.daysUntil;
+    textEl.innerText =
+        `.input {$nextDays :number} .match $nextDays ` +
+        `one {{ {#mainLabel}Tomorrow is{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}` +
+        `* {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} days until{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}`;
+  } else {
+    // C: no next holiday
+    iconEl.setAttribute('icon', noHolidayIcon);
+    textEl.dataset.t = "no_holidays";
+    textEl.innerText = "{#subLabel}End of added holidays.{/subLabel}";
+  }
+{% endraw %}
+</script>
+<script type="module" data-t-script>
+  import { applyHTML } from 'https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks/i18n.js';
+  applyHTML({ 
+    /* functions */
+  }, {
+    /* markups */
+    mainValue: (options, children) => {
+      const node = document.createElement('span');
+      node.className = {{ mainValueClass | default: "value--xxlarge lg:value--xxxlarge leading-[1]" | json }};
+      node.style.fontVariationSettings = "'wght' 600";
+      for (const child of children) node.appendChild(child);
+      return node;
+    },
+    mainLabel: (options, children) => {
+      const node = document.createElement('span');
+      node.className = {{ mainLabelClass | default: "value--base lg:value--xlarge" | json }};
+      for (const child of children) node.appendChild(child);
+      return node;
+    },
+    subLabel: (options, children) => {
+      const node = document.createElement('span');
+      node.className = {{ subLabelClass | default: "value--base lg:value--large" | json }};
+      for (const child of children) node.appendChild(child);
+      return node;
+    },
+    br: () => document.createElement('br'),
+  });
+</script>
+{% endtemplate %}

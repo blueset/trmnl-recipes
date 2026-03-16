@@ -1,0 +1,38 @@
+<div class="layout pb--2">
+  <img src="https://computernewb.com/vncresolver/api/v1/screenshot/{{ id }}" class="w--full h--full image image-dither image--contain" />
+</div>
+
+<script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+<div class="title_bar flex--wrap h--auto p--2" style="row-gap: 2px;">
+  <div class="flex gap--small label label--small lg:label--base image-stroke">
+  <iconify-icon icon="fluent:clock-16-regular"></iconify-icon>
+  <span>{{ scanned_on | date: "%Y-%m-%d" }}</span>
+  </div>
+  <div class="flex gap--small label label--small lg:label--base image-stroke">
+  <iconify-icon icon="fluent:virtual-network-16-regular"></iconify-icon>
+  <span>{{ ip_address }}:{{ port }}</span>
+  </div>
+  {% assign password_size = password | size %}
+  {% if password and password_size > 0 %}
+  <div class="flex gap--small label label--small lg:label--base image-stroke">
+  <iconify-icon icon="fluent:password-16-regular"></iconify-icon>
+  <span>{{ password }}</span>
+  </div>
+  {% endif %}
+  <div class="flex gap--small label label--small lg:label--base image-stroke">
+  <iconify-icon icon="fluent:screenshot-16-regular"></iconify-icon>
+  <span>{{ width }}×{{ height }}</span>
+  </div>
+  <div class="flex gap--small label label--small lg:label--base image-stroke">
+  <iconify-icon icon="fluent:location-16-regular"></iconify-icon>
+  <span>{{ geo_city }}, {{ geo_state }}, {{ geo_country }}</span>
+  </div>
+  <div class="flex gap--small label label--small lg:label--base image-stroke">
+  <iconify-icon icon="fluent:rename-16-regular"></iconify-icon>
+  <span>{{ desktop_name | default: rdns_hostname | default: "N/A" }}</span>
+  </div>
+  <div class="flex gap--small label label--small lg:label--base image-stroke">
+  <iconify-icon icon="fluent:globe-16-regular"></iconify-icon>
+  <span>{{ asn }}</span>
+  </div>
+</div>

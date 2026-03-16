@@ -1,0 +1,18 @@
+<div style="display: contents;" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ 'custom_next_holiday' | l_word: trmnl.user.locale | json | escape }}" data-holidays="{{ trmnl.plugin_settings.custom_fields_values.holidays | escape }}">
+  <div class="layout layout--row" data-tz="{{ trmnl.user.time_zone_iana }}">
+    <div class="flex flex-row port:flex-col grow h-full w-full justify-center">
+      <div class="grow-1 w-0 port:grow-0 port:w-full text-center place-content-center port:h-[30cqh] port:text-start" style="container-type: size;">
+        <iconify-icon icon="mdi:home" class="text-[75cqmin] port:text-[100cqmin] image-dither"></iconify-icon>
+      </div>
+      <div class="grow-2 w-0 port:grow-0 port:w-full place-content-center" data-text-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="title_bar">
+    <iconify-icon icon="fluent:calendar-star-24-regular" class="image image-stroke text-[24px] image-dither"></iconify-icon>
+    <span class="title" data-t="next_holiday">Next holiday</span>
+    <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
+  </div>
+</div>
+{% render "common", trmnl: trmnl, mainValueClass: "value--large lg:value--xlarge"  %}

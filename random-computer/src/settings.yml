@@ -1,0 +1,20 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: https://computernewb.com/vncresolver/api/v1/random
+polling_headers: ''
+polling_body: ''
+id: 258479
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: What are people doing on their computers around the world, especially those with an insecure setup. Data courtesy of <a href="https://computernewb.com/vncresolver/">Computernewb VNC Resolver</a>.
+  category: discovery
+  learn_more: https://computernewb.com/vncresolver/
+  github_url: https://github.com/blueset/trmnl-recipes
+name: Random Computer
+refresh_interval: 60

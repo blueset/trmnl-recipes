@@ -1,0 +1,63 @@
+---
+strategy: static
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+polling_url: ''
+polling_headers: ''
+polling_body: ''
+id: 257171
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: Countdown to your custom holidays. Support absolute dates, date of month, and <b class="font-normal italic">n</b>-th weekday of month.
+  github_url: https://github.com/blueset/trmnl-recipes
+  category: calendar,personal
+- keyname: holidays
+  field_type: code
+  name: Holidays
+  description: |
+    Define your custom holidays here. You can use absolute dates, date of month, or <b class="font-normal italic">n</b>-th weekday of month formats. Find icons at <a href="https://icon-sets.iconify.design/">Iconify</a>.<br/>
+    <br/>
+    Supported date formats:<br/>
+    - Absolute date: <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500"><b class="font-normal text-gray-800 dark:text-gray-500">YYYY</b>-<b class="font-normal text-gray-800 dark:text-gray-500">MM</b>-<b class="font-normal text-gray-800 dark:text-gray-500">DD</b></b> (e.g., <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">2038-01-19</b> for 19th January 2038)<br/>
+    - Date of month: <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500"><b class="font-normal text-gray-800 dark:text-gray-500">MM</b>-<b class="font-normal text-gray-800 dark:text-gray-500">DD</b></b> (e.g., <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">12-25</b> for 25th December)<br/>
+    - <b class="font-normal text-gray-800 dark:text-gray-500">n</b>-th weekday of month: <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500"><b class="font-normal text-gray-800 dark:text-gray-500">M</b>W<b class="font-normal text-gray-800 dark:text-gray-500">w</b>-<b class="font-normal text-gray-800 dark:text-gray-500">D</b></b> (e.g., <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">08W2-5</b> for 2nd Friday of August. <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500"><b class="font-normal text-gray-800 dark:text-gray-500">MM</b></b> is month, <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500"><b class="font-normal text-gray-800 dark:text-gray-500">n</b></b> is the occurrence (1-5), and <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500"><b class="font-normal text-gray-800 dark:text-gray-500">D</b></b> is the weekday (1=Monday, 7=Sunday))<br/>
+    - Last <b class="font-normal text-gray-800 dark:text-gray-500">n</b>-th weekday of month: <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500"><b class="font-normal text-gray-800 dark:text-gray-500">M</b>Wn<b class="font-normal text-gray-800 dark:text-gray-500">w</b>-<b class="font-normal text-gray-800 dark:text-gray-500">D</b></b> (e.g., <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">11Wn1-4</b> for last Thursday of November.)<br/>
+    <br/>
+    You can append <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">[u-ca=<b class="font-normal text-gray-800 dark:text-gray-500">calendar</b>]</b> to the date to specify a different calendar system (e.g., <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">chinese</b>, <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">islamic</b>, <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">hebrew</b>). e.g. <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">01-01[u-ca=chinese]</b> for Chinese New Year. Checkout <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/supportedValuesOf#supported_calendar_types">supported calendar types</a>.<br/>
+    <br/>
+    You can specify days to round up or down to the nearest weekday. e.g. <b class="font-normal font-mono border-b dark:border-gray-500 border-gray-500">round: [1, 2, 3, 4, 5]</b> to round to the nearest weekday (Monday to Friday).<br/>
+    <br/>
+  placeholder: |
+    - name: Christmas Day (Date of month)
+      date: 12-25  # Format: MM-DD
+      icon: fluent-ioji-flat:fireworks  # Icon for the holiday, find yours at https://icon-sets.iconify.design/
+      round: [1, 2, 3, 4, 5]  # Optional: Round to nearest weekday (1=Monday, 7=Sunday)
+    - name: Year 2038 problem (Absolute date)
+      date: 2038-01-19  # Format: YYYY-MM-DD
+      icon: mdi:cpu-32-bit
+    - name: US Memorial Day (last n-th weekday of month)
+      date: 05Wn1-1  # Format: MWnw-D (e.g., 05Wn1-1 for last Monday of May)
+      icon: fluent-ioji-flat:reindeer-ribbon
+    - name: Chinese New Year (Date of month with different calendar)
+      date: 01-01[u-ca=chinese]  # Format: MM-DD[u-ca=calendar] (e.g., 01-01[u-ca=chinese] for Chinese New Year)
+      icon: fluent-ioji-flat:red-envelope
+  default: |-
+    - name: Christmas Day (Date of month)
+      date: 12-25  # Format: MM-DD
+      icon: fluent-ioji-flat:fireworks  # Icon for the holiday, find yours at https://icon-sets.iconify.design/
+      round: [1, 2, 3, 4, 5]  # Optional: Round to nearest weekday (1=Monday, 7=Sunday)
+    - name: Year 2038 problem (Absolute date)
+      date: 2038-01-19  # Format: YYYY-MM-DD
+      icon: mdi:cpu-32-bit
+    - name: US Memorial Day (last n-th weekday of month)
+      date: 05Wn1-1  # Format: MWnw-D (e.g., 05Wn1-1 for last Monday of May)
+      icon: fluent-ioji-flat:reindeer-ribbon
+    - name: Chinese New Year (Date of month with different calendar)
+      date: 01-01[u-ca=chinese]  # Format: MM-DD[u-ca=calendar] (e.g., 01-01[u-ca=chinese] for Chinese New Year)
+      icon: fluent-ioji-flat:red-envelope
+name: Custom Next Holiday
+refresh_interval: 1440

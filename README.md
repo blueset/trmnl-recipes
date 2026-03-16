@@ -18,13 +18,15 @@
 * [Slickdeals Frontpage](#slickdeals-frontpage)
 * [Word Clock 日本語](#word-clock-日本語)
 * [Word Clock 中文](#word-clock-中文)
-* [Sunrise and Sunset Chart](#sunrise-and-sunset-chart)
+* [Sun Chart](#sun-chart)
 * [Visa Bulletin](#visa-bulletin-unlisted)
 * [Puget Sound Transit Nearby](#puget-sound-transit-nearby)
 * [Washington DOT Real-time Travel Info](#washington-dot-real-time-travel-info)
 * [GitHub Trending Repos](#github-trending-repos)
 * [HTTP Dogs](#http-dogs)
 * [One Headline](#one-headline)
+* [Custom Next Holiday](#custom-next-holiday)
+* [Random Computer](#random-computer)
 
 ## Wikipedia Feed
 
@@ -243,7 +245,7 @@ Word Clock in Chinese. Supports 24-hour and 12-hour formats, as well as Simplifi
 
 ![Screenshot](./word-clock-zh/images/f.png)
 
-## Sunrise and Sunset Chart
+## Sun Chart
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=195274)
 
@@ -366,3 +368,39 @@ News of the day, one headline at a time. News sourced from Kagi News.
 </a>
 
 ![Screenshot](./one-headline/images/f.png)
+
+## Custom Next Holiday
+
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=257171)
+
+Countdown to your custom holidays. Support absolute dates, date of month, and n-th weekday of month.
+
+[Learn More](./custom-next-holiday/README.md)
+
+<a href="https://trmnl.com/recipes/257171" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src=".assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
+
+![Screenshot](./custom-next-holiday/images/f.png)
+
+## Random Computer
+
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=258479)
+
+What are people doing on their computers around the world, especially those with an insecure setup. Data courtesy of Computernewb VNC Resolver.
+
+[Learn More](./random-computer/README.md)
+
+<a href="https://trmnl.com/recipes/258479" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src=".assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
+
+![Screenshot](./random-computer/images/f.png)

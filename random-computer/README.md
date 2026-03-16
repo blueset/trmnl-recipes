@@ -1,10 +1,10 @@
-# Sun Chart
+# Random Computer
 
-![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=195274)
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=258479)
 
-Sunrise and sunset time with a daily and yearly chart.
+What are people doing on their computers around the world, especially those with an insecure setup. Data courtesy of [Computernewb VNC Resolver](https://computernewb.com/vncresolver/).
 
-<a href="https://trmnl.com/recipes/195274" target="_blank">
+<a href="https://trmnl.com/recipes/258479" target="_blank">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../.assets/trmnl-badge-show-it-on-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="../.assets/trmnl-badge-show-it-on-light.svg">
@@ -19,14 +19,3 @@ Sunrise and sunset time with a daily and yearly chart.
 | ![Screenshot](./images/f.png) | ![Screenshot](./images/v.png) |
 | Horizontal | Quad |
 | ![Screenshot](./images/h.png) | ![Screenshot](./images/q.png) |
-
-## Parameters
-
-- Latitude  
-  Enter latitude for the location (e.g., 37.7749).
-- Longitude  
-  Enter longitude for the location (e.g., -122.4194).
-- Time format  
-  24-hour, 12-hour, default: 24-hour
-- Time Zone  
-  Optional. Leave blank to auto-detect based on location, or specify a time zone.
