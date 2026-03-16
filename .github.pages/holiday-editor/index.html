@@ -140,12 +140,18 @@
     }
 
     /* Upcoming preview */
-    .upcoming-list { list-style: none; padding: 0; margin: 0.25rem 0 0; }
+    .upcoming-list { list-style: none; padding: 0; margin: 0.25rem 0 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
     .upcoming-list li {
-      font-size: 0.85rem; padding: 0.15rem 0;
+      font-size: 0.8rem; padding: 0.2rem 0.6rem;
       font-family: var(--pico-font-family-monospace, monospace);
+      background: var(--pico-code-background-color);
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: 999px; white-space: nowrap;
+      list-style: none;
     }
-    .upcoming-list li .dow { color: var(--pico-muted-color); margin-left: 0.5em; font-family: var(--pico-font-family); }
+    .upcoming-list li::before { content: none; }
+    .upcoming-list li::marker { content: none; }
+    .upcoming-list li .dow { color: var(--pico-muted-color); margin-left: 0.35em; font-family: var(--pico-font-family); }
     .upcoming-none { font-size: 0.85rem; color: var(--pico-muted-color); }
 
     /* YAML output */
