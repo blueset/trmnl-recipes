@@ -1,12 +1,12 @@
-name: Deploy Tailwind Play CDN Files
+name: Deploy GitHub Pages
 
 on:
   push:
     branches:
       - master
     paths:
-      - "tailwind-play-cdn/**"
-      - ".github/workflows/tailwind-play-cdn-pages.yml"
+      - ".github.pages/**"
+      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-tailwind-play-cdn
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./tailwind-play-cdn
+          path: ./.github.pages
 
       - name: Deploy to GitHub Pages
         id: deployment

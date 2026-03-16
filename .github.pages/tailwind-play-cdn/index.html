@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind Play CDN for TRMNL</title>
+  <link	rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@intergrav/dev.css@4" />
+</head>
+<body>
+  <nav><a href="../">&larr; Back</a></nav>
+  <h1>Tailwind Play CDN for TRMNL</h1>
+  <p>
+    An in-browser <a href="https://tailwindcss.com/">Tailwind CSS v4</a>
+    compiler designed for <a href="https://usetrmnl.com/">TRMNL</a> recipe
+    development. It processes <code>&lt;style type="text/tailwindcss"&gt;</code>
+    blocks on the fly, so you can use Tailwind utility classes directly in your
+    Liquid templates without a build step.
+  </p>
+
+  <h2>Hosted files</h2>
+  <ul>
+    <li>
+      <a href="../trmnl-play-cdn.mjs"><code>trmnl-play-cdn.mjs</code></a> &mdash;
+      the browser-side Tailwind compiler module
+    </li>
+    <li>
+      <a href="../trmnl-shared.css"><code>trmnl-shared.css</code></a> &mdash;
+      shared TRMNL theme with custom variants and utilities
+    </li>
+  </ul>
+
+  <h2>Quick start</h2>
+  <p>Add the following to your recipe’s <em>Shared</em> section:</p>
+  <pre><code>&lt;script type="module" src="https://blueset.github.io/trmnl-recipes/trmnl-play-cdn.mjs"&gt;&lt;/script&gt;
+&lt;style type="text/tailwindcss"&gt;
+@import "trmnl-shared.css";
+&lt;/style&gt;</code></pre>
+  <p>
+    The script picks up every <code>&lt;style type="text/tailwindcss"&gt;</code>
+    block in the page, compiles the CSS with Tailwind v4, and injects the result
+    into the document. It also watches the DOM for class-attribute changes and
+    new elements, triggering incremental rebuilds automatically.
+  </p>
+
+  <h2>Custom variants</h2>
+  <p><code>trmnl-shared.css</code> defines the following TRMNL-specific variants:</p>
+  <ul>
+    <li><strong>Screen size:</strong> <code>lg</code>, <code>md</code></li>
+    <li><strong>Color depth:</strong> <code>pix</code> (1-bit &amp; 2-bit), <code>1bit</code>, <code>2bit</code>, <code>4bit</code></li>
+    <li><strong>View type:</strong> <code>full</code>, <code>hori</code>, <code>vert</code>, <code>quad</code></li>
+    <li><strong>Orientation:</strong> <code>land</code>, <code>port</code></li>
+  </ul>
+
+  <h2>Custom utilities</h2>
+  <p>Typography utilities matching TRMNL’s design tokens:</p>
+  <ul>
+    <li><code>content-{small,base,large,xlarge,xxlarge,xxxlarge}</code></li>
+    <li><code>description-{base,large,xlarge}</code></li>
+  </ul>
+
+  <h2>Source</h2>
+  <p>
+    See the
+    <a href="https://github.com/blueset/trmnl-recipes">blueset/trmnl-recipes</a>
+    repository for source code and more recipes.
+  </p>
+</body>
+</html>
