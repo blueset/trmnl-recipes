@@ -77,9 +77,14 @@ function resolveDate(dateStr, year) {
 
 // ─── Helpers ───
 
-const DOW_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-const DOW_FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const LOCALE = 'en';
+// 2024-01-01 is a Monday (ISO weekday 1), so indices 0–6 map to Mon–Sun.
+const DOW_NAMES = Array.from({ length: 7 }, (_, i) =>
+  new Intl.DateTimeFormat(LOCALE, { weekday: 'short' }).format(new Date(2024, 0, 1 + i)));
+const DOW_FULL = Array.from({ length: 7 }, (_, i) =>
+  new Intl.DateTimeFormat(LOCALE, { weekday: 'long' }).format(new Date(2024, 0, 1 + i)));
+const MONTH_NAMES = Array.from({ length: 12 }, (_, i) =>
+  new Intl.DateTimeFormat(LOCALE, { month: 'long' }).format(new Date(2024, i, 1)));
 
 function getCalendars() {
   try {
@@ -378,10 +383,14 @@ createApp({
     // Helpers
     function monthName(m) { return MONTH_NAMES[m - 1]; }
     function dowName(d) { return DOW_NAMES[d - 1]; }
+    const calendarDisplayNames = new Intl.DisplayNames(LOCALE, { type: 'calendar' });
+    function calendarName(id) {
+      try { return calendarDisplayNames.of(id); } catch { return id; }
+    }
+    const ordinalFmt = new Intl.PluralRules(LOCALE, { type: 'ordinal' });
+    const ordinalSuffixes = { one: 'st', two: 'nd', few: 'rd', other: 'th' };
     function ordinal(n) {
-      const s = ['th','st','nd','rd'];
-      const v = n % 100;
-      return n + (s[(v - 20) % 10] || s[v] || s[0]);
+      return n + ordinalSuffixes[ordinalFmt.select(n)];
     }
 
     return {
@@ -390,7 +399,7 @@ createApp({
       composeDateStr, upcomingDates, generatedYaml, holidayErrors, hasAnyErrors,
       addHoliday, remove, move, startFresh, loadYaml, copyYaml,
       openIconPicker, debouncedIconSearch, selectIcon,
-      monthName, dowName, ordinal,
+      monthName, dowName, ordinal, calendarName,
     };
   }
 }).mount('#app');

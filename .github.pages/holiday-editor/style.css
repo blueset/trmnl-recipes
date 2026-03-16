@@ -78,7 +78,7 @@ body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
   display: inline-flex; align-items: center; gap: 0.25rem;
   padding: 0.2rem 0.5rem; border: 1px solid var(--pico-muted-border-color);
   border-radius: 4px; cursor: pointer; font-size: 0.85rem;
-  user-select: none;
+  user-select: none; margin: 0;
 }
 .round-chips label:has(input:checked) {
   background: var(--pico-primary-background);
@@ -86,8 +86,7 @@ body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
   border-color: var(--pico-primary-background);
 }
 .round-chips input[type="checkbox"] { display: none; }
-.round-presets { display: flex; gap: 0.5rem; margin-top: 0.25rem; }
-.round-presets button { padding: 0.15rem 0.5rem; font-size: 0.8rem; margin: 0; }
+.round-chips button { padding: 0.2rem 0.5rem; font-size: 0.85rem; margin: 0; }
 
 /* Icon picker */
 .icon-input-row { display: flex; gap: 0.5rem; align-items: end; place-items: center; }

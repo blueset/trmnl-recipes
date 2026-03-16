@@ -116,7 +116,7 @@
           <div class="calendar-row">
             <label><input type="checkbox" v-model="h._useCal"> Use non-Gregorian calendar</label>
             <select v-if="h._useCal" v-model="h._calendar">
-              <option v-for="c in calendars" :value="c">{{ c }}</option>
+              <option v-for="c in calendars" :value="c">{{ c }} — {{ calendarName(c) }}</option>
             </select>
           </div>
 
@@ -135,11 +135,11 @@
               <input type="checkbox" :value="d" v-model="h.round">
               <span>{{ dowName(d) }}</span>
             </label>
-          </div>
-          <div class="round-presets">
             <button class="outline secondary" @click="h.round = [1,2,3,4,5]">Weekdays</button>
             <button class="outline secondary" @click="h.round = [6,7]">Weekends</button>
             <button class="outline secondary" @click="h.round = []">Clear</button>
+          </div>
+          <div class="round-presets">
           </div>
         </fieldset>
 
