@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holiday Config Editor — TRMNL Recipes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/temporal-polyfill@0.3.0/global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.1/dist/js-yaml.min.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <style>
+    :root {
+      --pico-font-size: 16px;
+    }
+    body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
+    .holiday-card {
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: var(--pico-border-radius);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: var(--pico-card-background-color);
+      position: relative;
+    }
+    .holiday-card summary { font-weight: 600; cursor: pointer; list-style: none; display: flex; flex-direction: row; place-items: center; }
+    .holiday-card summary::-webkit-details-marker { display: none; }
+    .holiday-card summary::before { content: ''; font-size: 0.75em; display: inline-block; transition: transform 0.15s; }
+    .holiday-header {
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; flex-grow: 1;
+    }
+    .holiday-header iconify-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .holiday-header .holiday-name { font-weight: 600; flex: 1; min-width: 120px; }
+    .holiday-header .holiday-date-badge {
+      font-family: var(--pico-font-family-monospace, monospace);
+      font-size: 0.85em;
+      background: var(--pico-muted-border-color);
+      border-radius: 4px;
+      padding: 0.15em 0.5em;
+    }
+    .holiday-actions { display: flex; gap: 0.25rem; flex-shrink: 0; }
+    .holiday-actions button {
+      padding: 0.25rem 0.5rem; margin: 0; font-size: 0.85rem;
+      border: 1px solid var(--pico-muted-border-color);
+      background: transparent; cursor: pointer; border-radius: 4px;
+    }
+    .holiday-actions button:hover { background: var(--pico-muted-border-color); }
+    .holiday-body { margin-top: 1rem; }
+
+    /* Date composer */
+    .date-tabs { display: flex; gap: 0; margin-bottom: 0.75rem; flex-wrap: wrap; }
+    .date-tabs label {
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--pico-muted-border-color);
+      cursor: pointer; font-size: 0.85rem;
+      margin: 0; background: transparent;
+    }
+    .date-tabs label:first-child { border-radius: 4px 0 0 4px; }
+    .date-tabs label:last-child { border-radius: 0 4px 4px 0; }
+    .date-tabs label + label { border-left: none; }
+    .date-tabs input[type="radio"] { display: none; }
+    .date-tabs input[type="radio"]:checked + span {
+      font-weight: 700;
+    }
+    .date-tabs label:has(input:checked) {
+      background: var(--pico-primary-background);
+      color: var(--pico-primary-inverse);
+      border-color: var(--pico-primary-background);
+    }
+    .date-tabs label:has(input:checked) + label { border-left-color: var(--pico-primary-background); }
+    .date-fields { display: flex; gap: 0.5rem; align-items: end; flex-wrap: wrap; }
+    .date-fields > div { flex: 1; min-width: 80px; }
+    .date-fields label { font-size: 0.8rem; margin-bottom: 0.15rem; display: block; }
+    .date-fields select, .date-fields input[type="number"] {
+      padding: 0.35rem 0.5rem; margin-bottom: 0; font-size: 0.9rem;
+    }
+    .date-preview {
+      font-family: monospace; font-size: 0.95rem; margin-top: 0.5rem;
+      padding: 0.35rem 0.75rem;
+      background: var(--pico-code-background-color);
+      border-radius: 4px; display: inline-block;
+    }
+
+    /* Calendar toggle */
+    .calendar-row { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem; flex-wrap: wrap; }
+    .calendar-row select { margin: 0; width: auto; min-width: 140px; padding: 0.35rem 0.5rem; font-size: 0.9rem; }
+
+    /* Round editor */
+    .round-chips { display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.25rem; }
+    .round-chips label {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      padding: 0.2rem 0.5rem; border: 1px solid var(--pico-muted-border-color);
+      border-radius: 4px; cursor: pointer; font-size: 0.85rem;
+      user-select: none;
+    }
+    .round-chips label:has(input:checked) {
+      background: var(--pico-primary-background);
+      color: var(--pico-primary-inverse);
+      border-color: var(--pico-primary-background);
+    }
+    .round-chips input[type="checkbox"] { display: none; }
+    .round-presets { display: flex; gap: 0.5rem; margin-top: 0.25rem; }
+    .round-presets button { padding: 0.15rem 0.5rem; font-size: 0.8rem; margin: 0; }
+
+    /* Icon picker */
+    .icon-input-row { display: flex; gap: 0.5rem; align-items: end; place-items: center; }
+    .icon-input-row input { flex: 1; margin-bottom: 0; }
+    .icon-input-row button { margin: 0; padding: 0.35rem 0.75rem; white-space: nowrap; }
+    .icon-input-row iconify-icon { font-size: 1.5rem; flex-shrink: 0; align-self: center; }
+    .icon-picker-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      display: flex; align-items: center; justify-content: center; z-index: 100;
+    }
+    .icon-picker-dialog {
+      background: var(--pico-card-background-color);
+      border-radius: var(--pico-border-radius);
+      padding: 1.5rem; width: 90vw; max-width: 640px; max-height: 80vh;
+      display: flex; flex-direction: column;
+    }
+    .icon-picker-dialog input { margin-bottom: 0.75rem; }
+    .icon-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+      gap: 0.35rem; overflow-y: auto; flex: 1; min-height: 100px;
+    }
+    .icon-grid button {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--pico-muted-border-color); border-radius: 4px;
+      background: transparent; cursor: pointer; padding: 0.25rem; font-size: 1.5rem;
+      position: relative;
+    }
+    .icon-grid button:hover {
+      background: var(--pico-primary-background);
+      color: var(--pico-primary-inverse);
+    }
+    .icon-picker-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; gap: 0.75rem; }
+    .icon-picker-footer button { margin: 0; }
+    .icon-picker-hovered {
+      font-size: 0.8rem; color: var(--pico-muted-color);
+      font-family: var(--pico-font-family-monospace, monospace);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+    }
+
+    /* Upcoming preview */
+    .upcoming-list { list-style: none; padding: 0; margin: 0.25rem 0 0; }
+    .upcoming-list li {
+      font-size: 0.85rem; padding: 0.15rem 0;
+      font-family: var(--pico-font-family-monospace, monospace);
+    }
+    .upcoming-list li .dow { color: var(--pico-muted-color); margin-left: 0.5em; font-family: var(--pico-font-family); }
+    .upcoming-none { font-size: 0.85rem; color: var(--pico-muted-color); }
+
+    /* YAML output */
+    .yaml-output {
+      position: relative;
+    }
+    .yaml-output pre {
+      max-height: 400px; overflow: auto; font-size: 0.85rem;
+      background: var(--pico-code-background-color);
+      padding: 1rem; border-radius: var(--pico-border-radius);
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .yaml-output .copy-btn {
+      position: absolute; top: 0.5rem; right: 0.5rem;
+      padding: 0.25rem 0.75rem; font-size: 0.8rem; margin: 0;
+    }
+
+    /* Toolbar */
+    .toolbar { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+    .toolbar button { margin: 0; }
+
+    /* Landing */
+    .landing { text-align: center; padding: 3rem 1rem; }
+    .landing h2 { margin-bottom: 0.5rem; }
+    .landing .actions { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+
+    /* Load modal */
+    .load-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+      display: flex; align-items: center; justify-content: center; z-index: 100;
+    }
+    .load-dialog {
+      background: var(--pico-card-background-color);
+      border-radius: var(--pico-border-radius);
+      padding: 1.5rem; width: 90vw; max-width: 600px;
+    }
+    .load-dialog textarea { min-height: 200px; font-family: monospace; font-size: 0.85rem; }
+    .load-dialog .actions { display: flex; gap: 0.5rem; justify-content: end; margin-top: 0.75rem; }
+    .load-dialog .actions button { margin: 0; }
+    .load-dialog .error { color: var(--pico-del-color); font-size: 0.85rem; margin-top: 0.5rem; }
+
+    /* Section labels */
+    fieldset { margin-bottom: 0.75rem; }
+    fieldset legend { font-weight: 600; font-size: 0.9rem; }
+
+    /* Docs */
+    .docs { margin-top: 3rem; border-top: 1px solid var(--pico-muted-border-color); padding-top: 2rem; }
+    .docs h2 { margin-bottom: 1rem; }
+    .docs h3 { margin-top: 1.5rem; }
+    .docs table { font-size: 0.9rem; }
+    .docs code { font-size: 0.85em; }
+    .docs pre { font-size: 0.85rem; }
+
+    /* Validation */
+    .field-error { color: var(--pico-del-color); font-size: 0.8rem; margin-top: 0.15rem; }
+    .holiday-card.has-errors { border-color: var(--pico-del-color); }
+    .holiday-header .error-dot {
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--pico-del-color); flex-shrink: 0;
+    }
+    .yaml-warning { color: var(--pico-del-color); font-size: 0.85rem; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+<div id="app">
+  <h1>Holiday Config Editor</h1>
+  <p>Visual editor for the <a href="https://github.com/blueset/trmnl-recipes/tree/master/custom-next-holiday">Custom Next Holiday</a> TRMNL recipe.</p>
+
+  <!-- Landing state -->
+  <div v-if="!started" class="landing">
+    <h2>Get Started</h2>
+    <p>Create a new holiday list from scratch or load an existing YAML configuration.</p>
+    <div class="actions">
+      <button @click="startFresh">Start Fresh</button>
+      <button class="secondary" @click="showLoad = true">Load Existing YAML</button>
+    </div>
+  </div>
+
+  <!-- Editor -->
+  <template v-if="started">
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <button @click="addHoliday">+ Add Holiday</button>
+      <button class="secondary" @click="showLoad = true">Load YAML</button>
+      <button class="secondary" @click="showYaml = !showYaml">{{ showYaml ? 'Hide' : 'Show' }} YAML</button>
+    </div>
+
+    <!-- YAML output (collapsible) -->
+    <div v-if="showYaml" style="margin-bottom: 1rem;">
+      <div v-if="hasAnyErrors" class="yaml-warning">⚠ Some holidays have missing required fields (name, icon, or date). Fix them before copying.</div>
+      <div class="yaml-output">
+        <pre>{{ generatedYaml }}</pre>
+        <button class="copy-btn secondary" @click="copyYaml" :disabled="hasAnyErrors">{{ copyLabel }}</button>
+      </div>
+    </div>
+
+    <!-- Holiday list -->
+    <div v-if="holidays.length === 0" style="text-align: center; padding: 2rem; color: var(--pico-muted-color);">
+      No holidays yet. Click <strong>+ Add Holiday</strong> to begin.
+    </div>
+
+    <details v-for="(h, idx) in holidays" :key="h._id" class="holiday-card" :class="{ 'has-errors': holidayErrors(h).length }" open>
+      <summary>
+        <span class="holiday-header">
+          <iconify-icon :icon="h.icon || 'fluent:calendar-20-regular'" width="24"></iconify-icon>
+          <span class="holiday-name">{{ h.name || '(unnamed)' }}</span>
+          <span v-if="h.date" class="holiday-date-badge">{{ h.date }}</span>
+          <span v-if="holidayErrors(h).length" class="error-dot" :title="holidayErrors(h).join(', ')"></span>
+          <span class="holiday-actions">
+            <button title="Move up" :disabled="idx === 0" @click.prevent="move(idx, -1)">&#9650;</button>
+            <button title="Move down" :disabled="idx === holidays.length - 1" @click.prevent="move(idx, 1)">&#9660;</button>
+            <button title="Delete" @click.prevent="remove(idx)">&#10005;</button>
+          </span>
+        </span>
+      </summary>
+      <div class="holiday-body">
+        <!-- Name -->
+        <fieldset>
+          <legend>Name</legend>
+          <input type="text" v-model="h.name" placeholder="Holiday name" :aria-invalid="!h.name.trim() || undefined">
+          <div v-if="!h.name.trim()" class="field-error">Name is required.</div>
+        </fieldset>
+
+        <!-- Icon -->
+        <fieldset>
+          <legend>Icon</legend>
+          <div class="icon-input-row">
+            <iconify-icon :icon="h.icon || 'fluent:calendar-20-regular'" width="28"></iconify-icon>
+            <input type="text" v-model="h.icon" placeholder="e.g. fluent-emoji-flat:fireworks" :aria-invalid="!h.icon.trim() || undefined">
+            <button class="secondary" @click="openIconPicker(idx)">Browse…</button>
+          </div>
+          <div v-if="!h.icon.trim()" class="field-error">Icon is required.</div>
+        </fieldset>
+
+        <!-- Date composer -->
+        <fieldset>
+          <legend>Date</legend>
+          <div class="date-tabs">
+            <label v-for="fmt in dateFormats" :key="fmt.value">
+              <input type="radio" :value="fmt.value" v-model="h._dateType">
+              <span>{{ fmt.label }}</span>
+            </label>
+          </div>
+
+          <!-- Absolute YYYY-MM-DD -->
+          <div v-if="h._dateType === 'absolute'" class="date-fields">
+            <div><label>Year</label><input type="number" v-model.number="h._year" min="2000" max="2100"></div>
+            <div><label>Month</label><select v-model.number="h._month"><option v-for="m in 12" :value="m">{{ m }} — {{ monthName(m) }}</option></select></div>
+            <div><label>Day</label><input type="number" v-model.number="h._day" min="1" max="31"></div>
+          </div>
+
+          <!-- Monthly MM-DD -->
+          <div v-if="h._dateType === 'monthly'" class="date-fields">
+            <div><label>Month</label><select v-model.number="h._month"><option v-for="m in 12" :value="m">{{ m }} — {{ monthName(m) }}</option></select></div>
+            <div><label>Day</label><input type="number" v-model.number="h._day" min="1" max="31"></div>
+          </div>
+
+          <!-- Nth weekday MMWn-D -->
+          <div v-if="h._dateType === 'nthWeekday'" class="date-fields">
+            <div><label>Month</label><select v-model.number="h._month"><option v-for="m in 12" :value="m">{{ m }} — {{ monthName(m) }}</option></select></div>
+            <div><label>Occurrence</label><select v-model.number="h._occurrence"><option v-for="n in 5" :value="n">{{ ordinal(n) }}</option></select></div>
+            <div><label>Weekday</label><select v-model.number="h._weekday"><option v-for="d in 7" :value="d">{{ dowName(d) }}</option></select></div>
+          </div>
+
+          <!-- Last nth weekday MMWnN-D -->
+          <div v-if="h._dateType === 'lastNthWeekday'" class="date-fields">
+            <div><label>Month</label><select v-model.number="h._month"><option v-for="m in 12" :value="m">{{ m }} — {{ monthName(m) }}</option></select></div>
+            <div><label>From End</label><select v-model.number="h._occurrence"><option v-for="n in 5" :value="n">{{ ordinal(n) }} last</option></select></div>
+            <div><label>Weekday</label><select v-model.number="h._weekday"><option v-for="d in 7" :value="d">{{ dowName(d) }}</option></select></div>
+          </div>
+
+          <!-- Calendar suffix -->
+          <div class="calendar-row">
+            <label><input type="checkbox" v-model="h._useCal"> Use non-Gregorian calendar</label>
+            <select v-if="h._useCal" v-model="h._calendar">
+              <option v-for="c in calendars" :value="c">{{ c }}</option>
+            </select>
+          </div>
+
+          <!-- Generated date string -->
+          <div v-if="composeDateStr(h)">
+            <strong>Date string:</strong> <span class="date-preview">{{ composeDateStr(h) }}</span>
+          </div>
+          <div v-if="!composeDateStr(h)" class="field-error">Date is required.</div>
+        </fieldset>
+
+        <!-- Round -->
+        <fieldset>
+          <legend>Round to Weekday <small style="font-weight:normal; color: var(--pico-muted-color);">(optional)</small></legend>
+          <div class="round-chips">
+            <label v-for="d in 7" :key="d">
+              <input type="checkbox" :value="d" v-model="h.round">
+              <span>{{ dowName(d) }}</span>
+            </label>
+          </div>
+          <div class="round-presets">
+            <button class="outline secondary" @click="h.round = [1,2,3,4,5]">Weekdays</button>
+            <button class="outline secondary" @click="h.round = [6,7]">Weekends</button>
+            <button class="outline secondary" @click="h.round = []">Clear</button>
+          </div>
+        </fieldset>
+
+        <!-- Upcoming preview -->
+        <fieldset>
+          <legend>Upcoming Occurrences</legend>
+          <ul v-if="upcomingDates(h).length" class="upcoming-list">
+            <li v-for="d in upcomingDates(h)" :key="d.iso">
+              {{ d.iso }} <span class="dow">{{ d.dow }}</span>
+              <span v-if="d.days === 0" style="color: var(--pico-ins-color); margin-left: 0.5em; font-family: var(--pico-font-family);">Today!</span>
+              <span v-else style="color: var(--pico-muted-color); margin-left: 0.5em; font-family: var(--pico-font-family);">in {{ d.days }} day{{ d.days === 1 ? '' : 's' }}</span>
+            </li>
+          </ul>
+          <p v-else class="upcoming-none">No upcoming occurrences found.</p>
+        </fieldset>
+      </div>
+    </details>
+  </template>
+
+  <!-- Load YAML modal -->
+  <div v-if="showLoad" class="load-overlay" @click.self="showLoad = false">
+    <div class="load-dialog">
+      <h3>Load YAML</h3>
+      <textarea v-model="loadYamlText" placeholder="Paste your holidays YAML here…"></textarea>
+      <div v-if="loadError" class="error">{{ loadError }}</div>
+      <div class="actions">
+        <button class="secondary" @click="showLoad = false">Cancel</button>
+        <button @click="loadYaml">Load</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Icon picker modal -->
+  <div v-if="iconPicker.open" class="icon-picker-overlay" @click.self="iconPicker.open = false">
+    <div class="icon-picker-dialog">
+      <h3>Pick an Icon</h3>
+      <input type="text" v-model="iconPicker.query" placeholder="Search icons…" @input="debouncedIconSearch" autofocus>
+      <div v-if="iconPicker.loading" style="text-align:center; padding: 1rem; color: var(--pico-muted-color);">Searching…</div>
+      <div v-else-if="iconPicker.results.length === 0 && iconPicker.searched" style="text-align:center; padding: 1rem; color: var(--pico-muted-color);">No icons found.</div>
+      <div class="icon-grid">
+        <button v-for="name in iconPicker.results" :key="name" @click="selectIcon(name)" :title="name" @mouseenter="iconPicker.hovered = name" @mouseleave="iconPicker.hovered = ''">
+          <iconify-icon :icon="name" width="28"></iconify-icon>
+        </button>
+      </div>
+      <div class="icon-picker-footer">
+        <span class="icon-picker-hovered">{{ iconPicker.hovered }}</span>
+        <button class="secondary" @click="iconPicker.open = false">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documentation -->
+  <section class="docs">
+    <h2 id="reference">Holiday Configuration Reference</h2>
+    <p>Each holiday is a YAML object with the following fields:</p>
+
+    <h3><code>name</code> <small style="font-weight:normal;">(string, required)</small></h3>
+    <p>The display name of the holiday, shown on the TRMNL screen. Can be any text.</p>
+    <pre>name: Christmas Day</pre>
+
+    <h3><code>date</code> <small style="font-weight:normal;">(string, required)</small></h3>
+    <p>A date expression specifying when the holiday occurs. Four formats are supported:</p>
+
+    <table>
+      <thead>
+        <tr><th>Format</th><th>Pattern</th><th>Example</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Absolute date</td>
+          <td><code>YYYY-MM-DD</code></td>
+          <td><code>2038-01-19</code></td>
+          <td>A single, one-time date. 19th January, 2038.</td>
+        </tr>
+        <tr>
+          <td>Monthly date</td>
+          <td><code>MM-DD</code></td>
+          <td><code>12-25</code></td>
+          <td>Recurring yearly on the same month and day. 25th December every year.</td>
+        </tr>
+        <tr>
+          <td><em>n</em>-th weekday of month</td>
+          <td><code>MMWn-D</code></td>
+          <td><code>08W2-5</code></td>
+          <td>The <em>n</em>-th occurrence of a weekday in a month. 2nd Friday of August.<br>
+            <code>MM</code> = month (01–12), <code>n</code> = occurrence (1–5), <code>D</code> = weekday (1=Mon … 7=Sun).</td>
+        </tr>
+        <tr>
+          <td>Last <em>n</em>-th weekday of month</td>
+          <td><code>MMWnN-D</code></td>
+          <td><code>05Wn1-1</code></td>
+          <td>The <em>n</em>-th-to-last weekday in a month. Last Monday of May.<br>
+            <code>MM</code> = month, <code>N</code> = position from end (1–5), <code>D</code> = weekday.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Calendar suffix <small style="font-weight:normal;">(optional)</small></h4>
+    <p>Append <code>[u-ca=<em>calendar</em>]</code> to any date format to use a non-Gregorian calendar system. The date numbers then refer to months/days in that calendar.</p>
+    <pre>date: 01-01[u-ca=chinese]   # Chinese New Year (1st of 1st month in Chinese calendar)</pre>
+    <p>Supported calendars include: <code>chinese</code>, <code>islamic</code>, <code>hebrew</code>, <code>japanese</code>, <code>persian</code>, <code>indian</code>, <code>buddhist</code>, and others.
+      See <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/supportedValuesOf#supported_calendar_types">MDN: supported calendar types</a> for the full list.</p>
+
+    <h3><code>icon</code> <small style="font-weight:normal;">(string, required)</small></h3>
+    <p>An <a href="https://iconify.design/">Iconify</a> icon identifier displayed alongside the holiday. Format: <code>prefix:icon-name</code>.</p>
+    <pre>icon: fluent-emoji-flat:fireworks</pre>
+    <p>Browse available icons at <a href="https://icon-sets.iconify.design/">Iconify Icon Sets</a>.</p>
+
+    <h3><code>round</code> <small style="font-weight:normal;">(array of integers, optional)</small></h3>
+    <p>If the resolved date falls on a day <em>not</em> in this list, it is shifted to the nearest day that is. Each integer represents an ISO weekday: <code>1</code> = Monday, <code>2</code> = Tuesday, … <code>7</code> = Sunday.</p>
+    <pre>round: [1, 2, 3, 4, 5]   # Round to nearest weekday (Mon–Fri)</pre>
+    <p>Omit this field (or use an empty array) to disable rounding.</p>
+
+    <h3>Complete Example</h3>
+    <pre>- name: Christmas Day
+  date: 12-25
+  icon: fluent-emoji-flat:fireworks
+  round: [1, 2, 3, 4, 5]
+- name: Year 2038 problem
+  date: 2038-01-19
+  icon: mdi:cpu-32-bit
+- name: US Memorial Day
+  date: 05Wn1-1
+  icon: fluent-emoji-flat:reindeer-ribbon
+- name: Chinese New Year
+  date: 01-01[u-ca=chinese]
+  icon: fluent-emoji-flat:red-envelope</pre>
+  </section>
+</div>
+
+<script>
+// ─── Date resolution functions (ported from shared.liquid) ───
+
+function nthWeekdayOfMonth(year, month, n, dow, cal) {
+  const mc = `M${String(month).padStart(2, '0')}`;
+  const first = cal
+    ? Temporal.PlainDate.from({ year, monthCode: mc, day: 1, calendar: cal })
+    : new Temporal.PlainDate(year, month, 1);
+  const offset = (dow - first.dayOfWeek + 7) % 7;
+  const day = first.add({ days: offset + (n - 1) * 7 });
+  if (day.monthCode !== first.monthCode) return null;
+  return cal ? day.withCalendar('iso8601') : day;
+}
+
+function lastNthWeekdayOfMonth(year, month, n, dow, cal) {
+  const mc = `M${String(month).padStart(2, '0')}`;
+  const first = cal
+    ? Temporal.PlainDate.from({ year, monthCode: mc, day: 1, calendar: cal })
+    : new Temporal.PlainDate(year, month, 1);
+  const last = cal
+    ? Temporal.PlainDate.from({ year, monthCode: mc, day: first.daysInMonth, calendar: cal })
+    : new Temporal.PlainDate(year, month, first.daysInMonth);
+  const offset = (last.dayOfWeek - dow + 7) % 7;
+  const day = last.subtract({ days: offset + (n - 1) * 7 });
+  if (day.monthCode !== first.monthCode) return null;
+  return cal ? day.withCalendar('iso8601') : day;
+}
+
+function roundToWeekday(date, weekdays) {
+  if (weekdays.includes(date.dayOfWeek)) return date;
+  let bestDist = 8;
+  let bestDate = date;
+  for (const dow of weekdays) {
+    const fwd = (dow - date.dayOfWeek + 7) % 7 || 7;
+    const bwd = (date.dayOfWeek - dow + 7) % 7 || 7;
+    if (fwd < bestDist) { bestDist = fwd; bestDate = date.add({ days: fwd }); }
+    if (bwd < bestDist) { bestDist = bwd; bestDate = date.subtract({ days: bwd }); }
+  }
+  return bestDate;
+}
+
+function resolveDate(dateStr, year) {
+  let cal = null;
+  const calMatch = dateStr.match(/\[u-ca=([^\]]+)\]$/);
+  if (calMatch) {
+    cal = calMatch[1];
+    dateStr = dateStr.slice(0, -calMatch[0].length);
+  }
+  function calYear() {
+    return new Temporal.PlainDate(year, 7, 1).withCalendar(cal).year;
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    if (cal) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const mc = `M${String(m).padStart(2, '0')}`;
+      return Temporal.PlainDate.from({ year: y, monthCode: mc, day: d, calendar: cal })
+        .withCalendar('iso8601');
+    }
+    return Temporal.PlainDate.from(dateStr);
+  }
+  if (/^\d{2}-\d{2}$/.test(dateStr)) {
+    const [m, d] = dateStr.split('-').map(Number);
+    if (cal) {
+      const mc = `M${String(m).padStart(2, '0')}`;
+      return Temporal.PlainDate.from({ year: calYear(), monthCode: mc, day: d, calendar: cal })
+        .withCalendar('iso8601');
+    }
+    return new Temporal.PlainDate(year, m, d);
+  }
+  const wm = dateStr.match(/^(\d{2})W(\d+)-(\d)$/);
+  if (wm)
+    return nthWeekdayOfMonth(cal ? calYear() : year, +wm[1], +wm[2], +wm[3], cal);
+  const wnm = dateStr.match(/^(\d{2})Wn(\d+)-(\d)$/);
+  if (wnm)
+    return lastNthWeekdayOfMonth(cal ? calYear() : year, +wnm[1], +wnm[2], +wnm[3], cal);
+  return null;
+}
+
+// ─── Helpers ───
+
+const DOW_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const DOW_FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function getCalendars() {
+  try {
+    return Intl.supportedValuesOf('calendar');
+  } catch {
+    return ['buddhist','chinese','coptic','dangi','ethioaa','ethiopic','gregory','hebrew','indian','islamic','islamic-civil','islamic-rgsa','islamic-tbla','islamic-umalqura','iso8601','japanese','persian','roc'];
+  }
+}
+
+function parseDateStr(dateStr) {
+  if (!dateStr) return { type: 'monthly', month: 1, day: 1 };
+  let cal = null;
+  const calMatch = dateStr.match(/\[u-ca=([^\]]+)\]$/);
+  if (calMatch) {
+    cal = calMatch[1];
+    dateStr = dateStr.slice(0, -calMatch[0].length);
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    const [y, m, d] = dateStr.split('-').map(Number);
+    return { type: 'absolute', year: y, month: m, day: d, calendar: cal };
+  }
+  if (/^\d{2}-\d{2}$/.test(dateStr)) {
+    const [m, d] = dateStr.split('-').map(Number);
+    return { type: 'monthly', month: m, day: d, calendar: cal };
+  }
+  const wm = dateStr.match(/^(\d{2})W(\d+)-(\d)$/);
+  if (wm) return { type: 'nthWeekday', month: +wm[1], occurrence: +wm[2], weekday: +wm[3], calendar: cal };
+  const wnm = dateStr.match(/^(\d{2})Wn(\d+)-(\d)$/);
+  if (wnm) return { type: 'lastNthWeekday', month: +wnm[1], occurrence: +wnm[2], weekday: +wnm[3], calendar: cal };
+  return { type: 'monthly', month: 1, day: 1, calendar: cal };
+}
+
+let _nextId = 1;
+
+function makeHoliday(raw) {
+  const parsed = parseDateStr(raw?.date || '');
+  return {
+    _id: _nextId++,
+    name: raw?.name || '',
+    icon: raw?.icon || '',
+    round: raw?.round ? [...raw.round] : [],
+    date: raw?.date || '',
+    _dateType: parsed.type,
+    _year: parsed.year || new Date().getFullYear(),
+    _month: parsed.month || 1,
+    _day: parsed.day || 1,
+    _occurrence: parsed.occurrence || 1,
+    _weekday: parsed.weekday || 1,
+    _useCal: !!parsed.calendar,
+    _calendar: parsed.calendar || 'chinese',
+  };
+}
+
+// ─── Vue App ───
+
+const { createApp, ref, computed, watch, reactive, nextTick } = Vue;
+
+createApp({
+  setup() {
+    const started = ref(false);
+    const holidays = ref([]);
+    const showYaml = ref(false);
+    const showLoad = ref(false);
+    const loadYamlText = ref('');
+    const loadError = ref('');
+    const copyLabel = ref('Copy');
+
+    const calendars = getCalendars();
+
+    const dateFormats = [
+      { value: 'absolute', label: 'Absolute (YYYY-MM-DD)' },
+      { value: 'monthly', label: 'Monthly (MM-DD)' },
+      { value: 'nthWeekday', label: 'Nth Weekday' },
+      { value: 'lastNthWeekday', label: 'Last Nth Weekday' },
+    ];
+
+    const today = Temporal.Now.plainDateISO();
+
+    // Auto-save to localStorage
+    watch(holidays, (val) => {
+      if (started.value) {
+        try {
+          localStorage.setItem('trmnl-holiday-editor', JSON.stringify(val));
+        } catch {}
+      }
+    }, { deep: true });
+
+    // Try restore from localStorage
+    try {
+      const saved = localStorage.getItem('trmnl-holiday-editor');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          holidays.value = parsed.map(h => {
+            h._id = _nextId++;
+            return h;
+          });
+          started.value = true;
+        }
+      }
+    } catch {}
+
+    // Compose date string from UI fields
+    function composeDateStr(h) {
+      let base = '';
+      switch (h._dateType) {
+        case 'absolute':
+          if (h._year && h._month && h._day)
+            base = `${h._year}-${String(h._month).padStart(2,'0')}-${String(h._day).padStart(2,'0')}`;
+          break;
+        case 'monthly':
+          if (h._month && h._day)
+            base = `${String(h._month).padStart(2,'0')}-${String(h._day).padStart(2,'0')}`;
+          break;
+        case 'nthWeekday':
+          if (h._month && h._occurrence && h._weekday)
+            base = `${String(h._month).padStart(2,'0')}W${h._occurrence}-${h._weekday}`;
+          break;
+        case 'lastNthWeekday':
+          if (h._month && h._occurrence && h._weekday)
+            base = `${String(h._month).padStart(2,'0')}Wn${h._occurrence}-${h._weekday}`;
+          break;
+      }
+      if (!base) return '';
+      if (h._useCal && h._calendar) base += `[u-ca=${h._calendar}]`;
+      return base;
+    }
+
+    // Keep h.date in sync with composed value
+    watch(holidays, () => {
+      for (const h of holidays.value) {
+        const d = composeDateStr(h);
+        if (d) h.date = d;
+      }
+    }, { deep: true });
+
+    // Compute upcoming dates for a holiday
+    function upcomingDates(h) {
+      if (!h.date) return [];
+      const results = [];
+      const isFixed = /^\d{4}/.test(h.date);
+      const startYear = today.year;
+      const endYear = isFixed ? startYear : startYear + 6;
+      for (let y = startYear; y <= endYear; y++) {
+        try {
+          let d = resolveDate(h.date, y);
+          if (!d) continue;
+          if (h.round && h.round.length > 0) d = roundToWeekday(d, h.round);
+          const diff = today.until(d, { largestUnit: 'day' }).days;
+          if (diff >= 0) {
+            results.push({
+              iso: d.toString(),
+              dow: DOW_FULL[d.dayOfWeek - 1],
+              days: diff,
+            });
+          }
+        } catch {}
+      }
+      // Deduplicate by iso
+      const seen = new Set();
+      const unique = [];
+      for (const r of results) {
+        if (!seen.has(r.iso)) { seen.add(r.iso); unique.push(r); }
+      }
+      return unique.slice(0, 5);
+    }
+
+    // Generate YAML
+    const generatedYaml = computed(() => {
+      const clean = holidays.value.map(h => {
+        const obj = { name: h.name, date: h.date, icon: h.icon };
+        if (h.round && h.round.length > 0) obj.round = [...h.round].sort((a,b) => a-b);
+        return obj;
+      });
+      return jsyaml.dump(clean, { lineWidth: -1, quotingType: '"', flowLevel: 2 });
+    });
+
+    // CRUD
+    function addHoliday() {
+      holidays.value.push(makeHoliday());
+    }
+    function remove(idx) {
+      holidays.value.splice(idx, 1);
+    }
+    function move(idx, dir) {
+      const target = idx + dir;
+      if (target < 0 || target >= holidays.value.length) return;
+      const arr = holidays.value;
+      [arr[idx], arr[target]] = [arr[target], arr[idx]];
+    }
+    function startFresh() {
+      holidays.value = [];
+      started.value = true;
+      showYaml.value = false;
+      addHoliday();
+    }
+    function loadYaml() {
+      loadError.value = '';
+      try {
+        const parsed = jsyaml.load(loadYamlText.value);
+        if (!Array.isArray(parsed)) {
+          loadError.value = 'Expected a YAML list (array) of holidays.';
+          return;
+        }
+        holidays.value = parsed.map(h => makeHoliday(h));
+        started.value = true;
+        showLoad.value = false;
+        loadYamlText.value = '';
+      } catch (e) {
+        loadError.value = 'YAML parse error: ' + e.message;
+      }
+    }
+    async function copyYaml() {
+      try {
+        await navigator.clipboard.writeText(generatedYaml.value);
+        copyLabel.value = 'Copied!';
+        setTimeout(() => { copyLabel.value = 'Copy'; }, 2000);
+      } catch {
+        copyLabel.value = 'Failed';
+        setTimeout(() => { copyLabel.value = 'Copy'; }, 2000);
+      }
+    }
+
+    // Icon picker
+    const iconPicker = reactive({
+      open: false,
+      query: '',
+      results: [],
+      loading: false,
+      searched: false,
+      targetIdx: -1,
+      hovered: '',
+    });
+    let iconSearchTimer = null;
+    function openIconPicker(idx) {
+      iconPicker.targetIdx = idx;
+      iconPicker.query = '';
+      iconPicker.results = [];
+      iconPicker.searched = false;
+      iconPicker.open = true;
+    }
+    function debouncedIconSearch() {
+      clearTimeout(iconSearchTimer);
+      const q = iconPicker.query.trim();
+      if (!q) { iconPicker.results = []; iconPicker.searched = false; return; }
+      iconSearchTimer = setTimeout(() => searchIcons(q), 300);
+    }
+    async function searchIcons(q) {
+      iconPicker.loading = true;
+      iconPicker.searched = true;
+      try {
+        const url = `https://api.iconify.design/search?query=${encodeURIComponent(q)}&limit=128`;
+        const res = await fetch(url);
+        const data = await res.json();
+        iconPicker.results = data.icons || [];
+      } catch {
+        iconPicker.results = [];
+      } finally {
+        iconPicker.loading = false;
+      }
+    }
+    function selectIcon(name) {
+      if (iconPicker.targetIdx >= 0 && iconPicker.targetIdx < holidays.value.length) {
+        holidays.value[iconPicker.targetIdx].icon = name;
+      }
+      iconPicker.open = false;
+    }
+
+    // Validation
+    function holidayErrors(h) {
+      const errs = [];
+      if (!h.name || !h.name.trim()) errs.push('Name is required');
+      if (!h.icon || !h.icon.trim()) errs.push('Icon is required');
+      if (!composeDateStr(h)) errs.push('Date is required');
+      return errs;
+    }
+    const hasAnyErrors = computed(() => holidays.value.some(h => holidayErrors(h).length > 0));
+
+    // Helpers
+    function monthName(m) { return MONTH_NAMES[m - 1]; }
+    function dowName(d) { return DOW_NAMES[d - 1]; }
+    function ordinal(n) {
+      const s = ['th','st','nd','rd'];
+      const v = n % 100;
+      return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    }
+
+    return {
+      started, holidays, showYaml, showLoad, loadYamlText, loadError,
+      copyLabel, calendars, dateFormats, today, iconPicker,
+      composeDateStr, upcomingDates, generatedYaml, holidayErrors, hasAnyErrors,
+      addHoliday, remove, move, startFresh, loadYaml, copyYaml,
+      openIconPicker, debouncedIconSearch, selectIcon,
+      monthName, dowName, ordinal,
+    };
+  }
+}).mount('#app');
+</script>
+</body>
+</html>
