@@ -85,6 +85,77 @@ const DOW_FULL = Array.from({ length: 7 }, (_, i) =>
   new Intl.DateTimeFormat(LOCALE, { weekday: 'long' }).format(new Date(2024, 0, 1 + i)));
 const MONTH_NAMES = Array.from({ length: 12 }, (_, i) =>
   new Intl.DateTimeFormat(LOCALE, { month: 'long' }).format(new Date(2024, i, 1)));
+const MONTH_SHORT_NAMES = Array.from({ length: 12 }, (_, i) =>
+  new Intl.DateTimeFormat(LOCALE, { month: 'short' }).format(new Date(2024, i, 1)));
+const GREGORIAN_MONTH_OPTIONS = MONTH_NAMES.map((label, index) => ({
+  value: index + 1,
+  label,
+  shortLabel: MONTH_SHORT_NAMES[index],
+}));
+const monthFormatterCache = new Map();
+
+function supportsCustomMonthSelects() {
+  if (!window.CSS?.supports) return false;
+  try {
+    return CSS.supports('appearance: base-select')
+      && CSS.supports('selector(::picker(select))')
+      && CSS.supports('selector(selectedcontent)');
+  } catch {
+    return false;
+  }
+}
+
+const CUSTOM_MONTH_SELECTS_SUPPORTED = supportsCustomMonthSelects();
+document.documentElement.classList.toggle('supports-custom-month-selects', CUSTOM_MONTH_SELECTS_SUPPORTED);
+
+function getMonthFormatter(calendar, width = 'long') {
+  const cacheKey = `${calendar}:${width}`;
+  if (!monthFormatterCache.has(cacheKey)) {
+    monthFormatterCache.set(cacheKey, new Intl.DateTimeFormat(LOCALE, { month: width, calendar }));
+  }
+  return monthFormatterCache.get(cacheKey);
+}
+
+function getCalendarMonthCount(year, calendar) {
+  if (!calendar) return 12;
+  try {
+    return Temporal.PlainDate.from({ year, monthCode: 'M01', day: 1, calendar }).monthsInYear;
+  } catch {
+    return 12;
+  }
+}
+
+function getCalendarMonthOptions(year, calendar) {
+  if (!calendar) return GREGORIAN_MONTH_OPTIONS;
+  const formatter = getMonthFormatter(calendar, 'long');
+  const shortFormatter = getMonthFormatter(calendar, 'short');
+  const monthCount = getCalendarMonthCount(year, calendar);
+  const options = [];
+
+  for (let month = 1; month <= monthCount; month++) {
+    let label = `Month ${month}`;
+    let shortLabel = label;
+    try {
+      const monthDate = Temporal.PlainDate.from({
+        year,
+        monthCode: `M${String(month).padStart(2, '0')}`,
+        day: 1,
+        calendar,
+      });
+      label = formatter.format(monthDate);
+      shortLabel = shortFormatter.format(monthDate);
+    } catch {
+      try {
+        const monthDate = Temporal.PlainDate.from({ year, month, day: 1, calendar });
+        label = formatter.format(monthDate);
+        shortLabel = shortFormatter.format(monthDate);
+      } catch {}
+    }
+    options.push({ value: month, label, shortLabel });
+  }
+
+  return options;
+}
 
 function getCalendars() {
   try {
@@ -140,7 +211,7 @@ function makeHoliday(raw) {
 
 // ─── Vue App ───
 
-const { createApp, ref, computed, watch, reactive, nextTick } = Vue;
+const { createApp, ref, computed, watch, reactive, nextTick, onMounted, onBeforeUnmount } = Vue;
 
 createApp({
   setup() {
@@ -153,6 +224,7 @@ createApp({
     const copyLabel = ref('Copy');
 
     const calendars = getCalendars();
+    const gregorianMonthOptions = GREGORIAN_MONTH_OPTIONS;
 
     const dateFormats = [
       { value: 'absolute', label: 'Absolute (YYYY-MM-DD)' },
@@ -214,13 +286,70 @@ createApp({
       return base;
     }
 
+    function calendarMonthCount(h) {
+      if (!h._useCal || !h._calendar) return 12;
+      const fallbackYear = today.withCalendar(h._calendar).year;
+      const year = h._dateType === 'absolute'
+        ? Number(h._year) || fallbackYear
+        : fallbackYear;
+      return getCalendarMonthCount(year, h._calendar);
+    }
+
+    function absoluteMonthOptions(h) {
+      if (!h._useCal || !h._calendar) return GREGORIAN_MONTH_OPTIONS;
+      const year = Number(h._year) || today.withCalendar(h._calendar).year;
+      return getCalendarMonthOptions(year, h._calendar);
+    }
+
+    function normalizeMonth(h) {
+      const maxMonth = calendarMonthCount(h);
+      const month = Number(h._month);
+      if (!Number.isFinite(month) || month < 1) {
+        h._month = 1;
+        return;
+      }
+      if (month > maxMonth) {
+        h._month = maxMonth;
+      }
+    }
+
+    function updateMonthPickerLayouts() {
+      if (!CUSTOM_MONTH_SELECTS_SUPPORTED) return;
+      nextTick(() => {
+        const selects = document.querySelectorAll('select.month-select');
+        for (const select of selects) {
+          const container = select.closest('.month-field') || select.parentElement;
+          const gap = parseFloat(getComputedStyle(document.documentElement).fontSize || '16') * 0.5;
+          const containerWidth = container?.clientWidth || select.clientWidth || 0;
+          const minSize = Math.max(56, Math.floor((Math.max(containerWidth, 0) - gap * 5) / 4) );
+
+          select.style.setProperty('--month-picker-min-size', `${minSize}px`);
+        }
+      });
+    }
+
     // Keep h.date in sync with composed value
     watch(holidays, () => {
       for (const h of holidays.value) {
+        normalizeMonth(h);
         const d = composeDateStr(h);
         if (d) h.date = d;
       }
+      updateMonthPickerLayouts();
     }, { deep: true });
+
+    onMounted(() => {
+      updateMonthPickerLayouts();
+      if (CUSTOM_MONTH_SELECTS_SUPPORTED) {
+        window.addEventListener('resize', updateMonthPickerLayouts);
+      }
+    });
+
+    onBeforeUnmount(() => {
+      if (CUSTOM_MONTH_SELECTS_SUPPORTED) {
+        window.removeEventListener('resize', updateMonthPickerLayouts);
+      }
+    });
 
     // Compute upcoming dates for a holiday
     function upcomingDates(h) {
@@ -395,11 +524,11 @@ createApp({
 
     return {
       started, holidays, showYaml, showLoad, loadYamlText, loadError,
-      copyLabel, calendars, dateFormats, today, iconPicker,
+      copyLabel, calendars, dateFormats, today, iconPicker, gregorianMonthOptions,
       composeDateStr, upcomingDates, generatedYaml, holidayErrors, hasAnyErrors,
       addHoliday, remove, move, startFresh, loadYaml, copyYaml,
       openIconPicker, debouncedIconSearch, selectIcon,
-      monthName, dowName, ordinal, calendarName,
+      monthName, dowName, ordinal, calendarName, calendarMonthCount, absoluteMonthOptions,
     };
   }
 }).mount('#app');

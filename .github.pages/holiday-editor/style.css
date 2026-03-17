@@ -1,5 +1,6 @@
 :root {
   --pico-font-size: 16px;
+  --month-picker-gap: 0.5rem;
 }
 body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
 .holiday-card {
@@ -34,6 +35,31 @@ body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
 .holiday-actions button:hover { background: var(--pico-muted-border-color); }
 .holiday-body { margin-top: 1rem; }
 
+.holiday-body {
+  --holiday-control-height: 3rem;
+  --holiday-control-padding-y: 0.625rem;
+  --holiday-control-padding-x: 0.75rem;
+}
+
+.holiday-body input[type="text"],
+.holiday-body input[type="number"],
+.holiday-body select,
+.holiday-body button {
+  min-height: var(--holiday-control-height);
+  height: calc(1rem * var(--pico-line-height) + var(--pico-form-element-spacing-vertical) * 2 + var(--pico-border-width) * 2);
+  box-sizing: border-box;
+}
+
+.holiday-body input[type="text"],
+.holiday-body input[type="number"],
+.holiday-body select {
+  padding: var(--holiday-control-padding-y) var(--holiday-control-padding-x);
+}
+
+.holiday-body button {
+  padding: var(--holiday-control-padding-y) var(--holiday-control-padding-x);
+}
+
 /* Date composer */
 .date-tabs { display: flex; gap: 0; margin-bottom: 0.75rem; flex-wrap: wrap; }
 .date-tabs label {
@@ -57,9 +83,95 @@ body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
 .date-tabs label:has(input:checked) + label { border-left-color: var(--pico-primary-background); }
 .date-fields { display: flex; gap: 0.5rem; align-items: end; flex-wrap: wrap; }
 .date-fields > div { flex: 1; min-width: 80px; }
+.date-fields > .month-field { min-width: 160px; }
 .date-fields label { font-size: 0.8rem; margin-bottom: 0.15rem; display: block; }
 .date-fields select, .date-fields input[type="number"] {
-  padding: 0.35rem 0.5rem; margin-bottom: 0; font-size: 0.9rem;
+  margin-bottom: 0; font-size: 0.9rem;
+}
+
+.supports-custom-month-selects .holiday-body select.month-select {
+  appearance: base-select;
+  background: var(--pico-form-element-background-color);
+  border-color: var(--pico-form-element-border-color);
+  color: var(--pico-form-element-color);
+}
+
+.supports-custom-month-selects .holiday-body select.month-select::picker(select) {
+  appearance: base-select;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: calc(var(--pico-border-radius) + 2px);
+  background: var(--pico-card-background-color);
+  padding: var(--month-picker-gap);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.supports-custom-month-selects .holiday-body select.month-select:not(:open)::picker(select) {
+  display: none;
+}
+
+.supports-custom-month-selects .holiday-body select:open.month-select::picker(select) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--month-picker-gap);
+  inline-size: fit-content;
+  max-inline-size: min(calc(100vw - 2rem), calc(var(--month-picker-min-size, 4.25rem) * 4 + var(--month-picker-gap) * 6));
+}
+
+.supports-custom-month-selects .holiday-body select.month-select option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--month-picker-min-size, 4.25rem);
+  min-block-size: var(--month-picker-min-size, 4.25rem);
+  inline-size: fit-content;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: calc(var(--pico-border-radius) - 2px);
+  background: var(--pico-background-color);
+  color: transparent;
+  font-size: 0;
+  line-height: 1;
+  text-align: center;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.supports-custom-month-selects .holiday-body select.month-select option {
+  flex: 0 0 auto;
+}
+
+.supports-custom-month-selects .holiday-body select.month-select option::before {
+  content: attr(data-short-label);
+  color: var(--pico-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.supports-custom-month-selects .holiday-body select.month-select option:hover,
+.supports-custom-month-selects .holiday-body select.month-select option:focus-visible {
+  background: var(--pico-code-background-color);
+  border-color: var(--pico-primary-border);
+}
+
+.supports-custom-month-selects .holiday-body select.month-select option:checked {
+  background: var(--pico-primary-background);
+  border-color: var(--pico-primary-border);
+}
+
+.supports-custom-month-selects .holiday-body select.month-select option:checked::before {
+  color: var(--pico-primary-inverse);
+}
+
+.supports-custom-month-selects .holiday-body select.month-select option::checkmark {
+  display: none;
+}
+
+.supports-custom-month-selects .holiday-body select.month-select selectedcontent {
+  color: inherit;
+  font: inherit;
 }
 .date-preview {
   font-family: monospace; font-size: 0.95rem; margin-top: 0.5rem;
@@ -70,7 +182,7 @@ body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
 
 /* Calendar toggle */
 .calendar-row { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem; flex-wrap: wrap; }
-.calendar-row select { margin: 0; width: auto; min-width: 140px; padding: 0.35rem 0.5rem; font-size: 0.9rem; }
+.calendar-row select { margin: 0; width: auto; min-width: 140px; font-size: 0.9rem; }
 
 /* Round editor */
 .round-chips { display: flex; gap: 0.25rem; flex-wrap: wrap; margin-top: 0.25rem; }
@@ -86,10 +198,10 @@ body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
   border-color: var(--pico-primary-background);
 }
 .round-chips input[type="checkbox"] { display: none; }
-.round-chips button { padding: 0.2rem 0.5rem; font-size: 0.85rem; margin: 0; }
+.round-chips button { padding: 0.2rem 0.5rem; height: initial; min-height: initial; font-size: 0.85rem; margin: 0; }
 
 /* Icon picker */
-.icon-input-row { display: flex; gap: 0.5rem; align-items: end; place-items: center; }
+.icon-input-row { display: flex; gap: 0.5rem; align-items: center; }
 .icon-input-row input { flex: 1; margin-bottom: 0; }
 .icon-input-row button { margin: 0; padding: 0.35rem 0.75rem; white-space: nowrap; }
 .icon-input-row iconify-icon { font-size: 1.5rem; flex-shrink: 0; align-self: center; }
@@ -138,7 +250,7 @@ body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
 }
 .upcoming-list li::before { content: none; }
 .upcoming-list li::marker { content: none; }
-.upcoming-list li .dow { color: var(--pico-muted-color); margin-left: 0.35em; font-family: var(--pico-font-family); }
+.upcoming-list li .dow { color: var(--pico-muted-color); font-family: var(--pico-font-family); }
 .upcoming-none { font-size: 0.85rem; color: var(--pico-muted-color); }
 
 /* YAML output */

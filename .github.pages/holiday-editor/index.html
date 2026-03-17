@@ -88,26 +88,57 @@
           <!-- Absolute YYYY-MM-DD -->
           <div v-if="h._dateType === 'absolute'" class="date-fields">
             <div><label>Year</label><input type="number" v-model.number="h._year" min="2000" max="2100"></div>
-            <div><label>Month</label><select v-model.number="h._month"><option v-for="m in 12" :value="m">{{ m }} — {{ monthName(m) }}</option></select></div>
+              <div class="month-field">
+                <label>Month</label>
+                <select v-if="h._useCal" v-model.number="h._month" class="month-select">
+                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <option v-for="option in absoluteMonthOptions(h)" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
+                </select>
+                <select v-else v-model.number="h._month" class="month-select">
+                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <option v-for="option in gregorianMonthOptions" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
+                </select>
+              </div>
             <div><label>Day</label><input type="number" v-model.number="h._day" min="1" max="31"></div>
           </div>
 
           <!-- Monthly MM-DD -->
           <div v-if="h._dateType === 'monthly'" class="date-fields">
-            <div><label>Month</label><select v-model.number="h._month"><option v-for="m in 12" :value="m">{{ m }} — {{ monthName(m) }}</option></select></div>
+              <div class="month-field">
+                <label>Month</label>
+                <input v-if="h._useCal" type="number" v-model.number="h._month" min="1" :max="calendarMonthCount(h)">
+                <select v-else v-model.number="h._month" class="month-select">
+                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <option v-for="option in gregorianMonthOptions" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
+                </select>
+              </div>
             <div><label>Day</label><input type="number" v-model.number="h._day" min="1" max="31"></div>
           </div>
 
           <!-- Nth weekday MMWn-D -->
           <div v-if="h._dateType === 'nthWeekday'" class="date-fields">
-            <div><label>Month</label><select v-model.number="h._month"><option v-for="m in 12" :value="m">{{ m }} — {{ monthName(m) }}</option></select></div>
+              <div class="month-field">
+                <label>Month</label>
+                <input v-if="h._useCal" type="number" v-model.number="h._month" min="1" :max="calendarMonthCount(h)">
+                <select v-else v-model.number="h._month" class="month-select">
+                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <option v-for="option in gregorianMonthOptions" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
+                </select>
+              </div>
             <div><label>Occurrence</label><select v-model.number="h._occurrence"><option v-for="n in 5" :value="n">{{ ordinal(n) }}</option></select></div>
             <div><label>Weekday</label><select v-model.number="h._weekday"><option v-for="d in 7" :value="d">{{ dowName(d) }}</option></select></div>
           </div>
 
           <!-- Last nth weekday MMWnN-D -->
           <div v-if="h._dateType === 'lastNthWeekday'" class="date-fields">
-            <div><label>Month</label><select v-model.number="h._month"><option v-for="m in 12" :value="m">{{ m }} — {{ monthName(m) }}</option></select></div>
+              <div class="month-field">
+                <label>Month</label>
+                <input v-if="h._useCal" type="number" v-model.number="h._month" min="1" :max="calendarMonthCount(h)">
+                <select v-else v-model.number="h._month" class="month-select">
+                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <option v-for="option in gregorianMonthOptions" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
+                </select>
+              </div>
             <div><label>From End</label><select v-model.number="h._occurrence"><option v-for="n in 5" :value="n">{{ ordinal(n) }} last</option></select></div>
             <div><label>Weekday</label><select v-model.number="h._weekday"><option v-for="d in 7" :value="d">{{ dowName(d) }}</option></select></div>
           </div>
@@ -148,9 +179,7 @@
           <legend>Upcoming Occurrences</legend>
           <ul v-if="upcomingDates(h).length" class="upcoming-list">
             <li v-for="d in upcomingDates(h)" :key="d.iso">
-              {{ d.iso }} <span class="dow">{{ d.dow }}</span>
-              <span v-if="d.days === 0" style="color: var(--pico-ins-color); margin-left: 0.5em; font-family: var(--pico-font-family);">Today!</span>
-              <span v-else style="color: var(--pico-muted-color); margin-left: 0.5em; font-family: var(--pico-font-family);">in {{ d.days }} day{{ d.days === 1 ? '' : 's' }}</span>
+              {{ d.iso }} <span class="dow">{{ d.dow }}</span> <span v-if="d.days === 0" style="color: var(--pico-ins-color); font-family: var(--pico-font-family);">Today!</span> <span v-else style="color: var(--pico-muted-color); font-family: var(--pico-font-family);">in {{ d.days }} day{{ d.days === 1 ? '' : 's' }}</span>
             </li>
           </ul>
           <p v-else class="upcoming-none">No upcoming occurrences found.</p>
