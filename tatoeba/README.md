@@ -1,4 +1,4 @@
-# Tatoeba
+# <img src="./images/icon.png" alt="Icon" height="50"> Tatoeba
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=177718)
 

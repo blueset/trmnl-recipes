@@ -1,4 +1,4 @@
-# Washington DOT Real-time Travel Info
+# <img src="./images/icon.svg" alt="Icon" height="50"> Washington DOT Real-time Travel Info
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=227171)
 

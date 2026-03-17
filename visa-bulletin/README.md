@@ -1,4 +1,4 @@
-# Visa Bulletin (Unlisted)
+# <img src="./images/icon.png" alt="Icon" height="50"> Visa Bulletin (Unlisted)
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=155086)
 

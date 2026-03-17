@@ -1,4 +1,4 @@
-# Puget Sound Transit Nearby
+# <img src="./images/icon.svg" alt="Icon" height="50"> Puget Sound Transit Nearby
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=225183)
 

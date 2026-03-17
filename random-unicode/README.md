@@ -1,4 +1,4 @@
-# Random Unicode
+# <img src="./images/icon.png" alt="Icon" height="50"> Random Unicode
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=151050)
 

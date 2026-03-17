@@ -1,4 +1,4 @@
-# Custom Next Holiday
+# <img src="./images/icon.png" alt="Icon" height="50"> Custom Next Holiday
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=257171)
 

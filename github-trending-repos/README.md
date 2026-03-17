@@ -1,4 +1,4 @@
-# GitHub Trending Repos
+# <img src="./images/icon.png" alt="Icon" height="50"> GitHub Trending Repos
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=243710)
 

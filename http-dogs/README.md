@@ -1,4 +1,4 @@
-# HTTP Dogs
+# <img src="./images/icon.svg" alt="Icon" height="50"> HTTP Dogs
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=243773)
 

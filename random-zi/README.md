@@ -1,4 +1,4 @@
-# Random Zi
+# <img src="./images/icon.png" alt="Icon" height="50"> Random Zi
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=156095)
 

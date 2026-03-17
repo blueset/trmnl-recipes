@@ -1,4 +1,4 @@
-# Random MDN Article
+# <img src="./images/icon.png" alt="Icon" height="50"> Random MDN Article
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=153731)
 

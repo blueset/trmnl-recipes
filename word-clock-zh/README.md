@@ -1,4 +1,4 @@
-# Word Clock 中文
+# <img src="./images/icon.png" alt="Icon" height="50"> Word Clock 中文
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=187631)
 

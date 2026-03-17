@@ -6,29 +6,47 @@
 
 ## Table of Contents
 
-* [Wikipedia Feed](#wikipedia-feed)
-* [Random Unicode](#random-unicode)
-* [Random MDN Article](#random-mdn-article)
-* [World clock](#world-clock)
-* [Lyricova Quote](#lyricova-quote)
-* [Random Zi](#random-zi)
-* [Random Google Fonts](#random-google-fonts)
-* [Public Recipe Stats](#public-recipe-stats)
-* [Tatoeba](#tatoeba)
-* [Slickdeals Frontpage](#slickdeals-frontpage)
-* [Word Clock 日本語](#word-clock-日本語)
-* [Word Clock 中文](#word-clock-中文)
-* [Sun Chart](#sun-chart)
-* [Visa Bulletin](#visa-bulletin-unlisted)
-* [Puget Sound Transit Nearby](#puget-sound-transit-nearby)
-* [Washington DOT Real-time Travel Info](#washington-dot-real-time-travel-info)
-* [GitHub Trending Repos](#github-trending-repos)
-* [HTTP Dogs](#http-dogs)
-* [One Headline](#one-headline)
-* [Custom Next Holiday](#custom-next-holiday)
-* [Random Computer](#random-computer)
+<table>
+  <tr>
+    <td align="center"><img src="./wikipedia-feed/images/icon.png" alt="Icon" height="50"><br><a href="#wikipedia-feed">Wikipedia Feed</a></td>
+    <td align="center"><img src="./random-unicode/images/icon.png" alt="Icon" height="50"><br><a href="#random-unicode">Random Unicode</a></td>
+    <td align="center"><img src="./random-mdn-article/images/icon.png" alt="Icon" height="50"><br><a href="#random-mdn-article">Random MDN Article</a></td>
+    <td align="center"><img src="./world-clock/images/icon.png" alt="Icon" height="50"><br><a href="#world-clock">World clock</a></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./lyricova-quote/images/icon.png" alt="Icon" height="50"><br><a href="#lyricova-quote">Lyricova Quote</a></td>
+    <td align="center"><img src="./random-zi/images/icon.png" alt="Icon" height="50"><br><a href="#random-zi">Random Zi</a></td>
+    <td align="center"><img src="./random-google-fonts/images/icon.png" alt="Icon" height="50"><br><a href="#random-google-fonts">Random Google Fonts</a></td>
+    <td align="center"><img src="./public-recipe-stats/images/icon.png" alt="Icon" height="50"><br><a href="#public-recipe-stats">Public Recipe Stats</a></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./tatoeba/images/icon.png" alt="Icon" height="50"><br><a href="#tatoeba">Tatoeba</a></td>
+    <td align="center"><img src="./slickdeals/images/icon.png" alt="Icon" height="50"><br><a href="#slickdeals-frontpage">Slickdeals Frontpage</a></td>
+    <td align="center"><img src="./word-clock-ja/images/icon.png" alt="Icon" height="50"><br><a href="#word-clock-日本語">Word Clock 日本語</a></td>
+    <td align="center"><img src="./word-clock-zh/images/icon.png" alt="Icon" height="50"><br><a href="#word-clock-中文">Word Clock 中文</a></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./sun-chart/images/icon.png" alt="Icon" height="50"><br><a href="#sun-chart">Sun Chart</a></td>
+    <td align="center"><img src="./visa-bulletin/images/icon.png" alt="Icon" height="50"><br><a href="#visa-bulletin-unlisted">Visa Bulletin</a></td>
+    <td align="center"><img src="./transit/images/icon.svg" alt="Icon" height="50"><br><a href="#puget-sound-transit-nearby">Puget Sound Transit Nearby</a></td>
+    <td align="center"><img src="./wsdot/images/icon.svg" alt="Icon" height="50"><br><a href="#washington-dot-real-time-travel-info">Washington DOT Real-time Travel Info</a></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./github-trending-repos/images/icon.png" alt="Icon" height="50"><br><a href="#github-trending-repos">GitHub Trending Repos</a></td>
+    <td align="center"><img src="./http-dogs/images/icon.svg" alt="Icon" height="50"><br><a href="#http-dogs">HTTP Dogs</a></td>
+    <td align="center"><img src="./one-headline/images/icon.png" alt="Icon" height="50"><br><a href="#one-headline">One Headline</a></td>
+    <td align="center"><img src="./custom-next-holiday/images/icon.png" alt="Icon" height="50"><br><a href="#custom-next-holiday">Custom Next Holiday</a></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="./random-computer/images/icon.png" alt="Icon" height="50"><br><a href="#random-computer">Random Computer</a></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 
-## Wikipedia Feed
+<a id="wikipedia-feed"></a>
+## <img src="./wikipedia-feed/images/icon.png" alt="Icon" height="50"> Wikipedia Feed
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=148054)
 
@@ -46,7 +64,8 @@ Multilingual Wikipedia feed recipe, supports _Article of the Day_, _On this day_
 
 ![Screenshot](./wikipedia-feed/images/en-f.png)
 
-## Random Unicode
+<a id="random-unicode"></a>
+## <img src="./random-unicode/images/icon.png" alt="Icon" height="50"> Random Unicode
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=151050)
 
@@ -64,7 +83,8 @@ A random Unicode codepoint on each refresh. Data powered by [codepoints.net](htt
 
 ![Screenshot](./random-unicode/images/f.png)
 
-## Random MDN Article
+<a id="random-mdn-article"></a>
+## <img src="./random-mdn-article/images/icon.png" alt="Icon" height="50"> Random MDN Article
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=153731)
 
@@ -82,7 +102,8 @@ A random [MDN](https://developer.mozilla.org/) Web article on each refresh.
 
 ![Screenshot](./random-mdn-article/images/f.png)
 
-## World clock
+<a id="world-clock"></a>
+## <img src="./world-clock/images/icon.png" alt="Icon" height="50"> World clock
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=153664)
 
@@ -101,7 +122,8 @@ A digital world clock shows up to 7 time zones. Inspired by [World Time Buddy](h
 ![Screenshot](./world-clock/images/f.png)
 
 
-## Lyricova Quote
+<a id="lyricova-quote"></a>
+## <img src="./lyricova-quote/images/icon.png" alt="Icon" height="50"> Lyricova Quote
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=150439)
 
@@ -119,7 +141,8 @@ Show a random quote from [Lyricova](https://lyricova.1a23.studio/) on each refre
 
 ![Screenshot](./lyricova-quote/images/f.png)
 
-## Random Zi
+<a id="random-zi"></a>
+## <img src="./random-zi/images/icon.png" alt="Icon" height="50"> Random Zi
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=156095)
 
@@ -137,7 +160,8 @@ A random CJKV ideograph with pronunciations, definitions, and regional glyphs on
 
 ![Screenshot](./random-zi/images/f.png)
 
-## Random Google Fonts
+<a id="random-google-fonts"></a>
+## <img src="./random-google-fonts/images/icon.png" alt="Icon" height="50"> Random Google Fonts
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=163790)
 
@@ -155,7 +179,8 @@ A random typeface from [Google Fonts](https://fonts.google.com/) on each refresh
 
 ![Screenshot](./random-google-fonts/images/f.png)
 
-## Public Recipe Stats
+<a id="public-recipe-stats"></a>
+## <img src="./public-recipe-stats/images/icon.png" alt="Icon" height="50"> Public Recipe Stats
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=170970)
 
@@ -173,7 +198,8 @@ Shows connection statistics of public recipes. You can choose to show the latest
 
 ![Screenshot](./public-recipe-stats/images/f.png)
 
-## Tatoeba
+<a id="tatoeba"></a>
+## <img src="./tatoeba/images/icon.png" alt="Icon" height="50"> Tatoeba
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=177718)
 
@@ -191,7 +217,8 @@ A random sentence in your chosen languages with translations. Data powered by [T
 
 ![Screenshot](./tatoeba/images/f.png)
 
-## Slickdeals Frontpage
+<a id="slickdeals-frontpage"></a>
+## <img src="./slickdeals/images/icon.png" alt="Icon" height="50"> Slickdeals Frontpage
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=184875)
 
@@ -209,7 +236,8 @@ Slickdeals Frontpage and Popular deals. Data from Slickdeals RSS feed.
 
 ![Screenshot](./slickdeals/images/f.png)
 
-## Word Clock 日本語
+<a id="word-clock-日本語"></a>
+## <img src="./word-clock-ja/images/icon.png" alt="Icon" height="50"> Word Clock 日本語
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=187661)
 
@@ -227,7 +255,8 @@ Word clock in Japanese. Supports 24-hour and 12-hour formats, with a maximum dis
 
 ![Screenshot](./word-clock-ja/images/f.png)
 
-## Word Clock 中文
+<a id="word-clock-中文"></a>
+## <img src="./word-clock-zh/images/icon.png" alt="Icon" height="50"> Word Clock 中文
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=187631)
 
@@ -245,7 +274,8 @@ Word Clock in Chinese. Supports 24-hour and 12-hour formats, as well as Simplifi
 
 ![Screenshot](./word-clock-zh/images/f.png)
 
-## Sun Chart
+<a id="sun-chart"></a>
+## <img src="./sun-chart/images/icon.png" alt="Icon" height="50"> Sun Chart
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=195274)
 
@@ -263,7 +293,8 @@ Sunrise and sunset time with a daily and yearly chart.
 
 ![Screenshot](./sun-chart/images/f.png)
 
-## Visa Bulletin (Unlisted)
+<a id="visa-bulletin-unlisted"></a>
+## <img src="./visa-bulletin/images/icon.png" alt="Icon" height="50"> Visa Bulletin (Unlisted)
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=155086)
 
@@ -279,7 +310,8 @@ Show the latest Visa Bulletin information, and trends for filing date and action
   </picture>
 </a>
 
-## Puget Sound Transit Nearby
+<a id="puget-sound-transit-nearby"></a>
+## <img src="./transit/images/icon.svg" alt="Icon" height="50"> Puget Sound Transit Nearby
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=225183)
 
@@ -297,7 +329,8 @@ Dashboard public transit information close to you. Supports all public transit t
 
 ![Screenshot](./transit/images/f-large.png)
 
-## Washington DOT Real-time Travel Info
+<a id="washington-dot-real-time-travel-info"></a>
+## <img src="./wsdot/images/icon.svg" alt="Icon" height="50"> Washington DOT Real-time Travel Info
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=227171)
 
@@ -315,7 +348,8 @@ Real-time travel info from Washington State Department of Transportation (WSDOT)
 
 ![Screenshot](./wsdot/images/f-alerts.png)
 
-## GitHub Trending Repos
+<a id="github-trending-repos"></a>
+## <img src="./github-trending-repos/images/icon.png" alt="Icon" height="50"> GitHub Trending Repos
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=243710)
 
@@ -333,7 +367,8 @@ GitHub Trending Repositories. API courtesy of [doforce](https://github.com/dofor
 
 ![Screenshot](./github-trending-repos/images/f.png)
 
-## HTTP Dogs
+<a id="http-dogs"></a>
+## <img src="./http-dogs/images/icon.svg" alt="Icon" height="50"> HTTP Dogs
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=243773)
 
@@ -351,7 +386,8 @@ A random HTTP Dog picture on each refresh. Works well with HTTP Cats too. Images
 
 ![Screenshot](./http-dogs/images/f.png)
 
-## One Headline
+<a id="one-headline"></a>
+## <img src="./one-headline/images/icon.png" alt="Icon" height="50"> One Headline
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=243967)
 
@@ -369,7 +405,8 @@ News of the day, one headline at a time. News sourced from Kagi News.
 
 ![Screenshot](./one-headline/images/f.png)
 
-## Custom Next Holiday
+<a id="custom-next-holiday"></a>
+## <img src="./custom-next-holiday/images/icon.png" alt="Icon" height="50"> Custom Next Holiday
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=257171)
 
@@ -387,7 +424,8 @@ Countdown to your custom holidays. Support absolute dates, date of month, and n-
 
 ![Screenshot](./custom-next-holiday/images/f.png)
 
-## Random Computer
+<a id="random-computer"></a>
+## <img src="./random-computer/images/icon.png" alt="Icon" height="50"> Random Computer
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=258479)
 

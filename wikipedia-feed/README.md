@@ -1,4 +1,4 @@
-# Wikipedia Feed
+# <img src="./images/icon.png" alt="Icon" height="50"> Wikipedia Feed
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=148054)
 

@@ -1,4 +1,4 @@
-# Public Recipe Stats
+# <img src="./images/icon.png" alt="Icon" height="50"> Public Recipe Stats
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=170970)
 

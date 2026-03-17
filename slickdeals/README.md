@@ -1,4 +1,4 @@
-# Slickdeals Frontpage
+# <img src="./images/icon.png" alt="Icon" height="50"> Slickdeals Frontpage
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=184875)
 

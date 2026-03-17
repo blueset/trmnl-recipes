@@ -1,0 +1,142 @@
+*** Begin Patch
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\github-trending-repos\README.md
+-# GitHub Trending Repos
++# ![Icon](./images/icon.png) GitHub Trending Repos
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\http-dogs\README.md
+-# HTTP Dogs
++# ![Icon](./images/icon.svg) HTTP Dogs
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\lyricova-quote\README.md
+-# Lyricova Quote
++# ![Icon](./images/icon.png) Lyricova Quote
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\one-headline\README.md
+-# One Headline
++# ![Icon](./images/icon.png) One Headline
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\public-recipe-stats\README.md
+-# Public Recipe Stats
++# ![Icon](./images/icon.png) Public Recipe Stats
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\random-computer\README.md
+-# Random Computer
++# ![Icon](./images/icon.png) Random Computer
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\random-google-fonts\README.md
+-# Random Google Fonts
++# ![Icon](./images/icon.png) Random Google Fonts
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\random-mdn-article\README.md
+-# Random MDN Article
++# ![Icon](./images/icon.png) Random MDN Article
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\random-unicode\README.md
+-# Random Unicode
++# ![Icon](./images/icon.png) Random Unicode
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\random-zi\README.md
+-# Random Zi
++# ![Icon](./images/icon.png) Random Zi
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\slickdeals\README.md
+-# Slickdeals Frontpage
++# ![Icon](./images/icon.png) Slickdeals Frontpage
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\sun-chart\README.md
+-# Sun Chart
++# ![Icon](./images/icon.png) Sun Chart
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\tatoeba\README.md
+-# Tatoeba
++# ![Icon](./images/icon.png) Tatoeba
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\transit\README.md
+-# Puget Sound Transit Nearby
++# ![Icon](./images/icon.svg) Puget Sound Transit Nearby
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\visa-bulletin\README.md
+-# Visa Bulletin (Unlisted)
++# ![Icon](./images/icon.png) Visa Bulletin (Unlisted)
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\wikipedia-feed\README.md
+-# Wikipedia Feed
++# ![Icon](./images/icon.png) Wikipedia Feed
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\word-clock-ja\README.md
+-# Word Clock 日本語
++# ![Icon](./images/icon.png) Word Clock 日本語
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\word-clock-zh\README.md
+-# Word Clock 中文
++# ![Icon](./images/icon.png) Word Clock 中文
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\world-clock\README.md
+-# World clock
++# ![Icon](./images/icon.png) World clock
+*** Update File: C:\Users\ilove\Codebase\trmnl-recipies\wsdot\README.md
+-# Washington DOT Real-time Travel Info
++# ![Icon](./images/icon.svg) Washington DOT Real-time Travel Info
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## GitHub Trending Repos
++<a id="github-trending-repos"></a>
++## ![Icon](./github-trending-repos/images/icon.png) GitHub Trending Repos
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## HTTP Dogs
++<a id="http-dogs"></a>
++## ![Icon](./http-dogs/images/icon.svg) HTTP Dogs
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Lyricova Quote
++<a id="lyricova-quote"></a>
++## ![Icon](./lyricova-quote/images/icon.png) Lyricova Quote
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## One Headline
++<a id="one-headline"></a>
++## ![Icon](./one-headline/images/icon.png) One Headline
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Public Recipe Stats
++<a id="public-recipe-stats"></a>
++## ![Icon](./public-recipe-stats/images/icon.png) Public Recipe Stats
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Random Computer
++<a id="random-computer"></a>
++## ![Icon](./random-computer/images/icon.png) Random Computer
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Random Google Fonts
++<a id="random-google-fonts"></a>
++## ![Icon](./random-google-fonts/images/icon.png) Random Google Fonts
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Random MDN Article
++<a id="random-mdn-article"></a>
++## ![Icon](./random-mdn-article/images/icon.png) Random MDN Article
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Random Unicode
++<a id="random-unicode"></a>
++## ![Icon](./random-unicode/images/icon.png) Random Unicode
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Random Zi
++<a id="random-zi"></a>
++## ![Icon](./random-zi/images/icon.png) Random Zi
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Slickdeals Frontpage
++<a id="slickdeals-frontpage"></a>
++## ![Icon](./slickdeals/images/icon.png) Slickdeals Frontpage
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Sun Chart
++<a id="sun-chart"></a>
++## ![Icon](./sun-chart/images/icon.png) Sun Chart
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Tatoeba
++<a id="tatoeba"></a>
++## ![Icon](./tatoeba/images/icon.png) Tatoeba
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Puget Sound Transit Nearby
++<a id="puget-sound-transit-nearby"></a>
++## ![Icon](./transit/images/icon.svg) Puget Sound Transit Nearby
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Visa Bulletin (Unlisted)
++<a id="visa-bulletin-unlisted"></a>
++## ![Icon](./visa-bulletin/images/icon.png) Visa Bulletin (Unlisted)
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Wikipedia Feed
++<a id="wikipedia-feed"></a>
++## ![Icon](./wikipedia-feed/images/icon.png) Wikipedia Feed
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Word Clock 日本語
++<a id="word-clock-日本語"></a>
++## ![Icon](./word-clock-ja/images/icon.png) Word Clock 日本語
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Word Clock 中文
++<a id="word-clock-中文"></a>
++## ![Icon](./word-clock-zh/images/icon.png) Word Clock 中文
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## World clock
++<a id="world-clock"></a>
++## ![Icon](./world-clock/images/icon.png) World clock
+*** Update File: c:\Users\ilove\Codebase\trmnl-recipies\README.md
+-## Washington DOT Real-time Travel Info
++<a id="washington-dot-real-time-travel-info"></a>
++## ![Icon](./wsdot/images/icon.svg) Washington DOT Real-time Travel Info
+*** End Patch

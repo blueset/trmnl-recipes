@@ -1,4 +1,4 @@
-# Lyricova Quote
+# <img src="./images/icon.png" alt="Icon" height="50"> Lyricova Quote
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=150439)
 

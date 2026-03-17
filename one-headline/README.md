@@ -1,4 +1,4 @@
-# One Headline
+# <img src="./images/icon.png" alt="Icon" height="50"> One Headline
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=243967)
 

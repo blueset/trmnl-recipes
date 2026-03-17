@@ -1,4 +1,4 @@
-# Sun Chart
+# <img src="./images/icon.png" alt="Icon" height="50"> Sun Chart
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=195274)
 

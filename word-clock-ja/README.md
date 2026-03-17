@@ -1,4 +1,4 @@
-# Word Clock 日本語
+# <img src="./images/icon.png" alt="Icon" height="50"> Word Clock 日本語
 
 ![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=187661)
 
