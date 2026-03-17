@@ -228,9 +228,9 @@ createApp({
 
     const dateFormats = [
       { value: 'absolute', label: 'Absolute (YYYY-MM-DD)' },
-      { value: 'monthly', label: 'Monthly (MM-DD)' },
-      { value: 'nthWeekday', label: 'Nth Weekday' },
-      { value: 'lastNthWeekday', label: 'Last Nth Weekday' },
+      { value: 'monthly', label: 'Annually (MM-DD)' },
+      { value: 'nthWeekday', label: 'Nth Weekday of a month' },
+      { value: 'lastNthWeekday', label: 'Last Nth Weekday of a month' },
     ];
 
     const today = Temporal.Now.plainDateISO();

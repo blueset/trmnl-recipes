@@ -102,7 +102,7 @@
             <div><label>Day</label><input type="number" v-model.number="h._day" min="1" max="31"></div>
           </div>
 
-          <!-- Monthly MM-DD -->
+          <!-- Annually MM-DD -->
           <div v-if="h._dateType === 'monthly'" class="date-fields">
               <div class="month-field">
                 <label>Month</label>
@@ -254,7 +254,7 @@
           <td>A single, one-time date. 19th January, 2038.</td>
         </tr>
         <tr>
-          <td>Monthly date</td>
+          <td>Annual date</td>
           <td><code>MM-DD</code></td>
           <td><code>12-25</code></td>
           <td>Recurring yearly on the same month and day. 25th December every year.</td>
