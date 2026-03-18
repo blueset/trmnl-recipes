@@ -93,6 +93,7 @@ const GREGORIAN_MONTH_OPTIONS = MONTH_NAMES.map((label, index) => ({
   shortLabel: MONTH_SHORT_NAMES[index],
 }));
 const monthFormatterCache = new Map();
+const DISJUNCT_LIST_FORMATTER = new Intl.ListFormat(LOCALE, { type: 'disjunction' });
 
 function supportsCustomMonthSelects() {
   if (!window.CSS?.supports) return false;
@@ -188,6 +189,10 @@ function parseDateStr(dateStr) {
   return { type: 'monthly', month: 1, day: 1, calendar: cal };
 }
 
+function isGregorianCalendarId(calendar) {
+  return !calendar || calendar === 'gregory' || calendar === 'gregorian' || calendar === 'iso8601';
+}
+
 let _nextId = 1;
 
 function makeHoliday(raw) {
@@ -222,6 +227,15 @@ createApp({
     const loadYamlText = ref('');
     const loadError = ref('');
     const copyLabel = ref('Copy');
+    const duplicateDialog = reactive({
+      open: false,
+      targetIdx: -1,
+      count: 0,
+      name: '',
+      icon: '',
+      description: '',
+      rounding: '',
+    });
 
     const calendars = getCalendars();
     const gregorianMonthOptions = GREGORIAN_MONTH_OPTIONS;
@@ -299,6 +313,64 @@ createApp({
       if (!h._useCal || !h._calendar) return GREGORIAN_MONTH_OPTIONS;
       const year = Number(h._year) || today.withCalendar(h._calendar).year;
       return getCalendarMonthOptions(year, h._calendar);
+    }
+
+    function isGregorianHoliday(h) {
+      return !h._useCal || isGregorianCalendarId(h._calendar);
+    }
+
+    function canDuplicateAcrossMonths(h) {
+      return h._dateType === 'absolute' || isGregorianHoliday(h);
+    }
+
+    function monthDuplicationCount(h) {
+      return h._dateType === 'absolute' ? calendarMonthCount(h) : 12;
+    }
+
+    function describeDuplicateDate(h) {
+      const count = monthDuplicationCount(h);
+      if (h._dateType === 'absolute') {
+        const calendarLabel = h._useCal ? calendarName(h._calendar) + ' ' : '';
+        return `Creates ${count} entries across all ${calendarLabel}months in year ${h._year}, each on day ${h._day}.`;
+      }
+      if (h._dateType === 'monthly') {
+        return `Creates 12 entries, one for each month on day ${h._day}.`;
+      }
+      if (h._dateType === 'nthWeekday') {
+        return `Creates 12 entries, one for each month on the ${ordinal(h._occurrence)} ${DOW_FULL[h._weekday - 1]}.`;
+      }
+      return `Creates 12 entries, one for each month on the ${h._occurrence === 1 ? '' : (ordinal(h._occurrence) + '')} last ${DOW_FULL[h._weekday - 1]}.`;
+    }
+
+    function describeDuplicateRounding(h) {
+      if (!h.round || h.round.length === 0) return '';
+      const weekdays = [...h.round].sort((a, b) => a - b).map(d => DOW_FULL[d - 1]);
+      return `Rounding to the nearest ${DISJUNCT_LIST_FORMATTER.format(weekdays)}.`;
+    }
+
+    function buildMonthDuplicateDate(h, month) {
+      let base = '';
+      if (h._dateType === 'absolute') {
+        base = `${h._year}-${String(month).padStart(2, '0')}-${String(h._day).padStart(2, '0')}`;
+      } else if (h._dateType === 'monthly') {
+        base = `${String(month).padStart(2, '0')}-${String(h._day).padStart(2, '0')}`;
+      } else if (h._dateType === 'nthWeekday') {
+        base = `${String(month).padStart(2, '0')}W${h._occurrence}-${h._weekday}`;
+      } else if (h._dateType === 'lastNthWeekday') {
+        base = `${String(month).padStart(2, '0')}Wn${h._occurrence}-${h._weekday}`;
+      }
+      if (h._useCal && h._calendar) base += `[u-ca=${h._calendar}]`;
+      return base;
+    }
+
+    function buildMonthDuplicates(h) {
+      const count = monthDuplicationCount(h);
+      return Array.from({ length: count }, (_, index) => makeHoliday({
+        name: h.name,
+        icon: h.icon,
+        round: h.round ? [...h.round] : [],
+        date: buildMonthDuplicateDate(h, index + 1),
+      }));
     }
 
     function normalizeMonth(h) {
@@ -454,6 +526,44 @@ createApp({
       }
     }
 
+    function closeDuplicateDialog() {
+      duplicateDialog.open = false;
+      duplicateDialog.targetIdx = -1;
+      duplicateDialog.count = 0;
+      duplicateDialog.name = '';
+      duplicateDialog.icon = '';
+      duplicateDialog.description = '';
+      duplicateDialog.rounding = '';
+    }
+
+    function openDuplicateDialog(idx) {
+      const holiday = holidays.value[idx];
+      if (!holiday || !canDuplicateAcrossMonths(holiday)) return;
+      duplicateDialog.open = true;
+      duplicateDialog.targetIdx = idx;
+      duplicateDialog.count = monthDuplicationCount(holiday);
+      duplicateDialog.name = holiday.name;
+      duplicateDialog.icon = holiday.icon;
+      duplicateDialog.description = describeDuplicateDate(holiday);
+      duplicateDialog.rounding = describeDuplicateRounding(holiday);
+    }
+
+    function confirmDuplicateDialog() {
+      const idx = duplicateDialog.targetIdx;
+      const holiday = holidays.value[idx];
+      if (!holiday || !canDuplicateAcrossMonths(holiday)) {
+        closeDuplicateDialog();
+        return;
+      }
+
+      const duplicates = buildMonthDuplicates(holiday);
+      holidays.value.splice(idx, 1, ...duplicates);
+      closeDuplicateDialog();
+      if (duplicates.length > 0) {
+        openAndScrollTo(duplicates[0]._id);
+      }
+    }
+
     // Icon picker
     const iconPicker = reactive({
       open: false,
@@ -524,10 +634,11 @@ createApp({
 
     return {
       started, holidays, showYaml, showLoad, loadYamlText, loadError,
-      copyLabel, calendars, dateFormats, today, iconPicker, gregorianMonthOptions,
+      copyLabel, calendars, dateFormats, today, iconPicker, gregorianMonthOptions, duplicateDialog,
       composeDateStr, upcomingDates, generatedYaml, holidayErrors, hasAnyErrors,
       addHoliday, remove, move, startFresh, loadYaml, copyYaml,
       openIconPicker, debouncedIconSearch, selectIcon,
+      canDuplicateAcrossMonths, openDuplicateDialog, closeDuplicateDialog, confirmDuplicateDialog,
       monthName, dowName, ordinal, calendarName, calendarMonthCount, absoluteMonthOptions,
     };
   }

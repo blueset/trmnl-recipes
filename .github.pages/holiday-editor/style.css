@@ -252,6 +252,12 @@ body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
 .upcoming-list li::marker { content: none; }
 .upcoming-list li .dow { color: var(--pico-muted-color); font-family: var(--pico-font-family); }
 .upcoming-none { font-size: 0.85rem; color: var(--pico-muted-color); }
+.holiday-footer-actions {
+  display: flex;
+  justify-content: end;
+  margin-top: 1rem;
+}
+.holiday-footer-actions button { margin: 0; }
 
 /* YAML output */
 .yaml-output {
@@ -291,6 +297,29 @@ body { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
 .load-dialog .actions { display: flex; gap: 0.5rem; justify-content: end; margin-top: 0.75rem; }
 .load-dialog .actions button { margin: 0; }
 .load-dialog .error { color: var(--pico-del-color); font-size: 0.85rem; margin-top: 0.5rem; }
+.duplicate-dialog { max-width: 560px; }
+.duplicate-preview {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius);
+  background: var(--pico-code-background-color);
+}
+.duplicate-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.duplicate-preview-description,
+.duplicate-preview-rounding {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.duplicate-preview-rounding {
+  margin-top: 0.5rem;
+  color: var(--pico-muted-color);
+}
 
 /* Section labels */
 fieldset { margin-bottom: 0.75rem; }

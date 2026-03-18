@@ -139,7 +139,7 @@
                   <option v-for="option in gregorianMonthOptions" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
                 </select>
               </div>
-            <div><label>From End</label><select v-model.number="h._occurrence"><option v-for="n in 5" :value="n">{{ ordinal(n) }} last</option></select></div>
+            <div><label>From End</label><select v-model.number="h._occurrence"><option v-for="n in 5" :value="n">{{ n === 1 ? '' : ordinal(n) }} last</option></select></div>
             <div><label>Weekday</label><select v-model.number="h._weekday"><option v-for="d in 7" :value="d">{{ dowName(d) }}</option></select></div>
           </div>
 
@@ -184,6 +184,10 @@
           </ul>
           <p v-else class="upcoming-none">No upcoming occurrences found.</p>
         </fieldset>
+
+        <div v-if="canDuplicateAcrossMonths(h)" class="holiday-footer-actions">
+          <button class="secondary" @click="openDuplicateDialog(idx)">Repeat for all months</button>
+        </div>
       </div>
     </details>
       </div><!-- /.editor-main -->
@@ -226,6 +230,26 @@
       <div class="icon-picker-footer">
         <span class="icon-picker-hovered">{{ iconPicker.hovered }}</span>
         <button class="secondary" @click="iconPicker.open = false">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Duplicate confirmation modal -->
+  <div v-if="duplicateDialog.open" class="load-overlay" @click.self="closeDuplicateDialog">
+    <div class="load-dialog duplicate-dialog">
+      <h3>Repeat Holiday for All Months</h3>
+      <p>Replace this holiday with {{ duplicateDialog.count }} month-specific entries based on the current item?</p>
+      <div class="duplicate-preview">
+        <div class="duplicate-preview-header">
+          <iconify-icon :icon="duplicateDialog.icon || 'fluent:calendar-20-regular'" width="24"></iconify-icon>
+          <strong>{{ duplicateDialog.name || '(unnamed)' }}</strong>
+        </div>
+        <p class="duplicate-preview-description">{{ duplicateDialog.description }}</p>
+        <p v-if="duplicateDialog.rounding" class="duplicate-preview-rounding">{{ duplicateDialog.rounding }}</p>
+      </div>
+      <div class="actions">
+        <button class="secondary" @click="closeDuplicateDialog">Cancel</button>
+        <button @click="confirmDuplicateDialog">Duplicate</button>
       </div>
     </div>
   </div>
