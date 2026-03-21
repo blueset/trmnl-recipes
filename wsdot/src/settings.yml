@@ -4,6 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
+framework_version: 2.3.7
 polling_url: |-
   https://wsdot.wa.gov/traffic/api/TravelTimes/kml.aspx
   https://wsdot.wa.gov/traffic/api/HighwayAlerts/kml.aspx
