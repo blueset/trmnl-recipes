@@ -4,6 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
+framework_version: 2.3.7
 polling_url: https://computernewb.com/vncresolver/api/v1/random
 polling_headers: ''
 polling_body: ''
