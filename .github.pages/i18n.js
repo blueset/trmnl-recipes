@@ -18,7 +18,7 @@ function transformDataset(dataset) {
   return params;
 }
 
-const getLocale = (() => {
+const getLocale = ((script) => {
   try {
     const root = script.closest(".view");
     return root.querySelector("[data-t-data]").lang || "en";
@@ -28,7 +28,7 @@ const getLocale = (() => {
   }
 });
 
-const getStrings = (() => {
+const getStrings = ((script) => {
   try {
     const root = script.closest(".view");
     return JSON.parse(root.querySelector("[data-t-data]").dataset.tData);
@@ -143,9 +143,9 @@ function getScript(id) {
 }
 
 function applyPlaintext(functions = {}, options = {}) {
-  const strings = getStrings();
-  const locale = getLocale();
   const script = getScript(options.scriptId);
+  const strings = getStrings(script);
+  const locale = getLocale(script);
   const view = (script ?? document.body).closest(".view");
   view.querySelectorAll("[data-t]").forEach((e) => {
     try {
@@ -163,9 +163,9 @@ function applyPlaintext(functions = {}, options = {}) {
 }
 
 function applyHTML(functions = {}, markups = {}, options = {}) {
-  const strings = getStrings();
-  const locale = getLocale();
   const script = getScript(options.scriptId);
+  const strings = getStrings(script);
+  const locale = getLocale(script);
   const view = (script ?? document.body).closest(".view");
   view.querySelectorAll("[data-t]").forEach((e) => {
     try {
