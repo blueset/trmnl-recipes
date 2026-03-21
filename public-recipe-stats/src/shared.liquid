@@ -264,9 +264,10 @@ async function handleImageError(img) {
 }
 </script>
 
-<script type="module" data-t-script>
-  import { applyPlaintext } from 'https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@2e95bbd620f0c5d0726e3dfbe4d765edb417ccf8/i18n.js';
-  applyPlaintext();
+{% assign script_id = "custom-next-holiday-" | append_random %}
+<script type="module" data-t-script id="{{ script_id }}">
+  import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+  applyPlaintext({}, { scriptId: "{{ script_id }}" });
 </script>
 
 <script type="module" src="https://blueset.github.io/trmnl-recipes/trmnl-play-cdn.mjs"></script>

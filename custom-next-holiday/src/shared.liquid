@@ -165,8 +165,10 @@
   }
 {% endraw %}
 </script>
-<script type="module" data-t-script>
-  import { applyHTML } from 'https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks/i18n.js';
+
+{% assign script_id = "custom-next-holiday-" | append_random %}
+<script type="module" data-t-script id="{{ script_id }}">
+  import { applyHTML } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
   applyHTML({ 
     /* functions */
   }, {
@@ -191,6 +193,6 @@
       return node;
     },
     br: () => document.createElement('br'),
-  });
+  }, { scriptId: "{{ script_id }}" });
 </script>
 {% endtemplate %}

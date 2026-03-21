@@ -543,7 +543,8 @@
 })();
 </script>
 
-<script type="module" data-t-script>
-  import { applyPlaintext } from 'https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@2e95bbd620f0c5d0726e3dfbe4d765edb417ccf8/i18n.js';
-  applyPlaintext();
+{% assign script_id = "world-clock-" | append_random %}}
+<script type="module" id="{{ script_id }}" data-t-script>
+  import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+  applyPlaintext({}, { scriptId: "{{ script_id }}" });
 </script>

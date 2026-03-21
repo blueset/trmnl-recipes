@@ -4,23 +4,23 @@
 </style>
 
 {% assign instance_id = "chart-" | append_random %}
-<script type="module" data-id="{{ instance_id }}" data-t-script>
+<script type="module" id="{{ instance_id }}" data-t-script>
   import suncalc from 'https://cdn.jsdelivr.net/npm/suncalc@1.9.0/+esm';
   import tzLookup from 'https://cdn.jsdelivr.net/npm/tz-lookup@6.1.25/+esm';
   import {
     Temporal
   } from 'https://cdn.jsdelivr.net/npm/@js-temporal/polyfill@0.5.1/+esm';
-  import { applyPlaintext } from 'https://cdn.jsdelivr.net/gh/blueset/trmnl-tricks@2e95bbd620f0c5d0726e3dfbe4d765edb417ccf8/i18n.js';
+  import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
   import { DefaultFunctions } from 'https://cdn.jsdelivr.net/npm/messageformat@4.0.0-13/lib/functions/+esm';
   
-  applyPlaintext({});
+  applyPlaintext({}, { scriptId: "{{ instance_id }}" });
   
   // Line below includes Liquid variables 
   const {
     Latitude,
     Longitude
   } = {{ trmnl.plugin_settings.custom_fields_values | json }} || {"Latitude": 0, "Longitude": 0};
-  const root = document.querySelector(".view:has([data-id='{{ instance_id }}'])");
+  const root = document.querySelector(".view:has(#{{ instance_id }})");
   const locale = root.querySelector("[lang]").lang || 'en';
   const hourCycle = root.querySelector("[data-hour-cycle]").dataset.hourCycle || 'h23';
   const timeZone = root.querySelector("[data-hour-cycle]").dataset.tz || tzLookup(Latitude, Longitude);
