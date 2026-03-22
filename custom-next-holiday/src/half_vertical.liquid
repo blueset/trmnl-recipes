@@ -1,4 +1,4 @@
-<div style="display: contents;" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ 'custom_next_holiday' | l_word: trmnl.user.locale | json | escape }}" data-holidays="{{ trmnl.plugin_settings.custom_fields_values.holidays | escape }}">
+<div style="display: contents;" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ 'custom_next_holiday' | l_word: trmnl.user.locale | json | escape }}" data-holidays="{{ trmnl.plugin_settings.custom_fields_values.holidays | default: "[]" | escape }}">
   <div class="layout layout--row" data-tz="{{ trmnl.user.time_zone_iana }}">
     <div class="flex flex-col grow h-full w-full justify-center">
       <div class="grow-0 w-full text-center place-content-center h-[30cqw] port:h-[50cqw] text-start" style="container-type: size;">
