@@ -8,15 +8,25 @@
 </style>
 
 <script>
+(() => {
   const root = document.currentScript.closest('.view');
   let holidays;
   const noHolidayIcon = "fluent:calendar-sync-20-regular";
+  const isPreview = !!document.getElementById("screen-picker-component");
+  const defaultHolidays = isPreview ? [
+    {
+      name: "New Year",
+      date: "01-01",
+      icon: "fluent-emoji-flat:fireworks",
+    }
+  ] : [];
   try {
-    holidays = jsyaml.load(root.querySelector('[data-holidays]').dataset.holidays);
+    holidays = jsyaml.load(root.querySelector('[data-holidays]').dataset.holidays) ?? defaultHolidays;
   } catch (e) {
     console.error("Failed to parse holidays YAML:", e);
-    holidays = [];
+    holidays = defaultHolidays;
   }
+  if (!holidays.length) { holidays = defaultHolidays; }
 
   const tz = root.querySelector('.layout').dataset.tz || Temporal.Now.timeZoneId();
   const today = Temporal.Now.plainDateISO(tz);
@@ -164,6 +174,7 @@
     textEl.innerText = "{#subLabel}End of added holidays.{/subLabel}";
   }
 {% endraw %}
+})();
 </script>
 
 {% assign script_id = "custom-next-holiday-" | append_random %}

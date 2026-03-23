@@ -543,7 +543,7 @@
 })();
 </script>
 
-{% assign script_id = "world-clock-" | append_random %}}
+{% assign script_id = "world-clock-" | append_random %}
 <script type="module" id="{{ script_id }}" data-t-script>
   import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
   applyPlaintext({}, { scriptId: "{{ script_id }}" });

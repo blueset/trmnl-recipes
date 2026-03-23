@@ -133,6 +133,7 @@
   }
 </style>
 <script>
+(() => {
   const root = document.currentScript.parentElement;
   const grid = root.querySelector('.grid-row-fit');
   const resizeObserver = new ResizeObserver(entries => {
@@ -145,5 +146,6 @@
     }
   });
   resizeObserver.observe(grid);
+})();
 </script>
 {% endtemplate %}

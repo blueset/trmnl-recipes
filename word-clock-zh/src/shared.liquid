@@ -3,7 +3,7 @@
 {% assign hour = user_timestamp | date: "%H" %} 
 {% assign minute = user_timestamp | date: "%M" %}
 {% assign cycle = trmnl.plugin_settings.custom_fields_values.cycle %}
-{% assign script = trmnl.plugin_settings.custom_fields_values.script %}
+{% assign script = trmnl.plugin_settings.custom_fields_values.script | default: "hant" %}
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap');
@@ -59,10 +59,11 @@
 
 <script>
   (() => {
-    const hour = parseInt(document.querySelector('.layout').dataset.hour);
-    const minute = parseInt(document.querySelector('.layout').dataset.minute);
-    const cycle = document.querySelector('.layout').dataset.cycle;
-    const wordNodes = document.querySelectorAll('.wc_clock span');
+    const root = document.currentScript.closest(".view");
+    const hour = parseInt(root.querySelector('.layout').dataset.hour);
+    const minute = parseInt(root.querySelector('.layout').dataset.minute);
+    const cycle = root.querySelector('.layout').dataset.cycle;
+    const wordNodes = root.querySelectorAll('.wc_clock span');
 
     // Snap minute to nearest 5 (floor)
     const snappedMinute = Math.floor(minute / 5) * 5;
@@ -136,7 +137,7 @@
       }
     }
 
-    function getLocalizedTimeZoneName(tzdataId = {{ trmnl.user.time_zone_iana | json }}, locale = 'zh-{{ script }}') {
+    function getLocalizedTimeZoneName(tzdataId = {{ trmnl.user.time_zone_iana | default: "Etc/UTC" | json }}, locale = 'zh-{{ script }}') {
       // Create a new Date object. The specific date doesn't matter for getting the timezone name,
       // but a date is required for the Intl.DateTimeFormat constructor.
       const date = new Date(); 
@@ -158,9 +159,9 @@
       const parts = formatter.formatToParts(date);
       const timeZoneNamePart = parts.find(part => part.type === 'timeZoneName');
     
-      return timeZoneNamePart ? timeZoneNamePart.value : {{ trmnl.user.time_zone | json }};
+      return timeZoneNamePart ? timeZoneNamePart.value : {{ trmnl.user.time_zone | default: "Etc/UTC" | json }};
     }
     
-    document.querySelector('.word-clock-zh .instance').innerText = getLocalizedTimeZoneName();
+    root.querySelector('.word-clock-zh .instance').innerText = getLocalizedTimeZoneName();
   })();
 </script>
