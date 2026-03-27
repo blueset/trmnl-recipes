@@ -5,6 +5,7 @@ dark_mode: 'no'
 static_data: ''
 polling_verb: get
 framework_version: 2.3.7
+serverless_language: 
 polling_url: 'https://lyricova.1a23.studio/api/verse?{% if tags and tags[0] != "" %}&tags={{ tags | join: "," }}{% endif %}{% if languages and languages[0] != "" %}&languages={{ languages | join: "," }}{% endif %}{% if type and type != "" %}&type={{ type }}{% endif %}'
 polling_headers: ''
 polling_body: ''

@@ -5,6 +5,7 @@ dark_mode: 'no'
 static_data: ''
 polling_verb: get
 framework_version: 2.3.7
+serverless_language: 
 polling_url: ''
 polling_headers: ''
 polling_body: ''

@@ -5,6 +5,7 @@ dark_mode: 'no'
 static_data: ''
 polling_verb: get
 framework_version: 2.3.7
+serverless_language: 
 polling_url: https://news.kagi.com/{{ category }}.json
 polling_headers: ''
 polling_body: ''
