@@ -5,6 +5,7 @@ dark_mode: 'no'
 static_data: ''
 polling_verb: get
 framework_version: 2.3.7
+serverless_language: 
 polling_url: "{% case selection %}\r\n{% when \"recipe_ids\" %}\r\n{% assign ids = recipe_ids | split: \",\" %}\r\n{% for id in ids %}\r\nhttps://trmnl.com/recipes/{{ id }}.json\r\n{% endfor %}\r\n{% when \"author_id\" %}\r\nhttps://trmnl.com/recipes.json?user_id={{ author_id | default: trmnl.user.id }}&sort-by=popularity\r\n{% when \"keyword\" %}\r\nhttps://trmnl.com/recipes.json?search={{ keyword | url_encode }}&sort-by=newest\r\n{% endcase %}"
 polling_headers: ''
 polling_body: ''
