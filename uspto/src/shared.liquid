@@ -1,0 +1,24 @@
+{% template reorder %}
+
+<script>
+  (() => {
+    const root = document.currentScript.closest(".view");
+    const imgs = root.querySelectorAll("img");
+    Promise.all([...imgs].map(img => img.complete ? Promise.resolve() : new Promise(r => { img.onload = img.onerror = r; }))).then(() => {
+      const items = [...root.querySelectorAll(".item")].map(a => ({
+        img: a.querySelector("img"),
+        title: a.querySelector(".title"),
+        desc: a.querySelector(".description"),
+      }));
+      const alt = items.find(i => i.img && i.img.naturalHeight !== 108);
+      if (alt && alt !== items[0]) {
+        const swap = (a, b, prop) => { const t = a[prop]; a[prop] = b[prop]; b[prop] = t; };
+        swap(alt.img, items[0].img, "src");
+        swap(alt.title, items[0].title, "innerText");
+        swap(alt.desc, items[0].desc, "innerText");
+      }
+    });
+  })();
+</script>
+
+{% endtemplate %}

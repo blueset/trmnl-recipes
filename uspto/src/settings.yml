@@ -1,0 +1,22 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version: latest
+serverless_language: node
+polling_url: https://trmnl.1a23.workers.dev/uspto
+polling_headers: ''
+polling_body: ''
+id: 264269
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: A random selections new trademarks registered today to USPTO. Data courtesy of <a href="https://uspto.report/TM/" target="_blank">USPTO.report</a>.
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://uspto.report/TM/
+  category: discovery,marketing
+name: USPTO New Trademarks
+refresh_interval: 240

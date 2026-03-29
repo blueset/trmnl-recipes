@@ -1,0 +1,40 @@
+<div class="layout">
+  <div class="columns" data-overflow-max-cols="3">
+    <div class="column">
+      {% for item in items %}
+        <div class="item">
+          <div class="meta"></div>
+          {% if forloop.index == 1 %}
+          <div class="content lg:flex flex--center-y flex--col flex--left gap--none hidden">
+            <img src="https://uspto.report/TM/{{ item.id }}/mark" style="max-width: 80%; max-height: 30cqh;" />
+            <span class="title title--small">{{ item.mark }}</span>
+            <span class="description">{{ item.owner }}</span>
+          </div>
+          <div class="flex lg:hidden flex--center-y flex--col flex--left gap--none mr--2">
+            <img src="https://uspto.report/TM/{{ item.id }}/mark" style="width:8cqw;" />
+          </div>
+          <div class="content flex lg:hidden flex--center-y flex--col flex--left gap--none">
+            <span class="title title--small">{{ item.mark }}</span>
+            <span class="description">{{ item.owner }}</span>
+          </div>
+          {% else %}
+          <div class="flex flex--center-y flex--col flex--left gap--none mr--2">
+            <img src="https://uspto.report/TM/{{ item.id }}/mark" style="width:8cqw;" />
+          </div>
+          <div class="content flex flex--center-y flex--col flex--left gap--none">
+            <span class="title title--small">{{ item.mark }}</span>
+            <span class="description">{{ item.owner }}</span>
+          </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <span class="title">Ⓡ<span class="inline-block w--2"></span>USPTO New Trademarks</span>
+  <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
+</div>
+
+{% render "reorder" %}
