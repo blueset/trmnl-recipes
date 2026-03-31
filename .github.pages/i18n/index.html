@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>i18n.js — TRMNL Recipes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@intergrav/dev.css@4" />
+  <style>
+    pre { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 0.4em 0.6em; border: 1px solid var(--border, #ccc); }
+    th { background: var(--surface2, #f0f0f0); }
+    .tag { font-family: monospace; background: var(--surface2, #eee); padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+    /* Shiki syntax highlighting */
+    .shiki { overflow-x: auto; padding: 0.75em 1em; border-radius: 4px; font-size: 0.875em; line-height: 1.5; }
+    .shiki code { background: none; padding: 0; }
+    @media (prefers-color-scheme: dark) {
+      .shiki, .shiki span {
+        color: var(--shiki-dark) !important;
+        background-color: var(--shiki-dark-bg) !important;
+        font-style: var(--shiki-dark-font-style) !important;
+        font-weight: var(--shiki-dark-font-weight) !important;
+        text-decoration: var(--shiki-dark-text-decoration) !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>i18n.js</h1>
+  <p>
+    A lightweight localization helper for <a href="https://github.com/blueset/trmnl-recipes">TRMNL recipes</a>.
+    It reads translation strings and a locale from a DOM element, then formats every
+    <span class="tag">[data-t]</span> element in the same view using
+    <a href="https://unicode-org.github.io/icu/userguide/format_parse/messages/mf2.html">Unicode MessageFormat&nbsp;2</a>
+    (via <a href="https://messageformat.github.io/">messageformat v4</a>).
+  </p>
+  <p>
+    <strong>URL:</strong>
+    <code>https://blueset.github.io/trmnl-recipes/i18n.js</code>
+  </p>
+
+  <nav>
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#quick-start">Quick Start</a></li>
+      <li><a href="#tutorial">Tutorial</a></li>
+      <li>
+        <a href="#documentation">Documentation</a>
+        <ol>
+          <li><a href="#html-attributes">HTML Attributes</a></li>
+          <li><a href="#javascript-api">JavaScript API</a></li>
+          <li><a href="#messageformat-syntax">MessageFormat Syntax</a></li>
+          <li><a href="#l_word-filter">The <code>l_word</code> Liquid Filter</a></li>
+          <li><a href="#custom-functions">Custom Functions</a></li>
+          <li><a href="#custom-markup">Custom Markup (applyHTML)</a></li>
+        </ol>
+      </li>
+    </ol>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <h2 id="quick-start">Quick Start</h2>
+
+  <p>Three steps are all you need to add localization to a recipe layout:</p>
+
+  <h3>Step 1 — Supply translation strings and locale</h3>
+  <p>
+    Add a <em>container element</em> anywhere in the view that carries the user's locale in
+    its <span class="tag">lang</span> attribute and a flat JSON object of translation strings
+    in its <span class="tag">data-t-data</span> attribute.
+    There are two ways to supply strings (see <a href="#l_word-filter">Choosing between
+    <code>l_word</code> and inline strings</a> for guidance):
+  </p>
+  <pre><code class="language-liquid">&lt;!-- Option A: load strings from trmnl-i18n via l_word --&gt;
+&lt;div lang="{{ trmnl.user.locale | escape }}"
+     data-t-data="{{ 'my_plugin_key' | l_word: trmnl.user.locale | json | escape }}"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+  <pre><code class="language-liquid">&lt;!-- Option B: supply strings inline in the template --&gt;
+{% assign locales = '{"en":{"greeting":"Hello, {$name}!"},"fr":{"greeting":"Bonjour, {$name}!"}}' | parse_json %}
+&lt;div lang="{{ trmnl.user.locale | escape }}"
+     data-t-data="{{ locales[trmnl.user.locale] | json | escape }}"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+
+  <h3>Step 2 — Mark translatable elements</h3>
+  <p>
+    Give each element a <span class="tag">data-t</span> attribute whose value is the key in
+    the translation dictionary.  Put a fallback message (plain text or MessageFormat) between
+    the tags — it is used when no translation is found.
+  </p>
+  <pre><code class="language-html">&lt;span data-t="greeting" data-t-name="Alice"&gt;Hello, {$name}!&lt;/span&gt;
+&lt;span data-t="count" data-t-n="3"&gt;{$n} items&lt;/span&gt;</code></pre>
+
+  <h3>Step 3 — Import and call <code>applyPlaintext</code></h3>
+  <pre><code class="language-liquid">{% assign script_id = "my-plugin-" | append_random %}
+&lt;script type="module" id="{{ script_id }}" data-t-script&gt;
+  import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+  applyPlaintext({}, { scriptId: "{{ script_id }}" });
+&lt;/script&gt;</code></pre>
+
+  <p>That's it — every <span class="tag">[data-t]</span> element inside the view is now
+  replaced with the formatted, localized string.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <h2 id="tutorial">Tutorial: Localizing a Recipe</h2>
+
+  <p>
+    This tutorial walks through adding full i18n support to a simple plugin that displays
+    a download count.  We start with a plain layout and progressively add localization.
+  </p>
+
+  <h3>Starting point</h3>
+  <pre><code class="language-liquid">&lt;!-- download-stats/src/full.liquid --&gt;
+&lt;div class="layout layout--col"&gt;
+  &lt;span class="value--xlarge"&gt;{{ data.downloads }}&lt;/span&gt;
+  &lt;span class="label"&gt;downloads&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>1. Add translation strings via <code>l_word</code></h3>
+  <p>
+    Register translation strings for the plugin key <code>download_stats</code> in the
+    <a href="https://github.com/usetrmnl/trmnl-i18n/tree/main/lib/trmnl/i18n/locales/custom_plugins">
+    trmnl-i18n custom_plugins locale files</a>.  For English (<code>en.yml</code>):
+  </p>
+  <pre><code class="language-yaml"># en.yml
+download_stats:
+  downloads: ".input {$value :number} .match $value
+    zero  {{No downloads}}
+    one   {{download}}
+    *     {{downloads}}"</code></pre>
+  <p>
+    Then wrap the layout in a container element that carries the locale and the translated
+    strings:
+  </p>
+  <pre><code class="language-liquid">&lt;div lang="{{ trmnl.user.locale | escape }}"
+     data-t-data="{{ 'download_stats' | l_word: trmnl.user.locale | json | escape }}"&gt;
+  &lt;div class="layout layout--col"&gt;
+    &lt;span class="value--xlarge"&gt;{{ data.downloads }}&lt;/span&gt;
+    &lt;span class="label"&gt;downloads&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>2. Mark elements with <code>data-t</code></h3>
+  <p>
+    Replace the static text with <span class="tag">data-t</span> keys and pass the dynamic
+    value via a <span class="tag">data-t-value</span> attribute.  The original content
+    serves as a fallback when no translation is available.
+  </p>
+  <pre><code class="language-liquid">&lt;div lang="{{ trmnl.user.locale | escape }}"
+     data-t-data="{{ 'download_stats' | l_word: trmnl.user.locale | json | escape }}"&gt;
+  &lt;div class="layout layout--col"&gt;
+    &lt;span class="value--xlarge"&gt;{{ data.downloads }}&lt;/span&gt;
+    &lt;span class="label" data-t="downloads" data-t-value="{{ data.downloads }}"&gt;
+      {% raw %}.input {$value :number} .match $value zero {{No downloads}} one {{download}} * {{downloads}}{% endraw %}
+    &lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    <em>Tip:</em> wrapping the fallback content in <code>{% raw %}…{% endraw %}</code>
+    prevents Liquid from accidentally interpreting the MessageFormat curly braces.
+  </p>
+  <p>After <code>applyPlaintext</code> runs, the rendered HTML will look like (e.g., <code>data.downloads = 42</code>, locale <code>"en"</code>):</p>
+  <pre><code class="language-html">&lt;span class="value--xlarge"&gt;42&lt;/span&gt;
+&lt;span class="label"&gt;downloads&lt;/span&gt;</code></pre>
+
+  <h3>3. Add the module script</h3>
+  <p>
+    Generate a unique ID per render to avoid collisions when a view is embedded multiple
+    times, then import and call <code>applyPlaintext</code>:
+  </p>
+  <pre><code class="language-liquid">{% assign script_id = "download-stats-" | append_random %}
+&lt;script type="module" id="{{ script_id }}" data-t-script&gt;
+  import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+  applyPlaintext({}, { scriptId: "{{ script_id }}" });
+&lt;/script&gt;</code></pre>
+
+  <h3>4. Verify</h3>
+  <p>
+    Open the recipe preview.  The label will now show the correct plural form
+    ("1 download", "42 downloads", "No downloads") and will switch language automatically
+    when the user's locale changes.
+  </p>
+
+  <h3>Bonus: inline strings without <code>l_word</code></h3>
+  <p>
+    When you supply strings inline, the recipe author is responsible for managing and
+    updating all translations.  Use <code>parse_json</code> to hold a locale map in the
+    template and look up the right object by locale at render time:
+  </p>
+  <pre><code class="language-liquid">{% assign locales = '{"en":{"downloads":".input {$value :number} .match $value zero {{No downloads}} one {{download}} * {{downloads}}"},"fr":{"downloads":".input {$value :number} .match $value zero {{Aucun téléchargement}} one {{téléchargement}} * {{téléchargements}}"}}' | parse_json %}
+&lt;div lang="{{ trmnl.user.locale | escape }}"
+     data-t-data="{{ locales[trmnl.user.locale] | json | escape }}"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+  <p>Or build / override strings programmatically in JavaScript:</p>
+  <pre><code class="language-liquid">&lt;script type="module" id="{{ script_id }}" data-t-script&gt;
+  import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+
+  // Build / override strings programmatically before applying
+  const root = document.getElementById("{{ script_id }}").closest(".view");
+  const container = root.querySelector("[data-t-data]");
+  const strings = JSON.parse(container.dataset.tData || "{}");
+  strings.extra_key = "Custom string: {$value}";
+  container.dataset.tData = JSON.stringify(strings);
+
+  applyPlaintext({}, { scriptId: "{{ script_id }}" });
+&lt;/script&gt;</code></pre>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <h2 id="documentation">Documentation</h2>
+
+  <!-- ─────────────────────────────── HTML Attributes ─── -->
+  <h3 id="html-attributes">HTML Attributes</h3>
+
+  <h4><code>lang</code></h4>
+  <p>
+    Set on the same element as <span class="tag">data-t-data</span>.  Controls the locale
+    used by MessageFormat and by browser <code>Intl</code> APIs inside custom functions.
+    Typical value: <code>{{ trmnl.user.locale | escape }}</code>.
+  </p>
+
+  <h4><code>data-t-data</code></h4>
+  <p>
+    A JSON-serialized, HTML-escaped flat object mapping translation keys to
+    <a href="#messageformat-syntax">MessageFormat 2</a> strings.  Must be present on exactly
+    one element inside the <span class="tag">.view</span> container that wraps the plugin.
+  </p>
+  <p>Sources:</p>
+  <ul>
+    <li>
+      <strong><code>l_word</code> Liquid filter</strong> — looks up strings from the
+      <a href="https://github.com/usetrmnl/trmnl-i18n/tree/main/lib/trmnl/i18n/locales/custom_plugins">
+      trmnl-i18n custom_plugins locale files</a> and returns the object for a given plugin
+      key and locale.  Recipe authors and translators contribute via pull requests to
+      <code>trmnl-i18n</code>, enabling public and centralized translation.
+      <pre><code class="language-liquid">data-t-data="{{ 'my_plugin' | l_word: trmnl.user.locale | json | escape }}"</code></pre>
+    </li>
+    <li>
+      <strong>Inline Liquid strings</strong> — define a locale map directly in the template
+      using <code>parse_json</code>; the recipe author is responsible for maintaining all
+      translations.
+      <pre><code class="language-liquid">{% assign locales = '{"en":{"hello":"Hello, {$name}!"},"fr":{"hello":"Bonjour, {$name}!"}}' | parse_json %}
+data-t-data="{{ locales[trmnl.user.locale] | json | escape }}"</code></pre>
+    </li>
+    <li>
+      <strong>JavaScript</strong> — set <code>element.dataset.tData</code> before calling
+      <code>applyPlaintext</code>/<code>applyHTML</code>.
+    </li>
+  </ul>
+
+  <h4><code>data-t</code></h4>
+  <p>
+    Translation key for the element.  The library looks up this key in the dictionary
+    supplied by <span class="tag">data-t-data</span>.  If the key is not found, the element's
+    existing <code>innerHTML</code> is used as the MessageFormat pattern instead (fallback).
+  </p>
+  <pre><code class="language-html">&lt;span data-t="greeting"&gt;Hello!&lt;/span&gt;</code></pre>
+
+  <h4><code>data-t-<em>variable</em></code></h4>
+  <p>
+    Passes a named variable to the MessageFormat formatter.  The attribute name after the
+    <code>data-t-</code> prefix is converted to camelCase and becomes the variable name
+    accessible as <code>{$<em>variable</em>}</code> in the pattern.
+  </p>
+  <table>
+    <thead>
+      <tr><th>HTML attribute</th><th>MessageFormat variable</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>data-t-value="42"</code></td><td><code>{$value}</code></td></tr>
+      <tr><td><code>data-t-next-days="3"</code></td><td><code>{$nextDays}</code></td></tr>
+      <tr><td><code>data-t-author-name="Alice"</code></td><td><code>{$authorName}</code></td></tr>
+    </tbody>
+  </table>
+  <p>
+    Values that are valid JSON (numbers, booleans, arrays, objects) are parsed automatically;
+    all other values are treated as plain strings.
+  </p>
+
+  <h4><code>data-t-script</code></h4>
+  <p>
+    Marks the <code>&lt;script type="module"&gt;</code> element that imports and calls this
+    library.  The library uses it to locate the parent <span class="tag">.view</span>
+    container so that multiple plugin instances on the same page stay isolated from each
+    other.
+  </p>
+  <p>
+    When there is only one plugin instance on a page you can omit <span class="tag">id</span>
+    and <code>scriptId</code>, and the library will fall back to
+    <code>document.querySelector("script[data-t-script]")</code>.  For safety, always
+    generate a unique ID per render:
+  </p>
+  <pre><code class="language-liquid">{% assign script_id = "my-plugin-" | append_random %}
+&lt;script type="module" id="{{ script_id }}" data-t-script&gt;
+  import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+  applyPlaintext({}, { scriptId: "{{ script_id }}" });
+&lt;/script&gt;</code></pre>
+
+  <!-- ─────────────────────────────── JavaScript API ─── -->
+  <h3 id="javascript-api">JavaScript API</h3>
+
+  <h4><code>applyPlaintext(functions?, options?)</code></h4>
+  <p>
+    Finds every <span class="tag">[data-t]</span> element in the view, formats its
+    translation string, and sets <code>element.innerText</code> to the result.
+    Use this for elements that should contain only plain text.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>functions</code></td>
+        <td><code>object</code></td>
+        <td>
+          Optional map of custom MessageFormat functions (see
+          <a href="#custom-functions">Custom Functions</a>).  Merged on top of
+          <code>DraftFunctions</code>.
+        </td>
+      </tr>
+      <tr>
+        <td><code>options.scriptId</code></td>
+        <td><code>string</code></td>
+        <td>
+          The <code>id</code> of the <span class="tag">data-t-script</span> element.
+          Required when multiple plugin instances are on the same page.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <pre><code class="language-javascript">import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+applyPlaintext({}, { scriptId: "{{ script_id }}" });</code></pre>
+
+  <h4><code>applyHTML(functions?, markups?, options?)</code></h4>
+  <p>
+    Same as <code>applyPlaintext</code>, but uses <code>formatToParts</code> so that
+    <a href="#custom-markup">markup tags</a> in the translation pattern are converted to real
+    DOM nodes.  Use this when translations need to produce styled HTML output.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>functions</code></td>
+        <td><code>object</code></td>
+        <td>Same as for <code>applyPlaintext</code>.</td>
+      </tr>
+      <tr>
+        <td><code>markups</code></td>
+        <td><code>object</code></td>
+        <td>
+          Map from markup tag name to a factory function
+          <code>(options, children: Node[]) =&gt; Node</code>
+          (see <a href="#custom-markup">Custom Markup</a>).
+        </td>
+      </tr>
+      <tr>
+        <td><code>options.scriptId</code></td>
+        <td><code>string</code></td>
+        <td>Same as for <code>applyPlaintext</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+  <pre><code class="language-javascript">import { applyHTML } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+applyHTML(
+  { /* custom functions */ },
+  {
+    bold: (options, children) => {
+      const b = document.createElement('b');
+      children.forEach(c => b.appendChild(c));
+      return b;
+    },
+    br: () => document.createElement('br'),
+  },
+  { scriptId: "{{ script_id }}" }
+);</code></pre>
+
+  <h4><code>DefaultFunctions</code>, <code>DraftFunctions</code></h4>
+  <p>
+    Re-exports from <code>messageformat@4</code>.  Useful when writing
+    <a href="#custom-functions">custom functions</a> that delegate back to the built-in
+    formatter:
+  </p>
+  <pre><code class="language-javascript">import { DefaultFunctions } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+// or import directly from messageformat:
+import { DefaultFunctions } from 'https://cdn.jsdelivr.net/npm/messageformat@4.0.0-13/lib/functions/+esm';</code></pre>
+
+  <!-- ─────────────────────────────── MessageFormat Syntax ─── -->
+  <h3 id="messageformat-syntax">MessageFormat Syntax</h3>
+
+  <p>
+    Translation strings follow the
+    <a href="https://unicode-org.github.io/icu/userguide/format_parse/messages/mf2.html">Unicode MessageFormat 2</a>
+    specification (implemented by <a href="https://messageformat.github.io/">messageformat v4</a>).
+    See also the <a href="https://messageformat.unicode.org/">MessageFormat 2 tutorial</a>.
+    Below are the patterns used most often in TRMNL recipes.
+  </p>
+
+  <h4>Variable interpolation</h4>
+  <pre><code class="language-text">Hello, {$name}!</code></pre>
+  <p>Inserts the value of <code>data-t-name</code>.</p>
+
+  <h4>Number formatting</h4>
+  <pre><code class="language-text">Population: {$count :number}</code></pre>
+  <p>
+    Formats the number according to the locale (thousands separators, etc.).
+    Requires <code>data-t-count="1234567"</code>.
+  </p>
+
+  <h4>Plural selection</h4>
+  <pre><code class="language-text">.input {$value :number}
+.match $value
+  zero  {{No items}}
+  one   {{1 item}}
+  *     {{{$value} items}}</code></pre>
+  <p>
+    The <code>.input</code> declaration annotates <code>$value</code> as a number so that
+    plural categories (<code>zero</code>, <code>one</code>, <code>two</code>, <code>few</code>,
+    <code>many</code>, <code>*</code>) work correctly for the current locale.
+    <code>*</code> is the default / catch-all branch.
+  </p>
+
+  <h4>Markup tags (applyHTML only)</h4>
+  <pre><code class="language-text">{#bold}important{/bold} text and a{#br/}line break</code></pre>
+  <ul>
+    <li><code>{#tagName}…{/tagName}</code> — wrapping markup; maps to a DOM node via the <code>markups</code> object.</li>
+    <li><code>{#tagName/}</code> — standalone (self-closing) markup.</li>
+    <li>Unknown tag names are silently ignored.</li>
+  </ul>
+
+  <h4>Escaping Liquid curly braces</h4>
+  <p>
+    Liquid interprets <code>{</code> and <code>}</code>, so wrap MessageFormat patterns in
+    <code>{% raw %}…{% endraw %}</code> when they appear as inline HTML content:
+  </p>
+  <pre><code class="language-liquid">&lt;span data-t="count" data-t-value="{{ data.n }}"&gt;
+  {% raw %}.input {$value :number} .match $value one {{1 item}} * {{{$value} items}}{% endraw %}
+&lt;/span&gt;</code></pre>
+
+  <!-- ─────────────────────────────── l_word Filter ─── -->
+  <h3 id="l_word-filter">The <code>l_word</code> Liquid Filter and Choosing a Strings Source</h3>
+
+  <h4>How <code>l_word</code> works</h4>
+  <p>
+    <code>l_word</code> is a TRMNL platform Liquid filter that loads a localized string
+    dictionary for a given plugin key and locale.
+  </p>
+
+  <pre><code class="language-liquid">{{ 'plugin_key' | l_word: trmnl.user.locale | json | escape }}</code></pre>
+
+  <table>
+    <thead>
+      <tr><th>Step</th><th>What it does</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>l_word: trmnl.user.locale</code></td><td>Returns the Ruby hash / object for <em>plugin_key</em> in the user's locale, falling back to English.</td></tr>
+      <tr><td><code>json</code></td><td>Serializes the hash to a JSON string.</td></tr>
+      <tr><td><code>escape</code></td><td>HTML-escapes the JSON string so it is safe to embed in an attribute value.</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Strings are defined in the
+    <a href="https://github.com/usetrmnl/trmnl-i18n/tree/main/lib/trmnl/i18n/locales/custom_plugins">
+    <code>trmnl-i18n</code> repository</a> under
+    <code>lib/trmnl/i18n/locales/custom_plugins/</code>.
+    Each file is a YAML file keyed by locale code (e.g., <code>en.yml</code>, <code>ja.yml</code>).
+    The top-level key must match the argument you pass to <code>l_word</code>:
+  </p>
+  <pre><code class="language-yaml"># en.yml
+my_plugin:
+  greeting: "Hello, {$name}!"
+  item_count: ".input {$n :number} .match $n one {{1 item}} * {{{$n} items}}"</code></pre>
+  <p>
+    If no translation exists for the user's locale, the platform falls back to English.
+    If the key is missing entirely, <code>data-t-data</code> will be an empty object
+    (<code>{}</code>) and the elements' original HTML content will be used as-is.
+  </p>
+
+  <h4>Choosing between <code>l_word</code> and inline strings</h4>
+  <table>
+    <thead>
+      <tr><th></th><th><code>l_word</code></th><th>Inline strings</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Who manages translations</strong></td>
+        <td>Anyone — contributors send pull requests to <a href="https://github.com/usetrmnl/trmnl-i18n">trmnl-i18n</a>, enabling public and centralized translation.</td>
+        <td>The recipe author is solely responsible for adding and maintaining all locale strings.</td>
+      </tr>
+      <tr>
+        <td><strong>Adding a new language</strong></td>
+        <td>Open a PR in <code>trmnl-i18n</code>; no change to the recipe itself.</td>
+        <td>Edit the recipe template to add the new locale.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ─────────────────────────────── Custom Functions ─── -->
+  <h3 id="custom-functions">Custom Functions</h3>
+
+  <p>
+    Both <code>applyPlaintext</code> and <code>applyHTML</code> accept an optional
+    <code>functions</code> object.  Each entry is a MessageFormat 2 function that can be
+    applied to a value with <code>{$variable :functionName}</code>.
+  </p>
+
+  <p>A custom function has the signature:</p>
+  <pre><code class="language-text">functionName(context, options, input) =&gt; MessageValue</code></pre>
+  <table>
+    <thead>
+      <tr><th>Argument</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>context</code></td><td>MessageFormat context object; <code>context.locales</code> is the array of active locale strings.</td></tr>
+      <tr><td><code>options</code></td><td>Options passed in the pattern, e.g. <code>{$v :fn opt=val}</code>.</td></tr>
+      <tr><td><code>input</code></td><td>The resolved value of the variable.</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Return a value produced by one of the built-in functions (e.g.,
+    <code>DefaultFunctions.string(context, options, result)</code>) or any
+    messageformat-compatible <code>MessageValue</code> object.
+  </p>
+
+  <p>
+    <strong>Example</strong> — a <code>:langName</code> function that converts a BCP 47 tag
+    to a human-readable language name (from the <em>Tatoeba</em> recipe):
+  </p>
+  <pre><code class="language-javascript">import { applyPlaintext, DefaultFunctions } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+
+applyPlaintext({
+  langName: (context, options, input) =&gt; {
+    try {
+      const dn = new Intl.DisplayNames(context.locales, { type: "language" });
+      const name = dn.of(input) ?? input;
+      return DefaultFunctions.string(context, options, name);
+    } catch {
+      return DefaultFunctions.string(context, options, input);
+    }
+  },
+}, { scriptId: "{{ script_id }}" });</code></pre>
+
+  <p>Usage in the translation pattern:</p>
+  <pre><code class="language-text">Translating from {$from :langName}</code></pre>
+  <p>Wrapping element in the template:</p>
+  <pre><code class="language-html">&lt;span data-t="source_lang" data-t-from="{{ data.source_language }}"&gt;
+  Translating from {$from :langName}
+&lt;/span&gt;</code></pre>
+  <p>Example rendered result (<code>data.source_language = "ja"</code>, locale <code>"en"</code>):</p>
+  <pre><code class="language-text">Translating from Japanese</code></pre>
+
+  <!-- ─────────────────────────────── Custom Markup ─── -->
+  <h3 id="custom-markup">Custom Markup (<code>applyHTML</code>)</h3>
+
+  <p>
+    When using <code>applyHTML</code>, translation strings may contain markup tags
+    (<code>{#tagName}…{/tagName}</code>).  Each tag name must be mapped to a factory
+    function in the <code>markups</code> object:
+  </p>
+  <pre><code class="language-text">markupName: (options, children) =&gt; Node</code></pre>
+  <table>
+    <thead>
+      <tr><th>Argument</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>options</code></td><td>Key/value options from the pattern, e.g. <code>{#tag key=val}</code>.</td></tr>
+      <tr><td><code>children</code></td><td>Array of <code>Node</code> objects produced by the nested content.</td></tr>
+    </tbody>
+  </table>
+  <p>The function must return a single DOM <code>Node</code>.</p>
+
+  <p>
+    <strong>Example</strong> — rich layout with styled spans and line breaks (from the
+    <em>Custom Next Holiday</em> recipe):
+  </p>
+  <pre><code class="language-javascript">import { applyHTML } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+
+applyHTML({}, {
+  mainValue: (options, children) =&gt; {
+    const node = document.createElement('span');
+    node.className = "value--xxlarge";
+    children.forEach(c =&gt; node.appendChild(c));
+    return node;
+  },
+  mainLabel: (options, children) =&gt; {
+    const node = document.createElement('span');
+    node.className = "value--base";
+    children.forEach(c =&gt; node.appendChild(c));
+    return node;
+  },
+  br: () =&gt; document.createElement('br'),
+}, { scriptId: "{{ script_id }}" });</code></pre>
+
+  <p>Translation pattern using the markup tags:</p>
+  <pre><code class="language-text">{#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}</code></pre>
+
+  <p>
+    Tags with no matching entry in <code>markups</code> are silently skipped;
+    their text content is still rendered.  Unclosed tags are automatically closed
+    at the end of the message.
+  </p>
+
+  <hr>
+  <p><a href="..">← Back to TRMNL Recipes</a></p>
+
+  <script type="module">
+    import { codeToHtml } from 'https://esm.sh/shiki@3';
+    for (const block of document.querySelectorAll('pre code[class]')) {
+      const lang = block.className.replace('language-', '');
+      try {
+        const html = await codeToHtml(block.textContent, {
+          lang,
+          themes: { light: 'github-light', dark: 'github-dark' },
+        });
+        block.closest('pre').outerHTML = html;
+      } catch {
+        // leave the block unstyled if the language isn't recognised
+      }
+    }
+  </script>
+</body>
+</html>
