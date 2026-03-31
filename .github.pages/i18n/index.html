@@ -127,8 +127,8 @@
 download_stats:
   downloads: ".input {$value :number} .match $value
     zero  {{No downloads}}
-    one   {{1 download}}
-    *     {{{$value} downloads}}"</code></pre>
+    one   {{download}}
+    *     {{downloads}}"</code></pre>
   <p>
     Then wrap the layout in a container element that carries the locale and the translated
     strings:
@@ -152,7 +152,7 @@ download_stats:
   &lt;div class="layout layout--col"&gt;
     &lt;span class="value--xlarge"&gt;{{ data.downloads }}&lt;/span&gt;
     &lt;span class="label" data-t="downloads" data-t-value="{{ data.downloads }}"&gt;
-      {% raw %}.input {$value :number} .match $value zero {{No downloads}} one {{1 download}} * {{{$value} downloads}}{% endraw %}
+      {% raw %}.input {$value :number} .match $value zero {{No downloads}} one {{download}} * {{downloads}}{% endraw %}
     &lt;/span&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
@@ -162,7 +162,7 @@ download_stats:
   </p>
   <p>After <code>applyPlaintext</code> runs, the rendered HTML will look like (e.g., <code>data.downloads = 42</code>, locale <code>"en"</code>):</p>
   <pre><code class="language-html">&lt;span class="value--xlarge"&gt;42&lt;/span&gt;
-&lt;span class="label"&gt;42 downloads&lt;/span&gt;</code></pre>
+&lt;span class="label"&gt;downloads&lt;/span&gt;</code></pre>
 
   <h3>3. Add the module script</h3>
   <p>
@@ -188,7 +188,7 @@ download_stats:
     updating all translations.  Use <code>parse_json</code> to hold a locale map in the
     template and look up the right object by locale at render time:
   </p>
-  <pre><code class="language-liquid">{% assign locales = '{"en":{"downloads":".input {$value :number} .match $value zero {{No downloads}} one {{1 download}} * {{{$value} downloads}}"},"fr":{"downloads":".input {$value :number} .match $value zero {{Aucun téléchargement}} one {{1 téléchargement}} * {{{$value} téléchargements}}"}}' | parse_json %}
+  <pre><code class="language-liquid">{% assign locales = '{"en":{"downloads":".input {$value :number} .match $value zero {{No downloads}} one {{download}} * {{downloads}}"},"fr":{"downloads":".input {$value :number} .match $value zero {{Aucun téléchargement}} one {{téléchargement}} * {{téléchargements}}"}}' | parse_json %}
 &lt;div lang="{{ trmnl.user.locale | escape }}"
      data-t-data="{{ locales[trmnl.user.locale] | json | escape }}"&gt;
   ...
