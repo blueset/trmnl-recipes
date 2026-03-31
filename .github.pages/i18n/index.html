@@ -19,7 +19,7 @@
     A lightweight localization helper for <a href="https://github.com/blueset/trmnl-recipes">TRMNL recipes</a>.
     It reads translation strings and a locale from a DOM element, then formats every
     <span class="tag">[data-t]</span> element in the same view using
-    <a href="https://unicode-org.github.io/icu/userguide/format_parse/messages/">Unicode MessageFormat&nbsp;2</a>
+    <a href="https://unicode-org.github.io/icu/userguide/format_parse/messages/mf2.html">Unicode MessageFormat&nbsp;2</a>
     (via <a href="https://messageformat.github.io/">messageformat v4</a>).
   </p>
   <p>
@@ -56,18 +56,18 @@
     Add a <em>container element</em> anywhere in the view that carries the user's locale in
     its <span class="tag">lang</span> attribute and a flat JSON object of translation strings
     in its <span class="tag">data-t-data</span> attribute.
-    The easiest way to populate it is the <code>l_word</code> Liquid filter (see
-    <a href="#l_word-filter">below</a>):
+    There are two ways to supply strings (see <a href="#l_word-filter">Choosing between
+    <code>l_word</code> and inline strings</a> for guidance):
   </p>
-  <pre><code>&lt;!-- Using l_word (strings defined in trmnl-i18n) --&gt;
+  <pre><code>&lt;!-- Option A: load strings from trmnl-i18n via l_word --&gt;
 &lt;div lang="{{ trmnl.user.locale | escape }}"
      data-t-data="{{ 'my_plugin_key' | l_word: trmnl.user.locale | json | escape }}"&gt;
   ...
 &lt;/div&gt;</code></pre>
-  <p>You can also supply strings entirely from Liquid or JavaScript:</p>
-  <pre><code>&lt;!-- Providing strings inline --&gt;
+  <pre><code>&lt;!-- Option B: supply strings inline in the template --&gt;
+{% assign locales = '{"en":{"greeting":"Hello, {$name}!"},"fr":{"greeting":"Bonjour, {$name}!"}}' | parse_json %}
 &lt;div lang="{{ trmnl.user.locale | escape }}"
-     data-t-data='{"greeting":"Hello, {$name}!","count":".input {$n :number} .match $n one {{1 item}} * {{{$n} items}}"}'&gt;
+     data-t-data="{{ locales[trmnl.user.locale] | json | escape }}"&gt;
   ...
 &lt;/div&gt;</code></pre>
 
@@ -138,7 +138,8 @@ download_stats:
   <pre><code>&lt;div lang="{{ trmnl.user.locale | escape }}"
      data-t-data="{{ 'download_stats' | l_word: trmnl.user.locale | json | escape }}"&gt;
   &lt;div class="layout layout--col"&gt;
-    &lt;span class="value--xlarge" data-t="downloads" data-t-value="{{ data.downloads }}"&gt;
+    &lt;span class="value--xlarge"&gt;{{ data.downloads }}&lt;/span&gt;
+    &lt;span class="label" data-t="downloads" data-t-value="{{ data.downloads }}"&gt;
       {% raw %}.input {$value :number} .match $value zero {{No downloads}} one {{1 download}} * {{{$value} downloads}}{% endraw %}
     &lt;/span&gt;
   &lt;/div&gt;
@@ -168,16 +169,16 @@ download_stats:
 
   <h3>Bonus: inline strings without <code>l_word</code></h3>
   <p>
-    If the recipe is not part of the official trmnl-i18n registry, or if you want to handle
-    translations entirely yourself, you can supply a JSON object directly from Liquid or
-    build it in JavaScript and write it to the <span class="tag">data-t-data</span> attribute
-    before calling <code>applyPlaintext</code>:
+    When you supply strings inline, the recipe author is responsible for managing and
+    updating all translations.  Use <code>parse_json</code> to hold a locale map in the
+    template and look up the right object by locale at render time:
   </p>
-  <pre><code>{% assign my_strings = '{"downloads":"No downloads yet"}' %}
-&lt;div lang="en" data-t-data="{{ my_strings | escape }}"&gt;
+  <pre><code>{% assign locales = '{"en":{"downloads":".input {$value :number} .match $value zero {{No downloads}} one {{1 download}} * {{{$value} downloads}}"},"fr":{"downloads":".input {$value :number} .match $value zero {{Aucun téléchargement}} one {{1 téléchargement}} * {{{$value} téléchargements}}"}}' | parse_json %}
+&lt;div lang="{{ trmnl.user.locale | escape }}"
+     data-t-data="{{ locales[trmnl.user.locale] | json | escape }}"&gt;
   ...
 &lt;/div&gt;</code></pre>
-  <p>Or from JavaScript:</p>
+  <p>Or build / override strings programmatically in JavaScript:</p>
   <pre><code>&lt;script type="module" id="{{ script_id }}" data-t-script&gt;
   import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
 
@@ -216,13 +217,16 @@ download_stats:
       <strong><code>l_word</code> Liquid filter</strong> — looks up strings from the
       <a href="https://github.com/usetrmnl/trmnl-i18n/tree/main/lib/trmnl/i18n/locales/custom_plugins">
       trmnl-i18n custom_plugins locale files</a> and returns the object for a given plugin
-      key and locale.
+      key and locale.  Recipe authors and translators contribute via pull requests to
+      <code>trmnl-i18n</code>, enabling public and centralized translation.
       <pre><code>data-t-data="{{ 'my_plugin' | l_word: trmnl.user.locale | json | escape }}"</code></pre>
     </li>
     <li>
-      <strong>Inline Liquid string</strong> — build the JSON object manually or from
-      Liquid variables.
-      <pre><code>data-t-data='{"hello":"Hello, {$name}!"}'</code></pre>
+      <strong>Inline Liquid strings</strong> — define a locale map directly in the template
+      using <code>parse_json</code>; the recipe author is responsible for maintaining all
+      translations.
+      <pre><code>{% assign locales = '{"en":{"hello":"Hello, {$name}!"},"fr":{"hello":"Bonjour, {$name}!"}}' | parse_json %}
+data-t-data="{{ locales[trmnl.user.locale] | json | escape }}"</code></pre>
     </li>
     <li>
       <strong>JavaScript</strong> — set <code>element.dataset.tData</code> before calling
@@ -375,8 +379,9 @@ import { DefaultFunctions } from 'https://cdn.jsdelivr.net/npm/messageformat@4.0
 
   <p>
     Translation strings follow the
-    <a href="https://unicode-org.github.io/message-format-wg/spec/">Unicode MessageFormat 2</a>
+    <a href="https://unicode-org.github.io/icu/userguide/format_parse/messages/mf2.html">Unicode MessageFormat 2</a>
     specification (implemented by <a href="https://messageformat.github.io/">messageformat v4</a>).
+    See also the <a href="https://messageformat.unicode.org/">MessageFormat 2 tutorial</a>.
     Below are the patterns used most often in TRMNL recipes.
   </p>
 
@@ -422,8 +427,9 @@ import { DefaultFunctions } from 'https://cdn.jsdelivr.net/npm/messageformat@4.0
 &lt;/span&gt;</code></pre>
 
   <!-- ─────────────────────────────── l_word Filter ─── -->
-  <h3 id="l_word-filter">The <code>l_word</code> Liquid Filter</h3>
+  <h3 id="l_word-filter">The <code>l_word</code> Liquid Filter and Choosing a Strings Source</h3>
 
+  <h4>How <code>l_word</code> works</h4>
   <p>
     <code>l_word</code> is a TRMNL platform Liquid filter that loads a localized string
     dictionary for a given plugin key and locale.
@@ -459,6 +465,30 @@ my_plugin:
     If the key is missing entirely, <code>data-t-data</code> will be an empty object
     (<code>{}</code>) and the elements' original HTML content will be used as-is.
   </p>
+
+  <h4>Choosing between <code>l_word</code> and inline strings</h4>
+  <table>
+    <thead>
+      <tr><th></th><th><code>l_word</code></th><th>Inline strings</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Who manages translations</strong></td>
+        <td>Anyone — contributors send pull requests to <a href="https://github.com/usetrmnl/trmnl-i18n">trmnl-i18n</a>, enabling public and centralized translation.</td>
+        <td>The recipe author is solely responsible for adding and maintaining all locale strings.</td>
+      </tr>
+      <tr>
+        <td><strong>Adding a new language</strong></td>
+        <td>Open a PR in <code>trmnl-i18n</code>; no change to the recipe itself.</td>
+        <td>Edit the recipe template to add the new locale.</td>
+      </tr>
+      <tr>
+        <td><strong>When to prefer</strong></td>
+        <td>Recipes intended for broad, multilingual audiences.</td>
+        <td>Quick prototypes, single-language recipes, or strings tightly coupled to recipe logic.</td>
+      </tr>
+    </tbody>
+  </table>
 
   <!-- ─────────────────────────────── Custom Functions ─── -->
   <h3 id="custom-functions">Custom Functions</h3>
