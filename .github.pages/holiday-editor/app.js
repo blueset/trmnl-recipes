@@ -218,7 +218,7 @@ function makeHoliday(raw) {
 
 const { createApp, ref, computed, watch, reactive, nextTick, onMounted, onBeforeUnmount } = Vue;
 
-createApp({
+const app = createApp({
   setup() {
     const started = ref(false);
     const holidays = ref([]);
@@ -642,4 +642,8 @@ createApp({
       monthName, dowName, ordinal, calendarName, calendarMonthCount, absoluteMonthOptions,
     };
   }
-}).mount('#app');
+});
+
+app.config.compilerOptions.isCustomElement = (tag) => tag === 'selectedcontent';
+
+app.mount('#app');
