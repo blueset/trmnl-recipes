@@ -4,8 +4,8 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-framework_version: 2.3.7
-serverless_language: 
+framework_version: 3.1.1
+serverless_language: ''
 polling_url: https://trend.doforce.dpdns.org/repo?{% if duration %}since={{ duration }}{% endif %}{% if lang != "" %}&lang={{ lang }}{% endif %}
 polling_headers: ''
 polling_body: ''
