@@ -91,11 +91,11 @@
               <div class="month-field">
                 <label>Month</label>
                 <select v-if="h._useCal" v-model.number="h._month" class="month-select">
-                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <button v-pre type="button"><selectedcontent></selectedcontent></button>
                   <option v-for="option in absoluteMonthOptions(h)" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
                 </select>
                 <select v-else v-model.number="h._month" class="month-select">
-                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <button v-pre type="button"><selectedcontent></selectedcontent></button>
                   <option v-for="option in gregorianMonthOptions" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
                 </select>
               </div>
@@ -108,7 +108,7 @@
                 <label>Month</label>
                 <input v-if="h._useCal" type="number" v-model.number="h._month" min="1" :max="calendarMonthCount(h)">
                 <select v-else v-model.number="h._month" class="month-select">
-                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <button v-pre type="button"><selectedcontent></selectedcontent></button>
                   <option v-for="option in gregorianMonthOptions" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
                 </select>
               </div>
@@ -121,7 +121,7 @@
                 <label>Month</label>
                 <input v-if="h._useCal" type="number" v-model.number="h._month" min="1" :max="calendarMonthCount(h)">
                 <select v-else v-model.number="h._month" class="month-select">
-                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <button v-pre type="button"><selectedcontent></selectedcontent></button>
                   <option v-for="option in gregorianMonthOptions" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
                 </select>
               </div>
@@ -135,7 +135,7 @@
                 <label>Month</label>
                 <input v-if="h._useCal" type="number" v-model.number="h._month" min="1" :max="calendarMonthCount(h)">
                 <select v-else v-model.number="h._month" class="month-select">
-                  <button type="button"><selectedcontent></selectedcontent></button>
+                  <button v-pre type="button"><selectedcontent></selectedcontent></button>
                   <option v-for="option in gregorianMonthOptions" :key="option.value" :value="option.value" class="month-option" :data-short-label="option.shortLabel">{{ option.value }} — {{ option.label }}</option>
                 </select>
               </div>
