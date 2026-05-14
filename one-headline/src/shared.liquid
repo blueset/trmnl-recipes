@@ -11,7 +11,7 @@
     {% if hasImage %}
     <div style="position: absolute;" class="w--full h--full">
       <div style="position: absolute; background-image: linear-gradient(to bottom, transparent 50%, white 85%);" class="w--full h--full"></div> 
-      <img src="https://news.kagi.com/api/image-proxy?url={{ cluster.primary_image.url | urlencode }}" class="rounded w-full h-full image-dither image image--cover" />
+      <img src="https://news.kagi.com/api/image-proxy?url={{ cluster.primary_image.url | urlencode }}" class="rounded w--full h--full image-dither image image--cover" />
     </div>
     {% endif %}
   </div>
