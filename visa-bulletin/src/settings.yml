@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-framework_version: 2.3.7
+framework_version: 3.1.1
 serverless_language: node
 polling_url: https://blueset.github.io/wikipedia-featured/visa_bulletin.json
 polling_headers: ''
