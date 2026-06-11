@@ -40,7 +40,7 @@
   <tr>
     <td align="center"><img src="./random-computer/images/icon.png" alt="Icon" height="50"><br><a href="#random-computer">Random Computer</a></td>
     <td align="center"><img src="./uspto/images/icon.png" alt="Icon" height="50"><br><a href="#uspto-new-trademarks">USPTO New Trademarks</a></td>
-    <td></td>
+    <td align="center"><img src="./framework-update/images/icon.png" alt="Icon" height="50"><br><a href="#trmnl-framework-update">TRMNL framework update</a></td>
     <td></td>
   </tr>
 </table>
@@ -461,3 +461,22 @@ A random selection of new trademarks registered today to USPTO. Data courtesy of
 </a>
 
 ![Screenshot](./uspto/images/f.png)
+
+<a id="trmnl-framework-update"></a>
+## <img src="./framework-update/images/icon.png" alt="Icon" height="50"> TRMNL framework update
+
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=277426)
+
+Latest releases of TRMNL Framework.
+
+[Learn More](./framework-update/README.md)
+
+<a href="https://trmnl.com/recipes/277426" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src=".assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
+
+![Screenshot](./framework-update/images/f.png)
