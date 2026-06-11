@@ -1,0 +1,27 @@
+<div class="layout">
+  <div class="h--full w--full flex flex--col lg:grid--cols-5">
+    <div class="col--span-1 lg:col--span-2 flex flex--col h--full flex--left w--full shrink-0">
+      <div class="flex flex--row">
+        <span class="label label--filled lg:label--large">Latest</span>
+        <span class="label label--outline lg:label--large">{{ latest.date | capitalize }}</span>
+      </div>
+      <div class="value value--xlarge lg:value--xxxlarge shrink-0">{{ latest.version }}</div>
+      <div class="hidden lg:block content" style="place-content: safe center;">
+        {{ latest.releaseNote 
+          | replace: '<h1', '<h1 class="hidden"'
+          | replace: '<p', '<p class="content--small pb--1"' 
+          | replace: '<ul', '<ul class="pb--1 ml--4"' 
+          | replace: '<h2', '<h2 class="content--base pb--1 font--bold"'
+          | replace: '<li', '<li class="content--small"'
+          | replace: '<code', '<code class="content--small label label--underline"'
+        }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">{{ latest.date | capitalize }}</span>
+</div>

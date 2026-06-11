@@ -1,4 +1,4 @@
-<div class="flex-col place-content-around layout" lang="{{ trmnl.user.locale }}" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle }}" data-t-data="{{ sun_chart_strings | json | escape }}">
+<div class="flex-col place-content-around layout" lang="{{ trmnl.user.locale }}" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle }}">
   <div class="relative mx-2 -px-2 w-full chart-today-container">
     <div class="flex flex-row place-content-between gap-0 4bit:mb-1 hour-labels"></div>
     <div class="flex flex-row gap-0 border rounded w-full h-4 chart-today"></div>
@@ -7,11 +7,11 @@
   <div class="flex flex-row port:flex-col port:gap-8 w-full">
     <div class="flex flex-col place-content-center gap-0 grow">
       <div class="inline-block text-center label" data-t="sunrise">Sunrise</div>
-      <div class="font-features-['case'] [&_small]:text-2xl lg:[&_small]:text-3xl lg:text-5xl text-center value sunrise-time"></div>
+      <div class="[&_small]:text-2xl lg:[&_small]:text-3xl lg:text-5xl text-center value sunrise-time font-features-['case']"></div>
     </div>
     <div class="flex flex-col place-content-center gap-0 grow">
       <div class="inline-block text-center label" data-t="sunset">Sunset</div>
-      <div class="font-features-['case'] [&_small]:text-2xl lg:[&_small]:text-3xl lg:text-5xl text-center value sunset-time"></div>
+      <div class="[&_small]:text-2xl lg:[&_small]:text-3xl lg:text-5xl text-center value sunset-time font-features-['case']"></div>
     </div>
   </div>
 </div>

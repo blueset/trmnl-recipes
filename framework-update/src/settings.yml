@@ -4,11 +4,19 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-framework_version: 3.0.2
+framework_version: latest
 serverless_language: node
 polling_url: https://trmnl.com/framework/releases
 polling_headers: ''
 polling_body: ''
 id: 277426
-name: Framework Updates
-refresh_interval: 15
+custom_fields:
+- keyname: doesnt_matter
+  name: About This Plugin
+  field_type: author_bio
+  description: Latest releases of <a href="https://trmnl.com/framework/releases" target="_blank">TRMNL Framework</a>.
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://trmnl.com/framework/releases
+  category: discovery,programming
+name: TRMNL Framework Updates
+refresh_interval: 1440

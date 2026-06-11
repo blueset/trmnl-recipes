@@ -1,93 +1,3 @@
-{%- capture language_learning_sentences_i18n_json -%}
-{
-  "en": {
-    "__translator_note": "Strings for recipe https://trmnl.com/recipes/177718. You do not need to translate strings ending with `__translator_note`.",
-    "from_to": "{$from :langName} to {$to :langNameList}",
-    "from_to__translator_note": "Title representing translation from one language to one or more other languages. {$from :langName} is the localized name of the source language, and {$to :langNameList} is the localized name of the target language(s). For example, “English to Spanish” or “English to Spanish, French”."
-  },
-  "da": {
-    "from_to": "{$from :langName} til {$to :langNameList}"
-  },
-  "de": {
-    "from_to": "{$from :langName} nach {$to :langNameList}"
-  },
-  "de-AT": {
-    "from_to": "{$from :langName} nach {$to :langNameList}"
-  },
-  "es-ES": {
-    "from_to": "{$from :langName} a {$to :langNameList}"
-  },
-  "fr": {
-    "from_to": "{$from :langName} vers {$to :langNameList}"
-  },
-  "he": {
-    "from_to": "{$from :langName} אל {$to :langNameList}"
-  },
-  "hu": {
-    "from_to": "{$from :langName} → {$to :langNameList}"
-  },
-  "id": {
-    "from_to": "{$from :langName} ke {$to :langNameList}"
-  },
-  "is": {
-    "from_to": "{$from :langName} í {$to :langNameList}"
-  },
-  "it": {
-    "from_to": "{$from :langName} a {$to :langNameList}"
-  },
-  "ja": {
-    "from_to": "{$from :langName}から{$to :langNameList}"
-  },
-  "ko": {
-    "from_to": "{$from :langName} → {$to :langNameList}"
-  },
-  "lt": {
-    "from_to": "iš {$from :langName} į {$to :langNameList}"
-  },
-  "nl": {
-    "from_to": "{$from :langName} naar {$to :langNameList}"
-  },
-  "pl": {
-    "from_to": "{$from :langName} -> {$to :langNameList}"
-  },
-  "pt-BR": {
-    "from_to": "{$from :langName} para {$to :langNameList}"
-  },
-  "ro": {
-    "from_to": "{$from :langName} în {$to :langNameList}"
-  },
-  "ru": {
-    "from_to": "{$from :langName} → {$to :langNameList}"
-  },
-  "sk": {
-    "from_to": "{$from :langName} do {$to :langNameList}"
-  },
-  "sv": {
-    "from_to": "{$from :langName} till {$to :langNameList}"
-  },
-  "uk": {
-    "from_to": "{$from :langName} → {$to :langNameList}"
-  },
-  "zh-CN": {
-    "from_to": "{$from :langName}到{$to :langNameList}"
-  },
-  "zh-HK": {
-    "from_to": "{$from :langName}到{$to :langNameList}"
-  }
-}
-{%- endcapture -%}
-{%- liquid
-  assign language_learning_sentences_i18n = language_learning_sentences_i18n_json | parse_json
-  assign language_learning_sentences_locale = trmnl.user.locale
-  assign language_learning_sentences_strings = language_learning_sentences_i18n[language_learning_sentences_locale]
-  unless language_learning_sentences_strings
-    assign language_learning_sentences_locale_base = language_learning_sentences_locale | split: "-" | first
-    assign language_learning_sentences_strings = language_learning_sentences_i18n[language_learning_sentences_locale_base]
-  endunless
-  unless language_learning_sentences_strings
-    assign language_learning_sentences_strings = language_learning_sentences_i18n.en
-  endunless
--%}
 {% capture lang_json %}{
   "eng":{"bcp47":"en","name":"English","label":"En"},
   "rus":{"bcp47":"ru","name":"Russian","label":"Ру"},
@@ -433,7 +343,7 @@
   "chr":{"bcp47":"chr","name":"Cherokee","label":"Ꮳ"},
   "lmo":{"bcp47":"lmo","name":"Lombard","label":"Lm"},
   "bis":{"bcp47":"bi","name":"Bislama","label":"Bi"},
-  "ood":{"bcp47":"ood","name":"O’odham","label":"Oo"},
+  "ood":{"bcp47":"ood","name":"O'odham","label":"Oo"},
   "aln":{"bcp47":"aln","name":"Gheg Albanian","label":"Sh"},
   "cos":{"bcp47":"co","name":"Corsican","label":"Co"},
   "mvv":{"bcp47":"mvv","name":"Tagal Murut","label":"Tm"},
@@ -442,7 +352,7 @@
   "roh":{"bcp47":"rm","name":"Romansh","label":"Rm"},
   "ewe":{"bcp47":"ee","name":"Ewe","label":"Ew"},
   "lkt":{"bcp47":"lkt","name":"Lakota","label":"La"},
-  "kek":{"bcp47":"kek","name":"Kekchi (Q’eqchi’)","label":"Qe"},
+  "kek":{"bcp47":"kek","name":"Kekchi (Q'eqchi')","label":"Qe"},
   "aoz":{"bcp47":"aoz","name":"Uab Meto","label":"Ua"},
   "qxq":{"bcp47":"qxq","name":"Qashqai","label":"Qa"},
   "ton":{"bcp47":"to","name":"Tongan","label":"To"},
@@ -453,7 +363,7 @@
   "inh":{"bcp47":"inh","name":"Ingush","label":"Инг"},
   "toi":{"bcp47":"toi","name":"Tonga (Zambezi)","label":"Tg"},
   "ngt":{"bcp47":"ngt","name":"Ngeq","label":"Ng"},
-  "mic":{"bcp47":"mic","name":"Mi’kmaq","label":"Mi"},
+  "mic":{"bcp47":"mic","name":"Mi'kmaq","label":"Mi"},
   "cjy":{"bcp47":"cjy","name":"Jin Chinese","label":"晋"},
   "sva":{"bcp47":"sva","name":"Svan","label":"Sv"},
   "jpa":{"bcp47":"jpa","name":"Jewish Palestinian Aramaic","label":"אר"},
@@ -492,7 +402,7 @@
   "chg":{"bcp47":"chg","name":"Chagatai","label":"چا"},
   "guw":{"bcp47":"guw","name":"Gun","label":"Gu"},
   "mai":{"bcp47":"mai","name":"Maithili","label":"मै"},
-  "quc":{"bcp47":"quc","name":"K’iche’","label":"Ki"},
+  "quc":{"bcp47":"quc","name":"K'iche'","label":"Ki"},
   "mad":{"bcp47":"mad","name":"Madurese","label":"Ma"},
   "cpi":{"bcp47":"cpi","name":"Chinese Pidgin English","label":"Pe"},
   "ban":{"bcp47":"ban","name":"Balinese","label":"Ba"},

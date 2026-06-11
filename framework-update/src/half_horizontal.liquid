@@ -1,0 +1,31 @@
+<div class="layout">
+  <div class="grid grid--cols-3 h--full portrait:flex portrait:flex--col lg:grid--cols-5">
+    <div class="col--span-1 lg:col--span-2 flex flex--col flex--left w--full shrink-0">
+      <div class="flex flex--row">
+        <span class="label label--filled lg:label--large">Latest</span>
+        <span class="label label--outline lg:label--large">{{ latest.date | capitalize }}</span>
+      </div>
+      <div class="value value--xlarge lg:value--xxxlarge">{{ latest.version }}</div>
+    </div>
+    <div class="hidden"></div>
+    <div class="hidden portrait:block divider"></div>
+    <div class="col--span-2 lg:col--span-3 flex flex--col w--full">
+      <div class="content" data-overflow="true" style="place-content: safe center;">
+        {{ latest.releaseNote 
+          | replace: '<h1', '<h1 class="hidden"'
+          | replace: '<p', '<p class="lg:content--base content--small pb--1"' 
+          | replace: '<ul', '<ul class="pb--1 ml--8"' 
+          | replace: '<h2', '<h2 class="lg:content--large content--base pb--1 font--bold"'
+          | replace: '<li', '<li class="lg:content--base content--small"'
+          | replace: '<code', '<code class="lg:content--base content--small label label--underline"'
+        }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">{{ latest.date | capitalize }}</span>
+</div>
