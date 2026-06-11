@@ -1,0 +1,43 @@
+<div class="layout">
+  <div class="grid grid--cols-5 h--full portrait:flex portrait:flex--col lg:grid--cols-5">
+    <div class="col--span-2 lg:col--span-2 flex flex--col portrait:flex--row flex--left w--full shrink-0 portrait:gap--large portrait:flex--center-y">
+      <div class="flex--col flex--left portrait:grow shrink-0">
+        <div class="flex flex--row flex--left">
+          <span class="label label--filled lg:label--large">Latest</span>
+          <span class="label label--outline lg:label--large">{{ latest.date | capitalize }}</span>
+        </div>
+        <div class="value value--xxlarge lg:value--xxxlarge">{{ latest.version }}</div>
+      </div>
+      <table class="table--small portrait:grow">
+        <tbody>
+          {% for asset in latest.assets %}
+          <tr>
+            <td><span class="label label--small lg:label--base value--tnums 2bit:text--gray-30 4bit:text--gray-39">{{ asset.name }}</span></td>
+            <td class="text--right"><span class="label label--small lg:label--base value--tnums 2bit:text--gray-30 4bit:text--gray-39">{{ asset.size }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="lg:col--span-1 hidden"></div>
+    <div class="hidden portrait:block divider"></div>
+    <div class="lg:col--span-2 col--span-3">
+      <div class="content" data-overflow="true" style="place-content: safe center;">
+        {{ latest.releaseNote 
+          | replace: '<h1', '<h1 class="hidden"'
+          | replace: '<p', '<p class="lg:content--base content--small pb--1"' 
+          | replace: '<ul', '<ul class="pb--1 ml--8"' 
+          | replace: '<h2', '<h2 class="lg:content--large content--base pb--1 font--bold"'
+          | replace: '<li', '<li class="lg:content--base content--small"'
+          | replace: '<code', '<code class="lg:content--base content--small label label--underline"'
+        }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://trmnl.com/images/plugins/trmnl--render.svg">
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">{{ latest.date | capitalize }}</span>
+</div>
