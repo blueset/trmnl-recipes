@@ -3,20 +3,160 @@
   "en": {
     "__translator_note": "Strings for recipe https://trmnl.com/recipes/257171. You do not need to translate strings ending with `__translator_note`. The following strings are using the Unicode MessageFormat 2 syntax. See https://messageformat.unicode.org/ for details. See https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html for pluralization rules of your language. Open an issue to https://github.com/blueset/trmnl-recipes if your language needs additional conditions like vowel harmony or gender agreement.",
     "next_holiday": "Next holiday",
-    "today_and_next": ".input {$nextDays :number} .match $nextDays one {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Tomorrow is {$nextName}.{/subLabel} }}* {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Next holiday is {$nextName} in {$nextDays} days.{/subLabel} }}",
-    "today_and_next__translator_note": "String for when today is a holiday and there is another holiday coming up. {$name} is the name of today’s holiday, {$nextName} is the name of the next holiday, and {$nextDays :number} is the number of days until the next holiday. If your language has words for tomorrow or the day after tommorow, use selectors `1` or `2` to make the string more natural. `{$mainValue}...{/mainValue}` is the largest font size, `{$mainLabel}...{/mainLabel}` is the second largest font size, and `{$subLabel}...{/subLabel}` is the smallest font size. `{#br/}` represents a line break.",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Tomorrow is {$nextName}.{/subLabel} }}* {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Next holiday is {$nextName} in {$nextDays} days.{/subLabel} }}",
+    "today_and_next__translator_note": "String for when today is a holiday and there is another holiday coming up. {$name} is the name of today’s holiday, {$nextName} is the name of the next holiday, and {$nextDays :number} is the number of days until the next holiday. If your language has common UI-friendly words for exact values like tomorrow, the day after tomorrow, or three days from today, use exact-value selectors such as `1`, `2`, or `3`. If a phrase is less common, awkward in UI, or numbers are preferred, keep the numbered form. `{$mainValue}...{/mainValue}` is the largest font size, `{$mainLabel}...{/mainLabel}` is the second largest font size, and `{$subLabel}...{/subLabel}` is the smallest font size. `{#br/}` represents a line break.",
     "today_only": "{#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
     "today_only__translator_note": "String for when today is a holiday and there is no other holiday coming up. {$name} is the name of today’s holiday.",
-    "next_only": ".input {$nextDays :number} .match $nextDays one {{ {#mainLabel}Tomorrow is{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}* {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} days until{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
-    "next_only__translator_note": "String for when today is not a holiday and there is a holiday coming up. {$nextName} is the name of the next holiday, and {$nextDays :number} is the number of days until the next holiday. If your language has words for tomorrow or the day after tommorow, use selectors `1` or `2` to make the string more natural.",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Tomorrow is{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} days until{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "next_only__translator_note": "String for when today is not a holiday and there is a holiday coming up. {$nextName} is the name of the next holiday, and {$nextDays :number} is the number of days until the next holiday. If your language has common UI-friendly words for exact values like tomorrow, the day after tomorrow, or three days from today, use exact-value selectors such as `1`, `2`, or `3`. If a phrase is less common, awkward in UI, or numbers are preferred, keep the numbered form.",
     "no_holidays": "{#subLabel}End of added holidays.{/subLabel}",
     "no_holidays__translator_note": "String for when there is no holiday coming up within the range of added holidays."
   },
+  "da": {
+    "next_holiday": "Næste helligdag",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}I dag er det{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}I morgen er det {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}I dag er det{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}I overmorgen er det {$nextName}.{/subLabel} }} * {{ {#mainLabel}I dag er det{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Næste helligdag er {$nextName} om {$nextDays} dage.{/subLabel} }}",
+    "today_only": "{#mainLabel}I dag er det{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}I morgen er det{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}I overmorgen er det{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} dage til{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Slut på tilføjede helligdage.{/subLabel}"
+  },
+  "de": {
+    "next_holiday": "Nächster Feiertag",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Heute ist{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Morgen ist {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Heute ist{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Übermorgen ist {$nextName}.{/subLabel} }} * {{ {#mainLabel}Heute ist{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Nächster Feiertag ist {$nextName} in {$nextDays} Tagen.{/subLabel} }}",
+    "today_only": "{#mainLabel}Heute ist{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Morgen ist{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Übermorgen ist{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} Tage bis{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Ende der hinzugefügten Feiertage.{/subLabel}"
+  },
+  "de-AT": {
+    "next_holiday": "Nächster Feiertag",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Heute ist{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Morgen ist {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Heute ist{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Übermorgen ist {$nextName}.{/subLabel} }} * {{ {#mainLabel}Heute ist{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Nächster Feiertag ist {$nextName} in {$nextDays} Tagen.{/subLabel} }}",
+    "today_only": "{#mainLabel}Heute ist{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Morgen ist{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Übermorgen ist{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} Tage bis{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Ende der hinzugefügten Feiertage.{/subLabel}"
+  },
+  "es-ES": {
+    "next_holiday": "Próximo festivo",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Hoy es{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Mañana es {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Hoy es{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Pasado mañana es {$nextName}.{/subLabel} }} * {{ {#mainLabel}Hoy es{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}El próximo festivo es {$nextName} en {$nextDays} días.{/subLabel} }}",
+    "today_only": "{#mainLabel}Hoy es{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Mañana es{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Pasado mañana es{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} días hasta{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Fin de las festividades añadidas.{/subLabel}"
+  },
+  "fr": {
+    "next_holiday": "Prochain jour férié",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Aujourd’hui, c’est{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Demain, c’est {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Aujourd’hui, c’est{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Après-demain, c’est {$nextName}.{/subLabel} }} * {{ {#mainLabel}Aujourd’hui, c’est{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Le prochain jour férié est {$nextName} dans {$nextDays} jours.{/subLabel} }}",
+    "today_only": "{#mainLabel}Aujourd’hui, c’est{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Demain, c’est{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Après-demain, c’est{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} jours avant{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Fin des jours fériés ajoutés.{/subLabel}"
+  },
+  "he": {
+    "next_holiday": "החג הבא",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}היום{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}מחר {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}היום{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}מחרתיים {$nextName}.{/subLabel} }} * {{ {#mainLabel}היום{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}החג הבא הוא {$nextName} בעוד {$nextDays} ימים.{/subLabel} }}",
+    "today_only": "{#mainLabel}היום{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}מחר{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}מחרתיים{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} ימים עד{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}סוף החגים שנוספו.{/subLabel}"
+  },
+  "hu": {
+    "next_holiday": "Következő ünnep",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Ma van{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Holnap {$nextName} lesz.{/subLabel} }} 2 {{ {#mainLabel}Ma van{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Holnapután {$nextName} lesz.{/subLabel} }} * {{ {#mainLabel}Ma van{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}A következő ünnep {$nextName} {$nextDays} nap múlva.{/subLabel} }}",
+    "today_only": "{#mainLabel}Ma van{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Holnap{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Holnapután{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} nap múlva{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}A hozzáadott ünnepek vége.{/subLabel}"
+  },
+  "id": {
+    "next_holiday": "Hari libur berikutnya",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Hari ini{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Besok adalah {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Hari ini{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Lusa adalah {$nextName}.{/subLabel} }} * {{ {#mainLabel}Hari ini{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Hari libur berikutnya adalah {$nextName} dalam {$nextDays} hari.{/subLabel} }}",
+    "today_only": "{#mainLabel}Hari ini{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Besok{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Lusa{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} hari lagi menuju{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Akhir dari hari libur yang ditambahkan.{/subLabel}"
+  },
+  "is": {
+    "next_holiday": "Næsti frídagur",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Í dag er{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Á morgun er {$nextName}.{/subLabel} }} * {{ {#mainLabel}Í dag er{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Næsti frídagur er {$nextName} eftir {$nextDays} daga.{/subLabel} }}",
+    "today_only": "{#mainLabel}Í dag er{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Á morgun er{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} dagar í{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Engir fleiri skráðir frídagar.{/subLabel}"
+  },
+  "it": {
+    "next_holiday": "Prossima festività",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Oggi è{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Domani è {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Oggi è{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Dopodomani è {$nextName}.{/subLabel} }} * {{ {#mainLabel}Oggi è{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}La prossima festività è {$nextName} tra {$nextDays} giorni.{/subLabel} }}",
+    "today_only": "{#mainLabel}Oggi è{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Domani è{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Dopodomani è{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} giorni a{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Fine delle festività aggiunte.{/subLabel}"
+  },
+  "ko": {
+    "next_holiday": "다음 공휴일",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}오늘은{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}내일은 {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}오늘은{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}모레는 {$nextName}.{/subLabel} }} 3 {{ {#mainLabel}오늘은{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}글피는 {$nextName}.{/subLabel} }} * {{ {#mainLabel}오늘은{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}다음 공휴일은 {$nextDays}일 후 {$nextName}.{/subLabel} }}",
+    "today_only": "{#mainLabel}오늘은{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}내일은{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}모레는{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 3 {{ {#mainLabel}글피는{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}까지 {/mainLabel}{#mainValue}{$nextDays}{/mainValue}{#mainLabel}일{/mainLabel} }}",
+    "no_holidays": "{#subLabel}추가된 공휴일이 모두 끝났어요.{/subLabel}"
+  },
+  "lt": {
+    "next_holiday": "Kita šventė",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Šiandien{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Rytoj – {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Šiandien{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Poryt – {$nextName}.{/subLabel} }} * {{ {#mainLabel}Šiandien{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Kita šventė {$nextName} po {$nextDays} dienų.{/subLabel} }}",
+    "today_only": "{#mainLabel}Šiandien{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Rytoj{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Poryt{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} dienų iki{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Pridėtų švenčių pabaiga.{/subLabel}"
+  },
+  "nl": {
+    "next_holiday": "Volgende feestdag",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Vandaag is het{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Morgen is het {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Vandaag is het{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Overmorgen is het {$nextName}.{/subLabel} }} * {{ {#mainLabel}Vandaag is het{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}De volgende feestdag is {$nextName} over {$nextDays} dagen.{/subLabel} }}",
+    "today_only": "{#mainLabel}Vandaag is het{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Morgen is het{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Overmorgen is het{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} dagen tot{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Einde van de toegevoegde feestdagen.{/subLabel}"
+  },
+  "pl": {
+    "next_holiday": "Następne święto",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Dziś jest{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Jutro jest {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Dziś jest{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Pojutrze jest {$nextName}.{/subLabel} }} * {{ {#mainLabel}Dziś jest{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Następne święto to {$nextName} za {$nextDays} dni.{/subLabel} }}",
+    "today_only": "{#mainLabel}Dziś jest{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Jutro jest{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Pojutrze jest{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} dni do{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Koniec dodanych świąt.{/subLabel}"
+  },
+  "pt-BR": {
+    "next_holiday": "Próximo feriado",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Hoje é{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Amanhã é {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Hoje é{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Depois de amanhã é {$nextName}.{/subLabel} }} * {{ {#mainLabel}Hoje é{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}O próximo feriado é {$nextName} em {$nextDays} dias.{/subLabel} }}",
+    "today_only": "{#mainLabel}Hoje é{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Amanhã é{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Depois de amanhã é{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} dias até{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Fim dos feriados adicionados.{/subLabel}"
+  },
+  "ro": {
+    "next_holiday": "Următoarea sărbătoare",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Azi este{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Mâine este {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Azi este{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Poimâine este {$nextName}.{/subLabel} }} few {{ {#mainLabel}Azi este{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Următoarea sărbătoare este {$nextName} peste {$nextDays} zile.{/subLabel} }} * {{ {#mainLabel}Azi este{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Următoarea sărbătoare este {$nextName} peste {$nextDays} de zile.{/subLabel} }}",
+    "today_only": "{#mainLabel}Azi este{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Mâine este{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Poimâine este{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} few {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} zile până la{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} de zile până la{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Sfârșitul sărbătorilor adăugate.{/subLabel}"
+  },
+  "ru": {
+    "next_holiday": "Следующий праздник",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Сегодня{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Завтра — {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Сегодня{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Послезавтра — {$nextName}.{/subLabel} }} one {{ {#mainLabel}Сегодня{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Следующий праздник — {$nextName} через {$nextDays} день.{/subLabel} }} few {{ {#mainLabel}Сегодня{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Следующий праздник — {$nextName} через {$nextDays} дня.{/subLabel} }} * {{ {#mainLabel}Сегодня{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Следующий праздник — {$nextName} через {$nextDays} дней.{/subLabel} }}",
+    "today_only": "{#mainLabel}Сегодня{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Завтра{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Послезавтра{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} one {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} день до{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} few {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} дня до{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} дней до{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Добавленные праздники закончились.{/subLabel}"
+  },
+  "sk": {
+    "next_holiday": "Najbližší sviatok",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Dnes je{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Zajtra je {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Dnes je{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Pozajtra je {$nextName}.{/subLabel} }} few {{ {#mainLabel}Dnes je{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Najbližší sviatok je {$nextName} o {$nextDays} dni.{/subLabel} }} * {{ {#mainLabel}Dnes je{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Najbližší sviatok je {$nextName} o {$nextDays} dní.{/subLabel} }}",
+    "today_only": "{#mainLabel}Dnes je{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Zajtra je{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Pozajtra je{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} few {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} dni do{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} dní do{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Koniec pridaných sviatkov.{/subLabel}"
+  },
+  "sv": {
+    "next_holiday": "Nästa helgdag",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Idag är det{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Imorgon är det {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Idag är det{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}I övermorgon är det {$nextName}.{/subLabel} }} * {{ {#mainLabel}Idag är det{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Nästa helgdag är {$nextName} om {$nextDays} dagar.{/subLabel} }}",
+    "today_only": "{#mainLabel}Idag är det{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Imorgon är det{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}I övermorgon är det{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} dagar till{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Slut på tillagda helgdagar.{/subLabel}"
+  },
+  "uk": {
+    "next_holiday": "Наступне свято",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Сьогодні{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Завтра — {$nextName}.{/subLabel} }} 2 {{ {#mainLabel}Сьогодні{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Післязавтра — {$nextName}.{/subLabel} }} one {{ {#mainLabel}Сьогодні{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Наступне свято — {$nextName} через {$nextDays} день.{/subLabel} }} few {{ {#mainLabel}Сьогодні{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Наступне свято — {$nextName} через {$nextDays} дні.{/subLabel} }} * {{ {#mainLabel}Сьогодні{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Наступне свято — {$nextName} через {$nextDays} днів.{/subLabel} }}",
+    "today_only": "{#mainLabel}Сьогодні{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}Завтра{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}Післязавтра{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} one {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} день до{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} few {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} дні до{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} днів до{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "no_holidays": "{#subLabel}Додані свята закінчилися.{/subLabel}"
+  },
   "ja": {
     "next_holiday": "次の祝日",
-    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}明日は{$nextName}です。{/subLabel} }} 2 {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}明後日は{$nextName}です。{/subLabel} }} * {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}次の祝日の{$nextName}まであと {$nextDays} 日です。{/subLabel} }}",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}明日は{$nextName}です。{/subLabel} }} 2 {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}明後日は{$nextName}です。{/subLabel} }} 3 {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}明々後日は{$nextName}です。{/subLabel} }} * {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}次の祝日の{$nextName}まであと {$nextDays} 日です。{/subLabel} }}",
     "today_only": "{#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#mainLabel}です{/mainLabel}",
-    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}明日は{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}です{/mainLabel} }} 2 {{ {#mainLabel}明後日は{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}です{/mainLabel} }} * {{ {#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}まであと {/mainLabel}{#mainValue}{$nextDays}{/mainValue}{#mainLabel} 日{/mainLabel} }}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}明日は{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}です{/mainLabel} }} 2 {{ {#mainLabel}明後日は{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}です{/mainLabel} }} 3 {{ {#mainLabel}明々後日は{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}です{/mainLabel} }} * {{ {#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}まであと {/mainLabel}{#mainValue}{$nextDays}{/mainValue}{#mainLabel} 日{/mainLabel} }}",
     "no_holidays": "{#subLabel}登録された祝日はすべて終了しました。{/subLabel}"
   },
   "zh-CN": {
@@ -198,7 +338,7 @@
     textEl.dataset.tNextDays = nextHoliday.daysUntil;
     textEl.innerText = 
       `.input {$nextDays :number} .match $nextDays ` +
-      `one {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Tomorrow is {$nextName}.{/subLabel} }}` +
+      `1 {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Tomorrow is {$nextName}.{/subLabel} }}` +
       `* {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Next holiday is {$nextName} in {$nextDays} days.{/subLabel} }}`;
   } else if (todayHoliday) {
     // B without 3rd row: today is holiday, no next holiday
@@ -214,7 +354,7 @@
     textEl.dataset.tNextDays = nextHoliday.daysUntil;
     textEl.innerText =
         `.input {$nextDays :number} .match $nextDays ` +
-        `one {{ {#mainLabel}Tomorrow is{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}` +
+        `1 {{ {#mainLabel}Tomorrow is{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}` +
         `* {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} days until{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}`;
   } else {
     // C: no next holiday
