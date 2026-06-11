@@ -1,3 +1,48 @@
+{%- capture language_learning_sentences_i18n_json -%}
+{
+  "en": {
+    "__translator_note": "Strings for recipe https://trmnl.com/recipes/177718. You do not need to translate strings ending with `__translator_note`.",
+    "from_to": "{$from :langName} to {$to :langNameList}",
+    "from_to__translator_note": "Title representing translation from one language to one or more other languages. ${from :langName} is the localized name of the source language, and ${to :langNameList} is the localized name of the target language(s). For example, \"English to Spanish\" or \"English to Spanish, French\"."
+  },
+  "de": {
+    "from_to": "{$from :langName} bis {$to :langNameList}"
+  },
+  "de-AT": {
+    "from_to": "{$from :langName} bis {$to :langNameList}"
+  },
+  "es-ES": {
+    "from_to": "{$from :langName} a {$to :langNameList}"
+  },
+  "ko": {
+    "from_to": "{$from :langName}에서 {$to :langNameList}(으)로"
+  },
+  "lt": {
+    "from_to": "iš {$from :langName} į {$to :langNameList}"
+  },
+  "pl": {
+    "from_to": "{$from :langName} -> {$to :langNameList}"
+  },
+  "ro": {
+    "from_to": "{$from :langName} în {$to :langNameList}"
+  },
+  "zh-CN": {
+    "from_to": "{$from :langName}到{$to :langNameList}"
+  }
+}
+{%- endcapture -%}
+{%- liquid
+  assign language_learning_sentences_i18n = language_learning_sentences_i18n_json | parse_json
+  assign language_learning_sentences_locale = trmnl.user.locale
+  assign language_learning_sentences_strings = language_learning_sentences_i18n[language_learning_sentences_locale]
+  unless language_learning_sentences_strings
+    assign language_learning_sentences_locale_base = language_learning_sentences_locale | split: "-" | first
+    assign language_learning_sentences_strings = language_learning_sentences_i18n[language_learning_sentences_locale_base]
+  endunless
+  unless language_learning_sentences_strings
+    assign language_learning_sentences_strings = language_learning_sentences_i18n.en
+  endunless
+-%}
 {% capture lang_json %}{
   "eng":{"bcp47":"en","name":"English","label":"En"},
   "rus":{"bcp47":"ru","name":"Russian","label":"Ру"},

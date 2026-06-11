@@ -1,3 +1,18 @@
+{%- capture sun_chart_i18n_json -%}
+{
+  "en": {
+    "__translator_note": "Strings for recipe https://trmnl.com/recipes/195274. You do not need to translate strings ending with `__translator_note`.",
+    "sunrise": "Sunrise",
+    "sunrise__translator_note": "Label for the sunrise time",
+    "sunset": "Sunset",
+    "sunset__translator_note": "Label for the sunset time",
+    "daylength": "Daylength",
+    "daylength__translator_note": "Label for the length of the day (duration between sunrise and sunset) expressed in hours and minutes",
+    "title": "Sun chart"
+  }
+}
+{%- endcapture -%}
+{%- assign sun_chart_strings = sun_chart_i18n_json | parse_json -%}
 <script type="module" src="https://blueset.github.io/trmnl-recipes/trmnl-play-cdn.mjs"></script>
 <style type="text/tailwindcss">
 @import "trmnl-shared.css";

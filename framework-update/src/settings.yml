@@ -1,0 +1,14 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version: 3.0.2
+serverless_language: node
+polling_url: https://trmnl.com/framework/releases
+polling_headers: ''
+polling_body: ''
+id: 277426
+name: Framework Updates
+refresh_interval: 15

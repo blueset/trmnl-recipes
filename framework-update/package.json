@@ -1,0 +1,18 @@
+{
+  "name": "framework-update",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:vendor": "npx esbuild node_modules/node-html-parser/dist/index.js --bundle --minify --format=iife --global-name=NodeHTMLParser --platform=node --outfile=src/vendor.min.js",
+    "build": "node build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "type": "commonjs",
+  "dependencies": {
+    "node-html-parser": "^7.1.0"
+  }
+}

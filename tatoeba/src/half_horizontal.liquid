@@ -8,8 +8,8 @@
     assign translationClass = "title title--small lg:title--large"
   endif
 %}
-<div class="layout layout--left">
-  <div class="richtext richtext--left gap--small h--max-full" data-overflow="true">
+<div class="layout--left layout">
+  <div class="richtext--left gap--small h--max-full richtext" data-overflow="true">
     <div class="value text--left text--balance {{ mainSentenceClass }}" data-value-fit="true">
       {% render "sentence": data: data, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
     </div>
@@ -20,8 +20,8 @@
           assign licenses = licenses | append: ", " | append: item.license
           assign language = lang_data[item.lang]
         %}
-        <div class="item content flex flex--left flex--row gap--small flex--baseline" lang="{{ language.bcp47 }}">
-          <span class="label label--small label--outline lang-label inline-block text--center no-shrink">{{ language.label }}</span>
+        <div class="flex flex--baseline flex--left flex--row gap--small item content" lang="{{ language.bcp47 }}">
+          <span class="inline-block label--outline text--center label label--small lang-label no-shrink">{{ language.label }}</span>
           <div class="text--balance {{ translationClass }}">
             {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
           </div>
@@ -38,8 +38,8 @@
             assign authorNames = authorNames | append: ", " | append: item.owner
             assign licenses = licenses | append: ", " | append: item.license
           %}
-          <div class="item content flex flex--left flex--row gap flex--baseline" lang="{{ language.bcp47 }}">
-            <span class="label label--small label--underline inline-block text--center lang-label no-shrink">{{ language.label }}</span>
+          <div class="flex flex--baseline flex--left flex--row item content gap" lang="{{ language.bcp47 }}">
+            <span class="inline-block text--center label--underline label label--small lang-label no-shrink">{{ language.label }}</span>
             <div class="text--balance {{ translationClass }}">
               {% render "sentence": data: item, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
             </div>
@@ -48,10 +48,10 @@
       {% endfor %}
     {% endif %}
   </div>
-  <div class="credit w--20 text--right"><span data-unique>{{ licenses }}</span><br><span data-unique>{{ authorNames }}</span></div>
+  <div class="text--right w--20 credit"><span data-unique>{{ licenses }}</span><br><span data-unique>{{ authorNames }}</span></div>
 </div>
 
-<div class="title_bar" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ 'language_learning_sentences' | l_word: trmnl.user.locale | json | escape }}">
+<div class="title_bar" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ language_learning_sentences_strings | json | escape }}">
   {% render "logo" %}
   {% assign translation_languages_size = translation_languages | size %}
   {% if translation_languages_size > 0 %}

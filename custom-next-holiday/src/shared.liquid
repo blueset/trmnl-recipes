@@ -1,3 +1,52 @@
+{%- capture custom_next_holiday_i18n_json -%}
+{
+  "en": {
+    "__translator_note": "Strings for recipe https://trmnl.com/recipes/257171. You do not need to translate strings ending with `__translator_note`. The following strings are using the Unicode MessageFormat 2 syntax. See https://messageformat.unicode.org/ for details. See https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html for pluralization rules of your language. Open an issue to https://github.com/blueset/trmnl-recipes if your language needs additional conditions like vowel harmony or gender agreement.",
+    "next_holiday": "Next holiday",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays one {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Tomorrow is {$nextName}.{/subLabel} }}* {{ {#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}Next holiday is {$nextName} in {$nextDays} days.{/subLabel} }}",
+    "today_and_next__translator_note": "String for when today is a holiday and there is another holiday coming up. {$name} is the name of today’s holiday, {$nextName} is the name of the next holiday, and {$nextDays :number} is the number of days until the next holiday. If your language has words for tomorrow or the day after tommorow, use selectors `1` or `2` to make the string more natural. `{$mainValue}...{/mainValue}` is the largest font size, `{$mainLabel}...{/mainLabel}` is the second largest font size, and `{$subLabel}...{/subLabel}` is the smallest font size. `{#br/}` represents a line break.",
+    "today_only": "{#mainLabel}Today is{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "today_only__translator_note": "String for when today is a holiday and there is no other holiday coming up. {$name} is the name of today’s holiday.",
+    "next_only": ".input {$nextDays :number} .match $nextDays one {{ {#mainLabel}Tomorrow is{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}* {{ {#mainValue}{$nextDays}{/mainValue}{#mainLabel} days until{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }}",
+    "next_only__translator_note": "String for when today is not a holiday and there is a holiday coming up. {$nextName} is the name of the next holiday, and {$nextDays :number} is the number of days until the next holiday. If your language has words for tomorrow or the day after tommorow, use selectors `1` or `2` to make the string more natural.",
+    "no_holidays": "{#subLabel}End of added holidays.{/subLabel}",
+    "no_holidays__translator_note": "String for when there is no holiday coming up within the range of added holidays."
+  },
+  "ja": {
+    "next_holiday": "次の祝日",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}明日は{$nextName}です。{/subLabel} }} 2 {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}明後日は{$nextName}です。{/subLabel} }} * {{ {#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}次の祝日の{$nextName}まであと {$nextDays} 日です。{/subLabel} }}",
+    "today_only": "{#mainLabel}今日は{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#mainLabel}です{/mainLabel}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}明日は{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}です{/mainLabel} }} 2 {{ {#mainLabel}明後日は{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}です{/mainLabel} }} * {{ {#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}まであと {/mainLabel}{#mainValue}{$nextDays}{/mainValue}{#mainLabel} 日{/mainLabel} }}",
+    "no_holidays": "{#subLabel}登録された祝日はすべて終了しました。{/subLabel}"
+  },
+  "zh-CN": {
+    "next_holiday": "下一个节日",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}今天是{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}明天是{$nextName}。{/subLabel} }} 2 {{ {#mainLabel}今天是{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}后天是{$nextName}。{/subLabel} }} * {{ {#mainLabel}今天是{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}距离下一个节日{$nextName}还有 {$nextDays} 天。{/subLabel} }}",
+    "today_only": "{#mainLabel}今天是{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}明天是{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}后天是{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainLabel}距离{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}还有 {/mainLabel}{#mainValue}{$nextDays}{/mainValue}{#mainLabel} 天{/mainLabel} }}",
+    "no_holidays": "{#subLabel}已添加的节日已全部结束。{/subLabel}"
+  },
+  "zh-HK": {
+    "next_holiday": "下一個假期",
+    "today_and_next": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}今日是{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}明日是{$nextName}。{/subLabel} }} 2 {{ {#mainLabel}今日是{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}後日是{$nextName}。{/subLabel} }} * {{ {#mainLabel}今日是{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}{#br/}{#subLabel}距離下一個假期{$nextName}還有 {$nextDays} 日。{/subLabel} }}",
+    "today_only": "{#mainLabel}今日是{/mainLabel}{#br/}{#mainValue}{$name}{/mainValue}",
+    "next_only": ".input {$nextDays :number} .match $nextDays 1 {{ {#mainLabel}明日是{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} 2 {{ {#mainLabel}後日是{/mainLabel}{#br/}{#mainValue}{$nextName}{/mainValue} }} * {{ {#mainValue}{$nextName}{/mainValue}{#br/}{#mainLabel}還有 {/mainLabel}{#mainValue}{$nextDays}{/mainValue}{#mainLabel} 日{/mainLabel} }}",
+    "no_holidays": "{#subLabel}已添加的假期已全部結束。{/subLabel}"
+  }
+}
+{%- endcapture -%}
+{%- liquid
+  assign custom_next_holiday_i18n = custom_next_holiday_i18n_json | parse_json
+  assign custom_next_holiday_locale = trmnl.user.locale
+  assign custom_next_holiday_strings = custom_next_holiday_i18n[custom_next_holiday_locale]
+  unless custom_next_holiday_strings
+    assign custom_next_holiday_locale_base = custom_next_holiday_locale | split: "-" | first
+    assign custom_next_holiday_strings = custom_next_holiday_i18n[custom_next_holiday_locale_base]
+  endunless
+  unless custom_next_holiday_strings
+    assign custom_next_holiday_strings = custom_next_holiday_i18n.en
+  endunless
+-%}
 {% template common %}
 <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/temporal-polyfill@0.3.0/global.min.js"></script>
