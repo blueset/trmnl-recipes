@@ -20,6 +20,7 @@
 
 {% template plugin %}
 {%- capture public_recipe_stats_i18n_json -%}
+{% raw %}
 {
   "en": {
     "__translator_note": "Strings for recipe https://trmnl.com/recipes/170970. You do not need to translate strings ending with `__translator_note`. The following strings are using the Unicode MessageFormat 2 syntax. See https://messageformat.unicode.org/ for details. See https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html for pluralization rules of your language.",
@@ -409,6 +410,7 @@
     "error_recipe_ids_subtitle": "Додайте ID рецепта, щоб почати."
   }
 }
+{% endraw %}
 {%- endcapture -%}
 {%- liquid
   assign public_recipe_stats_i18n = public_recipe_stats_i18n_json | parse_json
@@ -505,7 +507,7 @@
 </div>
 {% if total_connections > 0 and show_progress %}
 <div class="p--0 title_bar pbar-title" style="position: relative">
-  <span class="inline-flex bg--gray-30 rounded h--full t--0 l--0 installs-progress-bar" style="position: absolute; width: {{ total_installs | times: 100.0 | divided_by: total_connections }}%"> </span>
+  <span class="inline-flex bg--gray-30 h--full t--0 l--0 installs-progress-bar" style="border-radius: var(--title-bar-border-radius); position: absolute; width: {{ total_installs | times: 100.0 | divided_by: total_connections }}%"> </span>
   <div class="flex flex--between flex--row px--2 w--full" style="z-index: 1; position: relative">
     {% if show_progress == "compact" %}
     <span class="text-stroke label label-connections" data-t="connectionsShort">+&lcub;{{ total_connections }} :number &rcub;</span>
