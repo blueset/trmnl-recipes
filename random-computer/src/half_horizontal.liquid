@@ -1,3 +1,8 @@
+{% if data contains "<h1>" %}
+  <div class="content content--center text--center h--full flex flex--center-y flex--col">
+  {{ data | replace: "<img", "<br" | replace: "<h1", "<h1 class=title" }}
+  </div>
+{% else %}
 <div class="inline-flex flex--row-reverse portrait:flex--col h--full w--full">
 <div class="grow portrait:h--0 shrink-0 h--full">
   <img src="https://computernewb.com/vncresolver/api/v1/screenshot/{{ id }}" class="w--full h--full image image-dither image--contain" />
@@ -38,3 +43,4 @@
   </div>
 </div>
 </div>
+{% endif %}
