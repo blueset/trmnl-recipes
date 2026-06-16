@@ -1,4 +1,5 @@
 {%- capture custom_next_holiday_i18n_json -%}
+{% raw %}
 {
   "en": {
     "__translator_note": "Strings for recipe https://trmnl.com/recipes/257171. You do not need to translate strings ending with `__translator_note`. The following strings are using the Unicode MessageFormat 2 syntax. See https://messageformat.unicode.org/ for details. See https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html for pluralization rules of your language. Open an issue to https://github.com/blueset/trmnl-recipes if your language needs additional conditions like vowel harmony or gender agreement.",
@@ -174,6 +175,7 @@
     "no_holidays": "{#subLabel}已添加的假期已全部結束。{/subLabel}"
   }
 }
+{% endraw %}
 {%- endcapture -%}
 {%- liquid
   assign custom_next_holiday_i18n = custom_next_holiday_i18n_json | parse_json
