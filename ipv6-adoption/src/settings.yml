@@ -1,0 +1,22 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version: 3.1.1
+serverless_language: node
+polling_url: https://www.google.com/intl/en_ALL/ipv6/statistics/data/adoption.js
+polling_headers: ''
+polling_body: ''
+id: 345789
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: 'Tracking global adoption of IPv6. Data source: <a href="https://www.google.com/intl/en/ipv6/statistics.html">Google</a>. The graph shows the percentage of users that access Google over IPv6.'
+  category: programming,news
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://www.google.com/intl/en/ipv6/statistics.html
+name: IPv6 Adoption
+refresh_interval: 15

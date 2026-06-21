@@ -1,0 +1,21 @@
+---
+strategy: plugin_merge
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version: 3.1.1
+serverless_language: node
+polling_url: ''
+polling_headers: ''
+polling_body: ''
+id: 343395
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+- keyname: plugin_instance
+  field_type: plugin_instance_select
+  name: Plugin Instance Select
+name: Up next
+refresh_interval: 15

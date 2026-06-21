@@ -1,0 +1,118 @@
+{% template adoption_view %}
+{% assign chart_id = chart_id | append_random %}
+{% if show_chart %}<script src="https://trmnl.com/js/highcharts/12.3.0/highcharts.js"></script>{% endif %}
+
+<div class="layout {{ layout_class }}">
+  <div class="{{ flex_class }}">
+    <div class="{{ adoption_item_class }}">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value {{ adoption_value_class }}" data-fit-value="true">{{ current_whole }}<small>{{ current_fraction }}</small></span>
+        <span class="label {{ adoption_label_class }}">IPv6 Adoption</span>
+      </div>
+    </div>
+    <div class="{{ trend_item_class }}">
+      <div class="meta"></div>
+      <div class="content">
+        <span class="value {{ trend_value_class }} flex flex--center gap--small">
+          {% if trend_up %}
+            <svg width="{{ arrow_size }}" height="{{ arrow_size }}" viewBox="0 0 12 12"><polygon points="6,1 11,11 1,11" fill="#000000" /></svg>
+          {% else %}
+            <svg width="{{ arrow_size }}" height="{{ arrow_size }}" viewBox="0 0 12 12"><polygon points="1,1 11,1 6,11" fill="#000000" /></svg>
+          {% endif %}
+          <span>{{ trend_abs }}<small>%</small></span>
+        </span>
+        <span class="label {{ trend_label_class }}">Trend</span>
+      </div>
+    </div>
+  </div>
+
+  {% if show_chart %}
+  <div class="{{ chart_class | default: "w--full h--full grow"}}">
+    <div id="{{ chart_id }}" class="h--full"></div>
+  </div>
+  {% endif %}
+</div>
+
+<div class="title_bar">
+  <span class="text--large text-stroke">➅</span>
+  <span class="title">{{ instance_name | default: "IPv6 Adoption" }}</span>
+  <span class="instance">{{ end_label }}</span>
+</div>
+
+{% if show_chart %}
+<script type="text/javascript">
+  (function () {
+    var series = {{ chart_series | json }};
+    var yMax = {{ chart_y_max }};
+    Highcharts.chart('{{ chart_id }}', {
+      chart: { type: 'line', backgroundColor: 'transparent', animation: false, spacing: [{{ chart_spacing }}] },
+      title: { text: null },
+      credits: { enabled: false },
+      tooltip: { enabled: false },
+      legend: { enabled: false },
+      plotOptions: {
+        series: {
+          animation: false,
+          enableMouseTracking: false,
+          marker: { enabled: false },
+          states: { hover: { enabled: false } },
+          lineWidth: {{ line_width }},
+          color: '#000000'
+        }
+      },
+      series: [{ data: series, animation: false }],
+      xAxis: {
+        type: 'datetime',
+        title: { text: null },
+        {% if line_only %}
+          labels: { enabled: false },
+          lineWidth: 0, tickWidth: 0, gridLineWidth: 0,
+        {% else %}
+        labels: { style: { fontSize: '{{ axis_font_size }}', color: '#000000' }, format: '{value:%Y}' },
+        lineColor: '#000000', lineWidth: 1, tickColor: '#000000', tickWidth: 1, tickLength: {{ tick_length }},
+        gridLineWidth: 1, gridLineColor: '#000000', gridLineDashStyle: 'Dot',
+        tickPixelInterval: {{ tick_pixel_interval }}
+        {% endif %}
+      },
+      yAxis: {
+        min: 0, max: yMax,
+        title: { text: null }, 
+        {% if line_only %}
+          opposite: true,
+          labels: { 
+            style: { fontSize: '{{ axis_font_size }}', color: '#000000' }, format: '{value}%',
+          },
+          lineWidth: 0, tickWidth: 0, gridLineWidth: 0,
+        {% else %}
+        tickInterval: 10,
+        labels: { style: { fontSize: '{{ axis_font_size }}', color: '#000000' }, format: '{value}%' },
+        gridLineWidth: 1, gridLineColor: '#000000', gridLineDashStyle: 'Dot',
+        {% endif %}
+      }
+    });
+  })();
+</script>
+{% endif %}
+
+<style>
+  small {
+    font-size: 0.6em;
+  }
+  .value {
+    line-height: 1 !important;
+  }
+  .relative {
+    position: relative;
+  }
+  .absolute {
+    position: absolute;
+  }
+  .inset--0 {
+    inset: 0;
+  }
+  .-z-index--1 {
+    z-index: -1;
+  }
+</style>
+{% endtemplate %}

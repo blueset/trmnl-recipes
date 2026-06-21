@@ -41,7 +41,7 @@
     <td align="center"><img src="./random-computer/images/icon.png" alt="Icon" height="50"><br><a href="#random-computer">Random Computer</a></td>
     <td align="center"><img src="./uspto/images/icon.png" alt="Icon" height="50"><br><a href="#uspto-new-trademarks">USPTO New Trademarks</a></td>
     <td align="center"><img src="./framework-update/images/icon.png" alt="Icon" height="50"><br><a href="#trmnl-framework-update">TRMNL framework update</a></td>
-    <td></td>
+    <td align="center"><img src="./ipv6-adoption/images/icon.png" alt="Icon" height="50"><br><a href="#ipv6-adoption">IPv6 Adoption</a></td>
   </tr>
 </table>
 
@@ -480,3 +480,22 @@ Latest releases of TRMNL Framework.
 </a>
 
 ![Screenshot](./framework-update/images/f.png)
+
+<a id="ipv6-adoption"></a>
+## <img src="./ipv6-adoption/images/icon.png" alt="Icon" height="50"> IPv6 Adoption
+
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=345789)
+
+Tracking global adoption of IPv6. Data source: Google. The graph shows the percentage of users that access Google over IPv6.
+
+[Learn More](./ipv6-adoption/README.md)
+
+<a href="https://trmnl.com/recipes/345789" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src=".assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
+
+![Screenshot](./ipv6-adoption/images/f.png)
