@@ -6,8 +6,9 @@
   </script> 
 {% endif %}
 <div class="layout">
-  <!-- <div class="columns" dataa-overflow="true" dataa-overflow-cols="{{ cols }}"> -->
-    <div class="h--max-full" style="columns: {{ cols }};">
+  <!-- <div class="columns" data-overflow="true" data-overflow-cols="{{ cols }}"> -->
+  <div class="h--max-full" style="columns: {{ cols }};">
+    <!-- <div class="column"> -->
       {% for item in data %}
       <div class="item mb--2">
         <div class="meta">
@@ -24,8 +25,9 @@
         </div>
       </div>
       {% endfor %}
-    </div>
-  <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
+  </div>
 </div>
 
 <div class="title_bar">
