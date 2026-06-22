@@ -54,7 +54,7 @@
         {%- when "foodhall6" -%}{%- assign vlabel = "6" -%}
         {%- when "bobae" -%}{%- assign vlabel = "6Bobae" -%}
         {%- when "craft75" -%}{%- assign vlabel = "6Craft75" -%}
-        {%- when "dote" -%}{%- assign vlabel = "6Dote" -%}
+        {%- when "dote" -%}{%- assign vlabel = "6D" -%}
         {%- when "l-experience" -%}{%- assign vlabel = "6L’Exp" -%}
         {%- when "pinkabella" -%}{%- assign vlabel = "6Pinka" -%}
         {%- when "foodhall9" -%}{%- assign vlabel = "9" -%}
@@ -110,7 +110,7 @@
                 {%- if items.size > 0 -%}
                   <span class="text--gray-30 label label--small">{{ pair[0] }}</span>
                   {%- for item in items -%}
-                    <span class="label--outline label label--small">{{ item.name }}</span>
+                    <span class="label--outline label label--small px--1">{{ item.name }}</span>
                   {%- endfor -%}
                 {%- endif -%}
               {%- endfor -%}
