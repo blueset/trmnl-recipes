@@ -10,6 +10,26 @@ polling_url: https://trend.doforce.dpdns.org/repo?{% if duration %}since={{ dura
 polling_headers: ''
 polling_body: ''
 id: 243710
+oauth_enabled: 'false'
+oauth_pkce_enabled: 'yes'
+oauth_authorize_url: https://github.com/login/oauth/authorize
+oauth_token_url: https://github.com/login/oauth/access_token
+oauth_scopes: read:user,user:email
+oauth_scope_separator: ''
+oauth_refresh_url: ''
+oauth_auth_params: ''
+oauth_token_headers: ''
+oauth_token_site: https://api.github.com
+oauth_token_params: ''
+oauth_token_request_auth_method: body
+oauth_body_format: form
+oauth_token_response_metadata: ''
+oauth_authorization_method: body
+oauth_refresh_params: ''
+oauth_token_field_name: ''
+oauth_expiry_field_name: ''
+oauth_expiry_strategy: expirein
+oauth_fixed_expiry_ms: ''
 custom_fields:
 - keyname: author_bio
   field_type: author_bio
