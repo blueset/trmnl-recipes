@@ -1,3 +1,31 @@
 {% render "content", data: data, trmnl: trmnl, maxCol: 1， 
    statsClass: "flex port:hidden lg:port:flex gap--distribute w--full flex--wrap",
    columnsClass: "columns-1 max-h-full", %}
+
+<style type="text/css" id="tailwind-trmnl-generated">
+/*! tailwindcss v4.3.2 | MIT License | https://tailwindcss.com */
+@layer theme, base, components, utilities;
+@layer utilities {
+  .flex {
+    display: flex;
+  }
+  .max-h-full {
+    max-height: 100%;
+  }
+  .columns-1 {
+    columns: 1;
+  }
+  .port\:hidden {
+    .screen--portrait & {
+      display: none;
+    }
+  }
+  .lg\:port\:flex {
+    .screen--lg & {
+      .screen--portrait & {
+        display: flex;
+      }
+    }
+  }
+}
+</style>

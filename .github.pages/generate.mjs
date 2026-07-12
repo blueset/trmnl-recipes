@@ -4,6 +4,8 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { utilityGroups } from "./trmnl-tailwind-config.mjs";
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const cssPath = join(__dirname, "trmnl-shared.css");
 
@@ -11,28 +13,6 @@ const BEGIN = "/* BEGIN GENERATED UTILITIES */";
 const END = "/* END GENERATED UTILITIES */";
 
 // --- Utility definitions ---
-
-/**
- * Each group defines:
- *   name     – the utility class prefix (e.g. "content" → `content-base`)
- *   varPrefix – the CSS variable prefix (e.g. "richtext" → `--richtext-font-family`)
- *   variants – the size variants to generate
- *
- * For "base" variant the var infix is empty (e.g. --richtext-font-family).
- * For others it is the variant name (e.g. --richtext-small-font-family).
- */
-const utilityGroups = [
-  {
-    name: "content",
-    varPrefix: "richtext",
-    variants: ["small", "base", "large", "xlarge", "xxlarge", "xxxlarge"],
-  },
-  {
-    name: "description",
-    varPrefix: "description",
-    variants: ["base", "large", "xlarge"],
-  },
-];
 
 function utility(name, varPrefix, variant) {
   const infix = variant === "base" ? "" : `-${variant}`;

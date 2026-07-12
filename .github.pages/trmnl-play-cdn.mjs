@@ -1,32 +1,38 @@
 import * as tailwindcss from "https://esm.sh/tailwindcss@4";
 import plugin from "https://esm.sh/tailwindcss/plugin";
+
+import { createUtilities } from "./trmnl-tailwind-config.mjs";
+
 const cssIndex = await fetch("https://esm.sh/tailwindcss@4/index.css").then(
-  (res) => res.text(),
+  (response) => response.text(),
 );
 const cssPreflight = await fetch(
   "https://esm.sh/tailwindcss@4/preflight.css",
-).then((res) => res.text());
+).then((response) => response.text());
 const cssTheme = await fetch("https://esm.sh/tailwindcss@4/theme.css").then(
-  (res) => res.text(),
+  (response) => response.text(),
 );
 const cssUtilities = await fetch(
   "https://esm.sh/tailwindcss@4/utilities.css",
-).then((res) => res.text());
-const trmnlShared = await fetch("https://blueset.github.io/trmnl-recipes/trmnl-shared.css").then((res) => res.text());
+).then((response) => response.text());
+const trmnlShared = await fetch(
+  "https://blueset.github.io/trmnl-recipes/trmnl-shared.css",
+).then((response) => response.text());
 
 const STYLE_TYPE = "text/tailwindcss";
 let compiler;
-let classes = new Set();
+const classes = new Set();
 let lastCss = "";
-let sheet = document.createElement("style");
+const outputStylesheet = document.createElement("style");
 let buildQueue = Promise.resolve();
+
 async function createCompiler() {
-  let stylesheets = document.querySelectorAll(`style[type="${STYLE_TYPE}"]`);
+  const stylesheets = document.querySelectorAll(`style[type="${STYLE_TYPE}"]`);
 
   let css = "";
-  for (let sheet of stylesheets) {
-    observeSheet(sheet);
-    css += sheet.textContent + "\n";
+  for (const stylesheet of stylesheets) {
+    observeSheet(stylesheet);
+    css += stylesheet.textContent + "\n";
   }
 
   if (!css.includes("@import")) {
@@ -37,77 +43,57 @@ async function createCompiler() {
   if (lastCss === css) return;
 
   lastCss = css;
-
-  try {
-    compiler = await tailwindcss.compile(css, {
-      base: "/",
-      loadStylesheet,
-      loadModule,
-    });
-  } finally {
-  }
+  compiler = await tailwindcss.compile(css, {
+    base: "/",
+    loadStylesheet,
+    loadModule,
+  });
 
   classes.clear();
 }
 
 async function loadStylesheet(id, base) {
-  function load() {
-    if (id === "tailwindcss") {
+  switch (id) {
+    case "tailwindcss":
       return {
         path: "virtual:tailwindcss/index.css",
         base,
         content: cssIndex,
       };
-    } else if (
-      id === "tailwindcss/preflight" ||
-      id === "tailwindcss/preflight.css" ||
-      id === "./preflight.css"
-    ) {
+    case "tailwindcss/preflight":
+    case "tailwindcss/preflight.css":
+    case "./preflight.css":
       return {
         path: "virtual:tailwindcss/preflight.css",
         base,
         content: cssPreflight,
       };
-    } else if (
-      id === "tailwindcss/theme" ||
-      id === "tailwindcss/theme.css" ||
-      id === "./theme.css"
-    ) {
+    case "tailwindcss/theme":
+    case "tailwindcss/theme.css":
+    case "./theme.css":
       return {
         path: "virtual:tailwindcss/theme.css",
         base,
         content: cssTheme,
       };
-    } else if (
-      id === "tailwindcss/utilities" ||
-      id === "tailwindcss/utilities.css" ||
-      id === "./utilities.css"
-    ) {
+    case "tailwindcss/utilities":
+    case "tailwindcss/utilities.css":
+    case "./utilities.css":
       return {
         path: "virtual:tailwindcss/utilities.css",
         base,
         content: cssUtilities,
       };
-    } else if (
-      id === "trmnl-shared" ||
-      id === "trmnl-shared.css" ||
-      id === "./trmnl-shared.css"
-    ) {
+    case "trmnl-shared":
+    case "trmnl-shared.css":
+    case "./trmnl-shared.css":
       return {
         path: "virtual:trmnl-shared.css",
         base,
         content: trmnlShared,
       };
-    }
-
-    throw new Error(`The browser build does not support @import for "${id}"`);
-  }
-
-  try {
-    let sheet = load();
-    return sheet;
-  } catch (err) {
-    throw err;
+    default:
+      throw new Error(`The browser build does not support @import for "${id}"`);
   }
 }
 
@@ -117,40 +103,7 @@ async function loadModule(id, base) {
       path: "virtual:trmnl-plugin/index.js",
       base,
       module: plugin(function ({ addUtilities }) {
-        const utilityGroups = [
-          {
-            name: "content",
-            varPrefix: "richtext",
-            variants: [
-              "small",
-              "base",
-              "large",
-              "xlarge",
-              "xxlarge",
-              "xxxlarge",
-            ],
-          },
-          {
-            name: "description",
-            varPrefix: "description",
-            variants: ["base", "large", "xlarge"],
-          },
-        ];
-
-        const utilities = {};
-        for (const { name, varPrefix, variants } of utilityGroups) {
-          for (const variant of variants) {
-            const infix = variant === "base" ? "" : `-${variant}`;
-            utilities[`.${name}-${variant}`] = {
-              "font-family": `var(--${varPrefix}${infix}-font-family)`,
-              "font-size": `var(--${varPrefix}${infix}-font-size)`,
-              "line-height": `var(--${varPrefix}${infix}-line-height)`,
-              "font-weight": `var(--font-weight-${name}-${variant})`,
-              "-webkit-font-smoothing": `var(--${varPrefix}${infix}-font-smoothing)`,
-            };
-          }
-        }
-        addUtilities(utilities);
+        addUtilities(createUtilities());
       }),
     };
   }
@@ -160,14 +113,14 @@ async function build(kind) {
   if (!compiler) return;
 
   // 1. Refresh the known list of classes
-  let newClasses = new Set();
+  const newClasses = new Set();
 
-  for (let element of document.querySelectorAll("[class]")) {
-    for (let c of element.classList) {
-      if (classes.has(c)) continue;
+  for (const element of document.querySelectorAll("[class]")) {
+    for (const className of element.classList) {
+      if (classes.has(className)) continue;
 
-      classes.add(c);
-      newClasses.add(c);
+      classes.add(className);
+      newClasses.add(className);
     }
   }
 
@@ -175,7 +128,7 @@ async function build(kind) {
 
   // 2. Compile the CSS
 
-  sheet.textContent = compiler.build(Array.from(newClasses));
+  outputStylesheet.textContent = compiler.build(Array.from(newClasses));
 }
 
 function rebuild(kind) {
@@ -195,7 +148,7 @@ function rebuild(kind) {
 }
 
 // Handle changes to known stylesheets
-let styleObserver = new MutationObserver(() => rebuild("full"));
+const styleObserver = new MutationObserver(() => rebuild("full"));
 
 function observeSheet(sheet) {
   styleObserver.observe(sheet, {
@@ -215,9 +168,9 @@ new MutationObserver((records) => {
   let full = 0;
   let incremental = 0;
 
-  for (let record of records) {
+  for (const record of records) {
     // New stylesheets == tracking + full rebuild
-    for (let node of record.addedNodes) {
+    for (const node of record.addedNodes) {
       if (node.nodeType !== Node.ELEMENT_NODE) continue;
       if (node.tagName !== "STYLE") continue;
       if (node.getAttribute("type") !== STYLE_TYPE) continue;
@@ -227,11 +180,11 @@ new MutationObserver((records) => {
     }
 
     // New nodes require an incremental rebuild
-    for (let node of record.addedNodes) {
-      if (node.nodeType !== 1) continue;
+    for (const node of record.addedNodes) {
+      if (node.nodeType !== Node.ELEMENT_NODE) continue;
 
       // Skip the output stylesheet itself to prevent loops
-      if (node === sheet) continue;
+      if (node === outputStylesheet) continue;
 
       incremental++;
     }
@@ -256,4 +209,4 @@ new MutationObserver((records) => {
 
 rebuild("full");
 
-document.head.append(sheet);
+document.head.append(outputStylesheet);
