@@ -167,15 +167,22 @@
 @import "trmnl-shared.css";
 </style>
 
+<script>window.TRMNL_PLUGINS_READY = false;</script>
 {% assign instance_id = "chart-" | append_random %}
 <script type="module" id="{{ instance_id }}" data-t-script>
+  window.TRMNL_PLUGINS_READY = false;
   import suncalc from 'https://cdn.jsdelivr.net/npm/suncalc@1.9.0/+esm';
+  window.TRMNL_PLUGINS_READY = false;
   import tzLookup from 'https://cdn.jsdelivr.net/npm/tz-lookup@6.1.25/+esm';
+  window.TRMNL_PLUGINS_READY = false;
   import {
     Temporal
   } from 'https://cdn.jsdelivr.net/npm/@js-temporal/polyfill@0.5.1/+esm';
+  window.TRMNL_PLUGINS_READY = false;
   import { applyPlaintext } from 'https://blueset.github.io/trmnl-recipes/i18n.js';
+  window.TRMNL_PLUGINS_READY = false;
   import { DefaultFunctions } from 'https://cdn.jsdelivr.net/npm/messageformat@4.0.0-13/lib/functions/+esm';
+  window.TRMNL_PLUGINS_READY = false;
   
   applyPlaintext({}, { scriptId: "{{ instance_id }}" });
   
@@ -477,4 +484,5 @@
       monthLabels.appendChild(monthDiv);
     });
   }
+  window.TRMNL_PLUGINS_READY = true;
 </script>
