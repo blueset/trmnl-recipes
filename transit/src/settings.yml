@@ -5,11 +5,31 @@ dark_mode: 'no'
 static_data: ''
 polling_verb: get
 framework_version: 2.3.7
-serverless_language: 
-polling_url: '{% liquid\nassign fallbackCoord = lat | append: "," | append: lon\nassign latlon = coordinate | default: fallbackCoord | split: ","\nassign lat = latlon[0]\nassign lon = latlon[1] %}https://trmnl.1a23.workers.dev/transit?key={{ key }}&lat={{ lat }}&lon={{ lon }}{% if radius %}&radius={{ radius }}{% endif %}{% if hourCycle %}&hourCycle={{ hourCycle }}{% endif %}{% if distanceUnit %}&distanceUnit={{ distanceUnit }}{% endif %}{% assign stopIdsSize = stopIds | size %}{% if stopIdsSize > 0 %}&stopIds={{ stopIds | join: "," }}{% endif %}{% assign routeIdsSize = routeIds | size %}{% if routeIdsSize > 0 %}&routeIds={{ routeIds | join: "," }}{% endif %}'
+serverless_language: ''
+polling_url: "{% liquid\r\nassign fallbackCoord = lat | append: \",\" | append: lon\r\nassign latlon = coordinate | default: fallbackCoord | split: \",\"\r\nassign lat = latlon[0]\r\nassign lon = latlon[1] %}https://trmnl.1a23.workers.dev/transit?key={{ key }}&lat={{ lat }}&lon={{ lon }}{% if radius %}&radius={{ radius }}{% endif %}{% if hourCycle %}&hourCycle={{ hourCycle }}{% endif %}{% if distanceUnit %}&distanceUnit={{ distanceUnit }}{% endif %}{% assign stopIdsSize = stopIds | size %}{% if stopIdsSize > 0 %}&stopIds={{ stopIds | join: \",\" }}{% endif %}{% assign routeIdsSize = routeIds | size %}{% if routeIdsSize > 0 %}&routeIds={{ routeIds | join: \",\" }}{% endif %}"
 polling_headers: ''
 polling_body: ''
 id: 225183
+oauth_enabled: 'false'
+oauth_pkce_enabled: 'no'
+oauth_authorize_url: ''
+oauth_token_url: ''
+oauth_scopes: ''
+oauth_scope_separator: ''
+oauth_refresh_url: ''
+oauth_auth_params: ''
+oauth_token_headers: ''
+oauth_token_site: ''
+oauth_token_params: ''
+oauth_token_request_auth_method: ''
+oauth_body_format: ''
+oauth_token_response_metadata: ''
+oauth_authorization_method: ''
+oauth_refresh_params: ''
+oauth_token_field_name: ''
+oauth_expiry_field_name: ''
+oauth_expiry_strategy: ''
+oauth_fixed_expiry_ms: ''
 custom_fields:
 - keyname: author_bio
   field_type: author_bio
