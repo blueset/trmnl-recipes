@@ -4,6 +4,10 @@
 
 [What is TRMNL?](https://trmnl.com/)
 
+## Development
+
+Run `npm install`, then `npm run build:tailwind` to compile and embed Tailwind CSS in every Liquid file belonging to a plugin that references `trmnl-play-cdn.mjs`.
+
 ## Table of Contents
 
 <table>
