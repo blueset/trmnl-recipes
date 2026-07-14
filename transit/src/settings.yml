@@ -49,10 +49,14 @@ custom_fields:
   field_type: string
   name: Latitude (Deprecated)
   help_text: (Deprecated. Use “Location” above.) Find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+  group: Deprecated
+  optional: true
 - keyname: lon
   field_type: string
   name: Longitude (Deprecated)
   help_text: (Deprecated. Use “Location” above.) Find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+  group: Deprecated
+  optional: true
 - keyname: radius
   field_type: number
   name: Radius in meters

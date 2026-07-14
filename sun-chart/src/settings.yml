@@ -45,10 +45,12 @@ custom_fields:
   field_type: string
   name: Latitude (Deprecated)
   description: (Deprecated, use “Location” above.) Location in Latitude, find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+  optional: true
 - keyname: Longitude
   field_type: string
   name: Longitude (Deprecated)
   description: (Deprecated, use “Location” above.) Location in Longitude, find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+  optional: true
 - keyname: hour_cycle
   field_type: select
   name: Time format

@@ -51,18 +51,21 @@ custom_fields:
   description: Where are you located?
   optional: true
   default: ''
+  group: Home
 - keyname: home_name
   field_type: string
   name: Home name
   description: Name of your home
   placeholder: Home
   default: Home
+  group: Home
 - keyname: time_zone_1
   field_type: time_zone
   default: Etc/UTC
   name: Time Zone 1
   description: Time zone to display
   optional: true
+  group: Time Zone 1
   conditional_validation:
   - when: ''
     hidden:
@@ -75,12 +78,14 @@ custom_fields:
   placeholder: Work
   default: UTC
   optional: true
+  group: Time Zone 1
 - keyname: time_zone_2
   field_type: time_zone
   default: Asia/Tokyo
   name: Time Zone 2
   description: Time zone to display
   optional: true
+  group: Time Zone 2
   conditional_validation:
   - when: ''
     hidden:
@@ -93,12 +98,14 @@ custom_fields:
   default: Japan
   placeholder: Work
   optional: true
+  group: Time Zone 2
 - keyname: time_zone_3
   field_type: time_zone
   default: Europe/London
   name: Time Zone 3
   description: Time zone to display
   optional: true
+  group: Time Zone 3
   conditional_validation:
   - when: ''
     hidden:
@@ -111,12 +118,14 @@ custom_fields:
   placeholder: Work
   default: Silicon Valley
   optional: true
+  group: Time Zone 3
 - keyname: time_zone_4
   field_type: time_zone
   default: America/Los_Angeles
   name: Time Zone 4
   description: Time zone to display
   optional: true
+  group: Time Zone 4
   conditional_validation:
   - when: ''
     hidden:
@@ -129,12 +138,14 @@ custom_fields:
   placeholder: Work
   default: Melbourne
   optional: true
+  group: Time Zone 4
 - keyname: time_zone_5
   field_type: time_zone
   default: ''
   name: Time Zone 5
   description: Time zone to display
   optional: true
+  group: Time Zone 5
   conditional_validation:
   - when: ''
     hidden:
@@ -146,12 +157,14 @@ custom_fields:
   description: Name of this time zone, e.g. Work
   placeholder: Work
   optional: true
+  group: Time Zone 5
 - keyname: time_zone_6
   field_type: time_zone
   default: ''
   name: Time Zone 6
   description: Time zone to display
   optional: true
+  group: Time Zone 6
   conditional_validation:
   - when: ''
     hidden:
@@ -162,5 +175,6 @@ custom_fields:
   description: Name of this time zone, e.g. Work
   placeholder: Work
   optional: true
+  group: Time Zone 6
 name: Horizontal World Clock
 refresh_interval: 60
