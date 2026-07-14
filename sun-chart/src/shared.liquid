@@ -185,10 +185,9 @@
   TRMNLI18n.applyPlaintext({}, { scriptId: "{{ instance_id }}" });
   
   // Line below includes Liquid variables 
-  const {
-    Latitude,
-    Longitude
-  } = {{ trmnl.plugin_settings.custom_fields_values | json }} || {"Latitude": 0, "Longitude": 0};
+  let config = {{ trmnl.plugin_settings.custom_fields_values | json }} || {"Latitude": 0, "Longitude": 0, "coordinate": "0,0"};
+  const Latitude = config.coordinate ? parseFloat(config.coordinate.split(",")[0]) : config.Latitude;
+  const Longitude = config.coordinate ? parseFloat(config.coordinate.split(",")[1]) : config.Longitude;
   const locale = root.querySelector("[lang]").lang || 'en';
   const hourCycle = root.querySelector("[data-hour-cycle]").dataset.hourCycle || 'h23';
   const timeZone = root.querySelector("[data-hour-cycle]").dataset.tz || tzLookup(Latitude, Longitude);

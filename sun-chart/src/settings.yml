@@ -37,14 +37,18 @@ custom_fields:
   description: Sunrise and sunset time with a daily and yearly chart.
   category: calendar,life
   github_url: https://github.com/blueset/trmnl-recipes
+- keyname: coordinate
+  field_type: lat_lon
+  name: Location
+  description: Search for a city or postal code, or provide a comma-separated lat/long.
 - keyname: Latitude
   field_type: string
-  name: Latitude
-  description: Location in Latitude, find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+  name: Latitude (Deprecated)
+  description: (Deprecated, use “Location” above.) Location in Latitude, find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
 - keyname: Longitude
   field_type: string
-  name: Longitude
-  description: Location in Longitude, find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
+  name: Longitude (Deprecated)
+  description: (Deprecated, use “Location” above.) Location in Longitude, find yours <a href="https://www.latlong.net/" class="underline" target="_blank">here</a>.
 - keyname: hour_cycle
   field_type: select
   name: Time format
