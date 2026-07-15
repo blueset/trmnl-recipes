@@ -43,6 +43,7 @@ custom_fields:
   help_text: Check <a href="https://www.soundtransit.org/help-contacts/business-information/open-transit-data-otd" class="underline" target="_blank">https://www.soundtransit.org/help-contacts/business-information/open-transit-data-otd</a> for details on obtaining an API key.
 - keyname: coordinate
   field_type: lat_lon
+  optional: true
   name: Location
   description: Search for a city or postal code, or provide a comma-separated lat/long.
 - keyname: lat
