@@ -1,0 +1,42 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version: 3.1.1
+serverless_language: ''
+polling_url: https://isupmap.com/api/status
+polling_headers: ''
+polling_body: ''
+id: 367860
+oauth_enabled: 'false'
+oauth_pkce_enabled: 'no'
+oauth_authorize_url: ''
+oauth_token_url: ''
+oauth_scopes: ''
+oauth_scope_separator: ''
+oauth_refresh_url: ''
+oauth_auth_params: ''
+oauth_token_headers: ''
+oauth_token_site: ''
+oauth_token_params: ''
+oauth_token_request_auth_method: ''
+oauth_body_format: ''
+oauth_token_response_metadata: ''
+oauth_authorization_method: ''
+oauth_refresh_params: ''
+oauth_token_field_name: ''
+oauth_expiry_field_name: ''
+oauth_expiry_strategy: ''
+oauth_fixed_expiry_ms: ''
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: Service down/degraded statuses of popular online services. Covering Social Media, Gaming & Entertainment, Communication, Payments, Productivity & Media, AI, Developer & Cloud services. Data courtesy of <a href="https://isupmap.com/">Is Up Map</a>.
+  category: kpi,programming
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://isupmap.com/
+name: Is it down?
+refresh_interval: 15

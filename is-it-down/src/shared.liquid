@@ -1,0 +1,15 @@
+{% liquid
+assign total = 0
+assign down = 0
+assign degraded = 0
+for serv in services
+  if serv.status == "down"
+    assign total = total | plus: 1
+    assign down = down | plus: 1
+  elsif serv.status == "degraded"
+    assign total = total | plus: 1
+    assign degraded = degraded | plus: 1
+  endif
+endfor
+assign services = services | reverse | sort: "weight" | reverse
+%}

@@ -47,6 +47,9 @@ Run `npm install`, then `npm run build:tailwind` to compile and embed Tailwind C
     <td align="center"><img src="./framework-update/images/icon.png" alt="Icon" height="50"><br><a href="#trmnl-framework-update">TRMNL framework update</a></td>
     <td align="center"><img src="./ipv6-adoption/images/icon.png" alt="Icon" height="50"><br><a href="#ipv6-adoption">IPv6 Adoption</a></td>
   </tr>
+  <tr>
+    <td align="center"><img src="./is-it-down/images/icon.png" alt="Icon" height="50"><br><a href="#is-it-down">Is it down?</a></td>
+  </tr>
 </table>
 
 <a id="wikipedia-feed"></a>
@@ -503,3 +506,22 @@ Tracking global adoption of IPv6. Data source: Google. The graph shows the perce
 </a>
 
 ![Screenshot](./ipv6-adoption/images/f.png)
+
+<a id="is-it-down"></a>
+## <img src="./is-it-down/images/icon.png" alt="Icon" height="50"> Is it down?
+
+![Connections](https://trmnl-badges.gohk.xyz/badge/connections?recipe=367860)
+
+Service down/degraded statuses of popular online services. Covering Social Media, Gaming & Entertainment, Communication, Payments, Productivity & Media, AI, Developer & Cloud services. Data courtesy of Is Up Map.
+
+[Learn More](./is-it-down/README.md)
+
+<a href="https://trmnl.com/recipes/367860" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".assets/trmnl-badge-show-it-on-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".assets/trmnl-badge-show-it-on-light.svg">
+    <img alt="Show it on TRMNL" src=".assets/trmnl-badge-show-it-on-dark.svg" height="40">
+  </picture>
+</a>
+
+![Screenshot](./is-it-down/images/f.png)

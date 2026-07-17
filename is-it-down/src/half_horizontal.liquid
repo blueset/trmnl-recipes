@@ -1,0 +1,58 @@
+<div class="layout">
+{% if total > 0 %}
+<div class="columns" data-overflow-max-cols="3" data-overflow-max-cols-portrait="1">
+  <div class="column">
+    {% for s in services %}
+    {% unless s.status == "down" or s.status == "degraded" %}{% continue %}{% endunless %}
+    <div class="item {% if s.status == "down" %}item--emphasis-3{% else %}item--emphasis-1{% endif %}">
+      <div class="meta"></div>
+      <div class="flex flex--row gap--small grow flex--top">
+        <img class="image image-dither w--8 lg:w--10 aspect--1/1" src="https://isupmap.com/images/logo/services/{{ s.id }}.png" style="flex-shrink: 0;"/>
+
+        <div class="content grow">
+          <div class="flex flex--row">
+            <span class="label label--small label--inverted">{% if s.status == "down" %}Down{% else %}Degraded{% endif %}</span>
+            <span class="hidden lg:block label label--small label--underline">{{ s.category }}</span>
+          </div>
+          <span class="title title--small">{{ s.name }}</span>
+          <span class="description">{{ s.details.incident.name }}</span>
+        </div>
+        <div class="hidden lg:flex">
+          {% if s.details.incident.url %}{{ s.details.incident.url | qr_code: 1 }}{% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% else %}
+  <div class="w--full h--full image image--dither p--4 flex flex--col flex--between" style="background-image: url('https://images.unsplash.com/photo-1527998257557-0c18b22fa4cc'); background-position: bottom center; background-size: cover;">
+    <div class="title title--large w--full">Everything OK.</div>
+    <div class="title title--small w--full text--right">Today is a nice day to be on the internet.</div>
+  </div>
+{% endif %}
+</div>
+
+<div class="title_bar">
+    <svg xmlns="http://www.w3.org/2000/svg" class="image image-stroke" viewBox="0 0 24 24">
+  	<path d="M0 0h24v24H0z" fill="none" />
+  	<path fill="currentColor" d="M12 9a2 2 0 0 1-2-2a2 2 0 0 1 2-2c1.11 0 2 .89 2 2a2 2 0 0 1-2 2m0 5a2 2 0 0 1-2-2a2 2 0 0 1 2-2c1.11 0 2 .89 2 2a2 2 0 0 1-2 2m0 5a2 2 0 0 1-2-2a2 2 0 0 1 2-2c1.11 0 2 .89 2 2a2 2 0 0 1-2 2m8-9h-3V8.86c1.72-.45 3-2 3-3.86h-3V4a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v1H4c0 1.86 1.28 3.41 3 3.86V10H4c0 1.86 1.28 3.41 3 3.86V15H4c0 1.86 1.28 3.41 3 3.86V20a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1.14c1.72-.45 3-2 3-3.86h-3v-1.14c1.72-.45 3-2 3-3.86" />
+  </svg>
+  <span class="title">
+    {% if total > 0 %}
+      {% if down > 0 %}{{ "service" | pluralize: down }} down{% endif %}
+      {% if down > 0 and degraded > 0 %}, {% endif %}
+      {% if degraded > 0 %}{{ "service" | pluralize: degraded }} degraded{% endif %}
+    {% else %}
+      Is it down?
+    {% endif %}
+  </span>
+  <span class="instance">{{ updatedAt | divided_by: 1000 | date: "%Y-%m-%d %H:%M %Z" }}</span>
+</div>
+
+<script>
+  document.currentScript.closest(".view").querySelectorAll("svg.qr-code").forEach((s) => {
+    s.style.width = s.viewBox.baseVal.width + "px";
+    s.style.height = s.viewBox.baseVal.height + "px";
+  })
+</script>
