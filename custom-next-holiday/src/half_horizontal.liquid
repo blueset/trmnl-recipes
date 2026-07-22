@@ -15,7 +15,11 @@
     <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
   </div>
 </div>
-{% render "common", trmnl: trmnl, mainValueClass: "value--large lg:value--xlarge"  %}
+{% render "common", trmnl: trmnl, 
+  mainValueClass: "value--large lg:value--xlarge",
+  mainLabelClass: "value--small lg:value--base",
+  subLabelClass: "value--xsmall lg:value--base",
+%}
 
 <style type="text/css" id="tailwind-trmnl-generated">
 /*! tailwindcss v4.3.2 | MIT License | https://tailwindcss.com */
