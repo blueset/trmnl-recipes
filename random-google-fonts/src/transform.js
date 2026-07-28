@@ -1,6 +1,7 @@
-function transform(input) {
+async function transform(input) {
   const errors = [];
-  const data = input.IDX_0;
+  const dataReq = await fetch("https://blueset.github.io/google-fonts-metadata/metadata.json");
+  const data = await dataReq.json();
   let fonts = data.fonts;
 
   try {
@@ -31,7 +32,6 @@ function transform(input) {
     font,
     sampleText,
     script,
-    randomizerKey: input.IDX_1.text,
     errors,
     axes: data.axes,
   }
