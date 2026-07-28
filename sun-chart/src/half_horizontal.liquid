@@ -6,7 +6,7 @@
     <div class="flex flex-row gap-0 border rounded w-full h-4 chart-today"></div>
     <div class="inline-block absolute -translate-x-1/2 chart-today-indicator">▲</div>
   </div>
-  <div class="flex flex-row w-full">
+  <div class="flex flex-row w-full grow-2">
     <div class="flex flex-col place-content-center gap-0 grow">
       <div class="inline-block text-center label" data-t="sunrise">Sunrise</div>
       <div class="font-features-['case'] [&_small]:text-4xl lg:[&_small]:text-6xl lg:text-7xl text-center value value--large sunrise-time"></div>
@@ -18,6 +18,12 @@
     <div class="flex flex-col place-content-center gap-0 grow">
       <div class="inline-block text-center label" data-t="sunset">Sunset</div>
       <div class="font-features-['case'] [&_small]:text-4xl lg:[&_small]:text-6xl lg:text-7xl text-center value value--large sunset-time"></div>
+    </div>
+  </div>
+  <div class="relative hidden portrait:flex flex-col gap-0 mx-2 -px-2 w-full year-chart-container grow-3">
+    <div class="inline-block absolute -translate-x-1/2 year-today-indicator">▼</div>
+    <div class="flex flex-row gap-0 mt-6 border rounded w-full year-chart grow"></div>
+    <div class="flex flex-row gap-0 4bit:mt-1 month-labels">
     </div>
   </div>
 </div>
