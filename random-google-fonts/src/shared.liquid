@@ -37,6 +37,10 @@ addEventListener("DOMContentLoaded", (() => {
     const sampleText = {{ sampleText | json | replace: "<", "&lt;" }};
     const script = {{ script | json | replace: "<", "&lt;" }};
     const axes = {{ axes | json | replace: "<", "&lt;" }};
+    const sampleOverrides = {{ sampleOverrides | json | replace: "<", "&lt;" }};
+
+    // Nothing to render (e.g. the API rejected the filter) — the error is already on screen.
+    if (!font.name) return;
 
     // Load font
     const link = document.createElement('link');
@@ -226,6 +230,13 @@ addEventListener("DOMContentLoaded", (() => {
       small.lang = font.primary_language.replaceAll('_', '-') || 'en';
       small.style.fontFamily = `'${font.name}', sans-serif`;
     }
+    // Conditions are resolved server-side, last match wins.
+    if (large && sampleOverrides?.large != null) {
+      large.innerText = sampleOverrides.large;
+    }
+    if (small && sampleOverrides?.small != null) {
+      small.innerText = sampleOverrides.small;
+    }
     const title = root.querySelector(".title_bar .title");
     if (title) {
       title.innerText = font.name || 'Unknown Font';
@@ -235,33 +246,6 @@ addEventListener("DOMContentLoaded", (() => {
       designer.innerText = font.designer ? `by ${font.designer}` : '';
     }
   } catch (error) {
-    onError(error);
-  }
-
-  try {
-    const overrideJson = {{ trmnl.plugin_settings.custom_fields_values.override | json }};
-    if (overrideJson) {
-      const override = JSON.parse(overrideJson);
-      const f = font;
-
-      if (override.large) {
-        override.large.forEach(([cond, text]) => {
-          if ((() => { return eval(cond); }).call({ f })) {
-            large.innerText = text;
-          }
-        });
-      }
-
-      if (override.small) {
-        override.small.forEach(([cond, text]) => {
-          if ((() => { return eval(cond); }).call({ f })) {
-            small.innerText = text;
-          }
-        });
-      }
-    }
-  } catch (error) {
-    console.error("failed to apply override", error);
     onError(error);
   }
 

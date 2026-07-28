@@ -3,12 +3,12 @@ strategy: polling
 no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
-polling_verb: get
+polling_verb: post
 framework_version: 3.1.1
 serverless_language: node
-polling_url: "https://blueset.github.io/google-fonts-metadata/metadata.json\r\nhttps://trmnl.com/custom_plugin_example_data.json"
-polling_headers: ''
-polling_body: ''
+polling_url: https://trmnl-deno-deploy.1a23.deno.net/google-fonts
+polling_headers: Content-Type=application/json
+polling_body: "{\r\n  \"filter\": {{ filter | default: \"\" | json }},\r\n  \"override\": {{ override | default: \"\" | json }}\r\n}"
 id: 163790
 oauth_enabled: 'false'
 oauth_pkce_enabled: 'no'

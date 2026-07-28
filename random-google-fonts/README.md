@@ -30,6 +30,11 @@ A random typeface from [Google Fonts](https://fonts.google.com/) on each refresh
 
 ## Parameters
 
+Font selection and sample text overrides are evaluated server-side by the
+[`/google-fonts` endpoint](https://github.com/blueset/trmnl-deno-deploy), so no JavaScript from these
+fields ever runs on the device. If an expression is invalid, the plugin shows the API's error message
+on screen instead of silently falling back to an unfiltered random font.
+
 ### Sample text override
 
 `large`: Single-line sample text, only visible in full size.  
