@@ -67,4 +67,5 @@ custom_fields:
   default: ''
   optional: true
 name: Sunrise and Sunset Chart
+description: Sunrise, sunset & daylight charts
 refresh_interval: 15

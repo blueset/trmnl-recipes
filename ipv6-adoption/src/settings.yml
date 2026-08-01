@@ -39,4 +39,5 @@ custom_fields:
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://www.google.com/intl/en/ipv6/statistics.html
 name: IPv6 Adoption
+description: Global IPv6 adoption over time
 refresh_interval: 15

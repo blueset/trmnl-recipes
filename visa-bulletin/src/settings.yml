@@ -77,4 +77,5 @@ custom_fields:
   field_type: date
   name: Target date
 name: Visa Bulletin
+description: Latest visa bulletin dates & trends
 refresh_interval: 1440

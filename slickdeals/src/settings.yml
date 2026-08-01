@@ -46,4 +46,5 @@ custom_fields:
   default: frontpage
   name: Mode
 name: Slickdeals Frontpage
+description: Front page deals from Slickdeals
 refresh_interval: 120

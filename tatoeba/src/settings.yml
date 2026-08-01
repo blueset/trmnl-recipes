@@ -991,4 +991,5 @@ custom_fields:
   - All sentences: all
   - Only the first sentence: first
 name: 'Language Learning: Sentences'
+description: Random sentences with translations
 refresh_interval: 120

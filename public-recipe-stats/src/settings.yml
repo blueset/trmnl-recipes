@@ -87,4 +87,5 @@ custom_fields:
   optional: true
   placeholder: ''
 name: Public Recipe Stats
+description: Connection stats for public recipes
 refresh_interval: 1440

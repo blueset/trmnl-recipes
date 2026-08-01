@@ -72,4 +72,5 @@ custom_fields:
   - 簡體: Hans
   - 繁體: Hant
 name: Word Clock 中文
+description: Tell time in written Chinese
 refresh_interval: 15

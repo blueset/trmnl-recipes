@@ -865,4 +865,5 @@ custom_fields:
   - Zimpl: zimpl
   - Zmodel: zmodel
 name: GitHub Trending Repos
+description: What’s trending on GitHub today
 refresh_interval: 1440

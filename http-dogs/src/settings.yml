@@ -38,4 +38,5 @@ custom_fields:
   category: programming,discovery
   github_url: https://github.com/blueset/trmnl-recipes
 name: HTTP Dogs
+description: A random HTTP status code dog
 refresh_interval: 1440

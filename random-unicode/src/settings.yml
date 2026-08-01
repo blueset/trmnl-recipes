@@ -39,4 +39,5 @@ custom_fields:
   learn_more_url: https://codepoints.net/
   category: discovery,programming
 name: Random Unicode
+description: A random Unicode codepoint
 refresh_interval: 1440

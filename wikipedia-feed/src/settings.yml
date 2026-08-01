@@ -128,4 +128,5 @@ custom_fields:
   description: Format the date, see <a href="https://strftime.net/">strftime</a> for syntax.
   default: "%Y-%m-%d"
 name: Wikipedia Feeds
+description: Wikipedia daily feeds, any language
 refresh_interval: 240

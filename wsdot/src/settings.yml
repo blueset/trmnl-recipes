@@ -80,4 +80,5 @@ custom_fields:
   placeholder: "-122.429,47.525,-122.043,47.718"
   optional: true
 name: Washington Real-time Travel Times, Cameras, Alerts
+description: WA travel times, cameras & alerts
 refresh_interval: 1440
