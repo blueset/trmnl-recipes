@@ -103,4 +103,5 @@ custom_fields:
   - Large
   - Compact
 name: Puget Sound Transit Nearby
+description: Puget Sound departures near you
 refresh_interval: 1440

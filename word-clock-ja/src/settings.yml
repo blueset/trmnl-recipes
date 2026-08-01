@@ -50,4 +50,5 @@ custom_fields:
   - 24 時制: h23
   - 12 時制: h12
 name: Word Clock 日本語
+description: Tell time in written Japanese
 refresh_interval: 15

@@ -153,4 +153,5 @@ custom_fields:
   - South Korea: south_korea
   - Taiwan: taiwan
 name: One Headline News
+description: One news headline at a time
 refresh_interval: 60

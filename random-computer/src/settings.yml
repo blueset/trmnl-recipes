@@ -39,4 +39,5 @@ custom_fields:
   learn_more: https://computernewb.com/vncresolver/
   github_url: https://github.com/blueset/trmnl-recipes
 name: Random Computer
+description: Peek at random VNC desktops
 refresh_interval: 60

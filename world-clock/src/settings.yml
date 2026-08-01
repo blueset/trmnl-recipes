@@ -177,4 +177,5 @@ custom_fields:
   optional: true
   group: Time Zone 6
 name: Horizontal World Clock
+description: Up to 7 time zones, side by side
 refresh_interval: 60

@@ -39,4 +39,5 @@ custom_fields:
   github_url: https://github.com/blueset/trmnl-recipes
   learn_more_url: https://isupmap.com/
 name: Is it down?
+description: Live status of popular services
 refresh_interval: 15

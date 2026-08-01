@@ -39,4 +39,5 @@ custom_fields:
   learn_more_url: https://trmnl.com/framework/releases
   category: discovery,programming
 name: TRMNL Framework Updates
+description: Latest TRMNL Framework releases
 refresh_interval: 1440

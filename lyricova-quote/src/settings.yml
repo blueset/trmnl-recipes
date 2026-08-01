@@ -76,4 +76,5 @@ custom_fields:
   optional: true
   default: core
 name: Vocaloid Lyrics Quote
+description: Random Vocaloid lyric quote
 refresh_interval: 120

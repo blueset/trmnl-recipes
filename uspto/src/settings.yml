@@ -39,4 +39,5 @@ custom_fields:
   learn_more_url: https://uspto.report/TM/
   category: discovery,marketing
 name: USPTO New Trademarks
+description: New US trademarks registered today
 refresh_interval: 240
