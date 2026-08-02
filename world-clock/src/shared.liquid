@@ -216,6 +216,34 @@
   {% endif %}
 {% endtemplate %}
 
+{% unless trmnl %}
+{% capture demojson %}
+{
+  "plugin_settings": {
+    "instance_name": "World Clock Demo",
+    "custom_fields_values": {
+      "name_1": "45 demo",
+      "name_2": "30 demo",
+      "name_3": "Japan",
+      "name_4": "New York",
+      "name_5": "",
+      "name_6": "",
+      "home_name": "Home",
+      "hour_cycle": "h23",
+      "time_zone_1": "Asia/Kathmandu",
+      "time_zone_2": "Australia/Adelaide",
+      "time_zone_3": "Asia/Tokyo",
+      "time_zone_4": "America/New_York",
+      "time_zone_5": "",
+      "time_zone_6": "",
+      "home_time_zone": "Etc/UTC"
+    }
+  }
+}
+{% endcapture %}
+{% assign trmnl = demojson | parse_json %}
+{% endunless %}
+
 <!-- World Time Clock markup -->
 <div class="layout">
 <div class="wtc" data-hour-cycle="{{ trmnl.plugin_settings.custom_fields_values.hour_cycle | default: 'h23' | escape }}" data-locale="{{ trmnl.user.locale | escape }}" data-overflow="true">
