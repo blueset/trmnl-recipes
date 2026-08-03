@@ -72,5 +72,5 @@ custom_fields:
       date: 01-01[u-ca=chinese]  # Format: MM-DD[u-ca=calendar] (e.g., 01-01[u-ca=chinese] for Chinese New Year)
       icon: fluent-ioji-flat:red-envelope
 name: Custom Next Holiday and Countdown
-description: Countdown to your own holidays
+description: Highly customizable countdown
 refresh_interval: 1440
