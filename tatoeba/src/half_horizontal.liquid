@@ -10,7 +10,7 @@
 %}
 <div class="layout--left layout">
   <div class="richtext--left gap--small h--max-full richtext" data-overflow="true">
-    <div class="value text--left text--balance {{ mainSentenceClass }}" data-value-fit="true">
+    <div class="value text--left text--balance {{ mainSentenceClass }}">
       {% render "sentence": data: data, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
     </div>
     {% if sentences_per_translation_language == "all" %}

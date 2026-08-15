@@ -1,6 +1,6 @@
 <div class="layout">
-  <div class="lg:gap--large h--max-full richtext richtext--center gap" data-overflow="true">
-    <div class="mb--4 lg:mb--8 text--balance text--center value lg:value--large" data-value-fit="true">
+  <div class="lg:gap--large h--max-full richtext richtext--center gap w--full" data-overflow="true">
+      <div class="mb--4 lg:mb--8 text--balance text--center text--xxlarge lg:text--xxxlarge" style="max-width: 100%;">
       {% render "sentence": data: data, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
     </div>
     {% if sentences_per_translation_language == "all" %}
@@ -127,6 +127,7 @@
     }
 
     function remeasure() {
+      return;
       root.querySelectorAll('[dir="auto"]').forEach(e => {
         log("computing", e)
         e.style.width = "";
@@ -138,6 +139,7 @@
         const width = Math.ceil(range.getBoundingClientRect().width) + 2;
         log("after w", range.getBoundingClientRect().width, "h", range.getBoundingClientRect().height, "resulting", width);
         e.style.width = `${width}px`;
+        e.style.maxWidth = "100%";
       });
     }
     
