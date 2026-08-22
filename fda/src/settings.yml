@@ -60,7 +60,7 @@ custom_fields:
   - Tobacco: '2398'
 - keyname: field_terminated_recall
   field_type: select
-  name: " Terminated Recall"
+  name: Terminated Recall
   default: All
   options:
   - All: All
