@@ -1,0 +1,26 @@
+<div class="layout">
+  <div class="columns" data-overflow-cols="3" data-overflow-cols-portrait="1" data-overflow-cols-lg-portrait="2">
+    <div class="column">
+      {% for item in data %}
+      <div class="item">
+        <div class="meta">
+          {% if item[6] != "" %}<span class="index">T</span>{% endif %}
+        </div>
+        <div class="content">
+          <span class="description">{{ item[1] | replace: "<a", "<span" | replace: "</a", "</span" }}</span>
+          <span class="title title--small">{% render "icon", type: item[3] %} {{ item[2] }}</span>
+          <span class="description">{{ item[4] }} ({{ item[0] | strip }})</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <svg xmlns="http://www.w3.org/2000/svg" width="35.885" height="14.729" viewBox="0 0 35.885 14.729" class="image image--stroke" style="object-position: center;">
+    <path fill="#000" d="M5.31 11.365v14.729h3.073V20.02h4.146v-2.641H8.383v-3.373h12.46c.614.024 1.155.118 1.595.31q.751.33 1.226.928t.69 1.475q.219.877.218 1.949 0 1.093-.246 1.971a4.1 4.1 0 0 1-.773 1.515q-.527.64-1.373.979-.846.341-2.041.342h-1.981v-6.073h-3.074v8.692h4.992q1.795 0 3.219-.475 1.423-.474 2.412-1.424.99-.948 1.518-2.33.525-1.381.525-3.217 0-3.61-1.887-5.447c-1.153-1.122-2.73-1.742-4.72-1.836H5.31zm27.429 0-5.53 14.729h3.302l1.176-3.403h3.551l-.73-2.537h-2.017l1.795-5.281 3.735 11.221h3.175l-5.53-14.729z" transform="translate(-5.31 -11.365)"/>
+  </svg>
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  <span class="instance">Description</span>
+</div>
