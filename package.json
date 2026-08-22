@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:tailwind": "node .github.pages/build-tailwind.mjs"
+    "build:tailwind": "node .github.pages/build-tailwind.mjs",
+    "build:recipes": "node .github.pages/generate-recipes.mjs"
   },
   "devDependencies": {
     "@tailwindcss/oxide": "4.3.2",

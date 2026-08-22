@@ -7,6 +7,10 @@ on:
     paths:
       - ".github.pages/**"
       - ".github/workflows/pages.yml"
+      - "README.md"
+      - "*/.trmnlp.yml"
+      - "*/README.md"
+      - "*/src/settings.yml"
   workflow_dispatch:
 
 permissions:
@@ -24,6 +28,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Generate recipe index
+        env:
+          REPOSITORY_RAW_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/
+        run: node .github.pages/generate-recipes.mjs
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
