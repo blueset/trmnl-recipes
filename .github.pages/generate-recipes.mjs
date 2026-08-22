@@ -67,7 +67,7 @@ function readRecipeMetadata(recipeDirectory) {
 
   const [, iconPath, readmeName] = requiredMatch(
     readme,
-    /^#\s+<img\b[^>]*\bsrc=["']([^"']+)["'][^>]*>\s+(.+?)\s*$/m,
+    /^#\s+<img\b[^>]*\bsrc=["']([^"']+)["'][^>]*>\s*(.*?)\s*$/m,
     "recipe name and icon",
     readmePath,
   );
@@ -100,12 +100,17 @@ function readRecipeMetadata(recipeDirectory) {
     throw new Error(`Could not find long description in ${relative(repositoryRoot, readmePath)}`);
   }
 
+  const name =
+    readmeName.trim() ||
+    (settingsNameMatch ? parseYamlString(settingsNameMatch[1]) : undefined);
+  if (!name) {
+    throw new Error(`Could not find recipe name in ${relative(repositoryRoot, recipeDirectory)}`);
+  }
+
   return {
     id: Number(id),
     slug,
-    name:
-      readmeName.trim() ||
-      (settingsNameMatch ? parseYamlString(settingsNameMatch[1]) : undefined),
+    name,
     description,
     iconPath,
     localScreenshotPath,
@@ -115,7 +120,7 @@ function readRecipeMetadata(recipeDirectory) {
 function rootScreenshotPaths() {
   const rootReadme = readFileSync(join(repositoryRoot, "README.md"), "utf8");
   const screenshots = new Map();
-  const pattern = /!\[Screenshot\]\((\.\/([^/]+)\/[^)]+)\)/g;
+  const pattern = /!\[Screenshot\]\(((?:\.\/)?([^/]+)\/[^)]+)\)/g;
 
   for (const match of rootReadme.matchAll(pattern)) {
     const [, screenshotPath, slug] = match;
