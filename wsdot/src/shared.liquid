@@ -49,8 +49,10 @@
 {% template alerts %}
 {% assign size = alerts | size %}
 {% unless hideMap %}
+{% if size > 0 %}
 <link rel="stylesheet" href="https://trmnl.com/js/maplibre-gl/5.24.0/maplibre-gl.css">
 <script src="https://trmnl.com/js/maplibre-gl/5.24.0/maplibre-gl.js"></script>
+{% endif %}
 {% endunless %}
 {% if size > 0 %}
 <div class="layout {{ layoutClass }}">
@@ -102,6 +104,7 @@
 </div>
 
 {% unless hideMap %}
+{% if size > 0 %}
 <script>
   (() => {
     const data = {{ alerts | json }};
@@ -158,6 +161,7 @@
     initializeMap();
   })();
 </script>
+{% endif %}
 {% endunless %}
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Tiny5&display=swap');
@@ -271,24 +275,6 @@
 @layer properties;
 @layer theme, base, components, utilities;
 @layer utilities {
-  .container {
-    width: 100%;
-    @media (width >= 40rem) {
-      max-width: 40rem;
-    }
-    @media (width >= 48rem) {
-      max-width: 48rem;
-    }
-    @media (width >= 64rem) {
-      max-width: 64rem;
-    }
-    @media (width >= 80rem) {
-      max-width: 80rem;
-    }
-    @media (width >= 96rem) {
-      max-width: 96rem;
-    }
-  }
   .flex {
     display: flex;
   }
@@ -297,9 +283,6 @@
   }
   .flex-grow {
     flex-grow: 1;
-  }
-  .resize {
-    resize: both;
   }
   .border {
     border-style: var(--tw-border-style);
