@@ -49,7 +49,10 @@
 {% template alerts %}
 {% assign size = alerts | size %}
 {% unless hideMap %}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% if size > 0 %}
+<link rel="stylesheet" href="https://trmnl.com/js/maplibre-gl/5.24.0/maplibre-gl.css">
+<script src="https://trmnl.com/js/maplibre-gl/5.24.0/maplibre-gl.js"></script>
+{% endif %}
 {% endunless %}
 {% if size > 0 %}
 <div class="layout {{ layoutClass }}">
@@ -83,7 +86,7 @@
     </div>
     {% unless hideMap %}
     <div class="{{ mapColClass | default: 'col--span-2 image image-dither' }}">
-      <div class="w--full h--full map-container"></div>
+      <div class="map w--full h--full"></div>
     </div>
     {% endunless %}
   </div>
@@ -101,31 +104,31 @@
 </div>
 
 {% unless hideMap %}
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-providers@latest/leaflet-providers.js"></script>
+{% if size > 0 %}
 <script>
   (() => {
-  const data = {{ alerts | json }};
-  const mapContainer = document.currentScript.closest('.view').querySelector('.map-container');
-  // 1. Array of coordinates [lat, lng, label]
-  const points = data.map((item, idx) => [item.coordinates.latitude, item.coordinates.longitude, idx + 1, item.severityLevel]);
+    const data = {{ alerts | json }};
+    const mapContainer = document.currentScript.closest('.view').querySelector('.map');
+    const points = data.map((item, idx) => [item.coordinates.longitude, item.coordinates.latitude, idx + 1, item.severityLevel]);
 
-  // 2. Initialize map (set view is temporary, fitBounds will override)
-  const map = L.map(mapContainer, {zoomControl: false}).setView([0, 0], 2);
+    let attempts = 0;
+    const initializeMap = () => {
+      if (!window.TRMNLMaps || !window.maplibregl) {
+        if (++attempts <= 200) setTimeout(initializeMap, 50);
+        return;
+      }
 
-  // 3. Add a tile layer with NO labels
-  L.tileLayer.provider('OpenStreetMap.CAT').addTo(map);
-  
-  
-  // 4. Create a group to track the bounds
-  const markers = [];
-  
-  points.forEach(p => {
-      // Create custom HTML icon
-      const customIcon = L.divIcon({
-          className: 'custom-div-icon', // Clear default styling
+      TRMNLMaps.watch(mapContainer, () => {
+        const map = new maplibregl.Map(TRMNLMaps.options({
+          el: mapContainer,
+          preset: 'minimal'
+        }));
+
+        points.forEach(p => {
+          const markerElement = document.createElement('div');
+          markerElement.className = 'custom-map-marker';
         {% if showIcon %}
-          html: 
+          markerElement.innerHTML =
             p[3] === "Highest" ?
             `<svg xmlns="http://www.w3.org/2000/svg" class="image image-dither" width="20" height="20" viewBox="0 0 20 20" stroke="#fff" stroke-width="4" paint-order="stroke fill"><path fill="currentColor" d="M7.877 2.879a3 3 0 0 1 4.242 0l4.998 4.998a3 3 0 0 1 0 4.242l-4.998 4.998a3 3 0 0 1-4.242 0L2.879 12.12a3 3 0 0 1 0-4.242zm-.023 4.267a.5.5 0 1 0-.708.708L9.293 10l-2.147 2.146a.5.5 0 0 0 .708.708L10 10.707l2.146 2.147a.5.5 0 0 0 .708-.708L10.707 10l2.147-2.146a.5.5 0 0 0-.708-.708L10 9.293z"/></svg>`
             : p[3] === "High" ?
@@ -136,44 +139,29 @@
             `<svg xmlns="http://www.w3.org/2000/svg" class="image image-dither" width="20" height="20" viewBox="0 0 20 20" stroke="#fff" stroke-width="4" paint-order="stroke fill"><path fill="currentColor" d="M10.492 8.91A.5.5 0 0 0 9.5 9v4.502l.008.09a.5.5 0 0 0 .992-.09V9zm.307-2.16a.75.75 0 1 0-1.5 0a.75.75 0 0 0 1.5 0M18 10a8 8 0 1 0-16 0a8 8 0 0 0 16 0M3 10a7 7 0 1 1 14 0a7 7 0 0 1-14 0"/></svg>`
             : p[3] === "Lowest" ?
             `<svg xmlns="http://www.w3.org/2000/svg" class="image image-dither" width="20" height="20" viewBox="0 0 20 20" stroke="#fff" stroke-width="4" paint-order="stroke fill"><path fill="currentColor" d="M11.369 16.867a.5.5 0 0 1 .193.98c-1.01.2-2.11.2-3.121 0a.5.5 0 1 1 .194-.98c.883.174 1.85.174 2.734 0M3.487 13.75a.5.5 0 0 1 .693.137a7 7 0 0 0 1.933 1.933a.5.5 0 0 1-.557.83a8 8 0 0 1-2.207-2.206a.5.5 0 0 1 .138-.694m12.336.137a.5.5 0 0 1 .83.557a8 8 0 0 1-2.206 2.207a.5.5 0 0 1-.557-.831a7 7 0 0 0 1.933-1.933m-3.176-6.241a.5.5 0 1 1 .707.707l-4 4a.5.5 0 0 1-.707 0l-2-2a.5.5 0 0 1 .629-.771l.078.064L9 11.293zm-9.905.398a.5.5 0 0 1 .393.588a7.2 7.2 0 0 0 0 2.734a.5.5 0 0 1-.981.193a8.2 8.2 0 0 1 0-3.121a.5.5 0 0 1 .588-.394m14.52 0a.5.5 0 0 1 .587.394c.2 1.01.2 2.11 0 3.121a.5.5 0 0 1-.98-.193a7.2 7.2 0 0 0 0-2.734a.5.5 0 0 1 .393-.588M5.556 3.347a.5.5 0 0 1 .557.831A7 7 0 0 0 4.18 6.111a.5.5 0 0 1-.83-.557a8 8 0 0 1 2.206-2.207m8.197.138a.5.5 0 0 1 .694-.138a8 8 0 0 1 2.207 2.207a.5.5 0 0 1-.831.557a7 7 0 0 0-1.933-1.933a.5.5 0 0 1-.137-.693M8.441 2.152a8.2 8.2 0 0 1 3.121 0a.5.5 0 0 1-.193.981a7.2 7.2 0 0 0-2.734 0a.5.5 0 0 1-.194-.981"/></svg>`
-            : `<div class="flex flex--center-x flex--center-y bg--white rounded--full w--6 h--6 label map-marker" style="border : 1px solid #000;"><span>${p[2]}</span></div>`,
+            : `<div class="flex flex--center-x flex--center-y bg--white rounded--full w--6 h--6 label map-marker" style="border : 1px solid #000;"><span>${p[2]}</span></div>`;
         {% else %}
-          html: `<div class="flex flex--center-x flex--center-y bg--white rounded--full w--6 h--6 label map-marker" style="border : 2px solid #000;"><span>${p[2]}</span></div>`,
+          markerElement.innerHTML = `<div class="flex flex--center-x flex--center-y bg--white rounded--full w--6 h--6 label map-marker" style="border : 2px solid #000;"><span>${p[2]}</span></div>`;
         {% endif %}
-          iconSize: [24, 24], // Size of the div
-          iconAnchor: [12, 12] // Point where it "touches" the coordinate
+          new maplibregl.Marker({ element: markerElement, anchor: 'center' })
+            .setLngLat([p[0], p[1]])
+            .addTo(map);
+        });
+
+        if (points.length > 0) {
+          TRMNLMaps.fit(map, points.map(p => [p[0], p[1]]), {
+            padding: TRMNLPaint.px(40, { el: mapContainer })
+          });
+        }
+
+        return map;
       });
+    };
 
-      const marker = L.marker([p[0], p[1]], { icon: customIcon }).addTo(map);
-      markers.push([p[0], p[1]]);
-  });
-
-  // 5. Auto fit zoom and center based on markers
-  if (markers.length > 0) {
-      const bounds = L.latLngBounds(markers);
-      map.fitBounds(bounds, { padding: [40, 40] });
-  }
-
-  // 6. Handle container resizing automatically
-  window.addEventListener('resize', () => {
-      map.invalidateSize();
-    
-      if (markers.length > 0) {
-          const bounds = L.latLngBounds(markers);
-          map.fitBounds(bounds, { padding: [40, 40] });
-      }
-  });
-  const resizeObserver = new ResizeObserver(() => {
-      map.invalidateSize();
-    
-      if (markers.length > 0) {
-          const bounds = L.latLngBounds(markers);
-          map.fitBounds(bounds, { padding: [40, 40] });
-      }
-  });
-  resizeObserver.observe(mapContainer);
+    initializeMap();
   })();
 </script>
+{% endif %}
 {% endunless %}
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Tiny5&display=swap');
@@ -182,7 +170,7 @@
       /* translate : 0 2px; */
     }
   }
-  .leaflet-control-attribution {
+  .map__attribution {
     font-size : 8px;
     line-height : 1;
     text-align : right;
@@ -287,24 +275,6 @@
 @layer properties;
 @layer theme, base, components, utilities;
 @layer utilities {
-  .container {
-    width: 100%;
-    @media (width >= 40rem) {
-      max-width: 40rem;
-    }
-    @media (width >= 48rem) {
-      max-width: 48rem;
-    }
-    @media (width >= 64rem) {
-      max-width: 64rem;
-    }
-    @media (width >= 80rem) {
-      max-width: 80rem;
-    }
-    @media (width >= 96rem) {
-      max-width: 96rem;
-    }
-  }
   .flex {
     display: flex;
   }
@@ -313,9 +283,6 @@
   }
   .flex-grow {
     flex-grow: 1;
-  }
-  .resize {
-    resize: both;
   }
   .border {
     border-style: var(--tw-border-style);
