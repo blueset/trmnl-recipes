@@ -119,6 +119,7 @@
       }
 
       TRMNLMaps.watch(mapContainer, () => {
+        const markers = [];
         const map = new maplibregl.Map(TRMNLMaps.options({
           el: mapContainer,
           preset: 'minimal'
@@ -143,9 +144,10 @@
         {% else %}
           markerElement.innerHTML = `<div class="flex flex--center-x flex--center-y bg--white rounded--full w--6 h--6 label map-marker" style="border : 2px solid #000;"><span>${p[2]}</span></div>`;
         {% endif %}
-          new maplibregl.Marker({ element: markerElement, anchor: 'center' })
+          const mkr = new maplibregl.Marker({ element: markerElement, anchor: 'center' })
             .setLngLat([p[0], p[1]])
             .addTo(map);
+          markers.push(mkr);
         });
 
         if (points.length > 0) {
@@ -153,6 +155,19 @@
             padding: TRMNLPaint.px(40, { el: mapContainer })
           });
         }
+
+        setTimeout(() => {
+          markers.forEach((mkr) => {
+            const element = mkr._element;
+            const labels = element.closest('.map')?.querySelector('.map__labels');
+            
+            if (labels) {
+              labels.appendChild(element); // Moves the element from its current parent
+            } else {
+              console.log('no labels', [...element.closest('.map')?.children])
+            }
+          });
+        }, 500);
 
         return map;
       });
