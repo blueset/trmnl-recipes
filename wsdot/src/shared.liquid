@@ -157,7 +157,7 @@
         }
 
         setTimeout(() => {
-          markers.forEach((mkr) => {
+          markers.reverse().forEach((mkr) => {
             const element = mkr._element;
             const labels = element.closest('.map')?.querySelector('.map__labels');
             
