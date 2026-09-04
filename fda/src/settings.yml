@@ -68,4 +68,4 @@ custom_fields:
   - 'No': '0'
 name: US FDA Recalls
 description: Recalls, Withdrawals, Safety Alerts
-refresh_interval: 15
+refresh_interval: 1440
