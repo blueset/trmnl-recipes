@@ -12,8 +12,7 @@ async function transform(input) {
   if (!input?.rss?.channel?.item?.length) {
     return {
       items: {
-        mark: "Error retrieving content.",
-        owner: `Data: ${JSON.stringify(input).substring(0, 900000)}`,
+        mark: "No content is found.",
         id: '0',
         date: '0000-00-00',
       }

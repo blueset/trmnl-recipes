@@ -4,7 +4,7 @@
     <div class="column">
       {% for item in data %}
       <div class="item">
-        <div class="meta">
+        <div class="meta{% if item[6] != "" and trmnl.plugin_settings.custom_fields_values.field_terminated_recall != "All" %} bg--error{% endif %}">
           {% if item[6] != "" %}<span class="index">T</span>{% endif %}
         </div>
         <div class="content">
