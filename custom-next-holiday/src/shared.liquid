@@ -221,6 +221,7 @@
 
   const tz = root.querySelector('.layout').dataset.tz || Temporal.Now.timeZoneId();
   const today = Temporal.Now.plainDateISO(tz);
+  const holidayNumber = Math.max(1, Math.trunc(Number({{ trmnl.plugin_settings.custom_fields_values.holiday_number | default: 1 | json }}) || 1));
 
   function nthWeekdayOfMonth(year, month, n, dow, cal) {
     // dow: 1=Mon … 7=Sun (ISO)
@@ -302,10 +303,9 @@
     return null;
   }
 
-  function findHolidays(holidays, today) {
+  function findHolidays(holidays, today, holidayNumber) {
     let todayHoliday = null;
-    let nextHoliday = null;
-    let nextDays = Infinity;
+    const upcomingHolidays = [];
 
     for (const h of holidays) {
       const isFixed = /^\d{4}/.test(h.date);
@@ -316,16 +316,15 @@
         if (h.round && h.round.length > 0) d = roundToWeekday(d, h.round);
         const diff = today.until(d, { largestUnit: 'day' }).days;
         if (diff === 0) todayHoliday = h;
-        else if (diff > 0 && diff < nextDays) {
-          nextDays = diff;
-          nextHoliday = { ...h, daysUntil: diff };
-        }
+        else if (diff > 0) upcomingHolidays.push({ ...h, daysUntil: diff });
       }
     }
+    upcomingHolidays.sort((a, b) => a.daysUntil - b.daysUntil);
+    const nextHoliday = upcomingHolidays[holidayNumber - 1] ?? null;
     return { todayHoliday, nextHoliday };
   }
 
-  const { todayHoliday, nextHoliday } = findHolidays(holidays, today);
+  const { todayHoliday, nextHoliday } = findHolidays(holidays, today, holidayNumber);
 
   const iconEl = root.querySelector('iconify-icon');
   const textEl = root.querySelector('[data-text-container]');
