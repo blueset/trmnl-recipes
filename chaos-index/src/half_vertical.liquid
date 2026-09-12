@@ -1,0 +1,22 @@
+<div class="layout layout--row gap--space-between">
+  <div class="grid grid--cols-1 h--full" style="align-content: center;"><!-- no grid alignment class fonud as equivalent of align-content: center -->
+    <div class="flex flex--col flex--center-y flex--left lg:px--12 portrait:hidden">
+      {% render "gauge" with chaosIndex: chaosIndex, width: "55%", height: "auto" %}
+    </div>
+    <div class="flex--col flex--center-y flex--left lg:px--12 hidden portrait:flex">
+      {% render "gauge" with chaosIndex: chaosIndex, width: "90%", height: "auto" %}
+    </div>
+    <div class="flex flex--col flex--center-y flex--left lg:px--12">
+      <div>
+        <span class="value--large lg:value--xxlarge">{{ chaosIndex }}°</span>
+        <span class="title--large lg:text--xxlarge">{{ chaosIndexScale }}</span>
+      </div>
+      <div class="text--base">
+        {{ chaosDescriptions[0] }}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% render "title" with trmnl: trmnl, chaosLastUpdated: chaosLastUpdated, hide_date: true %}

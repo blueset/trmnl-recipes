@@ -1,0 +1,18 @@
+<div class="layout layout--row gap--space-between">
+  <div class="grid grid--cols-5 grid--no-gap h--full">
+    <div class="col--span-1 lg:portrait:col--span-2 lg:portrait:p--6 flex flex--col flex--center-y flex--left">
+      {% render "gauge" with chaosIndex: chaosIndex, width: "100%", height: "auto" %}
+    </div>
+    <div class="col--span-4 lg:portrait:col--span-3 flex flex--col flex--center-y flex--left">
+      <div>
+        <span class="value--large lg:value--xxlarge">{{ chaosIndex }}°</span>
+        <span class="title--large lg:text--xxlarge">{{ chaosIndexScale }}</span>
+      </div>
+      <div class="{% if forloop.index == 1 %}text--large{% else %}text--base{% endif %}">
+        {{ chaosDescriptions[0] }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% render "title" with trmnl: trmnl, chaosLastUpdated: chaosLastUpdated %}

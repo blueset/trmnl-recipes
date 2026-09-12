@@ -1,0 +1,26 @@
+<div class="layout layout--row gap--space-between">
+  <div class="grid grid--cols-5 grid--no-gap portrait:grid--cols-1 h--full">
+    <div class="col--span-2 portrait:col--span-1 flex flex--col flex--center-y flex--left px--12 portrait:h--[40cqh]">
+      {% render "gauge" with chaosIndex: chaosIndex, width: "100%", height: "auto" %}
+      <div class="text--base lg:text--xlarge">
+        Trend:
+        <span class="lg:portrait:text--xxxlarge" style="font-family: 'Datatype', sans-serif; font-stretch: 75%; font-variant-ligatures: common-ligatures contextual;">
+          {l:{{ history | join: ',' }}}
+        </span>
+      </div>
+    </div>
+    <div class="col--span-3 portrait:col--span-1 flex flex--col flex--center-y flex--left portrait:px--12 portrait:h--[60cqh]">
+      <div>
+        <span class="value--large lg:value--xxxlarge">{{ chaosIndex }}°</span>
+        <span class="title--large lg:text--xxlarge">{{ chaosIndexScale }}</span>
+      </div>
+      {% for p in chaosDescriptions %}
+      <div class="{% if forloop.index == 1 %}text--large{% else %}text--base{% endif %}">
+        {{ p }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% render "title" with trmnl: trmnl, chaosLastUpdated: chaosLastUpdated %}

@@ -1,0 +1,293 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Datatype:wdth,wght@50..150,100..900&display=swap" rel="stylesheet">
+{% template gauge %}
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 240 240"
+  width="{{ width | default: 240 }}"
+  height="{{ height | default: 240 }}"
+  data-chaos-gauge
+  data-value="{{ chaosIndex }}"
+  role="img"
+  aria-label="Chaos index: {{ chaosIndex }} out of 100"
+>
+  <defs></defs>
+  <g fill="none" stroke-width="24" stroke-linecap="round">
+    <path data-segment="1"></path>
+    <path data-segment="2"></path>
+    <path data-segment="3"></path>
+    <path data-segment="4"></path>
+    <path data-segment="5"></path>
+  </g>
+  <g data-indicator>
+    <line data-needle stroke-width="5" stroke-linecap="round"></line>
+    <circle cx="28" cy="212" r="9"></circle>
+  </g>
+</svg>
+<script>
+  (() => {
+    const gauge = document.currentScript.previousElementSibling;
+    const svgNamespace = "http://www.w3.org/2000/svg";
+    const center = { x: 28, y: 212 };
+    const radius = 184;
+    const arcThickness = Number(
+      gauge.querySelector("[data-segment]").parentElement.getAttribute("stroke-width")
+    );
+    const segmentAngle = 18;
+    const visualGapAngle = 2;
+
+    function whenReady(cb) {
+      var tries = 0;
+      (function attempt() {
+        if (window.TRMNLPaint) return cb();
+        if (++tries > 200) {
+          console.error("TRMNLPaint unavailable; gauge could not be painted.");
+          return;
+        }
+        setTimeout(attempt, 50);
+      })();
+    }
+
+    function pointAt(degrees, distance) {
+      const radians = degrees * Math.PI / 180;
+      return {
+        x: center.x + distance * Math.cos(radians),
+        y: center.y + distance * Math.sin(radians)
+      };
+    }
+
+    function segmentPath(index) {
+      const capGapAngle =
+        2 * Math.asin((arcThickness / 2) / radius) * 180 / Math.PI;
+      const halfGapAngle = (capGapAngle + visualGapAngle) / 2;
+      const startAngle = index === 1
+        ? 0
+        : -((index - 1) * segmentAngle + halfGapAngle);
+      const endAngle = index === 5
+        ? -90
+        : -(index * segmentAngle - halfGapAngle);
+      const start = pointAt(startAngle, radius);
+      const end = pointAt(endAngle, radius);
+
+      return `M ${start.x} ${start.y} A ${radius} ${radius} 0 0 0 ${end.x} ${end.y}`;
+    }
+
+    function tileSize(fill) {
+      const reportedSize = Number(fill.size);
+      if (reportedSize > 0) return reportedSize;
+
+      const width = fill.url.match(
+        /\bwidth=(?:["']|%22|%27)(\d+(?:\.\d+)?)(?:["']|%22|%27)/i
+      );
+      return width ? Number(width[1]) : 16;
+    }
+
+    function pixelPatternGeometry() {
+      const matrix = gauge.getScreenCTM();
+      if (!matrix) return null;
+
+      const scaleX = Math.hypot(matrix.a, matrix.b);
+      const scaleY = Math.hypot(matrix.c, matrix.d);
+      if (
+        !Number.isFinite(scaleX) ||
+        !Number.isFinite(scaleY) ||
+        scaleX < Number.EPSILON ||
+        scaleY < Number.EPSILON
+      ) {
+        return null;
+      }
+
+      return {
+        scaleX,
+        scaleY,
+        originX: (Math.round(matrix.e) - matrix.e) / scaleX,
+        originY: (Math.round(matrix.f) - matrix.f) / scaleY
+      };
+    }
+
+    function syncPixelPatterns() {
+      const geometry = pixelPatternGeometry();
+      if (!geometry) return;
+
+      gauge.querySelectorAll("[data-pixel-pattern]").forEach((pattern) => {
+        const size = Number(pattern.dataset.tileSize);
+        const width = size / geometry.scaleX;
+        const height = size / geometry.scaleY;
+        const originX = geometry.originX;
+        const originY = geometry.originY;
+        const sourceTransform = pattern.dataset.sourceTransform || "";
+
+        pattern.removeAttribute("patternTransform");
+        pattern.setAttribute("x", originX);
+        pattern.setAttribute("y", originY);
+        pattern.setAttribute("width", width);
+        pattern.setAttribute("height", height);
+
+        const field = pattern.querySelector("[data-pattern-field]");
+        field.setAttribute("x", originX);
+        field.setAttribute("y", originY);
+        field.setAttribute("width", width);
+        field.setAttribute("height", height);
+
+        const tile = pattern.querySelector("[data-pattern-tile]");
+        tile.setAttribute(
+          "transform",
+          `translate(${originX} ${originY}) scale(${1 / geometry.scaleX} ${1 / geometry.scaleY}) ${sourceTransform}`
+        );
+      });
+    }
+
+    function decodeSvgDataUrl(url) {
+      const comma = url.indexOf(",");
+      if (comma < 0 || !/^data:image\/svg\+xml(?:;|,)/i.test(url)) return null;
+
+      const metadata = url.slice(0, comma);
+      const payload = url.slice(comma + 1);
+      if (!/;base64/i.test(metadata)) return decodeURIComponent(payload);
+
+      const binary = atob(payload);
+      const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+      return new TextDecoder().decode(bytes);
+    }
+
+    function appendInlineSvgTile(pattern, url, size) {
+      const markup = decodeSvgDataUrl(url);
+      if (!markup) return false;
+
+      const documentNode = new DOMParser().parseFromString(markup, "image/svg+xml");
+      if (
+        documentNode.documentElement.localName === "parsererror" ||
+        documentNode.querySelector("parsererror")
+      ) {
+        console.error("TRMNLPaint returned an invalid SVG pattern.");
+        return false;
+      }
+
+      const source = documentNode.documentElement;
+      const viewBox = (source.getAttribute("viewBox") || "").trim().split(/\s+/).map(Number);
+      const sourceWidth = Number(source.getAttribute("width")) || size;
+      const sourceHeight = Number(source.getAttribute("height")) || size;
+      const [minX, minY, viewWidth, viewHeight] =
+        viewBox.length === 4 && viewBox.every(Number.isFinite)
+          ? viewBox
+          : [0, 0, sourceWidth, sourceHeight];
+      const tile = document.createElementNS(svgNamespace, "g");
+      const sourceTransform =
+        minX !== 0 || minY !== 0 || viewWidth !== size || viewHeight !== size
+          ? `scale(${size / viewWidth} ${size / viewHeight}) translate(${-minX} ${-minY})`
+          : "";
+
+      tile.setAttribute("data-pattern-tile", "");
+      tile.setAttribute(
+        "shape-rendering",
+        source.getAttribute("shape-rendering") || "crispEdges"
+      );
+      pattern.dataset.sourceTransform = sourceTransform;
+
+      source.childNodes.forEach((node) => {
+        tile.append(document.importNode(node, true));
+      });
+      pattern.append(tile);
+      return true;
+    }
+
+    function paintSegment(path, fill, patternId) {
+      if (!fill.url) {
+        path.setAttribute("stroke", fill.color || "currentColor");
+        return;
+      }
+
+      const size = tileSize(fill);
+      const pattern = document.createElementNS(svgNamespace, "pattern");
+      pattern.setAttribute("id", patternId);
+      pattern.setAttribute("patternUnits", "userSpaceOnUse");
+      pattern.setAttribute("width", size);
+      pattern.setAttribute("height", size);
+      pattern.setAttribute("data-pixel-pattern", "");
+      pattern.dataset.tileSize = size;
+
+      const field = document.createElementNS(svgNamespace, "rect");
+      field.setAttribute("data-pattern-field", "");
+      field.setAttribute("width", size);
+      field.setAttribute("height", size);
+      field.setAttribute("fill", fill.color);
+
+      pattern.append(field);
+      if (!appendInlineSvgTile(pattern, fill.url, size)) {
+        const tileGroup = document.createElementNS(svgNamespace, "g");
+        const tile = document.createElementNS(svgNamespace, "image");
+        tileGroup.setAttribute("data-pattern-tile", "");
+        tile.setAttribute("href", fill.url);
+        tile.setAttribute("width", size);
+        tile.setAttribute("height", size);
+        tile.setAttribute("image-rendering", "pixelated");
+        tileGroup.append(tile);
+        pattern.append(tileGroup);
+      }
+      gauge.querySelector("defs").append(pattern);
+      path.setAttribute("stroke", `url(#${patternId})`);
+      syncPixelPatterns();
+    }
+
+    gauge.querySelectorAll("[data-segment]").forEach((path) => {
+      path.setAttribute("d", segmentPath(Number(path.dataset.segment)));
+    });
+
+    const rawValue = Number.parseFloat(gauge.dataset.value);
+    const value = Number.isFinite(rawValue)
+      ? Math.min(100, Math.max(0, rawValue))
+      : 0;
+    const needleEnd = pointAt(-90 * value / 100, radius - 28);
+    const needle = gauge.querySelector("[data-needle]");
+    needle.setAttribute("x1", center.x);
+    needle.setAttribute("y1", center.y);
+    needle.setAttribute("x2", needleEnd.x);
+    needle.setAttribute("y2", needleEnd.y);
+
+    const colorNames = ["", "gray-60", "gray-45", "gray-30", "gray-15", "black"];
+
+    whenReady(function () {
+      TRMNLPaint.watch(gauge, function () {
+        const defs = gauge.querySelector("defs");
+        const gaugeIndex = Array.prototype.indexOf.call(
+          document.querySelectorAll("[data-chaos-gauge]"),
+          gauge
+        );
+        const textColor = TRMNLPaint.textColor("default", { el: gauge });
+
+        defs.replaceChildren();
+        gauge.querySelectorAll("[data-segment]").forEach((path) => {
+          const index = Number(path.dataset.segment);
+          const fill = TRMNLPaint.bg(colorNames[index], { el: gauge });
+          paintSegment(path, fill, `chaos-gauge-${gaugeIndex}-segment-${index}`);
+        });
+
+        const indicator = gauge.querySelector("[data-indicator]");
+        indicator.setAttribute("fill", textColor);
+        needle.setAttribute("stroke", textColor);
+        requestAnimationFrame(syncPixelPatterns);
+      });
+    });
+
+    if (window.ResizeObserver) {
+      new ResizeObserver(syncPixelPatterns).observe(gauge);
+    } else {
+      window.addEventListener("resize", syncPixelPatterns);
+    }
+  })();
+</script>
+{% endtemplate %}
+
+{% template title %}
+<div class="title_bar">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="image image--stroke image--adaptive">
+  	<g fill="currentColor">
+  		<path d="M15.201 28.995c4.28.147 7.799-3.102 7.799-7.144C23 14.707 15.479 10 15.479 10s-6.41 4.012-7.387 10.256c-.68 4.355 2.49 8.583 7.11 8.74" />
+  		<path d="M14.356.366a2.675 2.675 0 0 1 2.976.182C19.835 2.436 28 9.37 28 19.34A12.6 12.6 0 0 1 15.489 32q-.376 0-.756-.023a12.04 12.04 0 0 1-8.619-4.428a13.8 13.8 0 0 1-3-10.526A22.05 22.05 0 0 1 7.75 6.394a2.06 2.06 0 0 1 1.65-.826a1.94 1.94 0 0 1 1.284.425a520 520 0 0 0 2.682-4.634c.238-.412.579-.754.99-.993m1.772 1.778a.68.68 0 0 0-.77-.047a.7.7 0 0 0-.258.26c-1.128 1.972-4.372 7.586-4.722 7.991a.07.07 0 0 1-.055.03c-.156 0-.313-.714-.469-1.422c-.153-.697-.305-1.388-.454-1.388a.08.08 0 0 0-.06.039a20.3 20.3 0 0 0-4.242 9.674c-.809 6.3 3.483 12.326 9.752 12.7q.32.02.637.019A10.587 10.587 0 0 0 26 19.34c0-9.063-7.606-15.486-9.872-17.196" />
+  	</g>
+  </svg>
+  <span class="title">{{ trmnl.plugin_settings.instance_name }}</span>
+  {% unless hide_date %}<span class="instance">{{ chaosLastUpdated | split: "T" | first }}</span>{% endunless %}
+</div>
+{% endtemplate %}

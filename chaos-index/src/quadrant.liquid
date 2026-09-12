@@ -1,0 +1,13 @@
+<div class="layout layout--row gap--space-between">
+  <div class="flex flex--row h--full portrait:flex--col portrait:flex--center-y">
+    <div class="flex flex--col flex--center-y flex--left h--full portrait:h--[50cqh]">
+      {% render "gauge" with chaosIndex: chaosIndex, width: "auto", height: "67%" %}
+    </div>
+    <div class="flex flex--col flex--center-y flex--left gap--none">
+      <span class="value--xlarge lg:value--xxxlarge">{{ chaosIndex }}°</span>
+      <span class="title--large lg:text--xxlarge">{{ chaosIndexScale }}</span>
+    </div>
+  </div>
+</div>
+
+{% render "title" with trmnl: trmnl, chaosLastUpdated: chaosLastUpdated, hide_date: true %}
