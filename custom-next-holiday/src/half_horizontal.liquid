@@ -1,10 +1,10 @@
 <div style="display: contents;" lang="{{ trmnl.user.locale | escape }}" data-t-data="{{ custom_next_holiday_strings | json | escape }}" data-holidays="{{ trmnl.plugin_settings.custom_fields_values.holidays | escape }}">
-  <div class="layout layout--row" data-tz="{{ trmnl.user.time_zone_iana }}">
+  <div class="layout layout--col" data-tz="{{ trmnl.user.time_zone_iana }}">
     <div class="flex flex-row port:flex-col justify-center w-full h-full grow">
       <div class="place-content-center w-0 port:w-full port:h-[30cqh] text-center port:text-start grow-1 port:grow-0" style="container-type: size;">
         <iconify-icon icon="mdi:home" class="text-[75cqmin] port:text-[100cqmin] image-dither"></iconify-icon>
       </div>
-      <div class="place-content-center w-0 port:w-full grow-2 port:grow-0 min-w-0 text-[26px] lg:text-[38px]" data-text-container>
+      <div class="place-content-center w-0 port:w-full min-w-0 text-[26px] lg:text-[38px] grow-2 port:grow-0" data-text-container>
       </div>
     </div>
   </div>
