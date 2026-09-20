@@ -74,7 +74,7 @@ custom_fields:
 - keyname: holiday_number
   field_type: number
   name: Upcoming holiday to display
-  description: Choose which upcoming holiday to display. 1 displays the next holiday.
+  description: Choose which upcoming holiday date to display. 1 displays the next date. Holidays on the same date are shown together and count as one date.
   default: 1
   min: 1
   step: 1
