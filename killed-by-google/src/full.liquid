@@ -1,10 +1,10 @@
 {% if error %}
   {% render "kbg_error", error: error, mode_label: mode_label %}
 {% else %}
-  <div class="layout kbg-layout kbg-layout--full">
-    <div class="kbg-scene">
-      <article class="bg--gray-75 1bit:text-stroke 2bit:text-stroke kbg-stone">
-        <div class="kbg-content">
+  <div class="layout relative kbg-layout kbg-layout--full">
+    <div class="relative w--full h--full kbg-scene">
+      <article class="relative flex--col text--center bg--gray-75 1bit:text-stroke 2bit:text-stroke kbg-stone">
+        <div class="relative flex--col w--full kbg-content">
           {% render "kbg_ornament" %}
           <span class="kbg-kicker">{{ product.status_label }}</span>
           <h1 class="kbg-name{% if product.is_long_name %} kbg-name--long{% endif %}">
@@ -12,20 +12,20 @@
           </h1>
           <div class="kbg-dates">
             <div class="kbg-date">
-              <span class="kbg-date__label">Opened</span>
+              <span class="hidden lg:inline kbg-date__label">Opened</span>
               <time datetime="{{ product.date_open }}">{{ product.date_open_display }}</time>
             </div>
             <span class="kbg-date-divider"></span>
             <div class="kbg-date">
-              <span class="kbg-date__label">{% if product.is_future %}Closing{% else %}Closed{% endif %}</span>
+              <span class="hidden lg:inline kbg-date__label">{% if product.is_future %}Closing{% else %}Closed{% endif %}</span>
               <time datetime="{{ product.date_close }}">{{ product.date_close_display }}</time>
             </div>
           </div>
           <p class="kbg-narrative">{{ product.description_line }}</p>
-          <span class="kbg-type">{{ product.type }}</span>
+          <span class="inline-block kbg-type">{{ product.type }}</span>
         </div>
       </article>
-      <div class="bg--gray-75 kbg-plinth"></div>
+      <div class="absolute bg--gray-75 kbg-plinth"></div>
     </div>
   </div>
   {% render "kbg_title_bar", mode_label: mode_label %}

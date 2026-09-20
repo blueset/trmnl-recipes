@@ -1,9 +1,14 @@
+{% comment %}
+Google Fonts are used on hi-DPI screens and only at large sizes on low-DPI
+screens. The small/medium screen overrides below use X.Org's pixel-perfect
+bitmap-derived fonts, suitable for low-DPI e-ink screens and small text.
+{% endcomment %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700;6..96,900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600&display=swap" rel="stylesheet">
 
 {% template kbg_ornament %}
-<svg class="kbg-ornament" viewBox="0 0 180 52" aria-hidden="true">
+<svg class="h--auto kbg-ornament" viewBox="0 0 180 52" aria-hidden="true">
   <g fill="none" stroke="currentColor" stroke-width="3">
     <path d="M4 26h48M128 26h48"/>
     <path d="M12 20l-8 6 8 6M168 20l8 6-8 6"/>
@@ -23,22 +28,27 @@
     alt=""
   >
   <span class="title">Killed by Google</span>
-  <span class="instance">{{ mode_label }}</span>
+  <span class="instance{% if hide_instance_in_portrait %} portrait:hidden{% endif %}">{{ mode_label }}</span>
 </div>
 {% endtemplate %}
 
 {% template kbg_error %}
-<div class="layout layout--center kbg-layout">
-  <div class="kbg-error">
+<div class="layout layout--center relative kbg-layout">
+  <div class="flex--col text--center kbg-error">
     <span class="kbg-error__mark">RIP</span>
     <span class="title">The graveyard is quiet</span>
     <span class="description">{{ error }}</span>
   </div>
 </div>
-{% render "kbg_title_bar", mode_label: mode_label %}
+{% render "kbg_title_bar", mode_label: mode_label, hide_instance_in_portrait: hide_instance_in_portrait %}
 {% endtemplate %}
 
 <style>
+  /*
+   * Font faces: TRMNL does not bundle these X.Org Times faces. Their native
+   * 15px/19px sizes are pixel-perfect for small text on low-DPI e-ink screens;
+   * keep the custom faces and disable synthetic styles in the overrides.
+   */
   @font-face {
     font-family: "KBG XOrg Times 15";
     src: url("https://blueset.github.io/xorg-fonts/font-adobe-75dpi-1.0.4/timR14.ttf") format("truetype");
@@ -72,11 +82,14 @@
   }
 
   .kbg-layout {
-    position: relative;
-    overflow: hidden;
     font-family: "Cormorant Garamond", Georgia, serif;
   }
 
+  /*
+   * Shared values: the framework has no exact equivalents for the mixed
+   * percentage/pixel shorthands, elliptical radii, or clamp()/cqw font sizes.
+   * Keep these variables so container-specific overrides retain precedence.
+   */
   .kbg-stone,
   .kbg-type,
   .kbg-compact-stone {
@@ -121,19 +134,17 @@
     font-size: var(--kbg-scale);
   }
 
-  .kbg-stone,
-  .kbg-compact-content,
-  .kbg-error {
-    text-align: center;
-  }
-
+  /*
+   * Scene and stone: container-type, place-content (including align-content),
+   * stacking, clipping, percentage geometry, double borders, pseudo-elements,
+   * and the mineral texture have no exact utility combination. The framework
+   * flex class also adds a gap and resets its children's minimum dimensions,
+   * so retain display: flex rather than changing their shrink behavior.
+   */
   .kbg-scene {
-    position: relative;
     display: flex;
     align-items: center;
     place-content: center;
-    width: 100%;
-    height: 100%;
     container-type: size;
   }
 
@@ -160,12 +171,9 @@
   }
 
   .kbg-stone {
-    position: relative;
     z-index: 1;
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     place-content: center;
     width: 78%;
     height: 92%;
@@ -197,7 +205,6 @@
   }
 
   .kbg-plinth {
-    position: absolute;
     z-index: 2;
     bottom: 1%;
     width: 88%;
@@ -207,19 +214,22 @@
   }
 
   .kbg-content {
-    position: relative;
     z-index: 3;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     place-content: center;
-    width: 100%;
     min-height: 0;
   }
 
+  /*
+   * Full-size typography: custom families, fluid sizes, tracking, line heights,
+   * wrapping, and percentage spacing are not framework tokens. text--bold also
+   * sets font-variation-settings, so it is not an exact font-weight replacement.
+   * Fixed pixel spacing stays custom because framework pixel utilities scale
+   * with --content-scale. The dates need unequal grid tracks, not equal columns;
+   * flex--col would also center the date stack's currently stretched children.
+   */
   .kbg-ornament {
     width: min(42%, 180px);
-    height: auto;
     --kbg-m: 0 0 2px;
   }
 
@@ -269,10 +279,6 @@
     text-transform: uppercase;
   }
 
-  .kbg-date__label {
-    display: none;
-  }
-
   .kbg-date time {
     --kbg-scale: clamp(14px, 2.1cqw, 23px);
     font-weight: 600;
@@ -295,8 +301,8 @@
     text-wrap: balance;
   }
 
+  /* text--white also resets background paint, so it would erase this dark badge. */
   .kbg-type {
-    display: inline-block;
     --kbg-m: 2% 0 0;
     --kbg-pad: 2px 9px;
     color: #fff;
@@ -304,14 +310,16 @@
     border: 1px solid #111;
   }
 
+  /*
+   * Compact stone: the asymmetric arch, inset border, flex sizing, and exact
+   * padding remain custom. rounded--full is not a 50% radius replacement:
+   * it uses 9999px and adds clipping, which would also change the seal.
+   */
   .kbg-compact-stone {
-    position: relative;
     z-index: 1;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 100%;
     overflow: hidden;
     border: 4px double #111;
     --kbg-pad: 14px 22px;
@@ -326,16 +334,18 @@
   }
 
   .kbg-compact-content {
-    position: relative;
     z-index: 1;
     display: flex;
     flex: 1;
-    flex-direction: column;
-    align-items: center;
     place-content: center;
     min-width: 0;
   }
 
+  /*
+   * Compact typography and seal: fluid dimensions, native pixel spacing,
+   * custom weights, tracking, wrapping, and line heights have no exact tokens.
+   * Keep #111 borders/backgrounds rather than substituting framework black.
+   */
   .kbg-compact-name {
     max-width: 96%;
     --kbg-m: 2px 0;
@@ -376,11 +386,14 @@
     --kbg-radius: 50%;
   }
 
+  /*
+   * Error state: the flex utility's default/scaled gap is not the fixed 8px
+   * gap here. The date stack above likewise needs an unscaled 1px gap.
+   * The error mark's exact 64px size and 900 weight are not framework tokens.
+   */
   .kbg-error {
     display: flex;
-    flex-direction: column;
     gap: 8px;
-    align-items: center;
   }
 
   .kbg-error__mark {
@@ -389,6 +402,10 @@
     font-weight: 900;
   }
 
+  /*
+   * Compact mashups: there is no utility for this overflow/height extension,
+   * bottom-border removal, asymmetric arch, or adjacent title-bar stacking.
+   */
   .kbg-layout--compact {
     overflow: visible;
   }
@@ -407,6 +424,13 @@
     z-index: 3;
   }
 
+  /*
+   * Low-DPI typography: Google Fonts are reserved for large text here and for
+   * hi-DPI screens. X.Org fonts keep small text pixel-perfect on low-DPI e-ink.
+   * The framework has no utilities for these faces, unscaled native sizes,
+   * line-height: 1, or font-synthesis: none. Keep the exact sm/md selector;
+   * sm: utilities also apply to larger screens.
+   */
   :is(.screen--sm, .screen--md) :is(
     .kbg-kicker,
     .kbg-date__label,
@@ -418,6 +442,7 @@
     font-synthesis: none;
   }
 
+  /* Bit depth: there is no text-shadow: none utility to clear inherited stroke. */
   :is(.screen--1bit, .screen--2bit) .kbg-type {
     text-shadow: none;
   }
@@ -436,20 +461,22 @@
     font-synthesis: none;
   }
 
-  .screen--lg .kbg-dates {
-    grid-template-columns: 1fr auto 1fr;
-  }
-
-  .screen--lg .kbg-date__label {
-    display: inline;
-  }
-
+  /*
+   * Large screens: label visibility uses hidden/lg:inline in the markup.
+   * Divider dimensions and margins are unscaled pixels; framework size and
+   * spacing utilities scale them, so they are not exact replacements.
+   */
   .screen--lg .kbg-date-divider {
     width: 1px;
     height: 34px;
     --kbg-m: 0 20px;
   }
 
+  /*
+   * Portrait containers: portrait: follows screen orientation, not this scene's
+   * aspect ratio. It cannot replace this query, including its flex direction.
+   * Percentage geometry, elliptical radii, and fluid type also remain custom.
+   */
   @container (orientation: portrait) {
     .kbg-stone {
       width: 94%;
@@ -501,8 +528,12 @@
     }
   }
 
+  /*
+   * Portrait half-horizontal view: portrait:flex--col lives in that template.
+   * place-content, the flat-bottom arch, native spacing, and clamp() sizes
+   * have no exact framework equivalents.
+   */
   .screen--portrait .view--half_horizontal .kbg-compact-stone {
-    flex-direction: column;
     place-content: center;
     --kbg-pad: 24px 14px 16px;
     --kbg-radius: 46% 46% 0 0 / 23% 23% 0 0;
@@ -518,6 +549,11 @@
     --kbg-scale: clamp(22px, 8cqw, 42px);
   }
 
+  /*
+   * Short containers: TRMNL has no max-height: 190px container variant.
+   * Keep its geometry and native X.Org font override; a screen breakpoint
+   * would also affect taller mashups on the same device.
+   */
   @container (max-height: 190px) {
     .kbg-compact-stone {
       --kbg-pad: 10px 18px;
@@ -545,10 +581,5 @@
     .kbg-compact-description {
       --kbg-scale: clamp(12px, 1.8cqw, 16px);
     }
-  }
-
-  .screen--portrait .view--half_vertical .title_bar .instance,
-  .screen--portrait .view--quadrant .title_bar .instance {
-    display: none;
   }
 </style>

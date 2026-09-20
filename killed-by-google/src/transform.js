@@ -217,7 +217,7 @@ async function run(input) {
   if (!products || products.length === 0) {
     return {
       mode,
-      mode_label: mode.replace(/\b\w/g, (letter) => letter.toUpperCase()),
+      mode_label: mode.replace(/\b\w/g, (letter) => letter.toUpperCase()).replaceAll("_", " "),
       error: "The Google graveyard returned no products.",
     };
   }
@@ -228,14 +228,14 @@ async function run(input) {
   if (!product) {
     return {
       mode,
-      mode_label: mode.replace(/\b\w/g, (letter) => letter.toUpperCase()),
+      mode_label: mode.replace(/\b\w/g, (letter) => letter.toUpperCase()).replaceAll("_", " "),
       error: "No graveyard entry matched this display option.",
     };
   }
 
   return {
     mode,
-    mode_label: mode.replace(/\b\w/g, (letter) => letter.toUpperCase()),
+    mode_label: mode.replace(/\b\w/g, (letter) => letter.toUpperCase()).replaceAll("_", " "),
     today,
     time_zone: TIME_ZONE,
     product: displayProduct(product, today),

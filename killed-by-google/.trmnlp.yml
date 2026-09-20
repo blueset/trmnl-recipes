@@ -3,6 +3,6 @@ watch:
 - ".trmnlp.yml"
 - src
 custom_fields:
-  type: Recently announced
+  type: recently_announced
 variables:
   trmnl: {}
