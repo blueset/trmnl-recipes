@@ -428,8 +428,13 @@
   function textOverflows() {
     const parentRect = textContainer.parentElement.getBoundingClientRect();
     const textRect = textContainer.getBoundingClientRect();
+    const range = document.createRange();
+    range.selectNodeContents(textContainer);
+    const contentRect = range.getBoundingClientRect();
+    // Tight line heights can overhang an auto-height box without leaving the layout.
     return textContainer.scrollWidth > textContainer.clientWidth + 1
-      || textContainer.scrollHeight > textContainer.clientHeight + 1
+      || contentRect.top < parentRect.top - 1
+      || contentRect.bottom > parentRect.bottom + 1
       || textRect.left < parentRect.left - 1
       || textRect.right > parentRect.right + 1
       || textRect.top < parentRect.top - 1
