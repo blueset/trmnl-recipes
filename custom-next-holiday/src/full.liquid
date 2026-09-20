@@ -4,7 +4,7 @@
       <div class="place-content-center w-0 port:w-full port:h-[50cqw] text-center port:text-start grow-1 port:grow-0" style="container-type: size;">
         <iconify-icon icon="mdi:home" class="text-[75cqw] port:text-[50cqw] image-dither"></iconify-icon>
       </div>
-      <div class="place-content-center w-0 port:w-full grow-2 port:grow-0" data-text-container>
+      <div class="place-content-center w-0 port:w-full grow-2 port:grow-0 min-w-0 text-[38px] lg:text-[58px]" data-text-container>
       </div>
     </div>
   </div>
@@ -33,6 +33,9 @@
   .w-full {
     width: 100%;
   }
+  .min-w-0 {
+    min-width: 0;
+  }
   .grow {
     flex-grow: 1;
   }
@@ -54,11 +57,16 @@
   .text-center {
     text-align: center;
   }
-  .text-\[28px\] {
-    font-size: 28px;
+  .text-\[38px\] {
+    font-size: 38px;
   }
   .text-\[75cqw\] {
     font-size: 75cqw;
+  }
+  .lg\:text-\[58px\] {
+    .screen--lg & {
+      font-size: 58px;
+    }
   }
   .port\:h-\[50cqw\] {
     .screen--portrait & {

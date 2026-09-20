@@ -376,25 +376,73 @@
     /* markups */
     mainValue: (options, children) => {
       const node = document.createElement('span');
-      node.className = {{ mainValueClass | default: "value--xxlarge lg:value--xxxlarge leading-[1]" | json }};
+      node.className = {{ mainValueClass | default: "value text-[2.5263157895em] lg:text-[2.2068965517em] leading-[1]" | json }};
       node.style.fontVariationSettings = "'wght' 600";
       for (const child of children) node.appendChild(child);
       return node;
     },
     mainLabel: (options, children) => {
       const node = document.createElement('span');
-      node.className = {{ mainLabelClass | default: "value--base lg:value--xlarge" | json }};
+      node.className = {{ mainLabelClass | default: "value text-[1em] lg:text-[1.275862069em]" | json }};
       for (const child of children) node.appendChild(child);
       return node;
     },
     subLabel: (options, children) => {
       const node = document.createElement('span');
-      node.className = {{ subLabelClass | default: "value--base lg:value--large" | json }};
+      node.className = {{ subLabelClass | default: "value text-[1em]" | json }};
       for (const child of children) node.appendChild(child);
       return node;
     },
     br: () => document.createElement('br'),
   }, { scriptId: "{{ script_id }}" });
+
+  const root = document.getElementById("{{ script_id }}").closest(".view");
+  const textContainer = root.querySelector("[data-text-container]");
+
+  function textOverflows() {
+    const parentRect = textContainer.parentElement.getBoundingClientRect();
+    const textRect = textContainer.getBoundingClientRect();
+    return textContainer.scrollWidth > textContainer.clientWidth + 1
+      || textContainer.scrollHeight > textContainer.clientHeight + 1
+      || textRect.left < parentRect.left - 1
+      || textRect.right > parentRect.right + 1
+      || textRect.top < parentRect.top - 1
+      || textRect.bottom > parentRect.bottom + 1;
+  }
+
+  function fitText() {
+    textContainer.style.removeProperty("font-size");
+    const baseFontSize = parseFloat(getComputedStyle(textContainer).fontSize);
+    if (!Number.isFinite(baseFontSize) || !textOverflows()) return;
+
+    let fittingScale = 0.25;
+    let overflowingScale = 1;
+    textContainer.style.fontSize = `${baseFontSize * fittingScale}px`;
+    if (textOverflows()) return;
+
+    for (let i = 0; i < 10; i += 1) {
+      const scale = (fittingScale + overflowingScale) / 2;
+      textContainer.style.fontSize = `${baseFontSize * scale}px`;
+      if (textOverflows()) {
+        overflowingScale = scale;
+      } else {
+        fittingScale = scale;
+      }
+    }
+    textContainer.style.fontSize = `${baseFontSize * fittingScale}px`;
+  }
+
+  let fitFrame;
+  function scheduleFit() {
+    cancelAnimationFrame(fitFrame);
+    fitFrame = requestAnimationFrame(fitText);
+  }
+
+  scheduleFit();
+  document.fonts?.ready.then(scheduleFit);
+  window.addEventListener("resize", scheduleFit);
+  window.addEventListener("orientationchange", scheduleFit);
+  new ResizeObserver(scheduleFit).observe(root);
 </script>
 
 <style type="text/css" id="tailwind-trmnl-generated">
@@ -402,9 +450,28 @@
 @layer properties;
 @layer theme, base, components, utilities;
 @layer utilities {
+  .resize {
+    resize: both;
+  }
+  .text-\[1em\] {
+    font-size: 1em;
+  }
+  .text-\[2\.5263157895em\] {
+    font-size: 2.5263157895em;
+  }
   .leading-\[1\] {
     --tw-leading: 1;
     line-height: 1;
+  }
+  .lg\:text-\[1\.275862069em\] {
+    .screen--lg & {
+      font-size: 1.275862069em;
+    }
+  }
+  .lg\:text-\[2\.2068965517em\] {
+    .screen--lg & {
+      font-size: 2.2068965517em;
+    }
   }
 }
 @property --tw-leading {

@@ -4,7 +4,7 @@
       <div class="place-content-center w-0 port:w-full port:h-[30cqh] text-center port:text-start grow-1 port:grow-0" style="container-type: size;">
         <iconify-icon icon="mdi:home" class="text-[75cqmin] port:text-[100cqmin] image-dither"></iconify-icon>
       </div>
-      <div class="place-content-center w-0 port:w-full grow-2 port:grow-0" data-text-container>
+      <div class="place-content-center w-0 port:w-full grow-2 port:grow-0 min-w-0 text-[20px] lg:text-[26px]" data-text-container>
       </div>
     </div>
   </div>
@@ -16,14 +16,15 @@
   </div>
 </div>
 
-{% render "common", trmnl: trmnl, 
-  mainValueClass: "value--base lg:value--large",
-  mainLabelClass: "value--xsmall lg:value--small",
-  subLabelClass: "value--xxsmall lg:value--xsmall",
+{% render "common", trmnl: trmnl,
+  mainValueClass: "value text-[1.9em] lg:text-[2.2307692308em] leading-[1]",
+  mainLabelClass: "value text-[1em]",
+  subLabelClass: "value text-[0.8em] lg:text-[0.7692307692em]",
 %}
 
 <style type="text/css" id="tailwind-trmnl-generated">
 /*! tailwindcss v4.3.2 | MIT License | https://tailwindcss.com */
+@layer properties;
 @layer theme, base, components, utilities;
 @layer utilities {
   .flex {
@@ -37,6 +38,9 @@
   }
   .w-full {
     width: 100%;
+  }
+  .min-w-0 {
+    min-width: 0;
   }
   .grow {
     flex-grow: 1;
@@ -59,11 +63,39 @@
   .text-center {
     text-align: center;
   }
-  .text-\[24px\] {
-    font-size: 24px;
+  .text-\[0\.8em\] {
+    font-size: 0.8em;
+  }
+  .text-\[1\.9em\] {
+    font-size: 1.9em;
+  }
+  .text-\[1em\] {
+    font-size: 1em;
+  }
+  .text-\[20px\] {
+    font-size: 20px;
   }
   .text-\[75cqmin\] {
     font-size: 75cqmin;
+  }
+  .leading-\[1\] {
+    --tw-leading: 1;
+    line-height: 1;
+  }
+  .lg\:text-\[0\.7692307692em\] {
+    .screen--lg & {
+      font-size: 0.7692307692em;
+    }
+  }
+  .lg\:text-\[2\.2307692308em\] {
+    .screen--lg & {
+      font-size: 2.2307692308em;
+    }
+  }
+  .lg\:text-\[26px\] {
+    .screen--lg & {
+      font-size: 26px;
+    }
   }
   .port\:h-\[30cqh\] {
     .screen--portrait & {
@@ -93,6 +125,17 @@
   .port\:text-\[100cqmin\] {
     .screen--portrait & {
       font-size: 100cqmin;
+    }
+  }
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-leading: initial;
     }
   }
 }

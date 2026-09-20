@@ -4,7 +4,7 @@
       <div class="place-content-center w-full h-[30cqw] port:h-[50cqw] text-center text-start grow-0" style="container-type: size;">
         <iconify-icon icon="mdi:home" class="text-[100cqmin] image-dither"></iconify-icon>
       </div>
-      <div class="place-content-center w-full grow-0" data-text-container>
+      <div class="place-content-center w-full grow-0 min-w-0 text-[38px] portrait:text-[26px] lg:text-[38px]" data-text-container>
       </div>
     </div>
   </div>
@@ -15,14 +15,15 @@
     <span class="instance">{{ trmnl.plugin_settings.instance_name }}</span>
   </div>
 </div>
-{% render "common", trmnl: trmnl, 
-  mainValueClass: "value--large lg:value--xxlarge portrait:value--base lg:portrait:value--xlarge",
-  mainLabelClass: "value--base portrait:value--small lg:portrait:value--base",
-  subLabelClass: "value--small lg:value--base",
+{% render "common", trmnl: trmnl,
+  mainValueClass: "value text-[1.5263157895em] portrait:text-[1.4615384615em] lg:text-[2.5263157895em] lg:portrait:text-[1.9473684211em] leading-[1]",
+  mainLabelClass: "value text-[1em]",
+  subLabelClass: "value text-[0.6842105263em] portrait:text-[1em] lg:text-[1em]",
 %}
 
 <style type="text/css" id="tailwind-trmnl-generated">
 /*! tailwindcss v4.3.2 | MIT License | https://tailwindcss.com */
+@layer properties;
 @layer theme, base, components, utilities;
 @layer utilities {
   .flex {
@@ -36,6 +37,9 @@
   }
   .w-full {
     width: 100%;
+  }
+  .min-w-0 {
+    min-width: 0;
   }
   .grow {
     flex-grow: 1;
@@ -58,15 +62,76 @@
   .text-start {
     text-align: start;
   }
-  .text-\[24px\] {
-    font-size: 24px;
+  .text-\[0\.6842105263em\] {
+    font-size: 0.6842105263em;
+  }
+  .text-\[1\.5263157895em\] {
+    font-size: 1.5263157895em;
+  }
+  .text-\[1em\] {
+    font-size: 1em;
+  }
+  .text-\[38px\] {
+    font-size: 38px;
   }
   .text-\[100cqmin\] {
     font-size: 100cqmin;
   }
+  .leading-\[1\] {
+    --tw-leading: 1;
+    line-height: 1;
+  }
+  .lg\:text-\[1em\] {
+    .screen--lg & {
+      font-size: 1em;
+    }
+  }
+  .lg\:text-\[2\.5263157895em\] {
+    .screen--lg & {
+      font-size: 2.5263157895em;
+    }
+  }
+  .lg\:text-\[38px\] {
+    .screen--lg & {
+      font-size: 38px;
+    }
+  }
+  .portrait\:text-\[1\.4615384615em\] {
+    @media (orientation: portrait) {
+      font-size: 1.4615384615em;
+    }
+  }
+  .portrait\:text-\[1em\] {
+    @media (orientation: portrait) {
+      font-size: 1em;
+    }
+  }
+  .portrait\:text-\[26px\] {
+    @media (orientation: portrait) {
+      font-size: 26px;
+    }
+  }
+  .lg\:portrait\:text-\[1\.9473684211em\] {
+    .screen--lg & {
+      @media (orientation: portrait) {
+        font-size: 1.9473684211em;
+      }
+    }
+  }
   .port\:h-\[50cqw\] {
     .screen--portrait & {
       height: 50cqw;
+    }
+  }
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-leading: initial;
     }
   }
 }
