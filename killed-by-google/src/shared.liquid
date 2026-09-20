@@ -1,0 +1,554 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700;6..96,900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600&display=swap" rel="stylesheet">
+
+{% template kbg_ornament %}
+<svg class="kbg-ornament" viewBox="0 0 180 52" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="3">
+    <path d="M4 26h48M128 26h48"/>
+    <path d="M12 20l-8 6 8 6M168 20l8 6-8 6"/>
+    <path d="M61 9h58M61 43h58"/>
+    <path d="M68 10c0 14 12 12 22 16-10 4-22 2-22 16M112 10c0 14-12 12-22 16 10 4 22 2 22 16"/>
+    <path d="M78 18h24M78 34h24"/>
+  </g>
+  <circle cx="90" cy="26" r="4" fill="currentColor"/>
+</svg>
+{% endtemplate %}
+
+{% template kbg_title_bar %}
+<div class="title_bar">
+  <img
+    class="image image-stroke"
+    src="https://static.killedbygoogle.com/com/tombstone.svg"
+    alt=""
+  >
+  <span class="title">Killed by Google</span>
+  <span class="instance">{{ mode_label }}</span>
+</div>
+{% endtemplate %}
+
+{% template kbg_error %}
+<div class="layout layout--center kbg-layout">
+  <div class="kbg-error">
+    <span class="kbg-error__mark">RIP</span>
+    <span class="title">The graveyard is quiet</span>
+    <span class="description">{{ error }}</span>
+  </div>
+</div>
+{% render "kbg_title_bar", mode_label: mode_label %}
+{% endtemplate %}
+
+<style>
+  @font-face {
+    font-family: "KBG XOrg Times 15";
+    src: url("https://blueset.github.io/xorg-fonts/font-adobe-75dpi-1.0.4/timR14.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "KBG XOrg Times 15";
+    src: url("https://blueset.github.io/xorg-fonts/font-adobe-75dpi-1.0.4/timB14.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "KBG XOrg Times 19";
+    src: url("https://blueset.github.io/xorg-fonts/font-adobe-75dpi-1.0.4/timR18.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "KBG XOrg Times 19";
+    src: url("https://blueset.github.io/xorg-fonts/font-adobe-75dpi-1.0.4/timB18.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .kbg-layout {
+    position: relative;
+    overflow: hidden;
+    font-family: "Cormorant Garamond", Georgia, serif;
+  }
+
+  .kbg-stone,
+  .kbg-type,
+  .kbg-compact-stone {
+    padding: var(--kbg-pad, 0);
+  }
+
+  .kbg-ornament,
+  .kbg-name,
+  .kbg-dates,
+  .kbg-date-divider,
+  .kbg-narrative,
+  .kbg-type,
+  .kbg-compact-name,
+  .kbg-compact-description,
+  .kbg-seal {
+    margin: var(--kbg-m, 0);
+  }
+
+  .kbg-scene::before,
+  .kbg-scene::after,
+  .kbg-stone,
+  .kbg-stone::before,
+  .kbg-plinth,
+  .kbg-compact-stone,
+  .kbg-compact-stone::before,
+  .kbg-seal {
+    border-radius: var(--kbg-radius, 0);
+  }
+
+  .kbg-kicker,
+  .kbg-name,
+  .kbg-date__label,
+  .kbg-type,
+  .kbg-date time,
+  .kbg-narrative,
+  .kbg-compact-name,
+  .kbg-compact-years,
+  .kbg-compact-description,
+  .kbg-seal,
+  .kbg-error__mark,
+  .kbg-error .description {
+    font-size: var(--kbg-scale);
+  }
+
+  .kbg-stone,
+  .kbg-compact-content,
+  .kbg-error {
+    text-align: center;
+  }
+
+  .kbg-scene {
+    position: relative;
+    display: flex;
+    align-items: center;
+    place-content: center;
+    width: 100%;
+    height: 100%;
+    container-type: size;
+  }
+
+  .kbg-scene::before,
+  .kbg-scene::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    width: 28%;
+    height: 12%;
+    border-top: 3px solid currentColor;
+    --kbg-radius: 50% 50% 0 0;
+  }
+
+  .kbg-scene::before {
+    left: -3%;
+    transform: rotate(2deg);
+  }
+
+  .kbg-scene::after {
+    right: -3%;
+    transform: rotate(-2deg);
+  }
+
+  .kbg-stone {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    place-content: center;
+    width: 78%;
+    height: 92%;
+    overflow: hidden;
+    border: 5px double #111;
+    --kbg-pad: 6% 7% 5%;
+    --kbg-radius: 48% 48% 7% 7% / 28% 28% 5% 5%;
+  }
+
+  .kbg-stone::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    pointer-events: none;
+    border: 1px solid #111;
+  }
+
+  .kbg-stone::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Offset dot fields mimic irregular mineral grain without an obvious tile. */
+    background-image:
+      radial-gradient(circle at 18% 24%, #d0cfc9 0 1px, transparent 1.5px),
+      radial-gradient(circle at 78% 68%, #d0cfc9 0 1px, transparent 1.5px),
+      radial-gradient(circle at 56% 42%, #d0cfc9 0 0.8px, transparent 1.3px);
+    background-size: 47px 43px, 61px 53px, 37px 59px;
+  }
+
+  .kbg-plinth {
+    position: absolute;
+    z-index: 2;
+    bottom: 1%;
+    width: 88%;
+    height: 8%;
+    border: 4px double #111;
+    --kbg-radius: 3px;
+  }
+
+  .kbg-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    place-content: center;
+    width: 100%;
+    min-height: 0;
+  }
+
+  .kbg-ornament {
+    width: min(42%, 180px);
+    height: auto;
+    --kbg-m: 0 0 2px;
+  }
+
+  .kbg-kicker {
+    font-family: "Bodoni Moda", Didot, serif;
+    --kbg-scale: clamp(10px, 1.45cqw, 16px);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .kbg-name {
+    max-width: 94%;
+    --kbg-m: 1% 0 2%;
+    font-family: "Bodoni Moda", Didot, serif;
+    --kbg-scale: clamp(30px, 5.8cqw, 66px);
+    font-weight: 900;
+    line-height: 0.98;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  .kbg-name--long {
+    --kbg-scale: clamp(26px, 4.6cqw, 54px);
+  }
+
+  .kbg-dates {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: min(84%, 620px);
+    --kbg-m: 1% 0 2%;
+  }
+
+  .kbg-date {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .kbg-date__label,
+  .kbg-type {
+    font-family: "Bodoni Moda", Didot, serif;
+    --kbg-scale: clamp(9px, 1.25cqw, 14px);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .kbg-date__label {
+    display: none;
+  }
+
+  .kbg-date time {
+    --kbg-scale: clamp(14px, 2.1cqw, 23px);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .kbg-date-divider {
+    width: 18px;
+    height: 1px;
+    --kbg-m: 0 12px;
+    background: #111;
+  }
+
+  .kbg-narrative {
+    max-width: 92%;
+    --kbg-m: 0;
+    --kbg-scale: clamp(13px, 1.85cqw, 21px);
+    font-weight: 500;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .kbg-type {
+    display: inline-block;
+    --kbg-m: 2% 0 0;
+    --kbg-pad: 2px 9px;
+    color: #fff;
+    background: #111;
+    border: 1px solid #111;
+  }
+
+  .kbg-compact-stone {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 4px double #111;
+    --kbg-pad: 14px 22px;
+    --kbg-radius: 42% 42% 6px 6px / 32% 32% 6px 6px;
+  }
+
+  .kbg-compact-stone::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1px solid #111;
+  }
+
+  .kbg-compact-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    place-content: center;
+    min-width: 0;
+  }
+
+  .kbg-compact-name {
+    max-width: 96%;
+    --kbg-m: 2px 0;
+    font-family: "Bodoni Moda", Didot, serif;
+    --kbg-scale: clamp(22px, 5cqw, 44px);
+    font-weight: 900;
+    line-height: 1;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  .kbg-compact-years {
+    --kbg-scale: clamp(14px, 2.6cqw, 24px);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .kbg-compact-description {
+    max-width: 92%;
+    --kbg-m: 5px 0 0;
+    --kbg-scale: clamp(13px, 2cqw, 19px);
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  .kbg-seal {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    place-content: center;
+    width: clamp(58px, 14cqw, 112px);
+    height: clamp(58px, 14cqw, 112px);
+    --kbg-m: 0 18px 0 0;
+    font-family: "Bodoni Moda", Didot, serif;
+    --kbg-scale: clamp(20px, 4cqw, 34px);
+    font-weight: 900;
+    border: 3px double #111;
+    --kbg-radius: 50%;
+  }
+
+  .kbg-error {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .kbg-error__mark {
+    font-family: "Bodoni Moda", Didot, serif;
+    --kbg-scale: 64px;
+    font-weight: 900;
+  }
+
+  .kbg-layout--compact {
+    overflow: visible;
+  }
+
+  .kbg-layout--compact .kbg-scene {
+    height: calc(100% + 20px);
+  }
+
+  .kbg-layout--compact .kbg-compact-stone {
+    border-bottom: 0;
+    --kbg-radius: 42% 42% 0 0 / 32% 32% 0 0;
+  }
+
+  .kbg-layout--compact + .title_bar {
+    position: relative;
+    z-index: 3;
+  }
+
+  :is(.screen--sm, .screen--md) :is(
+    .kbg-kicker,
+    .kbg-date__label,
+    .kbg-type
+  ) {
+    font-family: "KBG XOrg Times 15", serif;
+    --kbg-scale: 15px;
+    line-height: 1;
+    font-synthesis: none;
+  }
+
+  :is(.screen--1bit, .screen--2bit) .kbg-type {
+    text-shadow: none;
+  }
+
+  :is(.screen--sm, .screen--md) :is(
+    .kbg-date time,
+    .kbg-narrative,
+    .kbg-compact-years,
+    .kbg-compact-description,
+    .kbg-seal,
+    .kbg-error .description
+  ) {
+    font-family: "KBG XOrg Times 19", serif;
+    --kbg-scale: 19px;
+    line-height: 1;
+    font-synthesis: none;
+  }
+
+  .screen--lg .kbg-dates {
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .screen--lg .kbg-date__label {
+    display: inline;
+  }
+
+  .screen--lg .kbg-date-divider {
+    width: 1px;
+    height: 34px;
+    --kbg-m: 0 20px;
+  }
+
+  @container (orientation: portrait) {
+    .kbg-stone {
+      width: 94%;
+      height: 94%;
+      --kbg-pad: 15% 8% 8%;
+      --kbg-radius: 48% 48% 5% 5% / 20% 20% 4% 4%;
+    }
+
+    .kbg-plinth {
+      width: 98%;
+    }
+
+    .kbg-name {
+      --kbg-scale: clamp(31px, 9cqw, 62px);
+    }
+
+    .kbg-name--long {
+      --kbg-scale: clamp(28px, 7.5cqw, 52px);
+    }
+
+    .kbg-narrative {
+      --kbg-scale: clamp(16px, 4.2cqw, 23px);
+      line-height: 1.22;
+    }
+
+    .kbg-dates {
+      width: 94%;
+    }
+
+    .kbg-date time {
+      --kbg-scale: clamp(14px, 4cqw, 22px);
+    }
+
+    .kbg-compact-stone {
+      flex-direction: column;
+      place-content: center;
+      --kbg-pad: 24px 14px 16px;
+      --kbg-radius: 46% 46% 5px 5px / 23% 23% 4px 4px;
+    }
+
+    .kbg-seal {
+      width: clamp(54px, 22cqw, 96px);
+      height: clamp(54px, 22cqw, 96px);
+      --kbg-m: 0 0 8px;
+    }
+
+    .kbg-compact-name {
+      --kbg-scale: clamp(22px, 8cqw, 42px);
+    }
+  }
+
+  .screen--portrait .view--half_horizontal .kbg-compact-stone {
+    flex-direction: column;
+    place-content: center;
+    --kbg-pad: 24px 14px 16px;
+    --kbg-radius: 46% 46% 0 0 / 23% 23% 0 0;
+  }
+
+  .screen--portrait .view--half_horizontal .kbg-seal {
+    width: clamp(54px, 22cqw, 96px);
+    height: clamp(54px, 22cqw, 96px);
+    --kbg-m: 0 0 8px;
+  }
+
+  .screen--portrait .view--half_horizontal .kbg-compact-name {
+    --kbg-scale: clamp(22px, 8cqw, 42px);
+  }
+
+  @container (max-height: 190px) {
+    .kbg-compact-stone {
+      --kbg-pad: 10px 18px;
+      --kbg-radius: 36% 36% 5px 5px / 40% 40% 5px 5px;
+    }
+
+    .kbg-seal {
+      width: clamp(48px, 11cqw, 82px);
+      height: clamp(48px, 11cqw, 82px);
+      --kbg-m: 0 14px 0 0;
+      --kbg-scale: clamp(17px, 3.2cqw, 28px);
+    }
+
+    .kbg-compact-name {
+      --kbg-scale: clamp(20px, 4.5cqw, 36px);
+    }
+
+    :is(.screen--sm, .screen--md) .kbg-compact-name {
+      font-family: "KBG XOrg Times 19", serif;
+      --kbg-scale: 19px;
+      line-height: 1;
+      font-synthesis: none;
+    }
+
+    .kbg-compact-description {
+      --kbg-scale: clamp(12px, 1.8cqw, 16px);
+    }
+  }
+
+  .screen--portrait .view--half_vertical .title_bar .instance,
+  .screen--portrait .view--quadrant .title_bar .instance {
+    display: none;
+  }
+</style>

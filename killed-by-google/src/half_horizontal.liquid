@@ -1,0 +1,22 @@
+{% if error %}
+  {% render "kbg_error", error: error, mode_label: mode_label %}
+{% else %}
+  <div class="layout kbg-layout kbg-layout--compact">
+    <div class="kbg-scene">
+      <article class="bg--gray-75 1bit:text-stroke 2bit:text-stroke kbg-compact-stone">
+        <div class="kbg-seal">RIP</div>
+        <div class="kbg-compact-content">
+          <span class="kbg-kicker">{{ product.type }}</span>
+          <h1 class="kbg-compact-name">{{ product.name }}</h1>
+          <span class="kbg-compact-years">
+            {{ product.year_open }} &mdash; {{ product.year_close }}
+          </span>
+          <p class="hidden portrait:hidden lg:block lg:portrait:block kbg-compact-description" data-clamp="3">
+            {{ product.description_line }}
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+  {% render "kbg_title_bar", mode_label: mode_label %}
+{% endif %}

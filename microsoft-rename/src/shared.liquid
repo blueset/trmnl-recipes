@@ -1,0 +1,77 @@
+{% assign configured_mode = trmnl.plugin_settings.custom_fields_values.type | downcase %}
+{% assign mode = mode | default: configured_mode %}
+
+{% template rename_full_identity %}
+<div class="flex flex--col flex--left gap--medium">
+  <div class="{{ identity_layout_class | default: 'flex flex--center-y flex--row gap--medium' }}">
+    {% if product.logo_url %}
+      <img
+        class="{{ logo_class }}"
+        src="{{ product.logo_url }}"
+        alt="{{ product.logo_alt }}"
+      >
+    {% endif %}
+    <div class="{{ name_layout_class | default: 'flex flex--col flex--left gap--none' }}">
+      <span class="{{ family_class }}">{{ product.family }}</span>
+      <span class="{{ name_class }}" data-clamp="2">{{ product.name }}</span>
+      {% if product.disambiguator %}
+        <span class="{{ detail_class }}">{{ product.disambiguator }}</span>
+      {% endif %}
+      {% if show_current_duration %}
+        <span class="{{ detail_class }}">{{ product.latest_duration }} and counting</span>
+      {% endif %}
+    </div>
+  </div>
+  {% unless hide_note %}
+    {% if product.note %}
+      <span class="{{ note_class }}">{{ product.note }}</span>
+    {% endif %}
+  {% endunless %}
+</div>
+{% endtemplate %}
+
+{% template rename_full_history %}
+{% assign item_limit = history_limit | default: product.previous_names.size %}
+<div class="{% if item_limit > 1 %}flex flex--col flex--left gap--none{% endif %}">
+  <span class="{{ heading_class }}">{{ heading_text | default: "Previously known as&hellip;" }}</span>
+  {% for period in product.previous_names limit: item_limit %}
+    <span>
+      <del class="{{ name_class }}">{{ period.name }}</del>
+      <span class="{{ duration_class }}">({{ period.duration }}){% if forloop.last or forloop.index == item_limit %}.{% else %},{% endif %}</span>
+    </span>
+  {% endfor %}
+</div>
+{% endtemplate %}
+
+{% template rename_title_bar %}
+{%- capture logo -%}
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="1" width="10" height="10" fill="black"/>
+  <rect x="13" y="1" width="10" height="10" fill="black"/>
+  <rect x="1" y="13" width="10" height="10" fill="black"/>
+  <rect x="13" y="13" width="10" height="10" fill="black"/>
+</svg>
+{%- endcapture -%}
+<div class="title_bar">
+  <img
+    class="image image-stroke"
+    src="data:image/svg+xml;base64,{{ logo | base64_encode }}"
+    alt=""
+  >
+  <span class="title">What did Microsoft Rename?</span>
+  <span class="instance">{% if mode == "recent" %}Most recent{% else %}Random{% endif %}</span>
+</div>
+{% endtemplate %}
+
+{% template rename_error %}
+<div class="layout layout--center">
+  <div class="item">
+    <div class="meta"></div>
+    <div class="text--center content--center content">
+      <span class="title">Rename data unavailable</span>
+      <span class="description">{{ error }}</span>
+    </div>
+  </div>
+</div>
+{% render "rename_title_bar", mode: mode %}
+{% endtemplate %}

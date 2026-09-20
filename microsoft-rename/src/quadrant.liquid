@@ -1,0 +1,59 @@
+{% if error %}
+  {% render "rename_error", error: error, mode: mode %}
+{% else %}
+  {% assign quadrant_name_class = "title title--xsmall md:title--small lg:title--base" %}
+  {% assign quadrant_detail_class = "text text--xsmall md:text--small" %}
+  {% assign quadrant_family_class = "label label--xsmall md:label--small lg:label--base 2bit:label--gray 4bit:label--gray font--regular" %}
+  {% assign quadrant_minor_name_class = "label label--xsmall md:label--small lg:label--base" %}
+
+  {% if mode == "recent" %}
+    <div class="layout">
+      <div class="gap--small portrait:gap--large grid grid--cols-12 portrait:grid--cols-1 stretch-x">
+        <div class="flex flex--center flex--col gap--none col--span-4 portrait:col--span-1">
+          <span class="value value--large md:value--xlarge lg:value--xxlarge portrait:value--base md:portrait:value--large lg:portrait:value--xlarge" data-fit-value="true">
+            {{ product.days_since_rename }}
+          </span>
+          <span class="text--center label label--xsmall">days since rename</span>
+        </div>
+        <div class="flex flex--center-x flex--center-y col--span-8 portrait:col--span-1">
+          {% render "rename_full_identity",
+            product: product,
+            hide_note: true,
+            name_layout_class: "flex flex--col flex--center gap--none",
+            identity_layout_class: "flex flex--center-y flex--col gap--medium",
+            family_class: quadrant_family_class,
+            logo_class: "image image--contain image-dither w--[10cqw] h--[10cqw] md:w--[14cqw] md:h--[14cqw] lg:w--[18cqw] lg:h--[18cqw] portrait:w--[40cqw] portrait:h--[20cqh]",
+            name_class: quadrant_name_class,
+            detail_class: quadrant_detail_class
+          %}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="layout">
+      <div class="flex flex--center-x gap--small stretch-x">
+        <div class="flex flex--center-y flex--col flex--left gap--none">
+          {% render "rename_full_identity",
+            product: product,
+            hide_note: true,
+            show_current_duration: true,
+            identity_layout_class: "flex flex--center-y flex--col gap--medium",
+            family_class: quadrant_family_class,
+            logo_class: "image image--contain w--[10cqw] h--[10cqw] md:w--[14cqw] md:h--[14cqw] lg:w--[18cqw] lg:h--[18cqw] portrait:w--[40cqw] portrait:h--[20cqh]",
+            name_class: quadrant_name_class,
+            detail_class: quadrant_detail_class
+          %}
+          {% render "rename_full_history",
+            product: product,
+            history_limit: 1,
+            heading_text: "Previously&hellip;",
+            heading_class: quadrant_family_class,
+            name_class: quadrant_minor_name_class,
+            duration_class: quadrant_detail_class
+          %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  {% render "rename_title_bar", mode: mode %}
+{% endif %}

@@ -1,0 +1,50 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version: 3.3.2
+serverless_language: ''
+polling_url: https://www.msrebrandregistry.com/src/data/products.json
+polling_headers: ''
+polling_body: ''
+id: 482364
+oauth_enabled: 'false'
+oauth_pkce_enabled: 'no'
+oauth_authorize_url: ''
+oauth_token_url: ''
+oauth_scopes: ''
+oauth_scope_separator: ''
+oauth_refresh_url: ''
+oauth_auth_params: ''
+oauth_token_headers: ''
+oauth_token_site: ''
+oauth_token_params: ''
+oauth_token_request_auth_method: ''
+oauth_body_format: ''
+oauth_token_response_metadata: ''
+oauth_authorization_method: ''
+oauth_refresh_params: ''
+oauth_token_field_name: ''
+oauth_expiry_field_name: ''
+oauth_expiry_strategy: ''
+oauth_fixed_expiry_ms: ''
+custom_fields:
+- keyname: author_bio
+  field_type: author_bio
+  name: About This Plugin
+  description: Every rename Microsoft has done in history. Data courtesy of <a href="https://www.msrebrandregistry.com/index.html">The Rebrand Registry</a>.
+  learn_more_url: https://www.msrebrandregistry.com/index.html
+  category: news
+  github_url: https://github.com/blueset/trmnl-recipes
+- keyname: type
+  field_type: select
+  name: Display option
+  default: recent
+  options:
+  - Recent
+  - Random
+name: What did Microsoft Rename?
+description: Do you remember all of them?
+refresh_interval: 1440

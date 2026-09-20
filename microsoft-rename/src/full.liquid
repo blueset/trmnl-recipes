@@ -1,0 +1,70 @@
+{% if error %}
+  {% render "rename_error", error: error, mode: mode %}
+{% else %}
+  {% assign full_name_class = "title title--small md:title--large lg:title--xlarge" %}
+  {% assign full_detail_class = "text text--small md:text--small lg:text--large" %}
+  {% assign full_family_class = "label label--small md:label--base lg:label--large 2bit:label--gray 4bit:label--gray font--regular" %}
+  {% assign minor_name_class = "label label--small md:label--base lg:label--large" %}
+  {% assign full_note_class = "description description--xsmall md:description--small lg:description--base" %}
+
+  {% if mode == "recent" %}
+    <div class="layout">
+      <div class="gap--large portrait:gap--xxlarge grid grid--cols-12 portrait:grid--cols-1 portrait:p--8 lg:p--8 stretch-x">
+        <div class="flex flex--center-y flex--col gap--none col--span-4 portrait:col--span-1">
+          <span
+            class="value value--xxlarge md:value--xxxlarge lg:value--mega portrait:value--xlarge md:portrait:value--xxlarge lg:portrait:value--xxxlarge"
+            data-fit-value="true"
+          >
+            {{ product.days_since_rename }}
+          </span>
+          <span class="text--center label label--small md:label--base lg:label--large">
+            days since the latest rename
+          </span>
+        </div>
+        <div class="flex flex--center-x flex--center-y col--span-8 portrait:col--span-1">
+          <div class="flex flex--center-y flex--col flex--left gap--medium">
+            {% render "rename_full_identity",
+              product: product,
+              family_class: full_family_class,
+              logo_class: "image image--contain image-dither w--[12cqw] h--[12cqw] md:w--[14cqw] md:h--[14cqw] lg:w--[16cqw] lg:h--[16cqw] portrait:w--[18cqw] portrait:h--[18cqw]",
+              name_class: full_name_class,
+              detail_class: full_detail_class,
+              note_class: full_note_class
+            %}
+            {% render "rename_full_history",
+              product: product,
+              heading_class: full_family_class,
+              name_class: minor_name_class,
+              duration_class: full_detail_class
+            %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="layout">
+      <div class="gap--large grid grid--cols-12 portrait:grid--cols-1">
+        <div class="flex flex--center-y flex--col col--span-8 portrait:col--span-1">
+          {% render "rename_full_identity",
+            product: product,
+            show_current_duration: true,
+            family_class: full_family_class,
+            logo_class: "image image--contain w--[12cqw] h--[12cqw] md:w--[14cqw] md:h--[14cqw] lg:w--[16cqw] lg:h--[16cqw] portrait:w--[18cqw] portrait:h--[18cqw]",
+            name_class: full_name_class,
+            detail_class: full_detail_class,
+            note_class: full_note_class
+          %}
+        </div>
+        <div class="flex flex--center-y flex--col col--span-4 portrait:col--span-1">
+          {% render "rename_full_history",
+            product: product,
+            heading_class: full_family_class,
+            name_class: minor_name_class,
+            duration_class: full_detail_class
+          %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  {% render "rename_title_bar", mode: mode %}
+{% endif %}
