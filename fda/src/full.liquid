@@ -1,5 +1,7 @@
 <div class="layout">
-  {% if data.size > 0 %}
+  {% if data contains "HTML" %}
+    <div class="flex flex--col flex--left">{{ data }}</div>
+  {% elsif data.size > 0 %}
   <div class="columns" data-overflow-cols="3" data-overflow-cols-portrait="1" data-overflow-cols-lg-portrait="2">
     <div class="column">
       {% for item in data %}

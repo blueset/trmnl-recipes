@@ -6,6 +6,7 @@ static_data: ''
 polling_verb: get
 framework_version: latest
 serverless_language: node
+refresh_interval_floor:
 polling_url: https://trmnl.com/framework/releases
 polling_headers: ''
 polling_body: ''

@@ -6,6 +6,7 @@ static_data: "{\r\n  \"title\": \"Temporal.ZonedDateTime.prototype.hour\",\r\n  
 polling_verb: get
 framework_version: 3.1.1
 serverless_language: ''
+refresh_interval_floor:
 polling_url: https://trmnl.1a23.workers.dev/mdn
 polling_headers: ''
 polling_body: ''

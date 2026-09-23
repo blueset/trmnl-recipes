@@ -6,7 +6,8 @@ static_data: ''
 polling_verb: get
 framework_version: 3.1.1
 serverless_language: node
-polling_url: https://www.google.com/intl/en_ALL/ipv6/statistics/data/adoption.js
+refresh_interval_floor:
+polling_url: ''
 polling_headers: ''
 polling_body: ''
 id: 345789
@@ -40,4 +41,4 @@ custom_fields:
   learn_more_url: https://www.google.com/intl/en/ipv6/statistics.html
 name: IPv6 Adoption
 description: Global IPv6 adoption over time
-refresh_interval: 15
+refresh_interval: 1440
