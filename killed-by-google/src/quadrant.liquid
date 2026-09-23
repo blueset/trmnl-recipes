@@ -1,9 +1,9 @@
 {% if error %}
   {% render "kbg_error", error: error, mode_label: mode_label, hide_instance_in_portrait: true %}
 {% else %}
-  <div class="layout relative kbg-layout kbg-layout--compact">
+  <div class="relative layout kbg-layout kbg-layout--compact">
     <div class="relative w--full h--full kbg-scene">
-      <article class="relative w--full h--full bg--gray-75 1bit:text-stroke 2bit:text-stroke kbg-compact-stone">
+      <article class="relative bg--gray-75 w--full h--full 1bit:text-stroke 2bit:text-stroke kbg-compact-stone">
         <div class="kbg-seal">RIP</div>
         <div class="relative flex--col text--center kbg-compact-content">
           <span class="kbg-kicker">{{ product.type }}</span>
@@ -11,6 +11,9 @@
           <span class="kbg-compact-years">
             {{ product.year_open }} &mdash; {{ product.year_close }}
           </span>
+          <p class="hidden lg:block kbg-compact-description" data-clamp="6">
+            {{ product.description_line }}
+          </p>
         </div>
       </article>
     </div>
