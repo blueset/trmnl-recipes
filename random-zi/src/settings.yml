@@ -6,6 +6,7 @@ static_data: ''
 polling_verb: get
 framework_version: 2.3.7
 serverless_language: ''
+refresh_interval_floor:
 polling_url: "https://trmnl.1a23.workers.dev/zi-tools?compress\r\nhttps://trmnl.com/custom_plugin_example_data.json"
 polling_headers: ''
 polling_body: ''

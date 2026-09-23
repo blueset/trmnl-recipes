@@ -6,6 +6,7 @@ static_data: ''
 polling_verb: get
 framework_version: 3.3.2
 serverless_language: node
+refresh_interval_floor:
 polling_url: https://killedbygoogle.com/api/graveyard
 polling_headers: ''
 polling_body: ''

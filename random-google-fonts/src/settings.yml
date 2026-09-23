@@ -6,6 +6,7 @@ static_data: ''
 polling_verb: post
 framework_version: 3.1.1
 serverless_language: node
+refresh_interval_floor:
 polling_url: https://trmnl-deno-deploy.1a23.deno.net/google-fonts
 polling_headers: Content-Type=application/json
 polling_body: "{\r\n  \"filter\": {{ filter | default: \"\" | json }},\r\n  \"override\": {{ override | default: \"\" | json }}\r\n}"

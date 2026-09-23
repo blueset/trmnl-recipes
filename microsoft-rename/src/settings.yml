@@ -6,6 +6,7 @@ static_data: ''
 polling_verb: get
 framework_version: 3.3.2
 serverless_language: ''
+refresh_interval_floor:
 polling_url: https://www.msrebrandregistry.com/src/data/products.json
 polling_headers: ''
 polling_body: ''

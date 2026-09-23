@@ -6,6 +6,7 @@ static_data: ''
 polling_verb: get
 framework_version: 2.3.7
 serverless_language: ''
+refresh_interval_floor:
 polling_url: "{% liquid\r\nassign fallbackCoord = lat | append: \",\" | append: lon\r\nassign latlon = coordinate | default: fallbackCoord | split: \",\"\r\nassign lat = latlon[0]\r\nassign lon = latlon[1] %}https://trmnl.1a23.workers.dev/transit?key={{ key }}&lat={{ lat }}&lon={{ lon }}{% if radius %}&radius={{ radius }}{% endif %}{% if hourCycle %}&hourCycle={{ hourCycle }}{% endif %}{% if distanceUnit %}&distanceUnit={{ distanceUnit }}{% endif %}{% assign stopIdsSize = stopIds | size %}{% if stopIdsSize > 0 %}&stopIds={{ stopIds | join: \",\" }}{% endif %}{% assign routeIdsSize = routeIds | size %}{% if routeIdsSize > 0 %}&routeIds={{ routeIds | join: \",\" }}{% endif %}"
 polling_headers: ''
 polling_body: ''
