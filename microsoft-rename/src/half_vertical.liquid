@@ -1,19 +1,19 @@
 {% if error %}
   {% render "rename_error", error: error, mode: mode %}
 {% else %}
-  {% assign vertical_name_class = "title title--small md:title--base lg:title--large" %}
-  {% assign vertical_detail_class = "text text--xsmall md:text--small lg:text--base" %}
-  {% assign vertical_family_class = "label label--small md:label--base lg:label--large 2bit:label--gray 4bit:label--gray font--regular" %}
-  {% assign vertical_minor_name_class = "label label--small md:label--base lg:label--large" %}
+  {% assign vertical_name_class = "title title--small md:title--base lg:title--xlarge" %}
+  {% assign vertical_detail_class = "text text--xsmall md:text--small lg:text--large" %}
+  {% assign vertical_family_class = "label label--small md:label--base lg:label--xlarge 2bit:label--gray 4bit:label--gray font--regular" %}
+  {% assign vertical_minor_name_class = "label label--small md:label--base lg:label--xlarge" %}
 
   {% if mode == "recent" %}
     <div class="layout">
       <div class="gap--large grid grid--cols-1 stretch-x">
         <div class="flex flex--center flex--col gap--none">
-          <span class="value value--xxlarge md:value--xxxlarge lg:value--mega portrait:value--xlarge md:portrait:value--xxlarge lg:portrait:value--xxxlarge" data-fit-value="true">
+          <span class="value value--xxlarge md:value--xxxlarge lg:value--giga portrait:value--xlarge md:portrait:value--xxlarge lg:portrait:value--mega" data-fit-value="true">
             {{ product.days_since_rename }}
           </span>
-          <span class="text--center label label--small md:label--base">
+          <span class="text--center label label--small md:label--base lg:label--xlarge">
             days since the latest rename
           </span>
         </div>

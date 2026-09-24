@@ -1,19 +1,19 @@
 {% if error %}
   {% render "rename_error", error: error, mode: mode %}
 {% else %}
-  {% assign quadrant_name_class = "title title--xsmall md:title--small lg:title--base" %}
-  {% assign quadrant_detail_class = "text text--xsmall md:text--small" %}
-  {% assign quadrant_family_class = "label label--xsmall md:label--small lg:label--base 2bit:label--gray 4bit:label--gray font--regular" %}
-  {% assign quadrant_minor_name_class = "label label--xsmall md:label--small lg:label--base" %}
+  {% assign quadrant_name_class = "title title--xsmall md:title--small lg:title--large" %}
+  {% assign quadrant_detail_class = "text text--xsmall md:text--small lg:text--large" %}
+  {% assign quadrant_family_class = "label label--xsmall md:label--small lg:label--large 2bit:label--gray 4bit:label--gray font--regular" %}
+  {% assign quadrant_minor_name_class = "label label--xsmall md:label--small lg:label--large" %}
 
   {% if mode == "recent" %}
     <div class="layout">
       <div class="gap--small portrait:gap--large grid grid--cols-12 portrait:grid--cols-1 stretch-x">
         <div class="flex flex--center flex--col gap--none col--span-4 portrait:col--span-1">
-          <span class="value value--large md:value--xlarge lg:value--xxlarge portrait:value--base md:portrait:value--large lg:portrait:value--xlarge" data-fit-value="true">
+          <span class="value value--large md:value--xlarge lg:value--xxxlarge portrait:value--base md:portrait:value--large lg:portrait:value--xxlarge" data-fit-value="true">
             {{ product.days_since_rename }}
           </span>
-          <span class="text--center label label--xsmall">days since rename</span>
+          <span class="text--center label label--xsmall lg:label--base">days since rename</span>
         </div>
         <div class="flex flex--center-x flex--center-y col--span-8 portrait:col--span-1">
           {% render "rename_full_identity",

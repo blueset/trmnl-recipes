@@ -1,23 +1,23 @@
 {% if error %}
   {% render "rename_error", error: error, mode: mode %}
 {% else %}
-  {% assign full_name_class = "title title--small md:title--large lg:title--xlarge" %}
-  {% assign full_detail_class = "text text--small md:text--small lg:text--large" %}
-  {% assign full_family_class = "label label--small md:label--base lg:label--large 2bit:label--gray 4bit:label--gray font--regular" %}
-  {% assign minor_name_class = "label label--small md:label--base lg:label--large" %}
-  {% assign full_note_class = "description description--xsmall md:description--small lg:description--base" %}
+  {% assign full_name_class = "title title--small md:title--large lg:title--xxlarge" %}
+  {% assign full_detail_class = "text text--small md:text--small lg:text--xlarge" %}
+  {% assign full_family_class = "label label--small md:label--base lg:label--xlarge 2bit:label--gray 4bit:label--gray font--regular" %}
+  {% assign minor_name_class = "label label--small md:label--base lg:label--xlarge" %}
+  {% assign full_note_class = "description description--xsmall md:description--small lg:description--large" %}
 
   {% if mode == "recent" %}
     <div class="layout">
       <div class="gap--large portrait:gap--xxlarge grid grid--cols-12 portrait:grid--cols-1 portrait:p--8 lg:p--8 stretch-x">
         <div class="flex flex--center-y flex--col gap--none col--span-4 portrait:col--span-1">
           <span
-            class="value value--xxlarge md:value--xxxlarge lg:value--mega portrait:value--xlarge md:portrait:value--xxlarge lg:portrait:value--xxxlarge"
+            class="value value--xxlarge md:value--xxxlarge lg:value--giga portrait:value--xlarge md:portrait:value--xxlarge lg:portrait:value--mega"
             data-fit-value="true"
           >
             {{ product.days_since_rename }}
           </span>
-          <span class="text--center label label--small md:label--base lg:label--large">
+          <span class="text--center label label--small md:label--base lg:label--xlarge">
             days since the latest rename
           </span>
         </div>
