@@ -49,17 +49,17 @@ custom_fields:
       date: 12-25
       icon: fluent-emoji-flat:fireworks
   default: |-
-    - name: Christmas Day (Date of month)
+    - name: Christmas Day # (Date of month)
       date: 12-25  # Format: MM-DD
       icon: fluent-emoji-flat:fireworks  # Icon for the holiday, find yours at https://icon-sets.iconify.design/
       round: [1, 2, 3, 4, 5]  # Optional: Round to nearest weekday (1=Monday, 7=Sunday)
-    - name: Year 2038 problem (Absolute date)
+    - name: Year 2038 problem # (Absolute date)
       date: "2038-01-19"  # Format: "YYYY-MM-DD"
       icon: mdi:cpu-32-bit
-    - name: US Memorial Day (last n-th weekday of month)
+    - name: US Memorial Day # (last n-th weekday of month)
       date: 05Wn1-1  # Format: MWnw-D (e.g., 05Wn1-1 for last Monday of May)
       icon: fluent-emoji-flat:reindeer-ribbon
-    - name: Chinese New Year (Date of month with different calendar)
+    - name: Chinese New Year # (Date of month with different calendar)
       date: 01-01[u-ca=chinese]  # Format: MM-DD[u-ca=calendar] (e.g., 01-01[u-ca=chinese] for Chinese New Year)
       icon: fluent-emoji-flat:red-envelope
 - keyname: holiday_number
