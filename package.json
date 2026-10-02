@@ -4,10 +4,13 @@
   "type": "module",
   "scripts": {
     "build:tailwind": "node .github.pages/build-tailwind.mjs",
-    "build:recipes": "node .github.pages/generate-recipes.mjs"
+    "build:recipes": "node .github.pages/generate-recipes.mjs",
+    "test": "node --test \"tests/holiday-editor/*.test.js\""
   },
   "devDependencies": {
     "@tailwindcss/oxide": "4.3.2",
-    "tailwindcss": "4.3.2"
+    "js-yaml": "4.1.1",
+    "tailwindcss": "4.3.2",
+    "temporal-polyfill": "0.3.0"
   }
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>Signing in… — Holiday Config Editor</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="callback">
+    <h1>Holiday Config Editor</h1>
+    <p id="status" aria-busy="true">Finishing sign-in with TRMNL…</p>
+    <p id="back" hidden><a href="./#trmnl">Back to the editor</a></p>
+  </main>
+  <script type="module">
+    import { completeOAuth } from './js/auth.js';
+
+    const status = document.getElementById('status');
+    const search = window.location.search;
+    // Drop the authorization code from the address bar and history right away.
+    history.replaceState(null, '', window.location.pathname);
+    try {
+      const returnHash = await completeOAuth(search);
+      window.location.replace('./' + (returnHash.startsWith('#') ? returnHash : '#trmnl'));
+    } catch (e) {
+      status.removeAttribute('aria-busy');
+      status.className = 'field-error';
+      status.textContent = 'Sign-in failed: ' + (e.message || e);
+      document.getElementById('back').hidden = false;
+    }
+  </script>
+</body>
+</html>
