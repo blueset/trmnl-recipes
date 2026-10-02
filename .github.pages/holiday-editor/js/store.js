@@ -3,7 +3,7 @@
 import { getSession, onSessionChange } from './auth.js';
 import { clearFingerprintCache, discoverInstances, probeInstance } from './trmnl-api.js';
 
-const { reactive } = Vue;
+import { reactive } from 'vue';
 
 export const store = reactive({
   session: getSession(),

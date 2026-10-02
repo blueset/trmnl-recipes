@@ -1,10 +1,11 @@
+<script>
 // Copy the current holidays list to other instances, with explicit confirmation.
 
 import { ModalDialog } from './dialogs.js';
 import { store, ensureDiscovered } from '../store.js';
 import { readInstance, writeInstance } from '../trmnl-api.js';
 
-const { ref, reactive, computed, watch } = Vue;
+import { ref, reactive, computed, watch } from 'vue';
 
 async function writeWithRetry(id, yaml) {
   for (let attempt = 0; ; attempt++) {
@@ -17,7 +18,7 @@ async function writeWithRetry(id, yaml) {
   }
 }
 
-export const CloneDialog = {
+export default {
   name: 'CloneDialog',
   components: { ModalDialog },
   props: {
@@ -89,7 +90,10 @@ export const CloneDialog = {
       close: () => { if (phase.value !== 'running') emit('close'); },
     };
   },
-  template: `
+};
+</script>
+<template>
+
     <modal-dialog :open="open" title="Copy holidays to other plugins" :dismissible="phase !== 'running'" @close="close">
       <template v-if="phase === 'select'">
         <p>Replace the holidays list of the selected plugins with the {{ count }} holiday{{ count === 1 ? '' : 's' }} from
@@ -134,5 +138,5 @@ export const CloneDialog = {
           <button type="button" :disabled="phase === 'running'" @click="close">Close</button>
         </template>
       </template>
-    </modal-dialog>`,
-};
+    </modal-dialog>
+</template>

@@ -55,3 +55,11 @@ flowchart TD
 ## Concurrency
 
 The push workflow uses concurrency control (`group: trmnlp-sync`) to ensure only one sync operation runs at a time, preventing race conditions.
+
+## GitHub Pages (`pages.yml`)
+
+The Pages workflow generates the recipe index, installs the locked Node dependencies, and runs `npm run build:pages`. The build copies the existing gallery and sibling static files into `dist`, then compiles the Vue holiday editor and its OAuth callback into `dist/holiday-editor`. Only this static artifact is deployed; there is no production application server.
+
+Editor dependencies and build configuration changes also trigger deployment. The existing `/holiday-editor/`, `/holiday-editor/index.html`, hash routes, and `/holiday-editor/callback.html` URLs are preserved. Assets use relative paths so the site works under the repository Pages prefix.
+
+For local development and browser checks, see the [Holiday Editor development instructions](../../custom-next-holiday/README.md#developing-the-editor).

@@ -1,16 +1,17 @@
+<script>
 // "Edit my TRMNL plugins" entry point.
 
-import { TrmnlSignIn } from './TrmnlSignIn.js';
-import { InstancePicker } from './InstancePicker.js';
-import { TrmnlInstanceEditor } from './TrmnlInstanceEditor.js';
+import TrmnlSignIn from './TrmnlSignIn.vue';
+import InstancePicker from './InstancePicker.vue';
+import TrmnlInstanceEditor from './TrmnlInstanceEditor.vue';
 import { store } from '../store.js';
 import { route } from '../router.js';
 import { signOut, grantedScopes } from '../auth.js';
 import { getMe } from '../trmnl-api.js';
 
-const { ref, computed, watch } = Vue;
+import { ref, computed, watch } from 'vue';
 
-export const TrmnlView = {
+export default {
   name: 'TrmnlView',
   components: { TrmnlSignIn, InstancePicker, TrmnlInstanceEditor },
   setup() {
@@ -43,7 +44,10 @@ export const TrmnlView = {
 
     return { store, route, editor, instanceId, canWrite, who, logout };
   },
-  template: `
+};
+</script>
+<template>
+
     <div class="trmnl-view">
       <div v-if="store.session" class="session-bar">
         <span><iconify-icon icon="fluent:person-circle-20-regular" width="20"></iconify-icon> {{ who }}</span>
@@ -55,5 +59,5 @@ export const TrmnlView = {
         :notice="instanceId ? 'Sign in to open plugin #' + instanceId + '. Unsaved edits from this tab will be offered for restore.' : ''"></trmnl-sign-in>
       <trmnl-instance-editor v-else-if="instanceId" ref="editor" :key="instanceId" :id="instanceId"></trmnl-instance-editor>
       <instance-picker v-else></instance-picker>
-    </div>`,
-};
+    </div>
+</template>

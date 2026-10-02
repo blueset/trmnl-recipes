@@ -1,7 +1,8 @@
+<script>
 // Template gallery: browse, parameterize, preview and pick entries.
 
 import { ModalDialog } from './dialogs.js';
-import { IconPicker } from './IconPicker.js';
+import IconPicker from './IconPicker.vue';
 import {
   TEMPLATES, TEMPLATE_CATEGORIES, MONTH_OPTIONS,
   buildTemplateEntries, defaultParams, paramErrors, searchTemplates,
@@ -10,9 +11,9 @@ import { dedupeKey } from '../holiday-model.js';
 import { upcomingOccurrences } from '../date-core.js';
 import { DOW_FULL, ordinal } from '../calendar-utils.js';
 
-const { ref, reactive, computed, watch } = Vue;
+import { ref, reactive, computed, watch, useId, nextTick } from 'vue';
 
-export const TemplateDialog = {
+export default {
   name: 'TemplateDialog',
   components: { ModalDialog, IconPicker },
   props: {
@@ -31,6 +32,14 @@ export const TemplateDialog = {
     const checked = ref(new Set());
     const iconPickerOpen = ref(false);
     const iconParamKey = ref('');
+    const detailOpen = ref(false);
+    const detailHeading = ref(null);
+    const id = useId();
+    function chooseTemplate(templateId) {
+      selectedId.value = templateId;
+      detailOpen.value = true;
+      nextTick(() => detailHeading.value?.focus());
+    }
 
     const filtered = computed(() => searchTemplates(query.value, category.value));
     const selected = computed(() => TEMPLATES.find((t) => t.id === selectedId.value) || null);
@@ -42,7 +51,7 @@ export const TemplateDialog = {
     }
     watch(selectedId, resetParams, { immediate: true });
     watch(() => props.open, (open) => {
-      if (open) { query.value = ''; category.value = ''; resetParams(); }
+      if (open) { query.value = ''; category.value = ''; detailOpen.value = false; resetParams(); }
     });
     watch(filtered, (list) => {
       if (list.length && !list.some((t) => t.id === selectedId.value)) selectedId.value = list[0].id;
@@ -101,22 +110,27 @@ export const TemplateDialog = {
       query, category, selectedId, selected, filtered, categoryTitle, params, errors, hasParamErrors,
       entries, checked, toggle, setAll, duplicateCount, mdPart, setMd,
       iconPickerOpen, openIconPicker, onIconSelected, apply, describeNext,
+      detailOpen, detailHeading, id, chooseTemplate,
       close: () => emit('close'),
     };
   },
-  template: `
+};
+</script>
+<template>
+
     <modal-dialog :open="open" :title="mode === 'start' ? 'Start from a template' : 'Add from a template'" wide @close="close">
-      <div class="template-layout">
-        <div class="template-browser">
-          <input type="search" v-model="query" placeholder="Search templates (e.g. payday, lunar, DST)…">
+      <div class="template-layout" :class="{ 'show-template-detail': detailOpen }">
+        <div class="template-browser" role="region" aria-label="Template browser" tabindex="0">
+          <label :for="id + '-search'" class="sr-only">Search templates</label>
+          <input :id="id + '-search'" type="search" v-model="query" placeholder="Search templates (e.g. payday, lunar, DST)">
           <div class="chip-row">
-            <button type="button" class="chip" :class="{ active: !category }" @click="category = ''">All</button>
-            <button v-for="c in TEMPLATE_CATEGORIES" :key="c.id" type="button" class="chip" :class="{ active: category === c.id }" @click="category = c.id">{{ c.title }}</button>
+            <button type="button" class="chip" :class="{ active: !category }" :aria-pressed="!category" @click="category = ''">All</button>
+            <button v-for="c in TEMPLATE_CATEGORIES" :key="c.id" type="button" class="chip" :class="{ active: category === c.id }" :aria-pressed="category === c.id" @click="category = c.id">{{ c.title }}</button>
           </div>
           <ul class="template-list">
             <li v-for="t in filtered" :key="t.id">
-              <button type="button" :class="{ active: t.id === selectedId }" @click="selectedId = t.id">
-                <iconify-icon :icon="t.icon" width="24"></iconify-icon>
+              <button type="button" :class="{ active: t.id === selectedId }" :aria-pressed="t.id === selectedId" @click="chooseTemplate(t.id)">
+                <iconify-icon :icon="t.icon" width="24" aria-hidden="true"></iconify-icon>
                 <span>
                   <strong>{{ t.title }}</strong>
                   <small>{{ categoryTitle(t.category) }}</small>
@@ -127,35 +141,36 @@ export const TemplateDialog = {
           </ul>
         </div>
 
-        <div v-if="selected" class="template-detail">
-          <h4><iconify-icon :icon="selected.icon" width="28"></iconify-icon> {{ selected.title }}</h4>
+        <div v-if="selected" class="template-detail" role="region" aria-label="Template details" tabindex="0">
+          <button type="button" class="quiet template-back" @click="detailOpen = false">← Back to templates</button>
+          <h4 ref="detailHeading" tabindex="-1"><iconify-icon :icon="selected.icon" width="28" aria-hidden="true"></iconify-icon> {{ selected.title }}</h4>
           <p>{{ selected.description }}</p>
           <p v-if="selected.notes" class="template-notes">Note: {{ selected.notes }}</p>
 
           <div v-if="selected.params && selected.params.length" class="template-params">
             <div v-for="p in selected.params" :key="p.key" class="template-param">
-              <label v-if="p.type !== 'boolean'">{{ p.label }}</label>
-              <input v-if="p.type === 'text'" type="text" v-model="params[p.key]">
-              <input v-else-if="p.type === 'date'" type="date" v-model="params[p.key]" :aria-invalid="errors[p.key] ? 'true' : undefined">
-              <input v-else-if="p.type === 'number'" type="number" v-model.number="params[p.key]" :min="p.min" :max="p.max" :aria-invalid="errors[p.key] ? 'true' : undefined">
-              <input v-else-if="p.type === 'days'" type="text" inputmode="text" placeholder="1, 15, last" v-model="params[p.key]" :aria-invalid="errors[p.key] ? 'true' : undefined">
+              <label v-if="p.type !== 'boolean'" :for="id + '-' + p.key">{{ p.label }}</label>
+              <input v-if="p.type === 'text'" :id="id + '-' + p.key" type="text" v-model="params[p.key]">
+              <input v-else-if="p.type === 'date'" :id="id + '-' + p.key" type="date" v-model="params[p.key]" :aria-invalid="errors[p.key] ? 'true' : undefined">
+              <input v-else-if="p.type === 'number'" :id="id + '-' + p.key" type="number" v-model.number="params[p.key]" :min="p.min" :max="p.max" :aria-invalid="errors[p.key] ? 'true' : undefined">
+              <input v-else-if="p.type === 'days'" :id="id + '-' + p.key" type="text" inputmode="text" placeholder="1, 15, last" v-model="params[p.key]" :aria-invalid="errors[p.key] ? 'true' : undefined">
               <div v-else-if="p.type === 'monthday'" class="inline-fields">
-                <select :value="mdPart(p.key, 0)" @change="setMd(p.key, 0, $event.target.value)">
+                <select :id="id + '-' + p.key" :aria-label="p.label + ' month'" :value="mdPart(p.key, 0)" @change="setMd(p.key, 0, $event.target.value)">
                   <option v-for="m in MONTH_OPTIONS" :key="m.value" :value="m.value">{{ m.label }}</option>
                 </select>
-                <input type="number" min="1" max="31" :value="mdPart(p.key, 1)" @input="setMd(p.key, 1, $event.target.value)">
+                <input type="number" :aria-label="p.label + ' day'" min="1" max="31" :value="mdPart(p.key, 1)" @input="setMd(p.key, 1, $event.target.value)">
               </div>
-              <select v-else-if="p.type === 'weekday'" v-model.number="params[p.key]">
+              <select v-else-if="p.type === 'weekday'" :id="id + '-' + p.key" v-model.number="params[p.key]">
                 <option v-for="(d, i) in DOW_FULL" :key="i" :value="i + 1">{{ d }}</option>
               </select>
-              <select v-else-if="p.type === 'occurrence'" v-model.number="params[p.key]">
+              <select v-else-if="p.type === 'occurrence'" :id="id + '-' + p.key" v-model.number="params[p.key]">
                 <option v-for="n in 4" :key="n" :value="n">{{ ordinal(n) }}</option>
                 <option :value="-1">Last</option>
               </select>
               <label v-else-if="p.type === 'boolean'"><input type="checkbox" v-model="params[p.key]"> {{ p.label }}</label>
               <div v-else-if="p.type === 'icon'" class="inline-fields">
                 <iconify-icon :icon="params[p.key] || 'fluent:calendar-20-regular'" width="28"></iconify-icon>
-                <input type="text" v-model="params[p.key]">
+                <input :id="id + '-' + p.key" type="text" v-model="params[p.key]">
                 <button type="button" class="secondary" @click="openIconPicker(p.key)">Browse…</button>
               </div>
               <small v-if="p.help" class="muted">{{ p.help }}</small>
@@ -175,7 +190,7 @@ export const TemplateDialog = {
               <li v-for="(e, i) in entries" :key="i" :class="{ duplicate: e.duplicate }">
                 <label>
                   <input type="checkbox" :checked="checked.has(i)" @change="toggle(i)">
-                  <iconify-icon :icon="e.entry.icon" width="22"></iconify-icon>
+                  <iconify-icon :icon="e.entry.icon" width="22" aria-hidden="true"></iconify-icon>
                   <span class="entry-name">{{ e.entry.name }}</span>
                   <code>{{ e.entry.date }}</code>
                   <span v-if="e.duplicate" class="badge">duplicate</span>
@@ -188,11 +203,12 @@ export const TemplateDialog = {
         </div>
       </div>
       <template #actions>
+        <small v-if="!detailOpen" class="template-browse-hint muted">Choose a template to review its entries.</small>
         <button class="secondary" @click="close">Cancel</button>
-        <button :disabled="checked.size === 0" @click="apply">
+        <button class="template-apply" :disabled="checked.size === 0" @click="apply">
           {{ mode === 'start' ? 'Use' : 'Add' }} {{ checked.size }} entr{{ checked.size === 1 ? 'y' : 'ies' }}
         </button>
       </template>
     </modal-dialog>
-    <icon-picker :open="iconPickerOpen" @select="onIconSelected" @close="iconPickerOpen = false"></icon-picker>`,
-};
+    <icon-picker :open="iconPickerOpen" @select="onIconSelected" @close="iconPickerOpen = false"></icon-picker>
+</template>

@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="referrer" content="no-referrer">
   <title>Signing in… — Holiday Config Editor</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="callback">
@@ -15,6 +13,8 @@
     <p id="back" hidden><a href="./#trmnl">Back to the editor</a></p>
   </main>
   <script type="module">
+    import './style.css';
+    import './js/theme.js';
     import { completeOAuth } from './js/auth.js';
 
     const status = document.getElementById('status');

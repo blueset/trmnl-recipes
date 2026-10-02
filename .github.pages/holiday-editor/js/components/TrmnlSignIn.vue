@@ -1,11 +1,12 @@
+<script>
 // Sign-in panel: OAuth (Developer App) or account API key.
 
-import { beginOAuth, isOAuthConfigured, signInWithApiKey, signOut } from '../auth.js';
-import { listPluginSettings } from '../trmnl-api.js';
+import { beginOAuth, isOAuthConfigured, signInWithApiKey } from '../auth.js';
+import { validateApiKey } from '../trmnl-api.js';
 
-const { ref } = Vue;
+import { ref } from 'vue';
 
-export const TrmnlSignIn = {
+export default {
   name: 'TrmnlSignIn',
   props: { returnHash: { type: String, default: '#trmnl' }, notice: { type: String, default: '' } },
   setup(props) {
@@ -29,12 +30,10 @@ export const TrmnlSignIn = {
       error.value = '';
       busy.value = true;
       try {
+        await validateApiKey(apiKey.value);
         signInWithApiKey(apiKey.value);
-        // Validate the key before keeping it.
-        await listPluginSettings();
         apiKey.value = '';
       } catch (e) {
-        signOut();
         error.value = e.status === 401 ? 'That API key was rejected by TRMNL.' : e.message;
       } finally {
         busy.value = false;
@@ -43,9 +42,13 @@ export const TrmnlSignIn = {
 
     return { oauthReady, apiKey, busy, error, connect, useApiKey };
   },
-  template: `
+};
+</script>
+<template>
+
     <section class="signin">
-      <h2>Connect your TRMNL account</h2>
+      <p class="eyebrow">Straight to your device</p>
+      <h1>Connect your TRMNL account</h1>
       <p>Sign in to load and save the holiday lists of your <strong>Custom Next Holiday</strong> plugins directly.
         Everything runs in your browser; credentials are stored only in this browser's local storage.</p>
       <p v-if="notice" class="notice">{{ notice }}</p>
@@ -67,5 +70,5 @@ export const TrmnlSignIn = {
         </article>
       </div>
       <div v-if="error" class="field-error" role="alert">{{ error }}</div>
-    </section>`,
-};
+    </section>
+</template>

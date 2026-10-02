@@ -4,6 +4,8 @@
 //   - Redirect URIs (one per line, must match exactly):
 //       https://blueset.github.io/trmnl-recipes/holiday-editor/callback.html
 //       http://localhost:8080/holiday-editor/callback.html        (local development)
+//       http://127.0.0.1:4173/holiday-editor/callback.html         (built preview)
+//       http://127.0.0.1:5173/callback.html                       (Vite development)
 //   - Tick "Cannot keep a secret" (this is a static single-page app using PKCE).
 // Then paste the Client ID below.
 

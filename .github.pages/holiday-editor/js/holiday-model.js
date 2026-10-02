@@ -2,6 +2,7 @@
 // Requires globals `Temporal` and `jsyaml`.
 
 import { getCalendarMonthCount, isGregorianCalendarId } from './calendar-utils.js';
+import jsyaml from 'js-yaml';
 
 export const DEFAULT_ICON = 'fluent:calendar-20-regular';
 
@@ -73,7 +74,7 @@ export function reviveHoliday(saved) {
   for (const key of ['_dateType', '_year', '_month', '_day', '_occurrence', '_weekday', '_useCal', '_calendar']) {
     if (saved && saved[key] !== undefined) h[key] = saved[key];
   }
-  h._dateInvalid = !!saved?._dateInvalid;
+  if (saved?._dateInvalid !== undefined) h._dateInvalid = !!saved._dateInvalid;
   return h;
 }
 

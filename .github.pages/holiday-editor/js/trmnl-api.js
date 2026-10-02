@@ -29,8 +29,8 @@ function errorFromResponse(res, body) {
   });
 }
 
-export async function request(method, path, { body, retryAuth = true, retries = 2 } = {}) {
-  const token = await getAccessToken();
+export async function request(method, path, { body, retryAuth = true, retries = 2, tokenOverride = null } = {}) {
+  const token = tokenOverride ?? await getAccessToken();
   if (!token) throw new ApiError('Not signed in.', { status: 401, code: 'signed_out' });
 
   let res;
@@ -60,7 +60,7 @@ export async function request(method, path, { body, retryAuth = true, retries = 
   if (res.status === 429 && retries > 0) {
     const wait = Math.min(Number(res.headers.get('Retry-After')) || 5, 30) * 1000;
     await sleep(wait);
-    return request(method, path, { body, retryAuth, retries: retries - 1 });
+    return request(method, path, { body, retryAuth, retries: retries - 1, tokenOverride });
   }
 
   let data = null;
@@ -76,6 +76,11 @@ export async function request(method, path, { body, retryAuth = true, retries = 
 
 export const getMe = () => request('GET', '/me').then((r) => r?.data ?? r);
 export const listPluginSettings = () => request('GET', '/plugin_settings').then((r) => r?.data || []);
+export function validateApiKey(apiKey) {
+  const token = String(apiKey || '').trim();
+  if (!token) throw new ApiError('Enter an API key.', { code: 'invalid' });
+  return request('GET', '/plugin_settings', { tokenOverride: token, retryAuth: false });
+}
 export const patchSettingsFields = (id, fields) =>
   request('PATCH', `/plugin_settings/${encodeURIComponent(id)}/settings`, { body: { fields } });
 export const getPluginSettingDetails = (id) => request('GET', `/plugin_settings/${encodeURIComponent(id)}/details`).then((r) => r?.data);

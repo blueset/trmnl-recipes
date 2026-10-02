@@ -5,12 +5,24 @@
   "scripts": {
     "build:tailwind": "node .github.pages/build-tailwind.mjs",
     "build:recipes": "node .github.pages/generate-recipes.mjs",
-    "test": "node --test \"tests/holiday-editor/*.test.js\""
+    "test": "node --test \"tests/holiday-editor/*.test.js\"",
+    "dev:holiday-editor": "vite --config holiday-editor.vite.config.js",
+    "build:pages": "node .github.pages/build-pages.mjs",
+    "preview:pages": "node .github.pages/serve-pages.mjs",
+    "test:ui": "playwright test"
+  },
+  "dependencies": {
+    "iconify-icon": "3.0.0",
+    "js-yaml": "4.1.1",
+    "temporal-polyfill": "0.3.0",
+    "vue": "3.5.43"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "1.63.0",
     "@tailwindcss/oxide": "4.3.2",
-    "js-yaml": "4.1.1",
+    "@vitejs/plugin-vue": "6.0.9",
     "tailwindcss": "4.3.2",
-    "temporal-polyfill": "0.3.0"
+    "vite": "8.3.2"
   }
 }

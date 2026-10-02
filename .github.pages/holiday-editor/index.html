@@ -4,12 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Holiday Config Editor — TRMNL Recipes</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/temporal-polyfill@0.3.0/global.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.1/dist/js-yaml.min.js"></script>
-  <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js"></script>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#111419">
+  <script>
+    try {
+      const preference = localStorage.getItem('trmnl-holiday-editor:theme') || 'dark';
+      document.documentElement.dataset.theme = preference === 'system'
+        ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : preference;
+    } catch { document.documentElement.dataset.theme = 'dark'; }
+  </script>
   <script type="module" src="js/main.js"></script>
 </head>
 <body>

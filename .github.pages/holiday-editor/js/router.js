@@ -1,6 +1,6 @@
 // Minimal hash router with async navigation guards.
 
-const { reactive } = Vue;
+import { reactive } from 'vue';
 
 export function parseHash(hash = location.hash) {
   const path = decodeURIComponent(String(hash).replace(/^#\/?/, ''));
@@ -46,7 +46,7 @@ window.addEventListener('hashchange', async (e) => {
     return;
   }
   Object.assign(route, to);
-  if (to.name !== 'reference') window.scrollTo(0, 0);
+  window.scrollTo(0, 0);
 });
 
 export function navigate(hash, { replace = false } = {}) {

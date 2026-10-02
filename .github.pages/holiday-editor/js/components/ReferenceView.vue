@@ -1,25 +1,30 @@
+<script>
 // YAML specification for the `holidays` setting.
 
 import { TEMPLATES, TEMPLATE_CATEGORIES } from '../templates.js';
 
-export const ReferenceView = {
+export default {
   name: 'ReferenceView',
   setup() {
     const groups = TEMPLATE_CATEGORIES.map((c) => ({ ...c, templates: TEMPLATES.filter((t) => t.category === c.id) }))
       .filter((g) => g.templates.length);
-    return { groups };
+    return { groups, scrollToSection: (id) => document.getElementById(id)?.scrollIntoView() };
   },
-  template: `
-    <section class="docs">
-      <h2 id="reference">Holiday Configuration Reference</h2>
-      <p>The plugin's <strong>Holidays</strong> setting is a YAML list. Each holiday is an object with the following fields.
-        The <strong>Number of holidays</strong> setting controls how many upcoming holidays are shown.</p>
+};
+</script>
+<template>
 
-      <h3><code>name</code> <small>(string, required)</small></h3>
+    <section class="docs">
+      <h1 id="reference">Guide &amp; reference</h1>
+      <p>The plugin's <strong>Holidays</strong> setting is a YAML list. Each holiday is an object with the following fields.
+        The <strong>Upcoming holiday to display</strong> setting selects which upcoming date is displayed: 1 is the next date. Holidays on the same date count together.</p>
+      <nav class="reference-nav" aria-label="Reference sections"><a href="#reference" @click.prevent="scrollToSection('ref-fields')">Fields</a><a href="#reference" @click.prevent="scrollToSection('ref-date')">Date rules</a><a href="#reference" @click.prevent="scrollToSection('templates')">Templates</a><a href="#reference" @click.prevent="scrollToSection('signin')">Saving to TRMNL</a></nav>
+
+      <h3 id="ref-fields"><code>name</code> <small>(string, required)</small></h3>
       <p>The display name of the holiday, shown on the TRMNL screen. Can be any text.</p>
       <pre>name: Christmas Day</pre>
 
-      <h3><code>date</code> <small>(string, required)</small></h3>
+      <h3 id="ref-date"><code>date</code> <small>(string, required)</small></h3>
       <p>A date expression specifying when the holiday occurs. Four formats are supported:</p>
       <div class="table-scroll">
         <table>
@@ -85,5 +90,5 @@ export const ReferenceView = {
         Changes are saved to TRMNL only when you press <strong>Save to TRMNL</strong>; you'll be warned before leaving with unsaved changes.
         <strong>Copy to other plugins</strong> replaces the holidays list (not the other settings) of the plugins you pick.
         Sign-in tokens are kept only in this browser and are used only to talk to TRMNL.</p>
-    </section>`,
-};
+    </section>
+</template>

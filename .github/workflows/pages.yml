@@ -7,6 +7,9 @@ on:
     paths:
       - ".github.pages/**"
       - ".github/workflows/pages.yml"
+      - "holiday-editor.vite.config.js"
+      - "package.json"
+      - "package-lock.json"
       - "README.md"
       - "*/.trmnlp.yml"
       - "*/README.md"
@@ -29,10 +32,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
       - name: Generate recipe index
         env:
           REPOSITORY_RAW_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/
-        run: node .github.pages/generate-recipes.mjs
+        run: npm run build:recipes
+
+      - name: Build static Pages site
+        run: npm run build:pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -40,7 +53,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./.github.pages
+          path: ./dist
 
       - name: Deploy to GitHub Pages
         id: deployment

@@ -71,6 +71,7 @@ test('legacy localStorage entries are revived', () => {
   const h = reviveHoliday(saved[0]);
   assert.equal(composeDateStr(h), '05Wn1-1');
   assert.equal(h._dateType, 'lastNthWeekday');
+  assert.equal(reviveHoliday({ name: 'Unknown', icon: 'x', date: 'next tuesday' })._dateInvalid, true);
 });
 
 test('repeat for all months', () => {

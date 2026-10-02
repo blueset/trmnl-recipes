@@ -1,7 +1,9 @@
+<script>
+import { nextTick } from 'vue';
 // Edit one TRMNL plugin instance: holidays list, number of holidays, instance name.
 
-import { HolidayEditor } from './HolidayEditor.js';
-import { CloneDialog } from './CloneDialog.js';
+import HolidayEditor from './HolidayEditor.vue';
+import CloneDialog from './CloneDialog.vue';
 import { ModalDialog, confirmDialog } from './dialogs.js';
 import {
   makeHoliday, reviveHoliday, toPlain, toPlainList, dumpYaml, serializeList, holidayErrors,
@@ -10,8 +12,9 @@ import {
 import { readInstance, writeInstance, updatePluginSetting, listPluginSettings, ApiError } from '../trmnl-api.js';
 import { store, updateInstanceName } from '../store.js';
 import { addGuard, navigate } from '../router.js';
+import { grantedScopes } from '../auth.js';
 
-const { ref, reactive, computed, watch, onMounted, onBeforeUnmount } = Vue;
+import { ref, reactive, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 
 const MANUAL_DRAFT_KEY = 'trmnl-holiday-editor';
 const stashKey = (id) => `trmnl-holiday-editor:stash:${id}`;
@@ -29,7 +32,7 @@ function describeFieldErrors(fe) {
   });
 }
 
-export const TrmnlInstanceEditor = {
+export default {
   name: 'TrmnlInstanceEditor',
   components: { HolidayEditor, CloneDialog, ModalDialog },
   props: { id: { type: String, required: true } },
@@ -42,6 +45,7 @@ export const TrmnlInstanceEditor = {
       loading: true, loadError: '', loadCode: '', parseError: '', instance: null,
       saving: false, status: '', statusKind: '', fieldErrors: [],
       commentsAcknowledged: false, stash: null, showClone: false, showConflict: false,
+      storageWarning: '',
     });
 
     const instanceMeta = computed(() => store.instances.find((i) => i.id === props.id) || null);
@@ -60,7 +64,8 @@ export const TrmnlInstanceEditor = {
       name: !state.loading && !state.loadError && form.name.trim() !== baseline.name,
     }));
     const dirty = computed(() => dirtyParts.value.list || dirtyParts.value.number || dirtyParts.value.name);
-    const canSave = computed(() => dirty.value && !state.saving
+    const canWrite = computed(() => !!store.session && grantedScopes().includes('content'));
+    const canSave = computed(() => canWrite.value && dirty.value && !state.saving
       && !errorCount.value && !numberError.value && !nameError.value);
 
     const manualDraft = computed(() => {
@@ -139,15 +144,23 @@ export const TrmnlInstanceEditor = {
           list: state.parseError ? null : toPlainList(holidays),
           listDirty: dirtyParts.value.list, number: form.number, name: form.name, savedAt: Date.now(),
         }));
-      } catch {}
+      } catch (error) {
+        state.storageWarning = 'Unsaved edits could not be backed up in this tab. Copy your YAML before reloading or signing out.';
+        console.warn('Could not save plugin edit stash.', error);
+      }
     }
-    const clearStash = () => { try { sessionStorage.removeItem(stashKey(props.id)); } catch {} };
+    const clearStash = () => {
+      try { sessionStorage.removeItem(stashKey(props.id)); state.storageWarning = ''; }
+      catch (error) { state.storageWarning = 'The old edit backup could not be cleared from this tab.'; console.warn('Could not clear plugin edit stash.', error); }
+    };
     function restoreStashOffer() {
       try {
         const s = JSON.parse(sessionStorage.getItem(stashKey(props.id)) || 'null');
         state.stash = s && (s.listDirty || String(s.number) !== String(form.number) || s.name !== form.name) ? s : null;
-      } catch {
+      } catch (error) {
         state.stash = null;
+        state.storageWarning = 'The saved edit backup could not be read. Its stored data has not been removed.';
+        console.warn('Could not restore plugin edit stash.', error);
       }
     }
     function restoreStash() {
@@ -275,11 +288,11 @@ export const TrmnlInstanceEditor = {
     }
     function fixRawYaml() {
       state.parseError = '';
-      Vue.nextTick(() => editor.value?.openLoad());
+      nextTick(() => editor.value?.openLoad(baseline.raw));
     }
     function replaceWithTemplate() {
       state.parseError = '';
-      Vue.nextTick(() => editor.value?.openTemplates('start'));
+      nextTick(() => editor.value?.openTemplates('start'));
     }
 
     function importManualDraft() {
@@ -324,14 +337,17 @@ export const TrmnlInstanceEditor = {
 
     return {
       editor, holidays, form, baseline, state, installed, hasComments, errorCount, numberError, nameError,
-      dirty, dirtyParts, canSave, manualDraft, store,
+      dirty, dirtyParts, canSave, canWrite, manualDraft, store,
       load, save, revert, conflictReload, conflictOverwrite, restoreStash, discardStash,
       startEmpty, fixRawYaml, replaceWithTemplate, importManualDraft,
       cloneYaml: computed(() => dumpYaml(toPlainList(holidays))),
       back: () => navigate('#trmnl'),
     };
   },
-  template: `
+};
+</script>
+<template>
+
     <section class="instance-editor">
       <nav class="breadcrumb"><a href="#trmnl">← All plugins</a></nav>
 
@@ -346,18 +362,20 @@ export const TrmnlInstanceEditor = {
       </div>
 
       <template v-else>
+        <h1>Edit your plugin</h1>
         <div class="instance-header">
           <div class="instance-fields">
-            <label>
-              Plugin name
-              <input type="text" v-model="form.name" :aria-invalid="nameError ? 'true' : undefined">
+            <div class="field">
+              <label for="plugin-name">Plugin name</label>
+              <input id="plugin-name" type="text" v-model="form.name" :aria-invalid="nameError ? 'true' : undefined">
               <small v-if="nameError" class="field-error">{{ nameError }}</small>
-            </label>
-            <label>
-              Number of holidays shown
-              <input type="number" min="1" step="1" v-model="form.number" :aria-invalid="numberError ? 'true' : undefined">
+            </div>
+            <div class="field">
+              <label for="plugin-ordinal">Upcoming holiday to display</label>
+              <input id="plugin-ordinal" type="number" min="1" step="1" v-model="form.number" :aria-invalid="numberError ? 'true' : undefined" aria-describedby="plugin-ordinal-help">
               <small v-if="numberError" class="field-error">{{ numberError }}</small>
-            </label>
+              <small id="plugin-ordinal-help" class="help-text">1 = the next upcoming date. Holidays sharing a date count together.</small>
+            </div>
           </div>
           <div class="instance-links">
             <small class="muted">#{{ id }}</small>
@@ -374,11 +392,11 @@ export const TrmnlInstanceEditor = {
             <template v-else-if="state.status">{{ state.status }}</template>
             <template v-else>All changes saved</template>
           </span>
-          <span v-if="state.status && state.statusKind === 'error' && !state.saving" class="field-error">{{ state.status }}</span>
           <span class="spacer"></span>
           <button type="button" class="secondary outline" :disabled="!dirty || state.saving" @click="revert">Revert</button>
           <button type="button" :disabled="!canSave" :aria-busy="state.saving ? 'true' : undefined" @click="save()">Save to TRMNL</button>
         </div>
+        <p v-if="state.status && state.statusKind && !state.saving" class="notice" :class="{ 'error-notice': state.statusKind === 'error' }" :role="state.statusKind === 'error' ? 'alert' : 'status'">{{ state.status }}</p>
         <ul v-if="state.fieldErrors.length" class="field-error-list">
           <li v-for="(f, i) in state.fieldErrors" :key="i" class="field-error">{{ f }}</li>
         </ul>
@@ -389,6 +407,7 @@ export const TrmnlInstanceEditor = {
           <button type="button" class="secondary" @click="restoreStash">Restore them</button>
           <button type="button" class="secondary outline" @click="discardStash">Discard</button>
         </div>
+        <p v-if="state.storageWarning" class="notice error-notice" role="alert">{{ state.storageWarning }}</p>
 
         <div v-if="state.parseError" class="parse-error">
           <p class="field-error" role="alert">The holidays setting on TRMNL couldn't be read: {{ state.parseError }}</p>
@@ -405,7 +424,7 @@ export const TrmnlInstanceEditor = {
           <template #toolbar-end>
             <button v-if="manualDraft.length" type="button" class="secondary outline" @click="importManualDraft"
               :title="'Replace with the ' + manualDraft.length + ' holidays from the manual editor'">Import manual draft</button>
-            <button type="button" class="secondary outline" :disabled="errorCount > 0 || !holidays.length" @click="state.showClone = true">Copy to other plugins…</button>
+            <button type="button" class="secondary outline" :disabled="!canWrite || errorCount > 0 || !holidays.length" @click="state.showClone = true">Copy to other plugins…</button>
           </template>
           <template #before-list>
             <p v-if="hasComments && dirtyParts.list" class="notice"><small>The original YAML has comments; saving rewrites it without them.</small></p>
@@ -428,5 +447,5 @@ export const TrmnlInstanceEditor = {
           </template>
         </modal-dialog>
       </template>
-    </section>`,
-};
+    </section>
+</template>

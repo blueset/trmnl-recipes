@@ -1,11 +1,12 @@
+<script>
 // Lists the signed-in user's supported plugin instances.
 
 import { store, discover, addInstanceById } from '../store.js';
 import { navigate } from '../router.js';
 
-const { ref, onMounted } = Vue;
+import { ref, onMounted } from 'vue';
 
-export const InstancePicker = {
+export default {
   name: 'InstancePicker',
   setup() {
     const manualId = ref('');
@@ -35,10 +36,13 @@ export const InstancePicker = {
 
     return { store, manualId, addError, adding, addById, rescan: () => discover({ force: true }).catch(() => {}) };
   },
-  template: `
+};
+</script>
+<template>
+
     <section class="instance-picker">
       <div class="section-header">
-        <h2>Your Custom Next Holiday plugins</h2>
+        <h1>Your holiday plugins</h1>
         <button type="button" class="secondary outline" :disabled="store.discovery.state === 'loading'" @click="rescan">Rescan</button>
       </div>
 
@@ -79,5 +83,5 @@ export const InstancePicker = {
         </form>
         <div v-if="addError" class="field-error">{{ addError }}</div>
       </details>
-    </section>`,
-};
+    </section>
+</template>
