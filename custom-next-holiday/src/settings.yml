@@ -43,7 +43,7 @@ custom_fields:
   name: Holidays
   description: |
     Define your custom holidays here. You can use absolute dates, date of month, or <b class="font-normal italic">n</b>-th weekday of month formats.<br>
-    Use the <a href="https://blueset.github.io/trmnl-recipes/holiday-editor/index.html" target="_blank" class="underline">Holiday Editor</a> to easily add, edit, and manage your holidays, or learn more about the <a href="https://blueset.github.io/trmnl-recipes/holiday-editor/index.html#reference" target="_blank" class="underline">supported date formats</a>.
+    Use the <a href="https://blueset.github.io/trmnl-recipes/holiday-editor/index.html" target="_blank" class="underline">Holiday Editor</a> to add, edit, and manage your holidays from templates, and sign in with TRMNL to save them here directly, or learn more about the <a href="https://blueset.github.io/trmnl-recipes/holiday-editor/index.html#reference" target="_blank" class="underline">supported date formats</a>.
   placeholder: |
     - name: Christmas Day (Date of month)
       date: 12-25  # Format: MM-DD
@@ -64,7 +64,7 @@ custom_fields:
       icon: fluent-ioji-flat:fireworks  # Icon for the holiday, find yours at https://icon-sets.iconify.design/
       round: [1, 2, 3, 4, 5]  # Optional: Round to nearest weekday (1=Monday, 7=Sunday)
     - name: Year 2038 problem (Absolute date)
-      date: 2038-01-19  # Format: YYYY-MM-DD
+      date: "2038-01-19"  # Format: "YYYY-MM-DD"
       icon: mdi:cpu-32-bit
     - name: US Memorial Day (last n-th weekday of month)
       date: 05Wn1-1  # Format: MWnw-D (e.g., 05Wn1-1 for last Monday of May)
