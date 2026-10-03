@@ -49,13 +49,13 @@ button, input, select, textarea { font: inherit; }
 button, input, select, textarea, summary { -webkit-tap-highlight-color: transparent; }
 a { color: var(--accent); text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
-button, [role="button"] {
+button, [role="button"], .primary-link {
   display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
   min-height: 44px; padding: .65rem 1rem; border: 1px solid transparent; border-radius: 9px;
   background: var(--button); color: var(--button-text); font-size: .875rem; line-height: 1.35; font-weight: 600;
   cursor: pointer; text-decoration: none;
 }
-button:hover, [role="button"]:hover { filter: brightness(1.07); }
+button:hover, [role="button"]:hover, .primary-link:hover { filter: brightness(1.07); }
 button:disabled { opacity: .5; cursor: not-allowed; filter: none; }
 button.secondary, [role="button"].secondary { color: var(--text); background: var(--surface-raised); border-color: var(--border); }
 button.quiet, button.outline, [role="button"].outline { color: var(--text); background: transparent; border-color: var(--border); }
@@ -118,12 +118,6 @@ main { max-width: 1320px; margin: 0 auto; padding: 2.5rem 2rem 3rem; min-height:
 .hero { max-width: 730px; margin-bottom: 2.5rem; }
 .hero h1 { font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1.1; letter-spacing: -.045em; }
 .hero .lead { color: var(--muted); font-size: 1.05rem; max-width: 580px; margin-top: 1.2rem; }
-.entry-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.entry-card { display: flex; flex-direction: column; gap: .7rem; padding: 1.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; color: var(--text); text-decoration: none; }
-.entry-card:hover { border-color: var(--accent); text-decoration: none; }
-.entry-card h2 { font-size: 1.15rem; margin: .25rem 0 0; }
-.entry-card p { color: var(--muted); font-size: .9rem; flex: 1; margin: 0 0 .5rem; }
-.entry-card .entry-cta { align-self: start; color: var(--accent); font-size: .9rem; font-weight: 650; }
 .entry-icon { display: inline-flex; color: var(--accent); background: var(--accent-bg); border-radius: 10px; padding: .7rem; width: fit-content; }
 .landing-note { color: var(--muted); font-size: .85rem; margin-top: 1.5rem; max-width: 740px; }
 .start-panel { max-width: 940px; margin: 1rem auto; }
@@ -277,10 +271,24 @@ main { max-width: 1320px; margin: 0 auto; padding: 2.5rem 2rem 3rem; min-height:
 .inline-fields button { flex-shrink: 0; }
 .signin { max-width: 960px; margin: auto; }
 .signin > p { max-width: 700px; color: var(--muted); font-size: .9rem; }
-.signin-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.75rem 0; }
-.signin-options article { border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; background: var(--surface); }
-.signin-options h3 { font-size: 1.15rem; margin-bottom: .75rem; }
-.signin-options p { color: var(--muted); font-size: .85rem; }
+.signin-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 1rem; margin: 1.75rem 0; align-items: stretch; }
+.connection-primary { border: 1px solid var(--accent); border-radius: 14px; padding: 1.5rem; background: var(--surface); }
+.connection-primary h2 { margin: 1rem 0 .75rem; font-size: 1.3rem; }
+.connection-primary p { color: var(--muted); max-width: 650px; font-size: .9rem; }
+.connection-primary .connection-privacy { font-size: .75rem; margin: .75rem 0 0; }
+.connection-primary > .primary-link, .connection-primary > button { margin-top: .25rem; max-width: 100%; }
+.connection-secondary { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1rem; align-items: start; margin-top: 1rem; }
+.local-option { border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: .85rem; }
+.local-option { display: flex; align-items: center; gap: .75rem; padding: .9rem 1rem; text-decoration: none; min-width: 0; }
+.local-option:hover { background: var(--surface); border-color: var(--accent); text-decoration: none; }
+.local-option .entry-icon { padding: .4rem; }
+.local-option strong { display: block; font-size: .85rem; }
+.local-option small { display: block; margin-top: .2rem; color: var(--muted); font-size: .75rem; font-weight: 400; }
+.api-key-panel { border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; background: var(--surface); }
+.api-key-panel h2 { margin: 1rem 0 .75rem; font-size: 1.15rem; }
+.api-key-panel p { color: var(--muted); font-size: .85rem; overflow-wrap: anywhere; }
+.api-key-panel .inline-fields { flex-wrap: wrap; }
+.api-key-panel input { flex-basis: 180px; }
 .session-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--muted); font-size: .8rem; margin-bottom: 1.75rem; }
 .session-bar > span { display: flex; align-items: center; gap: .5rem; }
 .section-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
@@ -313,6 +321,11 @@ progress { width: 100%; height: 7px; accent-color: var(--accent); }
 .clone-results li.error { color: var(--error); }
 .acknowledge { display: flex; align-items: start; gap: .5rem; font-weight: 400; padding-top: .75rem; }
 .docs { max-width: 850px; margin: auto; }
+.yaml-example code { display: block; padding: 0; border-radius: 0; background: transparent; font-size: inherit; }
+.yaml-example .yaml-key { color: var(--accent); font-weight: 600; }
+.yaml-example .yaml-string { color: var(--success); }
+.yaml-example .yaml-number { color: var(--warning); }
+.yaml-example .yaml-comment { color: var(--muted); }
 .docs h2 { font-size: 1.8rem; margin-bottom: 1.25rem; }
 .docs h3 { font-size: 1.1rem; margin-top: 2rem; padding-top: .5rem; }
 .docs h3 small, .docs h4 small { color: var(--muted); font-weight: 400; }
@@ -348,8 +361,8 @@ progress { width: 100%; height: 7px; accent-color: var(--accent); }
   .page-heading { flex-direction: column; margin-bottom: 1rem; gap: .3rem; }
   .landing { margin: .5rem auto; }
   .hero { margin-bottom: 1.75rem; }
-  .entry-cards, .start-options, .signin-options { grid-template-columns: 1fr; }
-  .entry-card { padding: 1.25rem; }
+  .start-options { grid-template-columns: 1fr; }
+  .connection-primary { padding: 1.25rem; }
   .start-option { min-height: 140px; }
   .workspace { display: block; }
   .holiday-list-panel { position: static; max-height: none; }

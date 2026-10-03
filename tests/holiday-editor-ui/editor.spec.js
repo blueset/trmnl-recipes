@@ -71,7 +71,7 @@ test('disabled action-menu items stay inactive on hover', async ({ page }) => {
 test('onboarding supports templates, local creation, and connected sign-in', async ({ page }) => {
   await seed(page, { draft: null });
   await page.goto('/holiday-editor/');
-  await page.getByRole('link', { name: /Edit without signing in/ }).click();
+  await page.getByRole('link', { name: /Edit local list/ }).click();
   await expect(page.getByRole('heading', { name: 'Local editor' })).toBeVisible();
   await page.getByRole('button', { name: /Start fresh/ }).click();
   await page.getByLabel('Holiday name', { exact: true }).fill('Birthday');
@@ -89,10 +89,14 @@ test('onboarding supports templates, local creation, and connected sign-in', asy
 test('landing and navigation prioritize TRMNL and align the Iconify-based desktop header', async ({ page }) => {
   await seed(page, { draft: null });
   await page.goto('/holiday-editor/');
-  await expect(page.locator('.entry-card').first()).toHaveAttribute('href', '#trmnl');
+  await expect(page.locator('.connection-primary').getByRole('button', { name: 'Connect with TRMNL', exact: true })).toBeVisible();
+  await expect(page.locator('.connection-secondary').getByRole('link', { name: /Use an API key instead/ })).toHaveAttribute('href', '#trmnl');
+  await expect(page.locator('.connection-secondary').getByRole('link', { name: /Edit local list/ })).toHaveAttribute('href', '#manual');
+  await expect(page.locator('.landing-note').getByRole('link', { name: 'Explore the guide', exact: true })).toHaveAttribute('href', '#reference');
+  await expect(page.getByLabel('Account API key')).toHaveCount(0);
   await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link').first()).toHaveAttribute('href', '#trmnl');
   await expect(page.locator('.app-title iconify-icon')).toHaveAttribute('icon', 'fluent:calendar-24-regular');
-  await expect(page.locator('.entry-icon iconify-icon')).toHaveCount(2);
+  await expect(page.locator('.entry-icon iconify-icon')).toHaveCount(3);
   expect(await page.evaluate(() => document.querySelectorAll('.app-title svg, .entry-icon svg').length)).toBe(0);
   for (const width of [1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
@@ -101,6 +105,157 @@ test('landing and navigation prioritize TRMNL and align the Iconify-based deskto
       return box.y + box.height / 2;
     }));
     expect(Math.max(...centers) - Math.min(...centers)).toBeLessThanOrEqual(1);
+  }
+});
+
+test('sign-in cards use TRMNL and key icons and have equal heights side by side', async ({ page }) => {
+  await seed(page, { draft: null });
+  await page.goto('/holiday-editor/');
+  await expect(page.locator('.connection-primary iconify-icon')).toHaveAttribute('icon', 'simple-icons:trmnl');
+  const apiLink = page.getByRole('link', { name: /Use an API key instead/ });
+  await expect(apiLink.locator('iconify-icon')).toHaveAttribute('icon', 'fluent:key-24-regular');
+  await apiLink.click();
+  await expect(page.locator('.signin-options .connection-primary iconify-icon')).toHaveAttribute('icon', 'simple-icons:trmnl');
+  await expect(page.locator('.api-key-panel iconify-icon')).toHaveAttribute('icon', 'fluent:key-24-regular');
+  for (const width of [1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const fontSize of ['16px', '32px']) {
+      await page.evaluate(size => { document.documentElement.style.fontSize = size; }, fontSize);
+      const oauth = await page.locator('.signin-options .connection-primary').boundingBox();
+      const apiKey = await page.locator('.api-key-panel').boundingBox();
+      expect(apiKey.x).toBeGreaterThan(oauth.x);
+      expect(Math.abs(apiKey.y - oauth.y)).toBeLessThanOrEqual(1);
+      expect(Math.abs(apiKey.height - oauth.height)).toBeLessThanOrEqual(1);
+    }
+  }
+});
+
+test('landing OAuth action starts PKCE directly and returns to connected editing', async ({ page }) => {
+  await seed(page, { draft: null });
+  await page.route('https://trmnl.com/oidc/authorize**', route => route.fulfill({ contentType: 'text/html', body: '<title>Fixture authorization</title>' }));
+  await page.goto('/trmnl-recipes/holiday-editor/');
+  await expect(page.getByLabel('Account API key')).not.toBeVisible();
+  await page.getByRole('button', { name: 'Connect with TRMNL', exact: true }).click();
+  await page.waitForURL('https://trmnl.com/oidc/authorize**');
+  const authorization = new URL(page.url());
+  expect(authorization.searchParams.get('response_type')).toBe('code');
+  expect(authorization.searchParams.get('scope')).toBe('read content');
+  expect(authorization.searchParams.get('code_challenge_method')).toBe('S256');
+  expect(authorization.searchParams.get('code_challenge')).toHaveLength(43);
+  expect(authorization.searchParams.get('redirect_uri')).toBe('http://127.0.0.1:4173/trmnl-recipes/holiday-editor/callback.html');
+  await page.goto('/trmnl-recipes/holiday-editor/');
+  const pending = await page.evaluate(() => JSON.parse(sessionStorage.getItem('trmnl-holiday-editor:pkce')));
+  expect(pending.returnHash).toBe('#trmnl');
+  expect(pending.state).toBe(authorization.searchParams.get('state'));
+});
+
+test('landing OAuth setup failures stay visible and leave secondary editing available', async ({ page }) => {
+  await seed(page, { draft: null });
+  await page.addInitScript(() => {
+    const setItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function (key, value) {
+      if (key === 'trmnl-holiday-editor:pkce') throw new Error('Authorization setup could not be saved');
+      return setItem.call(this, key, value);
+    };
+  });
+  await page.goto('/holiday-editor/');
+  await page.getByRole('button', { name: 'Connect with TRMNL', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveText('Authorization setup could not be saved');
+  await expect(page.getByRole('button', { name: 'Connect with TRMNL', exact: true })).toBeEnabled();
+  await page.getByRole('link', { name: /Edit local list/ }).click();
+  await expect(page.getByRole('heading', { name: 'How would you like to start?' })).toBeVisible();
+});
+
+test('secondary API-key login updates the landing primary action and preserves the local draft', async ({ page }) => {
+  await seed(page);
+  const api = await mockTrmnl(page);
+  api.state.unauthorized = true;
+  await page.goto('/holiday-editor/');
+  await expect(page.getByLabel('Account API key')).toHaveCount(0);
+  await page.getByRole('link', { name: /Use an API key instead/ }).click();
+  await expect(page).toHaveURL(/#trmnl$/);
+  await expect(page.getByLabel('Account API key')).toBeVisible();
+  await page.getByLabel('Account API key').fill('fixture-token');
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(page.getByRole('alert')).toHaveText('That API key was rejected by TRMNL.');
+  await expect(page.getByRole('button', { name: 'Connect with TRMNL', exact: true })).toBeVisible();
+  api.state.unauthorized = false;
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Your holiday plugins' })).toBeVisible();
+  await page.getByRole('link', { name: 'Holiday Editor home', exact: true }).click();
+  const open = page.locator('.connection-primary').getByRole('link', { name: 'Open my plugins', exact: true });
+  await expect(open).toHaveAttribute('href', '#trmnl');
+  await expect(page.getByRole('link', { name: /Use an API key instead/ })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /Edit local list/ })).toContainText('Continue your draft');
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('trmnl-holiday-editor')));
+  expect(saved).toEqual(holidays);
+  await open.click();
+  await expect(page.getByRole('heading', { name: 'Your holiday plugins' })).toBeVisible();
+  await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+  await page.getByRole('link', { name: 'Holiday Editor home', exact: true }).click();
+  await expect(page.locator('.connection-primary').getByRole('button', { name: 'Connect with TRMNL', exact: true })).toBeVisible();
+});
+
+test('signed-in landing prioritizes direct editing for OAuth and API-key sessions', async ({ page }) => {
+  await seed(page, { session: true });
+  await page.goto('/holiday-editor/');
+  await expect(page.locator('.connection-primary').getByRole('link', { name: 'Open my plugins', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Connect with TRMNL', exact: true })).toHaveCount(0);
+  await page.evaluate(() => {
+    const key = 'trmnl-holiday-editor:session';
+    localStorage.setItem(key, JSON.stringify({ type: 'oauth', accessToken: 'fixture-token', scope: 'read content', expiresAt: Date.now() + 100000 }));
+    window.dispatchEvent(new StorageEvent('storage', { key }));
+  });
+  await expect(page.locator('.connection-primary').getByRole('link', { name: 'Open my plugins', exact: true })).toBeVisible();
+  await expect(page.getByLabel('Account API key')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /Use an API key instead/ })).toHaveCount(0);
+  const guide = page.locator('.landing-note').getByRole('link', { name: 'Explore the guide', exact: true });
+  await expect(guide).toBeVisible();
+  await guide.click();
+  await expect(page.getByRole('heading', { name: 'Guide & reference', exact: true })).toBeVisible();
+  await page.getByRole('link', { name: 'Holiday Editor home', exact: true }).click();
+  await page.getByRole('link', { name: /Edit local list/ }).click();
+  await expect(page.getByRole('heading', { name: 'Local editor', exact: true })).toBeVisible();
+});
+
+test('landing pathways remain accessible and reflow in both themes and session states', async ({ page }) => {
+  await seed(page);
+  await page.goto('/holiday-editor/');
+  async function checkReflow() {
+    for (const width of [320, 390, 768, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      for (const fontSize of ['16px', '32px']) {
+        await page.evaluate(size => { document.documentElement.style.fontSize = size; }, fontSize);
+        expect(await page.evaluate(width => document.documentElement.scrollWidth <= width, width)).toBe(true);
+      }
+      await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
+    }
+  }
+  for (const signedIn of [false, true]) {
+    if (signedIn) await page.evaluate(() => {
+      const key = 'trmnl-holiday-editor:session';
+      localStorage.setItem(key, JSON.stringify({ type: 'apikey', accessToken: 'fixture-token' }));
+      window.dispatchEvent(new StorageEvent('storage', { key }));
+    });
+    for (const theme of ['dark', 'light']) {
+      await page.getByLabel('Appearance').selectOption(theme);
+      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+      expect(results.violations).toEqual([]);
+      await checkReflow();
+    }
+  }
+  await page.evaluate(() => {
+    const key = 'trmnl-holiday-editor:session';
+    localStorage.removeItem(key);
+    window.dispatchEvent(new StorageEvent('storage', { key }));
+  });
+  await page.getByRole('link', { name: /Use an API key instead/ }).click();
+  await expect(page.getByLabel('Account API key')).toBeVisible();
+  for (const theme of ['dark', 'light']) {
+    await page.getByLabel('Appearance').selectOption(theme);
+    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+    expect(results.violations).toEqual([]);
+    await checkReflow();
   }
 });
 
@@ -344,6 +499,47 @@ test('unrecognized dates stay unchanged until date controls are edited', async (
   await expect(page.getByText('Unrecognized date', { exact: false }).last()).toBeVisible();
   await page.getByLabel('Day', { exact: true }).fill('5');
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('trmnl-holiday-editor'))[0].date)).toBe('01-05');
+});
+
+test('reference YAML highlighting preserves example text and stays accessible in both themes', async ({ page }) => {
+  await seed(page);
+  await page.goto('/holiday-editor/#reference');
+  const expected = [
+    'name: Christmas Day',
+    'date: "01-01[u-ca=chinese]"   # Chinese New Year (1st of 1st month in Chinese calendar)',
+    'icon: fluent-emoji-flat:fireworks',
+    'round: [1, 2, 3, 4, 5]   # Round to nearest weekday (Mon–Fri)',
+    `- name: Christmas Day
+  date: "12-25"
+  icon: fluent-emoji-flat:fireworks
+  round: [1, 2, 3, 4, 5]
+- name: Year 2038 problem
+  date: "2038-01-19"
+  icon: mdi:cpu-32-bit
+- name: US Memorial Day
+  date: "05Wn1-1"
+  icon: fluent-emoji-flat:reindeer-ribbon
+- name: Chinese New Year
+  date: "01-01[u-ca=chinese]"
+  icon: fluent-emoji-flat:red-envelope`,
+  ];
+  const examples = page.locator('.docs pre');
+  await expect(examples).toHaveCount(expected.length);
+  expect(await examples.allTextContents()).toEqual(expected);
+  await expect(page.locator('.yaml-example > code.language-yaml')).toHaveCount(expected.length);
+  for (const theme of ['dark', 'light']) {
+    await page.getByLabel('Appearance').selectOption(theme);
+    const colors = await page.locator('.docs').evaluate(element =>
+      ['yaml-key', 'yaml-string', 'yaml-number', 'yaml-comment'].map(token => getComputedStyle(element.querySelector(`.${token}`)).color));
+    expect(new Set(colors).size).toBe(4);
+    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+    expect(results.violations).toEqual([]);
+    for (const width of [320, 390, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      expect(await page.evaluate(width => document.documentElement.scrollWidth <= width, width)).toBe(true);
+      expect(await examples.allTextContents()).toEqual(expected);
+    }
+  }
 });
 
 test('themes, mobile widths, reference, and static callback remain accessible', async ({ page }) => {
