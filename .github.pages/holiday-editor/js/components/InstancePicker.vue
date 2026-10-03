@@ -1,5 +1,5 @@
 <script>
-// Lists the signed-in user's supported plugin instances.
+// Lists the signed-in user’s supported plugin instances.
 
 import { store, discover, addInstanceById } from '../store.js';
 import { navigate } from '../router.js';
@@ -43,7 +43,7 @@ export default {
     <section class="instance-picker">
       <div class="section-header">
         <h1>Your holiday plugins</h1>
-        <button type="button" class="secondary outline" :disabled="store.discovery.state === 'loading'" @click="rescan">Rescan</button>
+        <button type="button" class="outline secondary" :disabled="store.discovery.state === 'loading'" @click="rescan">Rescan</button>
       </div>
 
       <div v-if="store.discovery.state === 'loading'" class="scan-progress">
@@ -76,7 +76,7 @@ export default {
 
       <details class="add-by-id">
         <summary>Can't find your plugin?</summary>
-        <p><small>Open the plugin's settings on trmnl.com and copy the number from the URL (<code>…/plugin_settings/<strong>12345</strong>/edit</code>).</small></p>
+        <p><small>Open the plugin’s settings on trmnl.com and copy the number from the URL (<code>…/plugin_settings/<strong>12345</strong>/edit</code>).</small></p>
         <form @submit.prevent="addById" class="inline-fields">
           <input type="text" inputmode="numeric" v-model="manualId" placeholder="Plugin setting ID" aria-label="Plugin setting ID">
           <button type="submit" class="secondary" :disabled="!manualId.trim() || adding">Open</button>

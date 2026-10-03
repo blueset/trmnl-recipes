@@ -193,7 +193,7 @@
   const timeZone = root.querySelector("[data-hour-cycle]").dataset.tz || tzLookup(Latitude, Longitude);
 
   function getLocalTimeValuesForDay(date) {
-    // Get current time at the target location's timezone
+    // Get current time at the target location’s timezone
     const currentTimeAtLocation = Temporal.Now.zonedDateTimeISO(timeZone);
     // Create a date at the target timezone for SunCalc
     const dateAtLocation = date.toZonedDateTime({
@@ -219,7 +219,7 @@
     }
     return result;
   }
-  // Get today's date in the local timezone
+  // Get today’s date in the local timezone
   const today = Temporal.Now.plainDateISO().toZonedDateTime(timeZone).toPlainDate();
   const localTimeValues = getLocalTimeValuesForDay(today);
 

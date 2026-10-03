@@ -72,7 +72,7 @@ async function s256(verifier) {
   return base64Url(digest);
 }
 
-/** Redirect to TRMNL's consent screen. `returnHash` is restored after the callback. */
+/** Redirect to TRMNL’s consent screen. `returnHash` is restored after the callback. */
 export async function beginOAuth(returnHash = '#trmnl') {
   if (!isOAuthConfigured()) throw new AuthError('OAuth is not configured for this site.', { code: 'not_configured' });
   const verifier = randomString(48);
@@ -107,7 +107,7 @@ async function postToken(params) {
     throw new AuthError(
       OAUTH.tokenProxyUrl
         ? 'Could not reach the token proxy.'
-        : "The browser could not read TRMNL's token response (likely blocked by CORS). Configure a token proxy or sign in with an API key.",
+        : "The browser could not read TRMNL’s token response (likely blocked by CORS). Configure a token proxy or sign in with an API key.",
       { code: 'network', cause },
     );
   }

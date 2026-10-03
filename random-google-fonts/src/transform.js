@@ -3,7 +3,7 @@
 // This transform only unwraps the polling response and surfaces errors on screen.
 const ENDPOINT = "https://trmnl-deno-deploy.1a23.deno.net/google-fonts";
 
-// TRMNL discards the response body of a failed poll, so the API's error envelope
+// TRMNL discards the response body of a failed poll, so the API’s error envelope
 // never reaches us. Re-request once to recover a message worth showing the user.
 async function describeFailure(input) {
   try {

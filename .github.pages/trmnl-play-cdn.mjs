@@ -161,7 +161,7 @@ function observeSheet(sheet) {
 }
 
 // Handle changes to the document that could affect the styles
-// - Changes to any element's class attribute
+// - Changes to any element’s class attribute
 // - New stylesheets being added to the page
 // - New elements (with classes) being added to the page
 new MutationObserver((records) => {

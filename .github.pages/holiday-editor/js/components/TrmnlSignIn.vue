@@ -50,7 +50,7 @@ export default {
       <p class="eyebrow">Straight to your device</p>
       <h1>Connect your TRMNL account</h1>
       <p>Sign in to load and save the holiday lists of your <strong>Custom Next Holiday</strong> plugins directly.
-        Everything runs in your browser; credentials are stored only in this browser's local storage.</p>
+        Everything runs in your browser; credentials are stored only in this browser’s local storage.</p>
       <p v-if="notice" class="notice">{{ notice }}</p>
       <div class="signin-options">
         <article>

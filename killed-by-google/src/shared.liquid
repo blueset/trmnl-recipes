@@ -1,6 +1,6 @@
 {% comment %}
 Google Fonts are used on hi-DPI screens and only at large sizes on low-DPI
-screens. The small/medium screen overrides below use X.Org's pixel-perfect
+screens. The small/medium screen overrides below use X.Org’s pixel-perfect
 bitmap-derived fonts, suitable for low-DPI e-ink screens and small text.
 {% endcomment %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -138,7 +138,7 @@ bitmap-derived fonts, suitable for low-DPI e-ink screens and small text.
    * Scene and stone: container-type, place-content (including align-content),
    * stacking, clipping, percentage geometry, double borders, pseudo-elements,
    * and the mineral texture have no exact utility combination. The framework
-   * flex class also adds a gap and resets its children's minimum dimensions,
+   * flex class also adds a gap and resets its children’s minimum dimensions,
    * so retain display: flex rather than changing their shrink behavior.
    */
   .kbg-scene {
@@ -226,7 +226,7 @@ bitmap-derived fonts, suitable for low-DPI e-ink screens and small text.
    * sets font-variation-settings, so it is not an exact font-weight replacement.
    * Fixed pixel spacing stays custom because framework pixel utilities scale
    * with --content-scale. The dates need unequal grid tracks, not equal columns;
-   * flex--col would also center the date stack's currently stretched children.
+   * flex--col would also center the date stack’s currently stretched children.
    */
   .kbg-ornament {
     width: min(42%, 180px);
@@ -387,9 +387,9 @@ bitmap-derived fonts, suitable for low-DPI e-ink screens and small text.
   }
 
   /*
-   * Error state: the flex utility's default/scaled gap is not the fixed 8px
+   * Error state: the flex utility’s default/scaled gap is not the fixed 8px
    * gap here. The date stack above likewise needs an unscaled 1px gap.
-   * The error mark's exact 64px size and 900 weight are not framework tokens.
+   * The error mark’s exact 64px size and 900 weight are not framework tokens.
    */
   .kbg-error {
     display: flex;
@@ -494,7 +494,7 @@ bitmap-derived fonts, suitable for low-DPI e-ink screens and small text.
   }
 
   /*
-   * Portrait containers: portrait: follows screen orientation, not this scene's
+   * Portrait containers: portrait: follows screen orientation, not this scene’s
    * aspect ratio. It cannot replace this query, including its flex direction.
    * Percentage geometry, elliptical radii, and fluid type also remain custom.
    */

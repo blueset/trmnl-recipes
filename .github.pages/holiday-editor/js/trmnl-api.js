@@ -92,9 +92,9 @@ export const updatePluginSetting = (id, attrs) =>
 // read via /details and written via PATCH /settings. Concurrent edits are detected client-side by
 // re-reading and comparing a hash of the stored values right before writing.
 
-// /details shape: `custom_fields` holds the plugin's form field definitions (keyname, default…),
+// /details shape: `custom_fields` holds the plugin’s form field definitions (keyname, default…),
 // `settings.custom_fields_values` holds only the values the user has set. `form_fields` describes
-// TRMNL's generic plugin settings (strategy, OAuth…) and is not relevant here.
+// TRMNL’s generic plugin settings (strategy, OAuth…) and is not relevant here.
 const storedValues = (details) => details?.settings?.custom_fields_values || {};
 const customFields = (details) => (Array.isArray(details?.custom_fields) ? details.custom_fields : []);
 
@@ -104,7 +104,7 @@ function detailsKeys(details) {
   return keys;
 }
 
-/** Stored value for a custom field, falling back to the field's default (what the plugin renders). */
+/** Stored value for a custom field, falling back to the field’s default (what the plugin renders). */
 function fieldValue(details, key) {
   const stored = storedValues(details);
   if (stored[key] !== undefined && stored[key] !== null) return { value: stored[key], stored: stored[key] };
@@ -125,7 +125,7 @@ function valuesRevision(values) {
   return (h >>> 0).toString(16).padStart(8, '0');
 }
 
-/** Read an instance's recipe data. */
+/** Read an instance’s recipe data. */
 export async function readInstance(id) {
   const details = await getPluginSettingDetails(id);
   const recipe = matchRecipeByKeys(detailsKeys(details));
@@ -185,7 +185,7 @@ async function fingerprint(id) {
 }
 
 /**
- * List the user's plugin instances that belong to a supported recipe.
+ * List the user’s plugin instances that belong to a supported recipe.
  * Field fingerprints are cached per instance id (cache key includes plugin_id).
  */
 export async function discoverInstances({ onProgress = () => {}, concurrency = 4 } = {}) {
@@ -213,7 +213,7 @@ export async function discoverInstances({ onProgress = () => {}, concurrency = 4
           id: String(ps.id),
           name: ps.name,
           pluginId: ps.plugin_id,
-          // read_only? is true for recipe installs and false for the user's own (forked) plugins.
+          // read_only? is true for recipe installs and false for the user’s own (forked) plugins.
           // Both kinds accept custom field changes; the flag only drives the badge.
           installed: ps['read_only?'] === undefined ? null : !!ps['read_only?'],
           recipe,

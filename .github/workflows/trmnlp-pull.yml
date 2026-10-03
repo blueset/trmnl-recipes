@@ -29,7 +29,7 @@ jobs:
           if git ls-remote --heads origin "$BRANCH_NAME" \
             | grep -q "$BRANCH_NAME"; then
             echo "Branch $BRANCH_NAME exists, checking for associated PR"
-            # Check if there's an open PR for this branch
+            # Check if there’s an open PR for this branch
             PR_COUNT=$(gh pr list --head "$BRANCH_NAME" --state open --json number --jq 'length')
             if [ "$PR_COUNT" -eq "0" ]; then
               echo "No active PR found for branch $BRANCH_NAME, deleting and recreating"

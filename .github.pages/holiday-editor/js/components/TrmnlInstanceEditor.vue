@@ -357,7 +357,7 @@ export default {
         <p class="field-error" role="alert">{{ state.loadError }}</p>
         <div class="actions">
           <button type="button" class="secondary" @click="load">Try again</button>
-          <a href="#trmnl" role="button" class="secondary outline">Back to plugin list</a>
+          <a href="#trmnl" role="button" class="outline secondary">Back to plugin list</a>
         </div>
       </div>
 
@@ -393,7 +393,7 @@ export default {
             <template v-else>All changes saved</template>
           </span>
           <span class="spacer"></span>
-          <button type="button" class="secondary outline" :disabled="!dirty || state.saving" @click="revert">Revert</button>
+          <button type="button" class="outline secondary" :disabled="!dirty || state.saving" @click="revert">Revert</button>
           <button type="button" :disabled="!canSave" :aria-busy="state.saving ? 'true' : undefined" @click="save()">Save to TRMNL</button>
         </div>
         <p v-if="state.status && state.statusKind && !state.saving" class="notice" :class="{ 'error-notice': state.statusKind === 'error' }" :role="state.statusKind === 'error' ? 'alert' : 'status'">{{ state.status }}</p>
@@ -405,7 +405,7 @@ export default {
         <div v-if="state.stash" class="notice stash-notice">
           You have unsaved edits to this plugin from earlier in this tab.
           <button type="button" class="secondary" @click="restoreStash">Restore them</button>
-          <button type="button" class="secondary outline" @click="discardStash">Discard</button>
+          <button type="button" class="outline secondary" @click="discardStash">Discard</button>
         </div>
         <p v-if="state.storageWarning" class="notice error-notice" role="alert">{{ state.storageWarning }}</p>
 
@@ -415,16 +415,16 @@ export default {
           <div class="actions">
             <button type="button" @click="fixRawYaml">Fix the YAML</button>
             <button type="button" class="secondary" @click="replaceWithTemplate">Replace with a template</button>
-            <button type="button" class="secondary outline" @click="startEmpty">Start an empty list</button>
+            <button type="button" class="outline secondary" @click="startEmpty">Start an empty list</button>
           </div>
         </div>
 
         <holiday-editor v-else ref="editor" :holidays="holidays"
-          yaml-hint="This is what will be saved to the plugin's Holidays setting.">
+          yaml-hint="This is what will be saved to the plugin’s Holidays setting.">
           <template #toolbar-end>
-            <button v-if="manualDraft.length" type="button" class="secondary outline" @click="importManualDraft"
+            <button v-if="manualDraft.length" type="button" class="outline secondary" @click="importManualDraft"
               :title="'Replace with the ' + manualDraft.length + ' holidays from the manual editor'">Import manual draft</button>
-            <button type="button" class="secondary outline" :disabled="!canWrite || errorCount > 0 || !holidays.length" @click="state.showClone = true">Copy to other plugins…</button>
+            <button type="button" class="outline secondary" :disabled="!canWrite || errorCount > 0 || !holidays.length" @click="state.showClone = true">Copy to other plugins…</button>
           </template>
           <template #before-list>
             <p v-if="hasComments && dirtyParts.list" class="notice"><small>The original YAML has comments; saving rewrites it without them.</small></p>
@@ -438,7 +438,7 @@ export default {
           <p>Someone (maybe you, in another tab or on trmnl.com) saved this plugin after you opened it.</p>
           <ul class="confirm-details">
             <li><strong>Reload</strong> discards your edits and loads the latest version.</li>
-            <li><strong>Overwrite</strong> replaces the latest version with what's in your editor.</li>
+            <li><strong>Overwrite</strong> replaces the latest version with what’s in your editor.</li>
           </ul>
           <template #actions>
             <button type="button" class="secondary" @click="state.showConflict = false">Cancel</button>

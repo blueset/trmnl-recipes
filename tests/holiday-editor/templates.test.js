@@ -81,7 +81,7 @@ test('parameterized templates use their parameters', () => {
 
   const birthday = TEMPLATES.find((t) => t.id === 'birthday');
   assert.deepEqual(buildTemplateEntries(birthday, { who: 'Sam', date: '03-04' }),
-    [{ name: "Sam's birthday", date: '03-04', icon: 'fluent-emoji-flat:birthday-cake' }]);
+    [{ name: "Sam’s birthday", date: '03-04', icon: 'fluent-emoji-flat:birthday-cake' }]);
   assert.ok(paramErrors(TEMPLATES.find((t) => t.id === 'one-off-event'), defaultParams(TEMPLATES.find((t) => t.id === 'one-off-event'))).date);
 });
 

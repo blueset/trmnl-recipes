@@ -196,7 +196,7 @@ export function buildMonthDuplicates(h, today) {
   }));
 }
 
-/** Clamp month into the selected calendar's range. Mutates `h`. */
+/** Clamp month into the selected calendar’s range. Mutates `h`. */
 export function normalizeMonth(h, today) {
   const maxMonth = calendarMonthCount(h, today);
   const month = Number(h._month);

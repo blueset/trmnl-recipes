@@ -26,7 +26,7 @@ This directory contains two GitHub Actions workflows that synchronize TRMNL plug
 **Purpose:** Pushes local plugin changes to the TRMNL cloud, with conflict detection.
 
 **How it works:**
-1. **Open PR Check:** If there's an open PR from `trmnlp-pull-updates`, the push is skipped to avoid conflicts
+1. **Open PR Check:** If there’s an open PR from `trmnlp-pull-updates`, the push is skipped to avoid conflicts
 2. **Merge Detection:** If the current commit is a merge from the pull branch, skips conflict checking (the merge itself is the resolution)
 3. **Change Detection:** Identifies which plugins have changes in the current push
 4. **Conflict Check:** For changed plugins, pulls remote state onto the "before" commit to detect if the remote has diverged

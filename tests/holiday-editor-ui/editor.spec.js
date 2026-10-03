@@ -149,6 +149,48 @@ test('invalid fields and collapsed summaries stay visible and the header icon fo
   await expect(iconButton).toHaveAttribute('aria-expanded', 'true');
 });
 
+test('template icon fields stay readable and payday options align below the input fields', async ({ page }) => {
+  await seed(page);
+  await page.goto('/holiday-editor/#manual');
+  await page.getByRole('button', { name: 'Templates', exact: true }).click();
+  async function chooseTemplate(title) {
+    const back = page.locator('.template-back');
+    if (await back.isVisible()) await back.click();
+    await page.getByRole('searchbox', { name: 'Search templates', exact: true }).fill(title);
+    await page.locator('.template-list').getByRole('button', { name: new RegExp(title) }).click();
+  }
+  for (const width of [320, 390, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await chooseTemplate('One-time event');
+    const icon = page.locator('.template-detail').getByLabel('Icon', { exact: true });
+    const iconBox = await icon.boundingBox();
+    expect(iconBox.width).toBeGreaterThanOrEqual(200);
+    await icon.fill('fluent:calendar-20-regular');
+    await expect(icon).toHaveValue('fluent:calendar-20-regular');
+    const browse = await page.locator('.template-detail').getByRole('button', { name: 'Browse…', exact: true }).boundingBox();
+    expect(browse.x).toBeGreaterThanOrEqual(iconBox.x);
+    expect(await page.locator('.template-detail').evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+    for (const title of ['Payday on a fixed day each month', 'Payday on several days each month']) {
+      await chooseTemplate(title);
+      const checkbox = page.getByRole('checkbox', { name: 'Move to nearest weekday', exact: true });
+      const bounds = await checkbox.evaluate(input => {
+        const label = input.closest('label');
+        const checkbox = input.getBoundingClientRect();
+        const text = label.querySelector('span').getBoundingClientRect();
+        const inputs = [...input.closest('.template-params').querySelectorAll('input:not([type="checkbox"])')].map(field => field.getBoundingClientRect());
+        return { left: checkbox.x, fieldLeft: inputs[0].x, top: label.getBoundingClientRect().top, fieldBottom: Math.max(...inputs.map(box => box.bottom)), centerDifference: Math.abs(checkbox.y + checkbox.height / 2 - text.y - text.height / 2), height: label.getBoundingClientRect().height };
+      });
+      expect(Math.abs(bounds.left - bounds.fieldLeft)).toBeLessThanOrEqual(1);
+      expect(bounds.top).toBeGreaterThan(bounds.fieldBottom);
+      expect(bounds.centerDifference).toBeLessThanOrEqual(1);
+      expect(bounds.height).toBeGreaterThanOrEqual(44);
+      await expect(checkbox).toBeChecked();
+      await checkbox.uncheck();
+      await expect(checkbox).not.toBeChecked();
+    }
+  }
+});
+
 for (const mode of ['start', 'add']) {
   test(`${mode} template desktop columns scroll independently`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 700 });

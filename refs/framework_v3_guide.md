@@ -11,7 +11,7 @@ Keep in sync via: bin/sync-from-core
 
 ## color system
 
-v3's headline feature. the framework now supports full color for ePaper devices that have color panels.
+v3’s headline feature. the framework now supports full color for ePaper devices that have color panels.
 
 ### chromatic palette
 
@@ -81,7 +81,7 @@ if a user says their plugin "looks different" after a framework update, the dith
 
 ---
 
-## what's unchanged
+## what’s unchanged
 
 these v2 behaviors are stable in v3:
 

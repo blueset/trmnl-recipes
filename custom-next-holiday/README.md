@@ -4,7 +4,7 @@
 
 Countdown to your custom holidays. Support absolute dates, date of month, and *n*-th weekday of month.
 
-Holidays falling on the same day are shown together using your locale's short conjunction list, with holiday names in the main value style and separators in the main label style. An icon from one of those holidays is used. When today has multiple holidays, the next-holiday row is hidden. When today has one holiday, all names and separators in the next-holiday row use the smaller sub-label style.
+Holidays falling on the same day are shown together using your locale’s short conjunction list, with holiday names in the main value style and separators in the main label style. An icon from one of those holidays is used. When today has multiple holidays, the next-holiday row is hidden. When today has one holiday, all names and separators in the next-holiday row use the smaller sub-label style.
 
 <a href="https://trmnl.com/recipes/257171" target="_blank">
   <picture>
@@ -30,9 +30,9 @@ Holidays falling on the same day are shown together using your locale's short co
 
 ## Holiday Editor
 
-The [Holiday Editor](https://blueset.github.io/trmnl-recipes/holiday-editor/) is a static web app with a searchable holiday list, a focused date editor, and dark/light/system appearance options. On mobile, select a holiday to open its detail screen. Calendar rules, weekday adjustments, and date expressions are available in the supporting sections. Select the icon beside a holiday's title to open and focus its icon editor. Invalid fields are outlined, and collapsed sections indicate errors that need attention.
+The [Holiday Editor](https://blueset.github.io/trmnl-recipes/holiday-editor/) is a static web app with a searchable holiday list, a focused date editor, and dark/light/system appearance options. On mobile, select a holiday to open its detail screen. Calendar rules, weekday adjustments, and date expressions are available in the supporting sections. Select the icon beside a holiday’s title to open and focus its icon editor. Invalid fields are outlined, and collapsed sections indicate errors that need attention.
 
-Use **Templates** to add ready-made entries, or **More actions > Import YAML** to replace an existing list. **Copy YAML** exports the list for your plugin's Holidays field; **More actions > View YAML** lets you inspect or manually copy it. Single-holiday deletion offers Undo. Reordering preserves the list's original order, including when searching.
+Use **Templates** to add ready-made entries, or **More actions > Import YAML** to replace an existing list. **Copy YAML** exports the list for your plugin’s Holidays field; **More actions > View YAML** lets you inspect or manually copy it. Single-holiday deletion offers Undo. Reordering preserves the list’s original order, including when searching.
 
 The local editor saves your draft in this browser, not to TRMNL. Connected editing saves only when you press **Save to TRMNL**, and can copy the holidays to other plugins after confirmation. Keep a copy of your YAML when using a shared computer or if browser storage is unavailable. Icon browsing needs an internet connection.
 

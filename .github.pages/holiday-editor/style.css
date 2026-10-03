@@ -248,12 +248,16 @@ main { max-width: 1320px; margin: 0 auto; padding: 2.5rem 2rem 3rem; min-height:
 .template-list button span { min-width: 0; }
 .template-list strong { display: block; font-size: .8rem; }
 .template-list small { color: var(--muted); display: block; font-size: .7rem; margin-top: .2rem; font-weight: 400; }
-.template-detail { min-width: 0; }
+.template-detail { min-width: 0; container-type: inline-size; container-name: template-detail; }
 .template-detail h4 { display: flex; gap: .5rem; align-items: center; font-size: 1.1rem; margin: 0 0 .75rem; }
 .template-detail p { font-size: .85rem; color: var(--muted); }
 .template-notes { padding: .75rem; background: var(--surface-raised); border-radius: 8px; }
 .template-params { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
 .template-param { min-width: 0; }
+.template-param-wide { grid-column: 1 / -1; }
+.template-param .check-label { margin-bottom: 0; }
+.template-param .check-label input { margin: 0; }
+.template-icon-fields { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .5rem; }
 .template-entries-header { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; font-size: .8rem; }
 .spacer { flex: 1; }
 .template-entries ul { padding: 0; list-style: none; margin: .5rem 0 0; }
@@ -404,6 +408,10 @@ progress { width: 100%; height: 7px; accent-color: var(--accent); }
   .date-options { grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); }
   .workspace-toolbar { flex-wrap: wrap; }
   .toolbar-group { min-width: 0; }
+}
+@container template-detail (max-width: 24rem) {
+  .template-icon-fields { grid-template-columns: auto minmax(0, 1fr); }
+  .template-icon-fields button { grid-column: 2; justify-self: start; }
 }
 @media (prefers-reduced-motion: no-preference) {
   button, a, .date-options label { transition: border-color .12s; }

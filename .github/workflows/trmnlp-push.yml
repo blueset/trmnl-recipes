@@ -169,7 +169,7 @@ jobs:
           # Checkout the "before" commit
           git checkout "$BEFORE_COMMIT"
 
-          # Pull remote content onto "before" commit's state for changed plugins
+          # Pull remote content onto "before" commit’s state for changed plugins
           CHANGED_PLUGINS="${{ steps.find-plugins.outputs.changed_plugins }}"
 
           for dir in $CHANGED_PLUGINS; do

@@ -65,7 +65,7 @@
 
   <h3>Step 1 — Supply translation strings and locale</h3>
   <p>
-    Add a <em>container element</em> anywhere in the view that carries the user's locale in
+    Add a <em>container element</em> anywhere in the view that carries the user’s locale in
     its <span class="tag">lang</span> attribute and a flat JSON object of translation strings
     in its <span class="tag">data-t-data</span> attribute.
     There are two ways to supply strings (see <a href="#l_word-filter">Choosing between
@@ -99,7 +99,7 @@
   applyPlaintext({}, { scriptId: "{{ script_id }}" });
 &lt;/script&gt;</code></pre>
 
-  <p>That's it — every <span class="tag">[data-t]</span> element inside the view is now
+  <p>That’s it — every <span class="tag">[data-t]</span> element inside the view is now
   replaced with the formatted, localized string.</p>
 
   <!-- ═══════════════════════════════════════════════════════════ -->
@@ -179,7 +179,7 @@ download_stats:
   <p>
     Open the recipe preview.  The label will now show the correct plural form
     ("1 download", "42 downloads", "No downloads") and will switch language automatically
-    when the user's locale changes.
+    when the user’s locale changes.
   </p>
 
   <h3>Bonus: inline strings without <code>l_word</code></h3>
@@ -252,7 +252,7 @@ data-t-data="{{ locales[trmnl.user.locale] | json | escape }}"</code></pre>
   <h4><code>data-t</code></h4>
   <p>
     Translation key for the element.  The library looks up this key in the dictionary
-    supplied by <span class="tag">data-t-data</span>.  If the key is not found, the element's
+    supplied by <span class="tag">data-t-data</span>.  If the key is not found, the element’s
     existing <code>innerHTML</code> is used as the MessageFormat pattern instead (fallback).
   </p>
   <pre><code class="language-html">&lt;span data-t="greeting"&gt;Hello!&lt;/span&gt;</code></pre>
@@ -457,7 +457,7 @@ import { DefaultFunctions } from 'https://cdn.jsdelivr.net/npm/messageformat@4.0
       <tr><th>Step</th><th>What it does</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>l_word: trmnl.user.locale</code></td><td>Returns the Ruby hash / object for <em>plugin_key</em> in the user's locale, falling back to English.</td></tr>
+      <tr><td><code>l_word: trmnl.user.locale</code></td><td>Returns the Ruby hash / object for <em>plugin_key</em> in the user’s locale, falling back to English.</td></tr>
       <tr><td><code>json</code></td><td>Serializes the hash to a JSON string.</td></tr>
       <tr><td><code>escape</code></td><td>HTML-escapes the JSON string so it is safe to embed in an attribute value.</td></tr>
     </tbody>
@@ -476,7 +476,7 @@ my_plugin:
   greeting: "Hello, {$name}!"
   item_count: ".input {$n :number} .match $n one {{1 item}} * {{{$n} items}}"</code></pre>
   <p>
-    If no translation exists for the user's locale, the platform falls back to English.
+    If no translation exists for the user’s locale, the platform falls back to English.
     If the key is missing entirely, <code>data-t-data</code> will be an empty object
     (<code>{}</code>) and the elements' original HTML content will be used as-is.
   </p>

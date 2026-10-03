@@ -16,7 +16,7 @@ export default {
 
     <section class="docs">
       <h1 id="reference">Guide &amp; reference</h1>
-      <p>The plugin's <strong>Holidays</strong> setting is a YAML list. Each holiday is an object with the following fields.
+      <p>The plugin’s <strong>Holidays</strong> setting is a YAML list. Each holiday is an object with the following fields.
         The <strong>Upcoming holiday to display</strong> setting selects which upcoming date is displayed: 1 is the next date. Holidays on the same date count together.</p>
       <nav class="reference-nav" aria-label="Reference sections"><a href="#reference" @click.prevent="scrollToSection('ref-fields')">Fields</a><a href="#reference" @click.prevent="scrollToSection('ref-date')">Date rules</a><a href="#reference" @click.prevent="scrollToSection('templates')">Templates</a><a href="#reference" @click.prevent="scrollToSection('signin')">Saving to TRMNL</a></nav>
 
@@ -47,7 +47,7 @@ export default {
       <pre>date: 01-01[u-ca=chinese]   # Chinese New Year (1st of 1st month in Chinese calendar)</pre>
       <p>Supported calendars include: <code>chinese</code>, <code>dangi</code>, <code>islamic-umalqura</code>, <code>hebrew</code>, <code>japanese</code>, <code>persian</code>, <code>indian</code>, <code>buddhist</code>, and others.
         See <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/supportedValuesOf#supported_calendar_types">MDN: supported calendar types</a> for the full list.</p>
-      <p>Month numbers follow the calendar's own month order. In lunisolar calendars with leap months (Chinese, Korean, Hebrew) the numbers refer to the regular months;
+      <p>Month numbers follow the calendar’s own month order. In lunisolar calendars with leap months (Chinese, Korean, Hebrew) the numbers refer to the regular months;
         for example in the Hebrew calendar <code>01</code> is Tishrei and <code>07</code> is Nisan.</p>
 
       <h3><code>icon</code> <small>(string, required)</small></h3>

@@ -64,7 +64,7 @@ To onboard a new recipe into the repository, please follow these steps:
 
 ```
 
-Replace placeholders with actual values from the recipe metadata and screenshots. For parameters, list each parameter's name, options, and default value if applicable. If it is a select-like parameter, only include the user-facing names of the options.
+Replace placeholders with actual values from the recipe metadata and screenshots. For parameters, list each parameter’s name, options, and default value if applicable. If it is a select-like parameter, only include the user-facing names of the options.
 
 If an icon was downloaded, use the iconized heading shown above. Otherwise, fall back to a plain `# <RECIPE_NAME>` heading.
 

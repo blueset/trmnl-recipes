@@ -148,7 +148,7 @@ export default {
           <p v-if="selected.notes" class="template-notes">Note: {{ selected.notes }}</p>
 
           <div v-if="selected.params && selected.params.length" class="template-params">
-            <div v-for="p in selected.params" :key="p.key" class="template-param">
+            <div v-for="p in selected.params" :key="p.key" class="template-param" :class="{ 'template-param-wide': p.type === 'icon' || p.type === 'boolean' }">
               <label v-if="p.type !== 'boolean'" :for="id + '-' + p.key">{{ p.label }}</label>
               <input v-if="p.type === 'text'" :id="id + '-' + p.key" type="text" v-model="params[p.key]">
               <input v-else-if="p.type === 'date'" :id="id + '-' + p.key" type="date" v-model="params[p.key]" :aria-invalid="errors[p.key] ? 'true' : undefined">
@@ -167,9 +167,9 @@ export default {
                 <option v-for="n in 4" :key="n" :value="n">{{ ordinal(n) }}</option>
                 <option :value="-1">Last</option>
               </select>
-              <label v-else-if="p.type === 'boolean'"><input type="checkbox" v-model="params[p.key]"> {{ p.label }}</label>
-              <div v-else-if="p.type === 'icon'" class="inline-fields">
-                <iconify-icon :icon="params[p.key] || 'fluent:calendar-20-regular'" width="28"></iconify-icon>
+              <label v-else-if="p.type === 'boolean'" class="check-label"><input type="checkbox" v-model="params[p.key]"><span>{{ p.label }}</span></label>
+              <div v-else-if="p.type === 'icon'" class="template-icon-fields">
+                <iconify-icon :icon="params[p.key] || 'fluent:calendar-20-regular'" width="28" aria-hidden="true"></iconify-icon>
                 <input :id="id + '-' + p.key" type="text" v-model="params[p.key]">
                 <button type="button" class="secondary" @click="openIconPicker(p.key)">Browse…</button>
               </div>

@@ -1,5 +1,5 @@
 // Recipes whose instances this editor can read and write.
-// A recipe is matched by the custom field keys present in an instance's plugin settings details.
+// A recipe is matched by the custom field keys present in an instance’s plugin settings details.
 
 export const RECIPES = [
   {

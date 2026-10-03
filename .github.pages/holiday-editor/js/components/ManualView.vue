@@ -92,7 +92,7 @@ export default {
 <template>
 
     <div class="manual-view">
-      <div class="page-heading"><div><p class="eyebrow">Your own little calendar</p><h1>Local editor</h1><p>Create a list here, then copy the YAML into your TRMNL plugin's Holidays setting.</p></div><span v-if="started && !storageError" class="draft-status" role="status">Saved in this browser</span></div>
+      <div class="page-heading"><div><p class="eyebrow">Your own little calendar</p><h1>Local editor</h1><p>Create a list here, then copy the YAML into your TRMNL plugin’s Holidays setting.</p></div><span v-if="started && !storageError" class="draft-status" role="status">Saved in this browser</span></div>
       <p v-if="storageError" class="notice error-notice" role="alert">{{ storageError }}</p>
       <section v-if="!started" class="start-panel">
         <h2>How would you like to start?</h2>
@@ -122,7 +122,7 @@ export default {
       <holiday-editor v-else ref="editor" :holidays="holidays"
         yaml-hint="Paste this into the Holidays field of your Custom Next Holiday plugin on TRMNL.">
         <template #toolbar-end>
-          <a href="#trmnl" role="button" class="secondary outline" title="Sign in and save straight to your plugins">Edit on TRMNL instead</a>
+          <a href="#trmnl" role="button" class="outline secondary" title="Sign in and save straight to your plugins">Edit on TRMNL instead</a>
           <button type="button" class="quiet danger-text" @click="startOver">Start over</button>
         </template>
       </holiday-editor>

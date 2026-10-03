@@ -13,7 +13,7 @@ export const OAUTH = {
   clientId: 'e1ZwCNsr9iVSHLiTZGDYS1nvurLO2GoTW0aILOWcRK0',
   authorizeUrl: 'https://trmnl.com/oidc/authorize',
   tokenUrl: 'https://trmnl.com/oidc/token',
-  // CORS proxy for the token endpoint: TRMNL's /oidc/token sends no CORS headers, so browsers
+  // CORS proxy for the token endpoint: TRMNL’s /oidc/token sends no CORS headers, so browsers
   // can't read it directly. Served by the `trmnl` worker in github.com/blueset/trmnl-workers (src/oidc-token).
   tokenProxyUrl: 'https://trmnl.1a23.workers.dev/oidc/token',
   scopes: ['read', 'content'],
