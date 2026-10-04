@@ -1,0 +1,9 @@
+---
+watch:
+- ".trmnlp.yml"
+- src
+custom_fields:
+  color: both
+  packs: cah_family_edition_free_print_play_public_beta
+variables:
+  trmnl: {}

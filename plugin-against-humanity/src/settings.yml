@@ -1,0 +1,134 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version: 3.4.0
+serverless_language: node
+refresh_interval_floor: ''
+polling_url: https://www.restagainsthumanity.com/api/v2/cards
+polling_headers: ''
+polling_body: ''
+id: 495491
+oauth_enabled: 'false'
+oauth_pkce_enabled: 'no'
+oauth_authorize_url: ''
+oauth_token_url: ''
+oauth_scopes: ''
+oauth_scope_separator: ''
+oauth_refresh_url: ''
+oauth_auth_params: ''
+oauth_token_headers: ''
+oauth_token_site: ''
+oauth_token_params: ''
+oauth_token_request_auth_method: ''
+oauth_body_format: ''
+oauth_token_response_metadata: ''
+oauth_authorization_method: ''
+oauth_refresh_params: ''
+oauth_token_field_name: ''
+oauth_expiry_field_name: ''
+oauth_expiry_strategy: ''
+oauth_fixed_expiry_ms: ''
+custom_fields:
+- keyname: author_bio
+  name: About This Plugin
+  field_type: author_bio
+  description: "Random card draws from your chosen packs from <a href=\"https://www.cardsagainsthumanity.com/\">Cards Against Humanity</a>. Card data provided by <a href=\"https://www.restagainsthumanity.com/2.x/\">REST Against Humanity</a>, licensed under <a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode\">\U0001F16D \U0001F16F\U0001F10F\U0001F10E 4.0 Int’l</a>."
+  github_url: https://github.com/blueset/trmnl-recipes
+  learn_more_url: https://www.restagainsthumanity.com/2.x/
+  category: games
+- keyname: color
+  name: Cards to show
+  field_type: select
+  optional: false
+  options:
+  - Both: both
+  - Black only: black
+  - White only: white
+  default: both
+- keyname: packs
+  name: Packs to show
+  field_type: select
+  multiple: true
+  optional: false
+  default: all
+  description: Choose one or more packs. All packs overrides individual selections.
+  help_text: Use <kbd>ctrl</kbd>+<kbd>click</kbd> or <kbd>command</kbd>+<kbd>click</kbd> to select and deselect multiple options. Deselect All packs to restrict the draw.
+  options:
+  - All packs: all
+  - CAH Base Set: cah_base_set
+  - 2012 Holiday Pack: 2012_holiday_pack
+  - 2013 Holiday Pack: 2013_holiday_pack
+  - 2014 Holiday Pack: 2014_holiday_pack
+  - 90s Nostalgia Pack: 90s_nostalgia_pack
+  - Absurd Box Expansion: absurd_box_expansion
+  - 'CAH: 2000s Nostalgia Pack': cah_2000s_nostalgia_pack
+  - 'CAH: A.I. Pack': cah_a_i_pack
+  - 'CAH: Ass Pack': cah_ass_pack
+  - 'CAH: Blue Box Expansion': cah_blue_box_expansion
+  - 'CAH: Box Expansion': cah_box_expansion
+  - 'CAH: Canadian Conversion Kit': cah_canadian_conversion_kit
+  - 'CAH: College Pack': cah_college_pack
+  - 'CAH: Family Edition (Free Print & Play Public Beta)': cah_family_edition_free_print_play_public_beta
+  - 'CAH: Fifth Expansion': cah_fifth_expansion
+  - 'CAH: First Expansion': cah_first_expansion
+  - 'CAH: Fourth Expansion': cah_fourth_expansion
+  - 'CAH: Green Box Expansion': cah_green_box_expansion
+  - 'CAH: Hidden Gems Bundle: A Few New Cards We Crammed Into This Bundle Pack (Amazon Exclusive)': cah_hidden_gems_bundle_a_few_new_cards_we_crammed_into_this_bundle_pack_amazon_exclusive
+  - 'CAH: Human Pack': cah_human_pack
+  - 'CAH: Main Deck': cah_main_deck
+  - 'CAH: Procedurally-Generated Cards': cah_procedurally_generated_cards
+  - 'CAH: Red Box Expansion': cah_red_box_expansion
+  - 'CAH: Second Expansion': cah_second_expansion
+  - 'CAH: Sixth Expansion': cah_sixth_expansion
+  - 'CAH: Third Expansion': cah_third_expansion
+  - 'CAH: UK Conversion Kit': cah_uk_conversion_kit
+  - Cards Against Humanity Saves America Pack: cards_against_humanity_saves_america_pack
+  - ClickHole Greeting Cards Pack (Target Exclusive): clickhole_greeting_cards_pack_target_exclusive
+  - Dad Pack: dad_pack
+  - Desert Bus For Hope Pack: desert_bus_for_hope_pack
+  - Fantasy Pack: fantasy_pack
+  - Fascism Pack: fascism_pack
+  - Food Pack: food_pack
+  - Geek Pack: geek_pack
+  - Gen Con 2018 Midterm Election Pack: gen_con_2018_midterm_election_pack
+  - House of Cards Pack: house_of_cards_pack
+  - Jack White Show Pack: jack_white_show_pack
+  - Jew Pack/Chosen People Pack: jew_pack_chosen_people_pack
+  - Mass Effect Pack: mass_effect_pack
+  - 'Nerd Bundle: A Few More Cards For You Nerds (Target Exclusive)': nerd_bundle_a_few_more_cards_for_you_nerds_target_exclusive
+  - PAX 2010 "Oops" Kit: pax_2010_oops_kit
+  - PAX East 2013 Promo Pack A: pax_east_2013_promo_pack_a
+  - PAX East 2013 Promo Pack B: pax_east_2013_promo_pack_b
+  - PAX East 2013 Promo Pack C: pax_east_2013_promo_pack_c
+  - PAX East 2014: pax_east_2014
+  - PAX East 2014 - Panel Cards: pax_east_2014_panel_cards
+  - PAX Prime 2013: pax_prime_2013
+  - PAX Prime 2014 - Panel Cards: pax_prime_2014_panel_cards
+  - PAX Prime 2014 Custom Printed Cards: pax_prime_2014_custom_printed_cards
+  - PAX Prime 2015 Food Pack A (Mango): pax_prime_2015_food_pack_a_mango
+  - PAX Prime 2015 Food Pack B (Coconut): pax_prime_2015_food_pack_b_coconut
+  - PAX Prime 2015 Food Pack C (Cherry): pax_prime_2015_food_pack_c_cherry
+  - Period Pack: period_pack
+  - Pride Pack: pride_pack
+  - Reject Pack: reject_pack
+  - Reject Pack 2: reject_pack_2
+  - Reject Pack 3: reject_pack_3
+  - Retail Mini Pack: retail_mini_pack
+  - Retail Product Pack: retail_product_pack
+  - Sci-Fi Pack: sci_fi_pack
+  - Science Pack: science_pack
+  - Seasons Greetings Pack: seasons_greetings_pack
+  - TableTop Pack: tabletop_pack
+  - Theatre Pack: theatre_pack
+  - Theatre Pack - CATS Musical Pack: theatre_pack_cats_musical_pack
+  - Trump Bug Out Bag/Post-Trump Pack: trump_bug_out_bag_post_trump_pack
+  - Vote For Hillary Pack: vote_for_hillary_pack
+  - Vote For Trump Pack: vote_for_trump_pack
+  - Weed Pack: weed_pack
+  - World Wide Web Pack: world_wide_web_pack
+name: Plugin Against Humanity
+description: A plugin for horrible people.
+refresh_interval: 1440

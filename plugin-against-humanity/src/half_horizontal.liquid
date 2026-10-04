@@ -1,0 +1,26 @@
+<div class="gap--small h--full layout layout--row layout--stretch portrait:layout--col typography--ss p--0">
+  {% assign black_count = black | size %}
+  {% assign white_count = white | size %}
+  {% if black_count > 0 %}
+    <div class="portrait:contents flex flex--col flex--stretch grow">
+      {% for card in black %}
+        <div class="flex flex--col flex--left gap--none bg--black p--4 border border--1 outline grow">
+          <div class="text--bold text--large text--white lg:text--xxlarge grow">{{ card.text | replace: "_", '<span class="blank">________________</span>' }}</div>
+          <div class="text--bold text--small text--white lg:text--base flex flex--center gap--small">{% render "pack_icon" %} {{ card.pack }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if white_count > 0 %}
+    <div class="portrait:contents flex flex--col flex--stretch grow">
+      {% for card in white %}
+        <div class="flex flex--col flex--left gap--none p--4 border border--1 outline w--full grow">
+          <div class="text--bold text--large lg:text--xxlarge grow">{{ card.text }}</div>
+          <div class="text--bold text--small lg:text--base flex flex--center gap--small">{% render "pack_icon" %} {{ card.pack }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% render "smartquote" %}
+<!-- Title bar omitted intentionally. -->
