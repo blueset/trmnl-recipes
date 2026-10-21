@@ -1,4 +1,9 @@
 <div class="layout layout--left">
+  {% unless data %}
+  <div class="text text--xxlarge"></div>
+  <div class="text text--large">Tatoeba.org is not responsive.</div>
+  <div class="text text--large">{{ error }}</div>
+  {% else %}
   <div class="richtext richtext--left gap h--max-full" data-overflow="true">
     <div class="value value--xsmall text--left text--balance mb--4 lg:title--xxlarge">
       {% render "sentence": data: data, romanization: romanization, jpn_display: jpn_display, cmn_display: cmn_display, lang_data: lang_data, approved_only: approved_only %}
@@ -39,6 +44,7 @@
     {% endif %}
   </div>
   <div class="credit w--20 text--right"><span data-unique>{{ licenses }}</span><br><span data-unique>{{ authorNames }}</span></div>
+  {% endunless %}
 </div>
 
 <div class="title_bar">
