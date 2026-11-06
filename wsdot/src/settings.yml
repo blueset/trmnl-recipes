@@ -6,7 +6,7 @@ static_data: ''
 polling_verb: get
 framework_version: 3.3.0
 serverless_language: node
-refresh_interval_floor:
+refresh_interval_floor: ''
 polling_url: "https://wsdot.wa.gov/traffic/api/TravelTimes/kml.aspx\r\nhttps://wsdot.wa.gov/traffic/api/HighwayAlerts/kml.aspx\r\nhttps://wsdot.wa.gov/traffic/api/HighwayCameras/kml.aspx"
 polling_headers: ''
 polling_body: ''
@@ -45,6 +45,7 @@ custom_fields:
   name: Content to show
   description: Select which content to show on dashboard. <a href="https://github.com/blueset/trmnl-recipes/tree/master/wsdot" class="underline" target="_blank">Checkout previews of each content</a>.
   default: travelTime
+  searchable: true
   options:
   - Travel time: travelTime
   - Traffic cameras: camera
