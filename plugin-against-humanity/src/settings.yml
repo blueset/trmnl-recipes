@@ -56,6 +56,7 @@ custom_fields:
   default: all
   description: Choose one or more packs. All packs overrides individual selections.
   help_text: Use <kbd>ctrl</kbd>+<kbd>click</kbd> or <kbd>command</kbd>+<kbd>click</kbd> to select and deselect multiple options. Deselect All packs to restrict the draw.
+  searchable: true
   options:
   - All packs: all
   - CAH Base Set: cah_base_set
