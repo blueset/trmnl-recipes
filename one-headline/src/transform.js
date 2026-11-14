@@ -1,11 +1,11 @@
 function transform(input) {
-  const clusters = input.clusters.map(cluster => ({
+  const clusters = input.clusters?.map(cluster => ({
       title: cluster.title,
       short_summary: cluster.short_summary.replaceAll(/\s*\[.+?#\d+\]/g, "").trim(),
       emoji: cluster.emoji,
       primary_image: cluster.primary_image,
       category: cluster.category,
-  }));
+  })) ?? [];
 
   if (clusters.length < 1) {
     return {
